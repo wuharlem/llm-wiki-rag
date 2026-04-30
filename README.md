@@ -78,4 +78,3 @@ The vault was bulk-classified in April 2026 by a one-shot pipeline that performe
 
 - All scripts default to dry-run / report-only modes; pass `--fix` or `--apply` to make changes.
 - The vault's `PROCESS_NEW_FILE.md` documents the per-file routing taxonomy and the YAML frontmatter contract.
-- The `__pycache__/` folder in `scripts/` can be deleted manually (cowork delete restriction prevented automatic cleanup).
