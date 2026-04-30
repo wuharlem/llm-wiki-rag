@@ -30,7 +30,10 @@ from pathlib import Path
 from typing import Optional
 
 from wiki_lib.cache import RetrievalContext
+from wiki_lib.config import get_config
 from wiki_lib.paths import is_indexable_path
+
+_CFG_RETRIEVAL = get_config().retrieval
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -152,13 +155,13 @@ def filter_chunks(filters: Filters) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 # Standard BM25 hyperparameters; matches the original query_index.py.
-_BM25_K1 = 1.5
-_BM25_B = 0.75
+_BM25_K1 = _CFG_RETRIEVAL.bm25_k1
+_BM25_B = _CFG_RETRIEVAL.bm25_b
 # Title/heading boosts give small lift to chunks whose surrounding metadata
 # also matches the query — e.g. a chunk titled "RLHF" is more likely to be
 # *about* RLHF than one that just mentions it once in body text.
-_TITLE_BOOST = 0.5
-_HEADING_BOOST = 0.3
+_TITLE_BOOST = _CFG_RETRIEVAL.title_boost
+_HEADING_BOOST = _CFG_RETRIEVAL.heading_boost
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
@@ -357,7 +360,7 @@ def semantic_search(
 # scores (which have incompatible scales between BM25 and cosine).
 # ---------------------------------------------------------------------------
 
-_RRF_K = 60  # Cormack et al. 2009 default; bigger = flatter
+_RRF_K = _CFG_RETRIEVAL.rrf_k  # Cormack et al. 2009 default; bigger = flatter
 
 
 def _rrf(
@@ -394,7 +397,7 @@ def _rrf(
 # trained on MS MARCO passage ranking. Gold-standard small reranker.
 # ---------------------------------------------------------------------------
 
-DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+DEFAULT_RERANKER_MODEL = _CFG_RETRIEVAL.reranker_model
 
 
 def _get_reranker(model_name: str = DEFAULT_RERANKER_MODEL):
@@ -435,10 +438,10 @@ def rerank(
 
 # When merging BM25 and semantic, we pull more candidates from each so RRF has
 # something to fuse over, then truncate to k.
-_FUSION_OVERSAMPLE = 4
+_FUSION_OVERSAMPLE = _CFG_RETRIEVAL.fusion_oversample
 # When reranking, we ask the upstream retriever for a wider candidate pool so
 # the cross-encoder has more to choose from.
-_RERANK_CANDIDATES = 40
+_RERANK_CANDIDATES = _CFG_RETRIEVAL.rerank_candidates
 
 
 def search(

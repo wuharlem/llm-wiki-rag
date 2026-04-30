@@ -26,6 +26,7 @@ from urllib.parse import urlparse
 
 import requests
 import trafilatura
+from wiki_lib.config import get_config
 from wiki_lib.frontmatter import dump as fm_dump
 
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
@@ -33,9 +34,11 @@ WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI S
 INBOX = VAULT / "Sources" / "_inbox"
 DEDUP_CSV = WORK / "00_inputs" / "urls_dedup.csv"
 LOG_CSV = WORK / "02_logs" / "fetch_log.csv"
-TIMEOUT = 25
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; AISafetyVaultBot/1.0; personal research archive)"}
-SKIP_HANDLERS = {"github", "huggingface", "youtube"}
+
+_CFG_INGEST = get_config().ingest
+TIMEOUT = _CFG_INGEST.http_timeout_seconds
+HEADERS = {"User-Agent": _CFG_INGEST.http_user_agent}
+SKIP_HANDLERS = set(_CFG_INGEST.skip_url_handlers)
 
 
 def slugify(s: str, maxlen: int = 120) -> str:
