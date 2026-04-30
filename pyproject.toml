@@ -60,6 +60,7 @@ markers = [
     "slow: tests that take >5s (model loading, full build).",
     "needs_index: requires 01_data/index/ to be built.",
     "needs_embeddings: requires embeddings.npy to be built.",
+    "needs_vault: requires the live AI Safety vault directory.",
 ]
 
 [tool.ruff]

@@ -1,0 +1,170 @@
+"""Regression tests for CLAUDE.md cross-folder contracts §1, §2, §4, §8.
+
+These contracts are documented in `CLAUDE.md` and load-bearing — but
+without tests they could silently drift. Each test here pins one
+contract; failing tests indicate either (a) the code drifted from
+CLAUDE.md, or (b) CLAUDE.md was updated without updating the test.
+Both are valid PR review checkpoints.
+"""
+
+from __future__ import annotations
+
+import csv
+import inspect
+import sys
+from pathlib import Path
+
+import pytest
+from pydantic import BaseModel
+
+EXPECTED_META_DOC_BASENAMES: frozenset[str] = frozenset(
+    {
+        "PROCESS_NEW_FILE.md",
+        "PROCESS_HEALTH_CHECK.md",
+        "PROCESS_QUERY.md",
+        "README.md",
+        "log.md",
+        "llm-wiki.md",
+        "open_questions.md",
+        "SYNTHESIS.md",
+    }
+)
+
+
+def test_meta_doc_basenames_set():
+    """CLAUDE.md §2 — the eight canonical meta-doc basenames."""
+    from wiki_lib.paths import META_DOC_BASENAMES
+
+    assert META_DOC_BASENAMES == EXPECTED_META_DOC_BASENAMES, (
+        f"META_DOC_BASENAMES drifted from CLAUDE.md §2:\n"
+        f"  missing: {EXPECTED_META_DOC_BASENAMES - META_DOC_BASENAMES}\n"
+        f"  extra:   {META_DOC_BASENAMES - EXPECTED_META_DOC_BASENAMES}"
+    )
+
+
+def test_mcp_input_models_forbid_extra():
+    """CLAUDE.md §4 — every MCP input model must use ConfigDict(extra='forbid')."""
+    import wiki_mcp_server
+
+    offenders: list[str] = []
+    for name, cls in inspect.getmembers(wiki_mcp_server, inspect.isclass):
+        if cls is BaseModel:
+            continue
+        if not issubclass(cls, BaseModel):
+            continue
+        # Filter to classes defined IN wiki_mcp_server (not re-imports).
+        if cls.__module__ != "wiki_mcp_server":
+            continue
+        config = getattr(cls, "model_config", None) or {}
+        if config.get("extra") != "forbid":
+            offenders.append(name)
+
+    assert not offenders, (
+        f"CLAUDE.md §4 violation — these MCP input models are missing ConfigDict(extra='forbid'): {offenders}"
+    )
+
+
+def _parse_wiki_concepts_table(text: str) -> list[str]:
+    """Parse the markdown table under `### Wiki Concepts` and return concept names.
+
+    Strict: raises AssertionError with parse state if the heading or table
+    format is missing.
+    """
+    lines = text.splitlines()
+    heading_idx = None
+    for i, line in enumerate(lines):
+        if line.strip() == "### Wiki Concepts":
+            heading_idx = i
+            break
+    assert heading_idx is not None, "could not find '### Wiki Concepts' heading in PROCESS_NEW_FILE.md"
+
+    # Walk forward until we find the `| Concept | Covers |` header row.
+    header_idx = None
+    for i in range(heading_idx + 1, len(lines)):
+        if lines[i].strip().startswith("| Concept ") and "Covers" in lines[i]:
+            header_idx = i
+            break
+    assert header_idx is not None, (
+        f"could not find '| Concept | Covers |' header after line {heading_idx} (### Wiki Concepts)"
+    )
+
+    # Skip the separator row (|---|---|).
+    sep_idx = header_idx + 1
+    assert lines[sep_idx].strip().startswith("|") and "---" in lines[sep_idx], (
+        f"expected '|---|---|' separator at line {sep_idx}, got {lines[sep_idx]!r}"
+    )
+
+    # Collect concept names from data rows until a blank/non-| line.
+    concepts: list[str] = []
+    for i in range(sep_idx + 1, len(lines)):
+        line = lines[i].rstrip()
+        if not line or not line.startswith("|"):
+            break
+        # Column 1 is between first and second |.
+        parts = line.split("|")
+        if len(parts) < 3:
+            continue
+        concept = parts[1].strip()
+        if concept:
+            concepts.append(concept)
+
+    assert concepts, "Wiki Concepts table appears empty"
+    return concepts
+
+
+@pytest.mark.needs_vault
+def test_vocab_runtime_concepts_match_documented_set():
+    """CLAUDE.md §1 — runtime WIKI_CONCEPTS keys must match PROCESS_NEW_FILE.md."""
+    from wiki_lib.vocab import WIKI_CONCEPTS
+
+    process_doc = Path.home() / "Desktop" / "AI Safety" / "AI Safety" / "PROCESS_NEW_FILE.md"
+    text = process_doc.read_text(encoding="utf-8")
+    documented = set(_parse_wiki_concepts_table(text))
+    runtime = set(WIKI_CONCEPTS.keys())
+
+    assert documented == runtime, (
+        f"CLAUDE.md §1 vocab sync drift between {process_doc} and wiki_lib/vocab.py:\n"
+        f"  in doc, missing from runtime: {sorted(documented - runtime)}\n"
+        f"  in runtime, missing from doc: {sorted(runtime - documented)}"
+    )
+
+
+def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_path):
+    """CLAUDE.md §8 — both inline-flow AND block-list `tags:` must round-trip."""
+    import build_index as bi
+
+    data_dir = tmp_path / "out_index"
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    monkeypatch.setattr(bi, "VAULT", mini_vault_dual_yaml)
+    monkeypatch.setattr(bi, "DATA_DIR", data_dir)
+    monkeypatch.setattr(bi, "CACHE_DIR", data_dir / ".cache")
+    monkeypatch.setattr(bi, "WIKI_INDEX_DIR", mini_vault_dual_yaml / "_index")
+    monkeypatch.setattr(bi, "WIKI_FILES_DIR", mini_vault_dual_yaml / "_index" / "files")
+    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    bi.main()
+
+    manifest_path = data_dir / "manifest.csv"
+    with manifest_path.open() as f:
+        rows = list(csv.DictReader(f))
+
+    by_relpath = {row["relpath"]: row for row in rows}
+    inline_row = next(
+        (r for path, r in by_relpath.items() if path.endswith("inline_flow.md")),
+        None,
+    )
+    block_row = next(
+        (r for path, r in by_relpath.items() if path.endswith("block_list.md")),
+        None,
+    )
+    assert inline_row is not None, f"inline_flow.md missing from manifest; got {list(by_relpath)}"
+    assert block_row is not None, f"block_list.md missing from manifest; got {list(by_relpath)}"
+
+    # tags column is pipe-separated (per test_manifest_schema test).
+    # Both forms must yield ["a", "b"] equivalently — i.e. "a|b".
+    assert inline_row["tags"] == "a|b", (
+        f"inline-flow `tags: [a, b]` did not round-trip; got tags={inline_row['tags']!r}"
+    )
+    assert block_row["tags"] == "a|b", (
+        f"block-list `tags:\\n- a\\n- b` did not round-trip; got tags={block_row['tags']!r}"
+    )
