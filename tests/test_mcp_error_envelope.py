@@ -1,86 +1,91 @@
 """
-test_mcp_error_envelope — MCP tools must report errors, not crash silently.
+test_mcp_error_envelope — MCP tools must report errors via the canonical envelope.
 
-The audit flagged that error envelopes are inconsistent across tools
-(some return strings, some return JSON). These tests assert the LENIENT
-contract that's true today: when the index is missing, every tool
-returns a non-empty response that mentions the error.
+Every tool's failure path returns a JSON string with exactly the keys
+`{"ok": False, "error": "<code>", "detail": "<msg>"}`. `error` is a stable
+snake_case code (e.g. `index_not_built`, `file_not_found`, plus exception
+class names for unexpected failures); `detail` is a human-readable message.
 
-A future tightening (the audit's P4 _wrap_errors decorator) would let us
-upgrade these to assert a structured `{"ok": False, "error": ...}` shape.
-For now, the tests document current reality.
+These tests assert the strict shape — a regression that drops a key,
+returns a free-form string, or changes the envelope format will fail here.
 """
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
 import wiki_mcp_server as ws
 
 
-def _looks_like_error(response) -> bool:
-    """A response 'looks like an error' if it's a non-empty string mentioning
-    'error' or 'not built', or a dict with `ok=False`, or JSON that parses
-    to either of those."""
-    if isinstance(response, dict):
-        if response.get("ok") is False:
-            return True
-    if isinstance(response, str):
-        s = response.lower()
-        if "error" in s or "not built" in s or "not found" in s:
-            return True
-        # Maybe it's JSON-encoded.
-        import json
+def _assert_error_envelope(response, expected_code: str | None = None) -> dict:
+    """Assert that `response` is the canonical error envelope.
 
-        try:
-            parsed = json.loads(response)
-        except (json.JSONDecodeError, TypeError):
-            return False
-        if isinstance(parsed, dict) and parsed.get("ok") is False:
-            return True
-    return False
+    Parses `response` as JSON and asserts:
+      - the parsed object is a dict with exactly the keys {"ok", "error", "detail"};
+      - parsed["ok"] is False;
+      - parsed["error"] is a non-empty string;
+      - parsed["detail"] is a string;
+      - if `expected_code` is provided, parsed["error"] equals it.
+
+    Returns the parsed dict for any further per-test assertions.
+    """
+    assert isinstance(response, str) and response, f"expected non-empty string, got {response!r}"
+    try:
+        parsed = json.loads(response)
+    except json.JSONDecodeError as e:
+        raise AssertionError(f"response is not valid JSON: {response!r} ({e})") from e
+
+    assert isinstance(parsed, dict), f"expected dict, got {type(parsed).__name__}: {parsed!r}"
+    assert set(parsed.keys()) == {"ok", "error", "detail"}, (
+        f"envelope keys drifted from {{ok, error, detail}}: got {sorted(parsed.keys())}"
+    )
+    assert parsed["ok"] is False, f"expected ok=False, got {parsed['ok']!r}"
+    assert isinstance(parsed["error"], str) and parsed["error"], (
+        f"error must be a non-empty string, got {parsed['error']!r}"
+    )
+    assert isinstance(parsed["detail"], str), (
+        f"detail must be a string, got {type(parsed['detail']).__name__}: {parsed['detail']!r}"
+    )
+    if expected_code is not None:
+        assert parsed["error"] == expected_code, f"expected error code {expected_code!r}, got {parsed['error']!r}"
+    return parsed
 
 
 def test_search_wiki_with_missing_index_returns_error(monkeypatch, tmp_path, fresh_wr):
-    """Pointing CHUNKS_PATH at a nonexistent file should make `search_wiki`
-    return an error envelope (not crash, not return empty results)."""
+    """Missing CHUNKS_PATH → canonical envelope with `index_not_built`."""
     bogus = tmp_path / "no_chunks.jsonl"
     monkeypatch.setattr(fresh_wr, "CHUNKS_PATH", bogus)
 
     response = ws.search_wiki(ws.SearchInput(query="alignment", k=3))
-    assert response, "expected non-empty error response"
-    assert _looks_like_error(response), f"response did not look like an error: {response!r}"
+    _assert_error_envelope(response, expected_code="index_not_built")
 
 
 def test_get_file_detail_unknown_id_returns_error(monkeypatch, tmp_path, fresh_wr):
-    """Bogus file_id should yield an error response, not raise."""
-    # Use the real index for this; the function should reach a "not found"
-    # path internally rather than crashing.
+    """Unknown file_id → canonical envelope with `file_not_found`."""
+    # Use the real index for this; the function reaches a "not found" path
+    # internally rather than raising.
     if not (Path(__file__).parent.parent / "01_data/index/chunks.jsonl").exists():
         pytest.skip("real index required for this test")
 
     response = ws.get_file_detail(ws.FileDetailInput(file_id="zzzz_not_a_real_id", include_chunks=False))
-    assert response
-    assert _looks_like_error(response), f"expected error for unknown file_id, got: {response!r}"
+    _assert_error_envelope(response, expected_code="file_not_found")
 
 
 def test_index_stats_with_missing_index_returns_error(monkeypatch, tmp_path, fresh_wr):
-    """`index_stats` with no index should report the problem."""
+    """`index_stats` with no index → canonical envelope with `index_not_built`."""
     bogus = tmp_path / "no_chunks.jsonl"
     monkeypatch.setattr(fresh_wr, "CHUNKS_PATH", bogus)
 
-    # index_stats has no input fields to construct.
     response = ws.index_stats()
-    assert response
-    assert _looks_like_error(response), f"expected error response, got: {response!r}"
+    _assert_error_envelope(response, expected_code="index_not_built")
 
 
 def test_list_categories_with_missing_index_returns_error(monkeypatch, tmp_path, fresh_wr):
-    """`list_categories` should fail gracefully when the index is missing."""
+    """`list_categories` with no index → canonical envelope with `index_not_built`."""
     bogus = tmp_path / "no_chunks.jsonl"
     monkeypatch.setattr(fresh_wr, "CHUNKS_PATH", bogus)
 
     response = ws.list_categories(ws.ListInput())
-    assert response
-    assert _looks_like_error(response), f"expected error response, got: {response!r}"
+    _assert_error_envelope(response, expected_code="index_not_built")
