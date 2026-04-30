@@ -95,3 +95,16 @@ zzz_top
 # ---------------------------------------------------------------------------
 .claude/
 CLAUDE.md
+
+# ---------------------------------------------------------------------------
+# Skill caches (rebuildable; the SKILL.md itself stays tracked).
+# ---------------------------------------------------------------------------
+skills/**/.cache/
+skills/**/__pycache__/
+skills/**/*.cache.json
+
+# ---------------------------------------------------------------------------
+# Project-root _index/ — local artifacts written by save_query during
+# development. Vault-side _index/ lives in the wiki, not this repo.
+# ---------------------------------------------------------------------------
+_index/
