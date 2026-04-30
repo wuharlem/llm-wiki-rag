@@ -5,6 +5,7 @@
 For each remapped tag X→Y, replace X with Y in the file's `tags:` field. If
 multiple X tags collapse to the same Y, dedup. Preserve other tags untouched.
 """
+
 from __future__ import annotations
 
 import re
@@ -157,15 +158,18 @@ def main():
                     new_tags.append(replacement)
             if changed:
                 new_line = "tags: [" + ", ".join(new_tags) + "]"
-                new_fm = new_fm[:m_tags.start()] + new_line + new_fm[m_tags.end():]
+                new_fm = new_fm[: m_tags.start()] + new_line + new_fm[m_tags.end() :]
                 fp_log.append((p.relative_to(VAULT), tags, new_tags))
         else:
             # Block-list form
             m_block = re.search(r"(^tags:\s*\n((?:\s*-\s*.+\n)+))", new_fm, re.MULTILINE)
             if m_block:
                 block = m_block.group(2)
-                tags = [re.match(r"^\s*-\s*(.+)\s*$", l).group(1).strip().strip('"').strip("'")
-                        for l in block.splitlines() if l.strip()]
+                tags = [
+                    re.match(r"^\s*-\s*(.+)\s*$", l).group(1).strip().strip('"').strip("'")
+                    for l in block.splitlines()
+                    if l.strip()
+                ]
                 new_tags = []
                 changed = False
                 seen = set()
@@ -179,11 +183,11 @@ def main():
                 if changed:
                     new_block_body = "".join(f"- {t}\n" for t in new_tags)
                     new_line = "tags:\n" + new_block_body
-                    new_fm = new_fm[:m_block.start()] + new_line + new_fm[m_block.end():]
+                    new_fm = new_fm[: m_block.start()] + new_line + new_fm[m_block.end() :]
                     fp_log.append((p.relative_to(VAULT), tags, new_tags))
 
         if new_fm != fm:
-            new_text = "---\n" + new_fm + "\n---\n" + text[m_fm.end():]
+            new_text = "---\n" + new_fm + "\n---\n" + text[m_fm.end() :]
             p.write_text(new_text, encoding="utf-8")
             edited += 1
         else:

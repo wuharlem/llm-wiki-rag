@@ -13,8 +13,8 @@ import csv
 import os
 import re
 import sys
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 WORK = Path(os.environ.get("WORK", "/sessions/gifted-confident-hawking/mnt/AI Safety"))
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
@@ -22,8 +22,11 @@ VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI 
 # Reuse vocabulary from classify.py
 sys.path.insert(0, str(WORK / "scripts"))
 from classify import (
-    WIKI_CONCEPTS, TAG_TRIGGERS, RISK_TRIGGERS,
-    classify_source_type, classify_folder, find_concepts, find_tags, find_risks,
+    classify_folder,
+    classify_source_type,
+    find_concepts,
+    find_risks,
+    find_tags,
 )
 
 # Add stronger URL-based folder routing for refinement
@@ -31,8 +34,22 @@ URL_FOLDER_HINTS = [
     # (substring, folder, source_type, concepts list, tags list, risk)
     ("ailabwatch", "Lab Scorecards", "scorecard", ["AI Lab Safety Scorecards"], ["lab-scorecard"], ["structural"]),
     ("metr.org", "Evaluation", "blog_post", ["AI Evaluations & Benchmarks"], ["evaluations", "METR"], ["misalignment"]),
-    ("apolloresearch.ai", "Evaluation", "blog_post", ["AI Evaluations & Benchmarks"], ["evaluations", "scheming"], ["misalignment"]),
-    ("transformer-circuits.pub", "AI Risk Mitigation", "research_paper", [], ["interpretability", "mechanistic-interpretability", "Anthropic"], ["misalignment"]),
+    (
+        "apolloresearch.ai",
+        "Evaluation",
+        "blog_post",
+        ["AI Evaluations & Benchmarks"],
+        ["evaluations", "scheming"],
+        ["misalignment"],
+    ),
+    (
+        "transformer-circuits.pub",
+        "AI Risk Mitigation",
+        "research_paper",
+        [],
+        ["interpretability", "mechanistic-interpretability", "Anthropic"],
+        ["misalignment"],
+    ),
     ("aisafetyfundamentals.com", "AI Risk Mitigation", "educational", [], [], ["misalignment"]),
     ("course.aisafetyfundamentals.com", "AI Risk Mitigation", "educational", [], [], ["misalignment"]),
     ("bluedot.org", "AI Risk Mitigation", "educational", [], [], ["misalignment"]),
@@ -40,16 +57,43 @@ URL_FOLDER_HINTS = [
     ("attack.mitre.org", "AI Risk Mitigation", "educational", [], ["cyber-offense"], ["misuse"]),
     ("alignmentforum.org", "AI Alignment", "blog_post", [], [], ["misalignment"]),
     ("epoch.ai", "AI Safety", "research_paper", [], ["AGI"], ["structural"]),
-    ("cold-takes.com", "AI Safety", "blog_post", ["Existential Risk & Superintelligence"], ["x-risk", "AGI"], ["misalignment"]),
+    (
+        "cold-takes.com",
+        "AI Safety",
+        "blog_post",
+        ["Existential Risk & Superintelligence"],
+        ["x-risk", "AGI"],
+        ["misalignment"],
+    ),
 ]
 
 # Relaxed concept triggers that look at richer signals
 CONCEPT_RELAX = {
-    "AI Evaluations & Benchmarks": ["eval", "evaluation", "benchmark", "red-team", "red team",
-                                    "test set", "capability assessment", "elicit"],
-    "Existential Risk & Superintelligence": ["x-risk", "existential", "extinction", "superintelligen",
-                                             "transformative ai", "agi ", "agi.", "agi,", "human-level",
-                                             "control problem", "doom", "outcome bad", "loss of control"],
+    "AI Evaluations & Benchmarks": [
+        "eval",
+        "evaluation",
+        "benchmark",
+        "red-team",
+        "red team",
+        "test set",
+        "capability assessment",
+        "elicit",
+    ],
+    "Existential Risk & Superintelligence": [
+        "x-risk",
+        "existential",
+        "extinction",
+        "superintelligen",
+        "transformative ai",
+        "agi ",
+        "agi.",
+        "agi,",
+        "human-level",
+        "control problem",
+        "doom",
+        "outcome bad",
+        "loss of control",
+    ],
     "RLHF & Its Limitations": ["rlhf", "human feedback", "reward model", "preference", "ppo"],
     "Scalable Oversight": ["oversight", "debate", "amplification", "factored cognition"],
     "Alignment Faking & Scheming": ["alignment fak", "scheming", "deceptive", "sandbag"],
@@ -126,7 +170,13 @@ def refine_one(file_path: Path, klass: dict, manifest: dict) -> dict:
 
     # Source type: prefer URL hint, then fallback to existing logic
     if not url_hint:
-        row_for_st = {"source_url": url, "title": title, "body_excerpt": body[:1000], "filename": file_path.name, "type": "md"}
+        row_for_st = {
+            "source_url": url,
+            "title": title,
+            "body_excerpt": body[:1000],
+            "filename": file_path.name,
+            "type": "md",
+        }
         source_type = classify_source_type(row_for_st)
     else:
         source_type = url_hint["source_type"]
@@ -169,7 +219,8 @@ def main():
         manifest = {r["filename"]: r for r in csv.DictReader(f)}
 
     targets = [
-        (fn, k) for fn, k in klasses.items()
+        (fn, k)
+        for fn, k in klasses.items()
         if k["confidence"] == "low" and k["folder"] == "AI Safety" and fn.endswith(".md")
     ]
     print(f"Refining {len(targets)} low-confidence catchall files…")

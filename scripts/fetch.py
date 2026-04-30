@@ -11,32 +11,30 @@ Reads urls_dedup.csv and fetches each URL into Sources/_inbox/:
 Outputs a fetch_log.csv with status per URL.
 """
 
-import csv
-import re
-import sys
-import time
-import hashlib
 import argparse
-from pathlib import Path
-from urllib.parse import urlparse
+import csv
+import hashlib
+
+# Default paths (Mac). Override via env vars or CLI args.
+import os
+import re
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from pathlib import Path
+from urllib.parse import urlparse
 
 import requests
 import trafilatura
 import yaml
 
-# Default paths (Mac). Override via env vars or CLI args.
-import os
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
 WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
 INBOX = VAULT / "Sources" / "_inbox"
 DEDUP_CSV = WORK / "00_inputs" / "urls_dedup.csv"
 LOG_CSV = WORK / "02_logs" / "fetch_log.csv"
 TIMEOUT = 25
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; AISafetyVaultBot/1.0; personal research archive)"
-}
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; AISafetyVaultBot/1.0; personal research archive)"}
 SKIP_HANDLERS = {"github", "huggingface", "youtube"}
 
 
@@ -95,9 +93,9 @@ _GENERIC_SITE_TITLES = {
 
 def _title_from_url(url: str) -> str:
     """Best-effort title from URL path slug. e.g.
-       /posts/abc123/beware-safety-washing -> Beware Safety Washing
-       /p/orthogonality                     -> Orthogonality
-       /tag/instrumental-convergence        -> Tag: Instrumental Convergence
+    /posts/abc123/beware-safety-washing -> Beware Safety Washing
+    /p/orthogonality                     -> Orthogonality
+    /tag/instrumental-convergence        -> Tag: Instrumental Convergence
     """
     try:
         path = urlparse(url).path
@@ -233,9 +231,7 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     meta["wiki_concepts"] = []
     meta["risk_category"] = []
     meta["source_type"] = None
-    fm = "---\n" + yaml.safe_dump(
-        meta, sort_keys=False, allow_unicode=True, default_flow_style=False
-    ) + "---\n\n"
+    fm = "---\n" + yaml.safe_dump(meta, sort_keys=False, allow_unicode=True, default_flow_style=False) + "---\n\n"
 
     body = f"# {title}\n\n{extracted}\n"
     fname = f"{slugify(title, 100)}_{short_hash(url)}.md"
@@ -291,12 +287,13 @@ def main():
 
     if args.sample:
         from collections import defaultdict
+
         grouped = defaultdict(list)
         for r in rows:
             grouped[r["handler"]].append(r)
         rows = []
         for h in keep:
-            rows.extend(grouped.get(h, [])[:args.sample])
+            rows.extend(grouped.get(h, [])[: args.sample])
 
     if args.limit:
         rows = rows[: args.limit]
@@ -329,7 +326,7 @@ def main():
     ok = sum(1 for r in results if r["status"] == "ok")
     fail = sum(1 for r in results if r["status"] == "fail")
     skip = sum(1 for r in results if r["status"] == "skipped")
-    print(f"\nDONE: {ok} ok, {fail} fail, {skip} skipped, {time.time()-t0:.0f}s total")
+    print(f"\nDONE: {ok} ok, {fail} fail, {skip} skipped, {time.time() - t0:.0f}s total")
     print(f"Log appended → {LOG_CSV}")
 
 

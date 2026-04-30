@@ -5,25 +5,15 @@ test_split_frontmatter — frontmatter parser + tolerant fallback.
 is the fallback for malformed Web-Clipper-style blocks. Both matter
 because every ingest pipeline sits on top of them.
 """
-from __future__ import annotations
 
-import pytest
+from __future__ import annotations
 
 import build_index as bi
 
 
 def test_pyyaml_path_extracts_dict():
     """A standard well-formed frontmatter block parses to a dict + body."""
-    raw = (
-        "---\n"
-        "title: An example\n"
-        "tags: [a, b]\n"
-        "wiki_concepts: []\n"
-        "---\n"
-        "\n"
-        "# Body heading\n"
-        "Some body text here.\n"
-    )
+    raw = "---\ntitle: An example\ntags: [a, b]\nwiki_concepts: []\n---\n\n# Body heading\nSome body text here.\n"
     meta, body = bi.split_frontmatter(raw)
     assert meta["title"] == "An example"
     assert meta["tags"] == ["a", "b"]
@@ -42,14 +32,7 @@ def test_no_frontmatter_returns_empty_meta():
 def test_frontmatter_with_colon_in_title():
     """Real-world Web Clipper case: title contains a colon. PyYAML handles
     quoted scalars, so as long as the title is properly quoted this works."""
-    raw = (
-        "---\n"
-        'title: "Anthropic: An Update"\n'
-        "tags: []\n"
-        "---\n"
-        "\n"
-        "Body.\n"
-    )
+    raw = '---\ntitle: "Anthropic: An Update"\ntags: []\n---\n\nBody.\n'
     meta, _ = bi.split_frontmatter(raw)
     assert meta["title"] == "Anthropic: An Update"
 
@@ -62,11 +45,7 @@ def test_tolerant_yaml_recovers_invalid_block():
     """
     # PyYAML would fail on this because the unquoted colon makes the parser
     # think there are two keys on one line.
-    block = (
-        "title: My great post: a deep dive\n"
-        "tags: [foo, bar]\n"
-        "author: Someone\n"
-    )
+    block = "title: My great post: a deep dive\ntags: [foo, bar]\nauthor: Someone\n"
     meta = bi._tolerant_yaml(block)
     # We only assert that the parser doesn't crash and recovers SOMETHING
     # useful. The exact behavior of the tolerant fallback is documented by

@@ -14,9 +14,8 @@ Strategy:
 
 import csv
 import os
-import re
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 WORK = Path(os.environ.get("WORK", "/sessions/gifted-confident-hawking/mnt/AI Safety"))
 MANIFEST = WORK / "01_data" / "classification_manifest.csv"
@@ -27,50 +26,104 @@ OUT = WORK / "01_data" / "classifications.csv"
 # Wiki concept keywords (lowercased substrings to look for)
 WIKI_CONCEPTS = {
     "RLHF & Its Limitations": [
-        "rlhf", "reinforcement learning from human feedback", "reward model",
-        "reward hacking", "preference learning", "human feedback", "ppo",
-        "instructgpt", "reward modeling",
+        "rlhf",
+        "reinforcement learning from human feedback",
+        "reward model",
+        "reward hacking",
+        "preference learning",
+        "human feedback",
+        "ppo",
+        "instructgpt",
+        "reward modeling",
     ],
     "Constitutional AI (RLAIF)": [
-        "constitutional ai", "constitutional-ai", "rlaif", "ai feedback",
-        "principle-based", "self-critique",
+        "constitutional ai",
+        "constitutional-ai",
+        "rlaif",
+        "ai feedback",
+        "principle-based",
+        "self-critique",
     ],
     "Scalable Oversight": [
-        "scalable oversight", "debate", "iterated amplification", "ida",
-        "recursive reward modeling", "factored cognition", "weak-to-strong",
+        "scalable oversight",
+        "debate",
+        "iterated amplification",
+        "ida",
+        "recursive reward modeling",
+        "factored cognition",
+        "weak-to-strong",
     ],
     "Alignment Faking & Scheming": [
-        "alignment faking", "scheming", "deceptive alignment", "sleeper agent",
-        "sandbagging", "strategic compliance", "deception",
+        "alignment faking",
+        "scheming",
+        "deceptive alignment",
+        "sleeper agent",
+        "sandbagging",
+        "strategic compliance",
+        "deception",
     ],
     "Weak-to-Strong Generalization": [
-        "weak-to-strong", "weak to strong", "w2sg", "superalignment",
-        "eliciting latent knowledge", "elk",
+        "weak-to-strong",
+        "weak to strong",
+        "w2sg",
+        "superalignment",
+        "eliciting latent knowledge",
+        "elk",
     ],
     "Agentic Misalignment": [
-        "agentic", "tool use", "tool-using", "multi-agent", "agent scaffolding",
-        "autonomous agent", "agent safety",
+        "agentic",
+        "tool use",
+        "tool-using",
+        "multi-agent",
+        "agent scaffolding",
+        "autonomous agent",
+        "agent safety",
     ],
     "Existential Risk & Superintelligence": [
-        "existential risk", "x-risk", "superintelligence", "agi",
-        "intelligence explosion", "control problem", "extinction",
-        "transformative ai", "rogue ai",
+        "existential risk",
+        "x-risk",
+        "superintelligence",
+        "agi",
+        "intelligence explosion",
+        "control problem",
+        "extinction",
+        "transformative ai",
+        "rogue ai",
     ],
     "Pretraining Data Filtering": [
-        "data filtering", "pretraining filter", "data curation",
-        "unlearning", "safety filtering",
+        "data filtering",
+        "pretraining filter",
+        "data curation",
+        "unlearning",
+        "safety filtering",
     ],
     "AI Evaluations & Benchmarks": [
-        "evaluation", "benchmark", "eval", "red team", "red-team", "red-teaming",
-        "dangerous capabilit", "capability elicitation", "science of evals",
-        "metr", "apollo research",
+        "evaluation",
+        "benchmark",
+        "eval",
+        "red team",
+        "red-team",
+        "red-teaming",
+        "dangerous capabilit",
+        "capability elicitation",
+        "science of evals",
+        "metr",
+        "apollo research",
     ],
     "Responsible Scaling Policies": [
-        "responsible scaling", "rsp", "asl", "deployment gate",
-        "capability threshold", "model card", "scaling policy",
+        "responsible scaling",
+        "rsp",
+        "asl",
+        "deployment gate",
+        "capability threshold",
+        "model card",
+        "scaling policy",
     ],
     "AI Lab Safety Scorecards": [
-        "lab scorecard", "ai lab watch", "safety scorecard", "lab safety",
+        "lab scorecard",
+        "ai lab watch",
+        "safety scorecard",
+        "lab safety",
     ],
 }
 
@@ -184,28 +237,65 @@ TAG_TRIGGERS = {
 # Risk category triggers
 RISK_TRIGGERS = {
     "misuse": [
-        "bioweapon", "biorisk", "biological risk", "cbrn", "cyber offense",
-        "cyber-offense", "cyber attack", "cybersecur", "csam", "disinformation",
-        "misinformation", "persuasion", "jailbreak", "dual-use", "dual use",
-        "uplift", "weaponiz", "malicious use",
+        "bioweapon",
+        "biorisk",
+        "biological risk",
+        "cbrn",
+        "cyber offense",
+        "cyber-offense",
+        "cyber attack",
+        "cybersecur",
+        "csam",
+        "disinformation",
+        "misinformation",
+        "persuasion",
+        "jailbreak",
+        "dual-use",
+        "dual use",
+        "uplift",
+        "weaponiz",
+        "malicious use",
     ],
     "misalignment": [
-        "alignment faking", "scheming", "deceptive alignment", "sleeper agent",
-        "sandbagging", "reward hacking", "power-seeking", "power seeking",
-        "instrumental converg", "shutdown resistance", "corrigib", "deception",
-        "mesa-optim", "goal misgen", "inner alignment", "outer alignment",
-        "deceptive ai", "alignment-faking",
+        "alignment faking",
+        "scheming",
+        "deceptive alignment",
+        "sleeper agent",
+        "sandbagging",
+        "reward hacking",
+        "power-seeking",
+        "power seeking",
+        "instrumental converg",
+        "shutdown resistance",
+        "corrigib",
+        "deception",
+        "mesa-optim",
+        "goal misgen",
+        "inner alignment",
+        "outer alignment",
+        "deceptive ai",
+        "alignment-faking",
     ],
     "mistakes": [
-        "hallucination", "overreliance", "distributional shift",
-        "high-stakes", "high stakes",
+        "hallucination",
+        "overreliance",
+        "distributional shift",
+        "high-stakes",
+        "high stakes",
     ],
     "structural": [
-        "concentration of power", "structural risk", "economic disruption",
-        "epistemic risk", "labor displace", "automation risk",
-        "geopolitic", "concentration", "erosion of oversight",
+        "concentration of power",
+        "structural risk",
+        "economic disruption",
+        "epistemic risk",
+        "labor displace",
+        "automation risk",
+        "geopolitic",
+        "concentration",
+        "erosion of oversight",
     ],
 }
+
 
 # Source-type rules (URL domain + title keyword based, applied in order)
 def classify_source_type(row):
@@ -227,14 +317,31 @@ def classify_source_type(row):
         return "benchmark"
     if row["type"] == "pdf" and ("arxiv" in url or "arxiv" in fn):
         return "research_paper"
-    if "course" in url or "fundamentals" in url or "tutorial" in title or "intro to" in title.lower() or "guide" in title.lower():
+    if (
+        "course" in url
+        or "fundamentals" in url
+        or "tutorial" in title
+        or "intro to" in title.lower()
+        or "guide" in title.lower()
+    ):
         return "educational"
-    if any(d in url for d in [
-        "anthropic.com/news", "openai.com/blog", "openai.com/research",
-        "deepmind.com/blog", "deepmind.google/discover", "lesswrong.com",
-        "alignmentforum.org", "cold-takes.com", "substack.com",
-        "blog.bluedot.org", "bluedot.org", "aisafetyfundamentals.com",
-    ]):
+    if any(
+        d in url
+        for d in [
+            "anthropic.com/news",
+            "openai.com/blog",
+            "openai.com/research",
+            "deepmind.com/blog",
+            "deepmind.google/discover",
+            "lesswrong.com",
+            "alignmentforum.org",
+            "cold-takes.com",
+            "substack.com",
+            "blog.bluedot.org",
+            "bluedot.org",
+            "aisafetyfundamentals.com",
+        ]
+    ):
         return "blog_post"
     if row["type"] == "pdf":
         return "research_paper"  # default for pdfs
@@ -243,7 +350,6 @@ def classify_source_type(row):
 
 # Folder rules (applied in order, first match wins)
 def classify_folder(row, source_type, wiki_concepts, tags):
-    url = row["source_url"].lower()
     title = row["title"].lower()
     body = row["body_excerpt"].lower()
     text = f"{title} {body}"
@@ -313,7 +419,6 @@ def find_risks(text):
 
 
 def classify(row):
-    text = f"{row['title']} {row['title']} {row['title']} {row['source_url']} {row['source_url']} {row['body_excerpt']}".lower()
     body_text = f"{row['title']} {row['body_excerpt']} {row['source_url']}".lower()
 
     source_type = classify_source_type(row)
@@ -337,8 +442,10 @@ def classify(row):
     confidence = ["low", "medium", "high"][score]
 
     reason_bits = []
-    if concepts: reason_bits.append(f"concepts={','.join(concepts)}")
-    if tags: reason_bits.append(f"tags={len(tags)}")
+    if concepts:
+        reason_bits.append(f"concepts={','.join(concepts)}")
+    if tags:
+        reason_bits.append(f"tags={len(tags)}")
     reason = "; ".join(reason_bits) or "default rules"
 
     return {

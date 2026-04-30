@@ -20,6 +20,7 @@ Usage:
   python3 scripts/build_index.py --no-detail-md   # skip per-file wiki pages
   python3 scripts/build_index.py --limit 20       # build first N for testing
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,7 @@ import re
 import sys
 import time
 import warnings
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -41,11 +42,14 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import yaml  # type: ignore
 
+
 # pypdf is only needed for PDF extraction. Defer the import so md-only
 # rebuilds don't require the dependency.
 def _import_pypdf():
     import pypdf  # type: ignore
+
     return pypdf
+
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -61,14 +65,18 @@ VAULT_CANDIDATES = [
 # Use glob to discover live mounts; old/stale session paths can raise
 # PermissionError on .exists() if the parent dir is no longer accessible.
 import glob as _glob
+
 for _p in _glob.glob("/sessions/*/mnt/AI Safety--AI Safety"):
     VAULT_CANDIDATES.append(Path(_p))
+
 
 def _safe_exists(p):
     try:
         return p.exists()
     except (PermissionError, OSError):
         return False
+
+
 VAULT = next((p for p in VAULT_CANDIDATES if _safe_exists(p)), VAULT_CANDIDATES[0])
 
 DATA_DIR = WORKDIR / "01_data" / "index"
@@ -79,11 +87,12 @@ WIKI_FILES_DIR = WIKI_INDEX_DIR / "files"
 # ---------------------------------------------------------------------------
 # Tunables
 # ---------------------------------------------------------------------------
-TARGET_TOKENS = 500           # rough chunk size target
-MIN_TOKENS = 80               # don't emit chunks shorter than this unless final
-MAX_TOKENS = 800              # hard upper bound
-OVERLAP_TOKENS = 50           # carry-over between adjacent chunks
-WORDS_PER_TOKEN = 0.75        # heuristic, no tokenizer dependency
+TARGET_TOKENS = 500  # rough chunk size target
+MIN_TOKENS = 80  # don't emit chunks shorter than this unless final
+MAX_TOKENS = 800  # hard upper bound
+OVERLAP_TOKENS = 50  # carry-over between adjacent chunks
+WORDS_PER_TOKEN = 0.75  # heuristic, no tokenizer dependency
+
 
 # ---------------------------------------------------------------------------
 # Data shapes
@@ -97,17 +106,18 @@ class Chunk:
     char_start: int
     char_end: int
 
+
 @dataclass
 class FileEntry:
     file_id: str
     relpath: str
-    type: str            # md | pdf
+    type: str  # md | pdf
     title: str
     folder: str
-    category: str        # top-level group, e.g. 01_Risks-and-Failure-Modes
-    subcategory: str     # e.g. 01a_Existential-Risk
+    category: str  # top-level group, e.g. 01_Risks-and-Failure-Modes
+    subcategory: str  # e.g. 01a_Existential-Risk
     description: str
-    summary: str         # description if good, else derived
+    summary: str  # description if good, else derived
     tags: list[str] = field(default_factory=list)
     wiki_concepts: list[str] = field(default_factory=list)
     risk_category: list[str] = field(default_factory=list)
@@ -115,11 +125,12 @@ class FileEntry:
     author: str = ""
     published: str = ""
     source_url: str = ""
-    n_pages: int = 0     # PDFs only
+    n_pages: int = 0  # PDFs only
     n_chunks: int = 0
     n_tokens: int = 0
     body_sha1: str = ""
     chunks: list[Chunk] = field(default_factory=list)
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -141,13 +152,16 @@ def _atomic_write_text(path: Path, text: str, encoding: str = "utf-8") -> None:
 def short_id(s: str, n: int = 12) -> str:
     return hashlib.sha1(s.encode("utf-8")).hexdigest()[:n]
 
+
 def count_tokens(text: str) -> int:
     """Rough token count: words / 0.75."""
     return max(1, int(len(text.split()) / WORDS_PER_TOKEN))
 
+
 def slugify(s: str, maxlen: int = 80) -> str:
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
     return s[:maxlen] if s else "untitled"
+
 
 def ensure_list(v: Any) -> list[str]:
     if v is None:
@@ -160,6 +174,7 @@ def ensure_list(v: Any) -> list[str]:
         return [p.strip() for p in parts if p.strip()]
     return [str(v)]
 
+
 # ---------------------------------------------------------------------------
 # Frontmatter / body splitting
 # ---------------------------------------------------------------------------
@@ -167,6 +182,7 @@ FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*(?:\n|$)", re.DOTALL)
 # Standalone --- ... --- block ANYWHERE in body, used to strip Web Clipper duplicates.
 INLINE_FM_RE = re.compile(r"\n---\s*\n([^\n]*\n){1,40}?---\s*\n", re.MULTILINE)
 KV_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*)$")
+
 
 def _tolerant_yaml(block: str) -> dict:
     """Best-effort line-by-line key:value parser. Used when PyYAML chokes."""
@@ -189,6 +205,7 @@ def _tolerant_yaml(block: str) -> dict:
             out[k] = v.strip("'\"")
     return out
 
+
 def split_frontmatter(raw: str) -> tuple[dict, str]:
     """Parse the FIRST YAML frontmatter block. Return (meta, body)."""
     m = FRONTMATTER_RE.match(raw)
@@ -204,7 +221,8 @@ def split_frontmatter(raw: str) -> tuple[dict, str]:
         meta = {}
     if not meta:
         meta = _tolerant_yaml(block)
-    body = raw[m.end():]
+    body = raw[m.end() :]
+
     # Strip any further standalone ---...--- blocks (Web Clipper duplicate metadata).
     # Detect blocks containing key:value lines and no markdown content.
     def is_yamlish(b: str) -> bool:
@@ -213,6 +231,7 @@ def split_frontmatter(raw: str) -> tuple[dict, str]:
             return False
         kv_hits = sum(1 for ln in lines if KV_RE.match(ln))
         return kv_hits / len(lines) >= 0.6
+
     while True:
         m2 = INLINE_FM_RE.search(body)
         if not m2:
@@ -220,15 +239,17 @@ def split_frontmatter(raw: str) -> tuple[dict, str]:
         block_text = m2.group(0)
         inner = block_text.strip().strip("-").strip()
         if is_yamlish(inner):
-            body = body[: m2.start()] + "\n\n" + body[m2.end():]
+            body = body[: m2.start()] + "\n\n" + body[m2.end() :]
         else:
             break
     return meta, body
+
 
 # ---------------------------------------------------------------------------
 # Chunking
 # ---------------------------------------------------------------------------
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
+
 
 def split_into_blocks(body: str) -> list[tuple[str, str]]:
     """Split body into (heading_path, block_text) pairs, preserving headings."""
@@ -260,6 +281,7 @@ def split_into_blocks(body: str) -> list[tuple[str, str]]:
             buf.append(line)
     flush()
     return blocks
+
 
 def pack_paragraphs(text: str, target: int = TARGET_TOKENS, max_t: int = MAX_TOKENS) -> list[str]:
     """Split a long block into ~target-token sub-blocks on paragraph boundaries."""
@@ -295,6 +317,7 @@ def pack_paragraphs(text: str, target: int = TARGET_TOKENS, max_t: int = MAX_TOK
         out.append("\n\n".join(cur))
     return out
 
+
 def chunk_body(body: str) -> list[Chunk]:
     """Produce ~TARGET_TOKENS chunks with heading_path metadata."""
     blocks = split_into_blocks(body)
@@ -311,14 +334,16 @@ def chunk_body(body: str) -> list[Chunk]:
             return
         toks = count_tokens(text)
         cid = f"c{len(chunks):04d}"
-        chunks.append(Chunk(
-            chunk_id=cid,
-            heading_path=path,
-            text=text,
-            tokens=toks,
-            char_start=char_cursor,
-            char_end=char_cursor + len(text),
-        ))
+        chunks.append(
+            Chunk(
+                chunk_id=cid,
+                heading_path=path,
+                text=text,
+                tokens=toks,
+                char_start=char_cursor,
+                char_end=char_cursor + len(text),
+            )
+        )
         char_cursor += len(text) + 1
 
     for path, btext in blocks:
@@ -359,6 +384,7 @@ def chunk_body(body: str) -> list[Chunk]:
                 chunks[i].tokens = count_tokens(chunks[i].text)
     return chunks
 
+
 # ---------------------------------------------------------------------------
 # PDF extraction
 # ---------------------------------------------------------------------------
@@ -371,6 +397,7 @@ def _scrub_text(s: str) -> str:
     # collapse weird control chars except \n \t
     s = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", " ", s)
     return s
+
 
 def extract_pdf_text(path: Path) -> tuple[str, int]:
     try:
@@ -389,10 +416,12 @@ def extract_pdf_text(path: Path) -> tuple[str, int]:
         pages.append(f"## Page {i + 1}\n\n{txt.strip()}")
     return "\n\n".join(pages), len(reader.pages)
 
+
 # ---------------------------------------------------------------------------
 # Summary derivation
 # ---------------------------------------------------------------------------
 SENT_SPLIT = re.compile(r"(?<=[.!?])\s+(?=[A-Z(])")
+
 
 def derive_summary(meta_desc: str, body: str, max_sents: int = 4) -> str:
     if meta_desc and len(meta_desc.strip()) >= 60:
@@ -407,11 +436,13 @@ def derive_summary(meta_desc: str, body: str, max_sents: int = 4) -> str:
         return " ".join(sents[:max_sents]).strip()
     return meta_desc.strip()
 
+
 # ---------------------------------------------------------------------------
 # Cache
 # ---------------------------------------------------------------------------
 def cache_path(file_id: str) -> Path:
     return CACHE_DIR / f"{file_id}.txt"
+
 
 def cached_extract(file_id: str, src: Path, extractor) -> tuple[str, int]:
     """extractor() returns (text, n_pages)."""
@@ -435,6 +466,7 @@ def cached_extract(file_id: str, src: Path, extractor) -> tuple[str, int]:
     meta_p.write_text(json.dumps({"hash": h, "n_pages": npages}))
     return text, npages
 
+
 # ---------------------------------------------------------------------------
 # Per-file processing
 # ---------------------------------------------------------------------------
@@ -450,8 +482,17 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         return None
     info = classifications.get(path.name, {})
     # Enrich missing frontmatter fields from notion_sources.csv.
-    for k in ("title", "description", "author", "published",
-              "source", "source_type", "tags", "wiki_concepts", "risk_category"):
+    for k in (
+        "title",
+        "description",
+        "author",
+        "published",
+        "source",
+        "source_type",
+        "tags",
+        "wiki_concepts",
+        "risk_category",
+    ):
         csv_key = "url" if k == "source" else k
         if (not meta.get(k)) and info.get(csv_key):
             meta[k] = info[csv_key]
@@ -486,6 +527,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         body_sha1=hashlib.sha1(body.encode("utf-8")).hexdigest()[:12],
         chunks=chunks,
     )
+
 
 def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | None:
     relpath = str(path.relative_to(VAULT))
@@ -528,6 +570,7 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
         chunks=chunks,
     )
 
+
 # ---------------------------------------------------------------------------
 # Classifications enrichment for PDFs (and bare-frontmatter MDs)
 # ---------------------------------------------------------------------------
@@ -543,6 +586,7 @@ def load_classifications() -> dict[str, dict]:
                 out[fn] = row
     return out
 
+
 # ---------------------------------------------------------------------------
 # Per-file detail page (Obsidian-browseable)
 # ---------------------------------------------------------------------------
@@ -552,7 +596,7 @@ def write_detail_md(entry: FileEntry) -> Path:
     p = WIKI_FILES_DIR / fname
     lines: list[str] = []
     lines.append("---")
-    lines.append(f"title: \"{entry.title.replace(chr(34), chr(39))}\"")
+    lines.append(f'title: "{entry.title.replace(chr(34), chr(39))}"')
     lines.append(f"file_id: {entry.file_id}")
     lines.append(f"type: {entry.type}")
     lines.append(f"category: {entry.category}")
@@ -598,6 +642,7 @@ def write_detail_md(entry: FileEntry) -> Path:
     p.write_text("\n".join(lines))
     return p
 
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -628,6 +673,7 @@ def main():
         "open_questions.md",
         "SYNTHESIS.md",
     }
+
     def is_source(p: Path) -> bool:
         # Skip dotfiles AND any path component that's a dotdir (e.g. .obsidian/).
         if any(part.startswith(".") for part in p.parts):
@@ -677,19 +723,21 @@ def main():
         if entry is None:
             continue
         entries.append(entry)
-        log_rows.append({
-            "file_id": entry.file_id,
-            "type": entry.type,
-            "relpath": entry.relpath,
-            "n_chunks": entry.n_chunks,
-            "n_tokens": entry.n_tokens,
-            "n_pages": entry.n_pages,
-            "title": entry.title,
-        })
+        log_rows.append(
+            {
+                "file_id": entry.file_id,
+                "type": entry.type,
+                "relpath": entry.relpath,
+                "n_chunks": entry.n_chunks,
+                "n_tokens": entry.n_tokens,
+                "n_pages": entry.n_pages,
+                "title": entry.title,
+            }
+        )
         if i % 100 == 0:
             print(f"  [{i}/{len(targets)}] chunks={entry.n_chunks}")
 
-    print(f"Extracted {len(entries)} files in {time.time()-t0:.1f}s; {len(errors)} errors")
+    print(f"Extracted {len(entries)} files in {time.time() - t0:.1f}s; {len(errors)} errors")
     if errors:
         for p, e in errors[:5]:
             print(f"  err: {p}: {e}")
@@ -699,19 +747,25 @@ def main():
     chunks_buf = io.StringIO()
     for e in entries:
         for c in e.chunks:
-            chunks_buf.write(json.dumps({
-                "file_id": e.file_id,
-                "chunk_id": c.chunk_id,
-                "relpath": e.relpath,
-                "title": e.title,
-                "category": e.category,
-                "subcategory": e.subcategory,
-                "tags": e.tags,
-                "wiki_concepts": e.wiki_concepts,
-                "heading_path": c.heading_path,
-                "tokens": c.tokens,
-                "text": c.text,
-            }, ensure_ascii=False) + "\n")
+            chunks_buf.write(
+                json.dumps(
+                    {
+                        "file_id": e.file_id,
+                        "chunk_id": c.chunk_id,
+                        "relpath": e.relpath,
+                        "title": e.title,
+                        "category": e.category,
+                        "subcategory": e.subcategory,
+                        "tags": e.tags,
+                        "wiki_concepts": e.wiki_concepts,
+                        "heading_path": c.heading_path,
+                        "tokens": c.tokens,
+                        "text": c.text,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+            )
     _atomic_write_text(chunks_p, chunks_buf.getvalue())
     print(f"Wrote {chunks_p}")
 
@@ -721,10 +775,7 @@ def main():
     for e in entries:
         d = asdict(e)
         d["chunks"] = [
-            {"chunk_id": c["chunk_id"],
-             "heading_path": c["heading_path"],
-             "tokens": c["tokens"]}
-            for c in d["chunks"]
+            {"chunk_id": c["chunk_id"], "heading_path": c["heading_path"], "tokens": c["tokens"]} for c in d["chunks"]
         ]
         out_entries.append(d)
     index_payload = {
@@ -742,27 +793,53 @@ def main():
     manifest_p = DATA_DIR / "manifest.csv"
     manifest_buf = io.StringIO()
     w = csv.writer(manifest_buf, quoting=csv.QUOTE_ALL, escapechar="\\", doublequote=True)
-    w.writerow([
-        "file_id", "type", "category", "subcategory", "title",
-        "n_chunks", "n_tokens", "n_pages",
-        "tags", "wiki_concepts", "risk_category", "source_type",
-        "author", "published", "source_url", "summary", "relpath",
-    ])
+    w.writerow(
+        [
+            "file_id",
+            "type",
+            "category",
+            "subcategory",
+            "title",
+            "n_chunks",
+            "n_tokens",
+            "n_pages",
+            "tags",
+            "wiki_concepts",
+            "risk_category",
+            "source_type",
+            "author",
+            "published",
+            "source_url",
+            "summary",
+            "relpath",
+        ]
+    )
+
     def cell(v):
         if isinstance(v, str):
             v = v.replace("\x00", "").replace("\n", " ").replace("\r", " ")
             return v.strip()
         return v
+
     for e in entries:
         row = [
-            e.file_id, e.type, e.category, e.subcategory, cell(e.title),
-            e.n_chunks, e.n_tokens, e.n_pages,
+            e.file_id,
+            e.type,
+            e.category,
+            e.subcategory,
+            cell(e.title),
+            e.n_chunks,
+            e.n_tokens,
+            e.n_pages,
             "|".join(str(t) for t in e.tags),
             "|".join(str(t) for t in e.wiki_concepts),
             "|".join(str(t) for t in e.risk_category),
             cell(e.source_type),
-            cell(e.author), cell(e.published), cell(e.source_url),
-            cell(e.summary), e.relpath,
+            cell(e.author),
+            cell(e.published),
+            cell(e.source_url),
+            cell(e.summary),
+            e.relpath,
         ]
         try:
             w.writerow(row)
@@ -791,6 +868,7 @@ def main():
             f.write(f"  ERR {p}: {err}\n")
     print(f"Wrote {log_p}")
     print("Done.")
+
 
 if __name__ == "__main__":
     main()

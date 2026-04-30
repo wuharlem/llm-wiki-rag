@@ -11,8 +11,8 @@ For .pdf: pulls arxiv ID from filename, looks up source URL in urls_dedup.csv,
 """
 
 import csv
-import re
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -48,8 +48,7 @@ def pdf_first_page(path: Path, n: int = 800) -> str:
     """Try pdftotext (fast); fall back to empty if unavailable."""
     try:
         r = subprocess.run(
-            ["pdftotext", "-l", "1", "-layout", str(path), "-"],
-            capture_output=True, text=True, timeout=15
+            ["pdftotext", "-l", "1", "-layout", str(path), "-"], capture_output=True, text=True, timeout=15
         )
         txt = re.sub(r"\s+", " ", r.stdout).strip()
         return txt[:n]
@@ -83,26 +82,30 @@ def main():
                 print(f"  read fail: {path.name} → {e}", file=sys.stderr)
                 continue
             fm = parse_frontmatter(text)
-            rows.append({
-                "filename": path.name,
-                "type": "md",
-                "title": fm.get("title", path.stem),
-                "description": fm.get("description", ""),
-                "source_url": fm.get("source", ""),
-                "body_excerpt": md_excerpt(text),
-            })
+            rows.append(
+                {
+                    "filename": path.name,
+                    "type": "md",
+                    "title": fm.get("title", path.stem),
+                    "description": fm.get("description", ""),
+                    "source_url": fm.get("source", ""),
+                    "body_excerpt": md_excerpt(text),
+                }
+            )
         elif path.suffix == ".pdf":
             # arxiv_2502.14143_<hash>.pdf -> 2502.14143
             m = re.match(r"arxiv_([0-9]{4}\.[0-9]{4,6})_", path.name)
             arxiv_id = m.group(1) if m else ""
-            rows.append({
-                "filename": path.name,
-                "type": "pdf",
-                "title": f"arxiv:{arxiv_id}" if arxiv_id else path.stem,
-                "description": "",
-                "source_url": arxiv_map.get(arxiv_id, ""),
-                "body_excerpt": pdf_first_page(path),
-            })
+            rows.append(
+                {
+                    "filename": path.name,
+                    "type": "pdf",
+                    "title": f"arxiv:{arxiv_id}" if arxiv_id else path.stem,
+                    "description": "",
+                    "source_url": arxiv_map.get(arxiv_id, ""),
+                    "body_excerpt": pdf_first_page(path),
+                }
+            )
 
     with MANIFEST.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["filename", "type", "title", "description", "source_url", "body_excerpt"])

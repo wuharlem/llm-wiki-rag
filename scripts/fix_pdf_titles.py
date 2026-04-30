@@ -47,13 +47,13 @@ def collapse_spaced_caps(s: str) -> str:
     Pattern: a single uppercase letter followed by space and 2+ uppercase letters,
     repeated. We treat the spaced-out chars as a single small-caps word.
     """
+
     # Iteratively collapse pairs: 'X YYYYY' → 'Xyyyyy' where X is single cap, YYYYY is all caps
     def _collapse_word(match):
         head = match.group(1)
         tail = match.group(2)
         return head + tail.lower()
 
-    prev = None
     cur = s
     # Run repeatedly until no more matches (handles back-to-back small-caps words)
     for _ in range(5):
@@ -71,15 +71,21 @@ def looks_like_authors(line: str) -> bool:
         return True
     # Three+ capitalized words with no commas might also be authors
     caps = re.findall(r"[A-Z][a-z]+", line)
-    if len(caps) >= 4 and len(line) < 100 and not any(w.lower() in {"the","and","of","for","with","from","via","into","this","that"} for w in line.split()):
+    if (
+        len(caps) >= 4
+        and len(line) < 100
+        and not any(
+            w.lower() in {"the", "and", "of", "for", "with", "from", "via", "into", "this", "that"}
+            for w in line.split()
+        )
+    ):
         return True
     return False
 
 
 def extract_clean_title(pdf: Path) -> str | None:
     try:
-        r = subprocess.run(["pdftotext", "-l", "1", str(pdf), "-"],
-                           capture_output=True, text=True, timeout=10)
+        r = subprocess.run(["pdftotext", "-l", "1", str(pdf), "-"], capture_output=True, text=True, timeout=10)
         lines = [l.strip() for l in r.stdout.splitlines() if l.strip()]
     except Exception:
         return None
@@ -152,17 +158,22 @@ def main():
     log = []
     fixed, skipped, errors = 0, 0, 0
     for pdf in VAULT.rglob("*.pdf"):
-        if "/.obsidian/" in str(pdf): continue
-        if "/_inbox/" in str(pdf): continue
+        if "/.obsidian/" in str(pdf):
+            continue
+        if "/_inbox/" in str(pdf):
+            continue
         m = HASH_RE.search(pdf.name)
-        if not m: continue
+        if not m:
+            continue
         if not needs_fix(pdf.stem):
             continue
         hash_suffix = m.group(1)
 
         new_title = extract_clean_title(pdf)
         if not new_title:
-            log.append({"path": str(pdf.relative_to(VAULT)), "old": pdf.name, "new": "", "title": "", "status": "no_title"})
+            log.append(
+                {"path": str(pdf.relative_to(VAULT)), "old": pdf.name, "new": "", "title": "", "status": "no_title"}
+            )
             skipped += 1
             continue
 
@@ -174,17 +185,41 @@ def main():
 
         new_path = pdf.parent / new_name
         if new_path.exists() and new_path != pdf:
-            log.append({"path": str(pdf.relative_to(VAULT)), "old": pdf.name, "new": new_name, "title": new_title, "status": "collision_skip"})
+            log.append(
+                {
+                    "path": str(pdf.relative_to(VAULT)),
+                    "old": pdf.name,
+                    "new": new_name,
+                    "title": new_title,
+                    "status": "collision_skip",
+                }
+            )
             skipped += 1
             continue
 
         try:
             os.rename(str(pdf), str(new_path))
             fixed += 1
-            log.append({"path": str(pdf.parent.relative_to(VAULT)), "old": pdf.name, "new": new_name, "title": new_title, "status": "ok"})
+            log.append(
+                {
+                    "path": str(pdf.parent.relative_to(VAULT)),
+                    "old": pdf.name,
+                    "new": new_name,
+                    "title": new_title,
+                    "status": "ok",
+                }
+            )
         except Exception as e:
             errors += 1
-            log.append({"path": str(pdf.relative_to(VAULT)), "old": pdf.name, "new": "", "title": new_title, "status": f"error: {e}"})
+            log.append(
+                {
+                    "path": str(pdf.relative_to(VAULT)),
+                    "old": pdf.name,
+                    "new": "",
+                    "title": new_title,
+                    "status": f"error: {e}",
+                }
+            )
 
     with LOG.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["path", "old", "new", "title", "status"])

@@ -89,11 +89,7 @@ zzz_top
 00_inputs/urls_removed.csv
 
 # ---------------------------------------------------------------------------
-# Claude Code tool state. Ignore everything under .claude/ except specs/
-# which is intentionally versioned (PR #1 adds .claude/specs/add-ci/).
-# Pattern note: must use `.claude/*` (matches contents) not `.claude/`
-# (matches the dir itself) so that the !.claude/specs/ negation can take
-# effect — git can't re-include files under an excluded directory.
+# Claude Code tool state — including spec docs, which are useful while
+# building a feature but don't need to live in the repo long-term.
 # ---------------------------------------------------------------------------
-.claude/*
-!.claude/specs/
+.claude/

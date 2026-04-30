@@ -6,9 +6,8 @@ Locks in the invariants the build pipeline relies on:
   - heading_path propagates so retrieval can show the section
   - oversized blocks fall back to sentence-level splitting
 """
-from __future__ import annotations
 
-import pytest
+from __future__ import annotations
 
 import build_index as bi
 
@@ -30,14 +29,11 @@ def test_chunk_body_produces_multiple_chunks_for_long_input():
         + ("Another paragraph here. " * 200)
     )
     chunks = bi.chunk_body(body)
-    assert len(chunks) >= 2, (
-        f"expected 2+ chunks for long input, got {len(chunks)}"
-    )
+    assert len(chunks) >= 2, f"expected 2+ chunks for long input, got {len(chunks)}"
     # Sanity bound: no single chunk should be wildly larger than 2× MAX_TOKENS.
     for c in chunks:
         assert c.tokens <= bi.MAX_TOKENS * 2, (
-            f"chunk {c.chunk_id} unreasonably large: {c.tokens} tokens "
-            f"(MAX_TOKENS={bi.MAX_TOKENS})"
+            f"chunk {c.chunk_id} unreasonably large: {c.tokens} tokens (MAX_TOKENS={bi.MAX_TOKENS})"
         )
 
 
@@ -53,9 +49,7 @@ def test_chunk_body_propagates_heading_path():
     assert chunks
     # At least one chunk should mention "Section One" in its heading path.
     paths = [c.heading_path for c in chunks]
-    assert any("Section One" in p for p in paths), (
-        f"no chunk had 'Section One' in heading_path: {paths}"
-    )
+    assert any("Section One" in p for p in paths), f"no chunk had 'Section One' in heading_path: {paths}"
 
 
 def test_huge_paragraph_falls_back_to_sentence_split():
@@ -63,16 +57,12 @@ def test_huge_paragraph_falls_back_to_sentence_split():
     multiple chunks via `pack_paragraphs`'s sentence-level fallback."""
     huge = " ".join(["This is a sentence."] * 800)  # ~2400 tokens, no blank lines
     chunks = bi.chunk_body(huge)
-    assert len(chunks) >= 2, (
-        f"expected huge paragraph to split into multiple chunks, got {len(chunks)}"
-    )
+    assert len(chunks) >= 2, f"expected huge paragraph to split into multiple chunks, got {len(chunks)}"
     # The sentence-split fallback flushes when adding a sentence WOULD exceed
     # max_t, so individual chunks can overshoot by one sentence's worth of
     # tokens. We still want a sanity bound: nothing wildly oversized.
     for c in chunks:
-        assert c.tokens <= bi.MAX_TOKENS * 2, (
-            f"sentence-split chunk unreasonably large: {c.tokens}"
-        )
+        assert c.tokens <= bi.MAX_TOKENS * 2, f"sentence-split chunk unreasonably large: {c.tokens}"
 
 
 def test_chunk_ids_are_unique_and_ordered():

@@ -20,7 +20,6 @@ import argparse
 import csv
 import os
 import re
-import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -49,6 +48,7 @@ _GENERIC_SITE_TITLES = {
 def _title_from_url(url: str) -> str:
     """Best-effort title from URL path slug. Mirrors fetch.py's _title_from_url."""
     from urllib.parse import urlparse
+
     try:
         path = urlparse(url).path
     except Exception:
@@ -78,7 +78,7 @@ def clean_title(raw: str, source_url: str) -> tuple[str, str]:
     """If the title is a sitename / generic, derive from URL slug."""
     if not raw or raw.strip() in ("null", "~", ""):
         return raw, ""
-    s = raw.strip().strip('"\'')
+    s = raw.strip().strip("\"'")
     if s.lower() in _GENERIC_SITE_TITLES:
         derived = _title_from_url(source_url)
         if derived:
@@ -165,14 +165,16 @@ def main():
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
         except Exception as e:
-            log_rows.append({"file": str(path.relative_to(VAULT)), "field": "", "old": "", "new": "", "reason": f"read_error:{e}"})
+            log_rows.append(
+                {"file": str(path.relative_to(VAULT)), "field": "", "old": "", "new": "", "reason": f"read_error:{e}"}
+            )
             continue
 
         m = FM_RE.match(text)
         if not m:
             continue
         fm = m.group(1)
-        rest = text[m.end():]
+        rest = text[m.end() :]
 
         new_fm = fm
         changed_any = False
@@ -186,10 +188,15 @@ def main():
             if changed:
                 changed_any = True
                 date_drops += 1
-                log_rows.append({
-                    "file": str(path.relative_to(VAULT)), "field": "published",
-                    "old": old_date, "new": new_date_val, "reason": drop_reason,
-                })
+                log_rows.append(
+                    {
+                        "file": str(path.relative_to(VAULT)),
+                        "field": "published",
+                        "old": old_date,
+                        "new": new_date_val,
+                        "reason": drop_reason,
+                    }
+                )
 
         # Title (generic sitename -> URL-slug-derived)
         old_title = get_field(new_fm, "title")
@@ -200,10 +207,15 @@ def main():
             if changed:
                 changed_any = True
                 title_fixes += 1
-                log_rows.append({
-                    "file": str(path.relative_to(VAULT)), "field": "title",
-                    "old": old_title, "new": new_title_val, "reason": drop_reason,
-                })
+                log_rows.append(
+                    {
+                        "file": str(path.relative_to(VAULT)),
+                        "field": "title",
+                        "old": old_title,
+                        "new": new_title_val,
+                        "reason": drop_reason,
+                    }
+                )
 
         # Author
         old_author = get_field(new_fm, "author")
@@ -213,10 +225,15 @@ def main():
             if changed:
                 changed_any = True
                 author_drops += 1
-                log_rows.append({
-                    "file": str(path.relative_to(VAULT)), "field": "author",
-                    "old": old_author, "new": new_author_val, "reason": drop_reason,
-                })
+                log_rows.append(
+                    {
+                        "file": str(path.relative_to(VAULT)),
+                        "field": "author",
+                        "old": old_author,
+                        "new": new_author_val,
+                        "reason": drop_reason,
+                    }
+                )
 
         if changed_any:
             files_touched += 1

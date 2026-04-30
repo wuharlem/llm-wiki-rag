@@ -12,7 +12,9 @@ For each file:
 
 Idempotent.
 """
+
 from __future__ import annotations
+
 import re
 from pathlib import Path
 
@@ -29,21 +31,42 @@ DECISIONS: dict[str, dict] = {
     "Four_Asian_Tigers_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
     "Sortition_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
     "Assurance_contract_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "United_States_government_role_in_civil_aviation": {"concepts": ["Responsible Scaling Policies"], "risk": ["structural"]},
+    "United_States_government_role_in_civil_aviation": {
+        "concepts": ["Responsible Scaling Policies"],
+        "risk": ["structural"],
+    },
     "Concorde_-_Wikipedia": {"concepts": ["Responsible Scaling Policies"], "risk": ["structural"]},
     "Friedrich_Hayek_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "Socialist_calculation_debate_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "Socialist_calculation_debate_-_Wikipedia": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     "Tit_for_tat_-_Wikipedia": {"concepts": ["Agentic Misalignment"], "risk": ["structural"]},
-    "The_End_of_History_and_the_Last_Man_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "The_End_of_History_and_the_Last_Man_-_Wikipedia": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     "The_Great_Illusion_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
     "The_Art_of_the_Deal_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
     "Is_Democracy_a_Fad": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "Countries_that_are_democracies_and_autocracies": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "Social_Security_debate_in_the_United_States": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "Countries_that_are_democracies_and_autocracies": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
+    "Social_Security_debate_in_the_United_States": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     "Externality_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "Lump_of_labour_fallacy_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "Lump_of_labour_fallacy_-_Wikipedia": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     "Smart_contract_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
-    "Three_rules_for_technological_fixes": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "Three_rules_for_technological_fixes": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     # ---- Eval methodology references ----
     "BLEU_-_Wikipedia": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["misalignment"]},
     "External_validity_-_Wikipedia": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["misalignment"]},
@@ -51,8 +74,14 @@ DECISIONS: dict[str, dict] = {
     "Statistical_hypothesis_test_-_Wikipedia": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["misalignment"]},
     "Bayes_factor_-_Wikipedia": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["misalignment"]},
     "KullbackLeibler_divergence_-_Wikipedia": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["misalignment"]},
-    "In_the_AI_science_boom_beware_your_results_are_only_as_good_as_your_data": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["mistakes"]},
-    "Going_on_a_vacation_takes_longer_than_Going_for_a_walk": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["mistakes"]},
+    "In_the_AI_science_boom_beware_your_results_are_only_as_good_as_your_data": {
+        "concepts": ["AI Evaluations & Benchmarks"],
+        "risk": ["mistakes"],
+    },
+    "Going_on_a_vacation_takes_longer_than_Going_for_a_walk": {
+        "concepts": ["AI Evaluations & Benchmarks"],
+        "risk": ["mistakes"],
+    },
     "Cosmos_QA_Machine_Reading_Comprehension": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["mistakes"]},
     # ---- Bio / CBRN references ----
     "Smallpox": {"concepts": ["Pretraining Data Filtering"], "risk": ["misuse"]},
@@ -93,15 +122,30 @@ DECISIONS: dict[str, dict] = {
     # ---- Other folders missing wiki_concepts ----
     "CS_188_Fall_2024": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["misalignment"]},
     "Robert_Kirk_Personal_Blog": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["misalignment"]},
-    "Secretary_of_State_speech_at_CogX_Festival": {"concepts": ["Responsible Scaling Policies"], "risk": ["structural"]},
+    "Secretary_of_State_speech_at_CogX_Festival": {
+        "concepts": ["Responsible Scaling Policies"],
+        "risk": ["structural"],
+    },
     "John_D._Morley": {"concepts": ["Responsible Scaling Policies"], "risk": ["structural"]},
     "AI_automated_discrimination": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["mistakes"]},
-    "Updated_October_7_Semiconductor_Export_Controls": {"concepts": ["Responsible Scaling Policies"], "risk": ["structural"]},
+    "Updated_October_7_Semiconductor_Export_Controls": {
+        "concepts": ["Responsible Scaling Policies"],
+        "risk": ["structural"],
+    },
     "Google_pauses_AI-generated_images": {"concepts": ["AI Evaluations & Benchmarks"], "risk": ["mistakes"]},
-    "If-Then_Commitments_for_AI_Risk_Reduction": {"concepts": ["Responsible Scaling Policies"], "risk": ["misalignment"]},
+    "If-Then_Commitments_for_AI_Risk_Reduction": {
+        "concepts": ["Responsible Scaling Policies"],
+        "risk": ["misalignment"],
+    },
     "Cooperative_AI_Contact": {"concepts": ["Agentic Misalignment"], "risk": ["structural"]},
-    "International_AI_Safety_Report": {"concepts": ["Responsible Scaling Policies"], "risk": ["misalignment", "misuse", "structural"]},
-    "Googles_AI_Beats_Legendary_Go_Player": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
+    "International_AI_Safety_Report": {
+        "concepts": ["Responsible Scaling Policies"],
+        "risk": ["misalignment", "misuse", "structural"],
+    },
+    "Googles_AI_Beats_Legendary_Go_Player": {
+        "concepts": ["Existential Risk & Superintelligence"],
+        "risk": ["structural"],
+    },
     "AlphaGo_-_Wikipedia": {"concepts": ["Existential Risk & Superintelligence"], "risk": ["structural"]},
 }
 
@@ -132,21 +176,20 @@ def main():
         changed = False
 
         # wiki_concepts
-        m_wc = re.search(r"^wiki_concepts:\s*(\[\s*\]|null|None|~)?\s*$", new_fm, re.MULTILINE)
         m_wc_inline = re.search(r"^wiki_concepts:\s*\[(.*?)\]\s*$", new_fm, re.MULTILINE)
         if m_wc_inline:
             inner = m_wc_inline.group(1).strip()
             if inner == "":
                 # empty list — backfill
                 new_line = "wiki_concepts: [" + ", ".join(decision["concepts"]) + "]"
-                new_fm = new_fm[:m_wc_inline.start()] + new_line + new_fm[m_wc_inline.end():]
+                new_fm = new_fm[: m_wc_inline.start()] + new_line + new_fm[m_wc_inline.end() :]
                 changed = True
         else:
             # Look for block form with no items, e.g. "wiki_concepts:\n" followed by non-list
             m_wc_empty = re.search(r"^wiki_concepts:\s*\n(?!(\s*-\s))", new_fm, re.MULTILINE)
             if m_wc_empty:
                 new_line = "wiki_concepts: [" + ", ".join(decision["concepts"]) + "]\n"
-                new_fm = new_fm[:m_wc_empty.start()] + new_line + new_fm[m_wc_empty.end():]
+                new_fm = new_fm[: m_wc_empty.start()] + new_line + new_fm[m_wc_empty.end() :]
                 changed = True
 
         # risk_category
@@ -155,17 +198,17 @@ def main():
             inner = m_rc_inline.group(1).strip()
             if inner == "":
                 new_line = "risk_category: [" + ", ".join(decision["risk"]) + "]"
-                new_fm = new_fm[:m_rc_inline.start()] + new_line + new_fm[m_rc_inline.end():]
+                new_fm = new_fm[: m_rc_inline.start()] + new_line + new_fm[m_rc_inline.end() :]
                 changed = True
         else:
             m_rc_empty = re.search(r"^risk_category:\s*\n(?!(\s*-\s))", new_fm, re.MULTILINE)
             if m_rc_empty:
                 new_line = "risk_category: [" + ", ".join(decision["risk"]) + "]\n"
-                new_fm = new_fm[:m_rc_empty.start()] + new_line + new_fm[m_rc_empty.end():]
+                new_fm = new_fm[: m_rc_empty.start()] + new_line + new_fm[m_rc_empty.end() :]
                 changed = True
 
         if changed:
-            new_text = "---\n" + new_fm + "\n---\n" + text[m_fm.end():]
+            new_text = "---\n" + new_fm + "\n---\n" + text[m_fm.end() :]
             p.write_text(new_text, encoding="utf-8")
             edited += 1
             print(f"  + {p.relative_to(VAULT)}")

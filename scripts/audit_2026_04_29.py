@@ -6,13 +6,12 @@ Mirrors the shape of `_audit_2026-04-27.md`. Excludes the auto-generated
 
 Outputs a JSON dump under 02_logs/ that the audit-md writer consumes.
 """
+
 from __future__ import annotations
 
 import json
 import re
-import sys
-import unicodedata
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 VAULT = Path("/sessions/trusting-laughing-fermi/mnt/AI Safety--AI Safety")
@@ -21,97 +20,259 @@ OUT = WORK / "02_logs" / "audit_2026-04-29.json"
 
 # ----- vocabularies (from PROCESS_NEW_FILE.md) -----
 VALID_SOURCE_TYPES = {
-    "research_paper", "blog_post", "educational", "policy",
-    "scorecard", "benchmark", "book", "petition", "model_card",
+    "research_paper",
+    "blog_post",
+    "educational",
+    "policy",
+    "scorecard",
+    "benchmark",
+    "book",
+    "petition",
+    "model_card",
 }
 VALID_RISK_CATEGORIES = {"misuse", "misalignment", "mistakes", "structural"}
 VALID_CONCEPTS = {
-    "RLHF & Its Limitations", "Constitutional AI (RLAIF)", "Scalable Oversight",
-    "Alignment Faking & Scheming", "Weak-to-Strong Generalization",
-    "Agentic Misalignment", "Existential Risk & Superintelligence",
-    "Pretraining Data Filtering", "AI Evaluations & Benchmarks",
-    "Responsible Scaling Policies", "AI Lab Safety Scorecards",
+    "RLHF & Its Limitations",
+    "Constitutional AI (RLAIF)",
+    "Scalable Oversight",
+    "Alignment Faking & Scheming",
+    "Weak-to-Strong Generalization",
+    "Agentic Misalignment",
+    "Existential Risk & Superintelligence",
+    "Pretraining Data Filtering",
+    "AI Evaluations & Benchmarks",
+    "Responsible Scaling Policies",
+    "AI Lab Safety Scorecards",
     "Interpretability",
 }
 VOCAB_TAGS = {
     # alignment & safety core
-    "alignment-faking","scheming","deception","deceptive-alignment","sleeper-agents",
-    "sandbagging","sycophancy","shutdown-resistance","corrigibility","inner-alignment",
-    "outer-alignment","mesa-optimization","goal-misgeneralization","power-seeking",
-    "instrumental-convergence","situational-awareness","self-preservation","automated-alignment",
-    "bootstrapping","model-organisms","Goodharts-law",
+    "alignment-faking",
+    "scheming",
+    "deception",
+    "deceptive-alignment",
+    "sleeper-agents",
+    "sandbagging",
+    "sycophancy",
+    "shutdown-resistance",
+    "corrigibility",
+    "inner-alignment",
+    "outer-alignment",
+    "mesa-optimization",
+    "goal-misgeneralization",
+    "power-seeking",
+    "instrumental-convergence",
+    "situational-awareness",
+    "self-preservation",
+    "automated-alignment",
+    "bootstrapping",
+    "model-organisms",
+    "Goodharts-law",
     # training techniques
-    "RLHF","RLAIF","Constitutional-AI","reward-hacking","reward-modeling","PPO","DPO",
-    "process-supervision","outcome-supervision","deliberative-alignment","scalable-oversight",
-    "debate","IDA","recursive-reward-modeling","W2SG","weak-to-strong","superalignment",
-    "pretraining-filtering","data-filtering","unlearning",
+    "RLHF",
+    "RLAIF",
+    "Constitutional-AI",
+    "reward-hacking",
+    "reward-modeling",
+    "PPO",
+    "DPO",
+    "process-supervision",
+    "outcome-supervision",
+    "deliberative-alignment",
+    "scalable-oversight",
+    "debate",
+    "IDA",
+    "recursive-reward-modeling",
+    "W2SG",
+    "weak-to-strong",
+    "superalignment",
+    "pretraining-filtering",
+    "data-filtering",
+    "unlearning",
     # eval & benchmarks
-    "evaluations","benchmarks","red-teaming","dangerous-capabilities","science-of-evals",
-    "capability-elicitation","sandbagging-evals","CoT-monitoring","chain-of-thought",
+    "evaluations",
+    "benchmarks",
+    "red-teaming",
+    "dangerous-capabilities",
+    "science-of-evals",
+    "capability-elicitation",
+    "sandbagging-evals",
+    "CoT-monitoring",
+    "chain-of-thought",
     # risk domains
-    "biorisk","bioweapons","cyber-offense","CSAM","CBRN","disinformation","persuasion","dual-use",
-    "blackmail","model-weight-theft","influence-seeking",
+    "biorisk",
+    "bioweapons",
+    "cyber-offense",
+    "CSAM",
+    "CBRN",
+    "disinformation",
+    "persuasion",
+    "dual-use",
+    "blackmail",
+    "model-weight-theft",
+    "influence-seeking",
     # governance
-    "RSP","responsible-scaling","ASL","deployment-gates","model-card","lab-scorecard",
-    "safety-cases","governance","regulation","international-coordination","compute-governance",
-    "scaling-pause","arms-race","safety-culture","evolution-analogy",
+    "RSP",
+    "responsible-scaling",
+    "ASL",
+    "deployment-gates",
+    "model-card",
+    "lab-scorecard",
+    "safety-cases",
+    "governance",
+    "regulation",
+    "international-coordination",
+    "compute-governance",
+    "scaling-pause",
+    "arms-race",
+    "safety-culture",
+    "evolution-analogy",
     # x-risk
-    "x-risk","existential-risk","superintelligence","AGI","intelligence-explosion",
-    "control-problem","catastrophic-risk","extinction",
+    "x-risk",
+    "existential-risk",
+    "superintelligence",
+    "AGI",
+    "intelligence-explosion",
+    "control-problem",
+    "catastrophic-risk",
+    "extinction",
     # agents
-    "agentic-AI","multi-agent","tool-use","agent-scaffolding","autonomous-systems",
-    "AI-control","collusion",
+    "agentic-AI",
+    "multi-agent",
+    "tool-use",
+    "agent-scaffolding",
+    "autonomous-systems",
+    "AI-control",
+    "collusion",
     # orgs
-    "Anthropic","OpenAI","DeepMind","Google","Meta","MIRI","ARC","METR",
+    "Anthropic",
+    "OpenAI",
+    "DeepMind",
+    "Google",
+    "Meta",
+    "MIRI",
+    "ARC",
+    "METR",
     # models
-    "Claude","GPT-4","o3","Gemini","Llama","Llama-Guard","InstructGPT",
+    "Claude",
+    "GPT-4",
+    "o3",
+    "Gemini",
+    "Llama",
+    "Llama-Guard",
+    "InstructGPT",
     # misc
-    "interpretability","mechanistic-interpretability","transparency","robustness",
-    "adversarial","jailbreaking","prompt-injection","watermarking","differential-privacy",
-    "federated-learning","open-source","open-weight","background-reading","hallucination",
-    "mistakes","algorithmic-bias","compute","export-controls","audit","vault-health",
+    "interpretability",
+    "mechanistic-interpretability",
+    "transparency",
+    "robustness",
+    "adversarial",
+    "jailbreaking",
+    "prompt-injection",
+    "watermarking",
+    "differential-privacy",
+    "federated-learning",
+    "open-source",
+    "open-weight",
+    "background-reading",
+    "hallucination",
+    "mistakes",
+    "algorithmic-bias",
+    "compute",
+    "export-controls",
+    "audit",
+    "vault-health",
 }
 
 VAULT_FOLDERS = {
     "01_Risks-and-Failure-Modes": {
-        "01a_Existential-Risk", "01b_AGI-Capability-and-Forecasting",
-        "01c_Alignment-Faking-Scheming", "01d_Agentic-Misalignment-and-Control",
+        "01a_Existential-Risk",
+        "01b_AGI-Capability-and-Forecasting",
+        "01c_Alignment-Faking-Scheming",
+        "01d_Agentic-Misalignment-and-Control",
         "01e_Multi-Agent",
     },
     "02_Mitigations-and-Methods": {
-        "02a_RLHF-and-Limitations", "02b_Constitutional-AI", "02c_Scalable-Oversight",
-        "02d_Weak-to-Strong-and-ELK", "02e_Pretraining-Filtering-and-Unlearning",
+        "02a_RLHF-and-Limitations",
+        "02b_Constitutional-AI",
+        "02c_Scalable-Oversight",
+        "02d_Weak-to-Strong-and-ELK",
+        "02e_Pretraining-Filtering-and-Unlearning",
         "02f_Interpretability",
     },
     "03_Evaluations": {
-        "03a_Methodology", "03b_Capability-Benchmarks", "03c_Cyber-Bio-Benchmarks",
-        "03d_Agent-Benchmarks-and-Frameworks", "03e_Other-Evaluations",
+        "03a_Methodology",
+        "03b_Capability-Benchmarks",
+        "03c_Cyber-Bio-Benchmarks",
+        "03d_Agent-Benchmarks-and-Frameworks",
+        "03e_Other-Evaluations",
     },
     "04_Governance-and-Policy": {
-        "04a_RSPs-and-Frontier-Frameworks", "04b_Lab-Scorecards", "04c_Other-Governance",
+        "04a_RSPs-and-Frontier-Frameworks",
+        "04b_Lab-Scorecards",
+        "04c_Other-Governance",
     },
     "05_Resources": {"05a_Educational", "05b_Sources-Background"},
 }
 
 HASH_SUFFIX_RE = re.compile(r"_[0-9a-f]{8}\.(md|pdf)$")
 MOJIBAKE_PATTERNS = [
-    "Â¶", "Ã©", "â€™", "â€œ", "â€\x9d", "â€“", "â€”",
-    "�", "Ã¢", "Ã¨", "Ã±", "Â\xa0",
+    "Â¶",
+    "Ã©",
+    "â€™",
+    "â€œ",
+    "â€\x9d",
+    "â€“",
+    "â€”",
+    "�",
+    "Ã¢",
+    "Ã¨",
+    "Ã±",
+    "Â\xa0",
 ]
 TEMPLATE_DESC_PATTERNS = [
-    "TODO", "todo", "summary placeholder", "<1-2 sentence",
-    "fill in", "Lorem ipsum",
+    "TODO",
+    "todo",
+    "summary placeholder",
+    "<1-2 sentence",
+    "fill in",
+    "Lorem ipsum",
 ]
 
 OFF_TOPIC_HINTS_TITLE = [
-    "amyloid", "alzheim", "crispr", "cas9", "cookie policy", "cookie_policy",
-    "shared web hosting", "wikipediamanual", "antagonistic pleiotropy",
-    "hilumi lhc", "publications", "pre-agriculture", "better angels of our nature",
-    "car_t", "car-t", "cruel and unusual", "roth v", "armed forces",
-    "asian tigers", "civil aviation", "sortition", "assurance contract",
-    "green revolution", "order statistic", "intel - wikipedia", "lump of labour",
-    "external validity", "construct validity", "elo rating", "synthetic virology",
-    "google - wikipedia", "baruch plan", "bleu - wikipedia",
+    "amyloid",
+    "alzheim",
+    "crispr",
+    "cas9",
+    "cookie policy",
+    "cookie_policy",
+    "shared web hosting",
+    "wikipediamanual",
+    "antagonistic pleiotropy",
+    "hilumi lhc",
+    "publications",
+    "pre-agriculture",
+    "better angels of our nature",
+    "car_t",
+    "car-t",
+    "cruel and unusual",
+    "roth v",
+    "armed forces",
+    "asian tigers",
+    "civil aviation",
+    "sortition",
+    "assurance contract",
+    "green revolution",
+    "order statistic",
+    "intel - wikipedia",
+    "lump of labour",
+    "external validity",
+    "construct validity",
+    "elo rating",
+    "synthetic virology",
+    "google - wikipedia",
+    "baruch plan",
+    "bleu - wikipedia",
 ]
 
 PARSED_YAML_FALLBACK_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
@@ -183,7 +344,7 @@ def file_record(path: Path) -> dict:
 
     text = path.read_text(encoding="utf-8", errors="replace")
     m = PARSED_YAML_FALLBACK_RE.match(text)
-    body = text[m.end():] if m else text
+    body = text[m.end() :] if m else text
     if m:
         try:
             fm = parse_yaml(m.group(1))
@@ -296,8 +457,7 @@ def main() -> None:
                 oov_tag_counter[t] += 1
 
     full_tax_count = sum(
-        1 for r in md_recs
-        if r["tags"] and r["wiki_concepts"] and r["risk_category"] and r["source_type"]
+        1 for r in md_recs if r["tags"] and r["wiki_concepts"] and r["risk_category"] and r["source_type"]
     )
     hash_suffix_files = [r for r in records if "hash_suffix" in r["issues"]]
     off_topic = [r for r in md_recs if "off_topic_candidate" in r["issues"]]
@@ -326,35 +486,23 @@ def main() -> None:
             "full_taxonomy_md": full_tax_count,
             "issue_counts": dict(issue_counter.most_common()),
         },
-        "folder_counts": [
-            {"top": k[0], "sub": k[1], "count": v}
-            for k, v in sorted(folder_counts.items())
-        ],
-        "off_topic_candidates": [
-            {"relpath": r["relpath"], "title": r["title"]} for r in off_topic
-        ],
+        "folder_counts": [{"top": k[0], "sub": k[1], "count": v} for k, v in sorted(folder_counts.items())],
+        "off_topic_candidates": [{"relpath": r["relpath"], "title": r["title"]} for r in off_topic],
         "mojibake": [
             {"relpath": r["relpath"], "title": r["title"], "issues": [i for i in r["issues"] if "mojibake" in i]}
             for r in mojibake
         ],
-        "placeholder_titles": [
-            {"relpath": r["relpath"], "title": r["title"]} for r in placeholder
-        ],
-        "missing_description": [
-            {"relpath": r["relpath"], "title": r["title"]} for r in missing_desc
-        ],
+        "placeholder_titles": [{"relpath": r["relpath"], "title": r["title"]} for r in placeholder],
+        "missing_description": [{"relpath": r["relpath"], "title": r["title"]} for r in missing_desc],
         "no_tags": [{"relpath": r["relpath"], "title": r["title"]} for r in no_tags],
         "no_wiki_concepts": [{"relpath": r["relpath"], "title": r["title"]} for r in no_concepts],
         "no_risk_category": [{"relpath": r["relpath"], "title": r["title"]} for r in no_risk],
         "no_source_type": [{"relpath": r["relpath"], "title": r["title"]} for r in no_source],
         "no_frontmatter": [{"relpath": r["relpath"]} for r in no_fm],
         "invalid_wiki_concepts": [
-            {"relpath": r["relpath"], "title": r["title"], "concepts": r["wiki_concepts"]}
-            for r in invalid_concepts
+            {"relpath": r["relpath"], "title": r["title"], "concepts": r["wiki_concepts"]} for r in invalid_concepts
         ],
-        "underscore_titles": [
-            {"relpath": r["relpath"], "title": r["title"]} for r in underscore_title
-        ],
+        "underscore_titles": [{"relpath": r["relpath"], "title": r["title"]} for r in underscore_title],
         "hash_suffix_md": [r["relpath"] for r in hash_suffix_files if r["ext"] == ".md"],
         "hash_suffix_pdf": [r["relpath"] for r in hash_suffix_files if r["ext"] == ".pdf"],
         "oov_tags": dict(oov_tag_counter.most_common()),
@@ -366,8 +514,7 @@ def main() -> None:
 
     # ---- terminal summary
     s = out["summary"]
-    print(f"md={s['md_files']} pdf={s['pdf_files']} total={s['total']} "
-          f"full-tax={s['full_taxonomy_md']}")
+    print(f"md={s['md_files']} pdf={s['pdf_files']} total={s['total']} full-tax={s['full_taxonomy_md']}")
     for k, v in s["issue_counts"].items():
         print(f"  {k:35s} {v}")
     print(f"\nWrote {OUT}")

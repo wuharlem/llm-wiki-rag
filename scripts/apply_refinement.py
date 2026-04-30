@@ -10,10 +10,8 @@ Sanity filters:
 
 import csv
 import os
-import re
 import sys
 from pathlib import Path
-from collections import Counter
 
 WORK = Path(os.environ.get("WORK", "/sessions/gifted-confident-hawking/mnt/AI Safety"))
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
@@ -23,15 +21,38 @@ from apply_classifications import update_md_frontmatter
 
 # Body must contain at least 2 of these tokens (lowercased) to qualify for any AI-specific folder
 AI_TOKENS = [
-    "ai ", " ai,", " ai.", "artificial intelligence", "machine learning",
-    " ml ", " llm", "language model", "agi", "neural network", "deep learning",
-    "alignment", "anthropic", "openai", "deepmind", "gpt", "claude", "gemini",
-    "frontier model", "foundation model", "transformer",
+    "ai ",
+    " ai,",
+    " ai.",
+    "artificial intelligence",
+    "machine learning",
+    " ml ",
+    " llm",
+    "language model",
+    "agi",
+    "neural network",
+    "deep learning",
+    "alignment",
+    "anthropic",
+    "openai",
+    "deepmind",
+    "gpt",
+    "claude",
+    "gemini",
+    "frontier model",
+    "foundation model",
+    "transformer",
 ]
 
 FOLDERS_REQUIRING_AI = {
-    "AI Risk Mitigation", "Evaluation", "RSP", "AI Alignment",
-    "Model-level Mitigation", "Multi-Agent", "Lab Scorecards", "AI Safety Risk",
+    "AI Risk Mitigation",
+    "Evaluation",
+    "RSP",
+    "AI Alignment",
+    "Model-level Mitigation",
+    "Multi-Agent",
+    "Lab Scorecards",
+    "AI Safety Risk",
 }
 
 
