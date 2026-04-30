@@ -93,3 +93,4 @@ zzz_top
 # building a feature but don't need to live in the repo long-term.
 # ---------------------------------------------------------------------------
 .claude/
+CLAUDE.md
