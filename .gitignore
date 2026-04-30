@@ -97,11 +97,10 @@ zzz_top
 CLAUDE.md
 
 # ---------------------------------------------------------------------------
-# Skill caches (rebuildable; the SKILL.md itself stays tracked).
+# Skill definitions — user-personal (hardcode local vault paths and are
+# consumed by the user's Claude sessions, not by repo cloners).
 # ---------------------------------------------------------------------------
-skills/**/.cache/
-skills/**/__pycache__/
-skills/**/*.cache.json
+skills/
 
 # ---------------------------------------------------------------------------
 # Project-root _index/ — local artifacts written by save_query during
