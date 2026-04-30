@@ -39,19 +39,15 @@ import wiki_retrieval as wr
 
 DEFAULT_MODEL = "BAAI/bge-small-en-v1.5"
 
-EMB_NPY_PATH = wr.DATA_DIR / "embeddings.npy"
-EMB_IDS_PATH = wr.DATA_DIR / "embeddings_ids.json"
-EMB_META_PATH = wr.DATA_DIR / "embeddings_meta.json"
-
 
 def _is_up_to_date(n_chunks: int, model_name: str) -> bool:
     """Check whether existing embeddings.npy still matches the current chunk
     set + model. Cheap path to skip a 7-minute rebuild when nothing changed."""
-    if not (EMB_NPY_PATH.exists() and EMB_IDS_PATH.exists() and EMB_META_PATH.exists()):
+    if not (wr.EMB_NPY_PATH.exists() and wr.EMB_IDS_PATH.exists() and wr.EMB_META_PATH.exists()):
         return False
     try:
-        meta = json.loads(EMB_META_PATH.read_text())
-        ids = json.loads(EMB_IDS_PATH.read_text())
+        meta = json.loads(wr.EMB_META_PATH.read_text())
+        ids = json.loads(wr.EMB_IDS_PATH.read_text())
     except Exception:
         return False
     if meta.get("model") != model_name:
@@ -110,24 +106,24 @@ def main() -> None:
     print(f"embedded {len(texts)} chunks in {dt:.1f}s ({len(texts) / max(dt, 1):.0f}/s)", file=sys.stderr)
     print(f"matrix shape: {embs.shape}", file=sys.stderr)
 
-    EMB_NPY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    wr.EMB_NPY_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     # Atomic writes: each output goes to .tmp first, then os.replace into
     # place. Order matters — meta is written LAST because _is_up_to_date()
     # treats it as the "build complete" sentinel. A Ctrl-C between steps
     # leaves a stale .npy/.ids on disk but missing meta, so the next run
     # sees up_to_date == False and rebuilds.
-    tmp_npy = EMB_NPY_PATH.with_name(EMB_NPY_PATH.name + ".tmp")
+    tmp_npy = wr.EMB_NPY_PATH.with_name(wr.EMB_NPY_PATH.name + ".tmp")
     with open(tmp_npy, "wb") as f:
         # Open ourselves to avoid numpy auto-appending another .npy suffix.
         np.save(f, embs)
-    os.replace(tmp_npy, EMB_NPY_PATH)
+    os.replace(tmp_npy, wr.EMB_NPY_PATH)
 
-    tmp_ids = EMB_IDS_PATH.with_suffix(EMB_IDS_PATH.suffix + ".tmp")
+    tmp_ids = wr.EMB_IDS_PATH.with_suffix(wr.EMB_IDS_PATH.suffix + ".tmp")
     tmp_ids.write_text(json.dumps([{"file_id": c["file_id"], "chunk_id": c["chunk_id"]} for c in chunks]))
-    os.replace(tmp_ids, EMB_IDS_PATH)
+    os.replace(tmp_ids, wr.EMB_IDS_PATH)
 
-    tmp_meta = EMB_META_PATH.with_suffix(EMB_META_PATH.suffix + ".tmp")
+    tmp_meta = wr.EMB_META_PATH.with_suffix(wr.EMB_META_PATH.suffix + ".tmp")
     tmp_meta.write_text(
         json.dumps(
             {
@@ -140,8 +136,8 @@ def main() -> None:
             indent=2,
         )
     )
-    os.replace(tmp_meta, EMB_META_PATH)
-    print(f"wrote {EMB_NPY_PATH} and metadata", file=sys.stderr)
+    os.replace(tmp_meta, wr.EMB_META_PATH)
+    print(f"wrote {wr.EMB_NPY_PATH} and metadata", file=sys.stderr)
 
 
 if __name__ == "__main__":

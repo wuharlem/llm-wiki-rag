@@ -12,6 +12,7 @@ from typing import Any
 @dataclass
 class RetrievalContext:
     chunks: list[dict] | None = None
+    chunks_by_file: dict[str, list[dict]] | None = None  # {file_id: [chunks]}, populated alongside chunks
     index: dict | None = None
     emb_matrix: Any = None  # numpy.ndarray when loaded
     emb_ids: list[dict] | None = None

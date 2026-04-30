@@ -15,6 +15,7 @@ from wiki_lib.cache import RetrievalContext
 
 CANONICAL_FIELDS = {
     "chunks",
+    "chunks_by_file",
     "index",
     "emb_matrix",
     "emb_ids",

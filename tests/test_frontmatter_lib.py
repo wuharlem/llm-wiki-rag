@@ -114,3 +114,22 @@ def test_dump_lists_preserve_order():
     out = dump(meta, "x")
     meta2, _ = split(out)
     assert meta2["tags"] == ["zebra", "apple", "mango"]
+
+
+def test_split_strips_inline_block_over_40_lines():
+    """Inline frontmatter regex must not silently cap at 40 lines.
+
+    `INLINE_FM_RE` is used to strip Web-Clipper duplicate metadata from the
+    body when a top frontmatter block is present. The prior regex with
+    `{1,40}?` left 41+ line inline blocks unstripped — they remained in the
+    body as raw `---\\nkey: val\\n...---\\n` chunks. After the bump to `+?`,
+    inline blocks of any length are stripped.
+    """
+    inner = "".join(f"key{i}: val{i}\n" for i in range(41))
+    top = "---\ntitle: Test\n---\n\n"
+    inline = "---\n" + inner + "---\n"
+    text = top + "# header\n\n" + inline + "\nbody paragraph\n"
+    meta, body = split(text)
+    assert meta == {"title": "Test"}
+    assert "key40: val40" not in body, "41-line inline block must be stripped from body"
+    assert "body paragraph" in body, "body content after inline block must survive"

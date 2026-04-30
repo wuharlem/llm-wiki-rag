@@ -106,8 +106,6 @@ class Chunk:
     heading_path: str
     text: str
     tokens: int
-    char_start: int
-    char_end: int
 
 
 @dataclass
@@ -273,8 +271,6 @@ def chunk_body(body: str) -> list[Chunk]:
                 heading_path=path,
                 text=text,
                 tokens=toks,
-                char_start=char_cursor,
-                char_end=char_cursor + len(text),
             )
         )
         char_cursor += len(text) + 1
@@ -337,7 +333,8 @@ def extract_pdf_text(path: Path) -> tuple[str, int]:
         pypdf = _import_pypdf()
         reader = pypdf.PdfReader(str(path))
     except Exception as e:
-        return f"[pdf-extract-error: {e}]", 0
+        print(f"pdf-extract-error: {path}: {e!r}", file=sys.stderr)
+        raise RuntimeError(f"pdf-extract-error: {path}: {e!r}") from e
     pages: list[str] = []
     for i, page in enumerate(reader.pages):
         try:
@@ -712,10 +709,13 @@ def main():
     ap.add_argument("--md-only", action="store_true", help="skip PDFs")
     ap.add_argument("--no-detail-md", action="store_true", help="skip wiki per-file pages")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--vault", type=Path, default=None, help="override vault root (default: auto-discovered)")
     args = ap.parse_args()
 
-    if not VAULT.exists():
-        print(f"VAULT not found: {VAULT}", file=sys.stderr)
+    vault = args.vault if args.vault is not None else VAULT
+
+    if not vault.exists():
+        print(f"VAULT not found: {vault}", file=sys.stderr)
         sys.exit(1)
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -723,17 +723,17 @@ def main():
 
     classifications = load_classifications()
 
-    is_source = lambda p: is_indexable_path(p, VAULT)  # noqa: E731
+    is_source = lambda p: is_indexable_path(p, vault)  # noqa: E731
 
-    md_files = sorted(p for p in VAULT.rglob("*.md") if is_source(p))
-    pdf_files = [] if args.md_only else sorted(p for p in VAULT.rglob("*.pdf") if is_source(p))
+    md_files = sorted(p for p in vault.rglob("*.md") if is_source(p))
+    pdf_files = [] if args.md_only else sorted(p for p in vault.rglob("*.pdf") if is_source(p))
 
     if args.limit:
         md_files = md_files[: args.limit]
         pdf_files = pdf_files[: args.limit]
 
     targets = [(p, "md") for p in md_files] + [(p, "pdf") for p in pdf_files]
-    print(f"VAULT={VAULT}")
+    print(f"VAULT={vault}")
     print(f"MD files: {len(md_files)} | PDF files: {len(pdf_files)} | total: {len(targets)}")
 
     entries: list[FileEntry] = []
@@ -764,7 +764,7 @@ def main():
     print(f"Wrote {chunks_p}")
 
     index_p = DATA_DIR / "index.json"
-    _emit_index_json(entries, index_p, VAULT)
+    _emit_index_json(entries, index_p, vault)
     print(f"Wrote {index_p}")
 
     manifest_p = DATA_DIR / "manifest.csv"
@@ -776,7 +776,7 @@ def main():
         print(f"Wrote {len(entries)} detail pages to {WIKI_FILES_DIR}")
 
     log_p = DATA_DIR / "build.log"
-    _emit_build_log(entries, errors, log_p, VAULT)
+    _emit_build_log(entries, errors, log_p, vault)
     print(f"Wrote {log_p}")
     print("Done.")
 

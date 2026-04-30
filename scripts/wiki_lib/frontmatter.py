@@ -31,7 +31,7 @@ import yaml
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*(?:\n|$)", re.DOTALL)
 # Standalone --- ... --- block ANYWHERE in body, used to strip Web Clipper duplicates.
-INLINE_FM_RE = re.compile(r"\n---\s*\n([^\n]*\n){1,40}?---\s*\n", re.MULTILINE)
+INLINE_FM_RE = re.compile(r"\n---\s*\n([^\n]*\n)+?---\s*\n", re.MULTILINE)
 KV_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*)$")
 
 
