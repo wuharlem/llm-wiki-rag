@@ -181,7 +181,7 @@ test = [
 
 - **Purpose:** Run `make fmt-check`, `make lint`, `make test` on every PR and `main` push.
 - **Interfaces:** GitHub Actions YAML schema; provides three named status checks: `fmt`, `lint`, `test`.
-- **Dependencies:** `astral-sh/setup-uv@v8`, `actions/checkout@v4`.
+- **Dependencies:** `astral-sh/setup-uv@v8.1.0`, `actions/checkout@v4`.
 - **Reuses:** Nothing — net-new.
 
 ```yaml
@@ -204,7 +204,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v8
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           enable-cache: true
       - run: uv sync --extra test
@@ -215,7 +215,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v8
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           enable-cache: true
       - run: uv sync --extra test
@@ -226,7 +226,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v8
+      - uses: astral-sh/setup-uv@v8.1.0
         with:
           enable-cache: true
           python-version: "3.10"

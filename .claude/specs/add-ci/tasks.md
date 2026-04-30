@@ -66,7 +66,7 @@ These tasks bring the existing code into compliance with the rules from Phase A.
 
 - [ ] **9. Create `.github/workflows/ci.yml`**
   - File: `.github/workflows/ci.yml` (new; create `.github/` and `.github/workflows/` first)
-  - Copy the workflow from design doc Component 3 verbatim. Three jobs (`fmt`, `lint`, `test`), each on `ubuntu-latest`, each with `actions/checkout@v4` + `astral-sh/setup-uv@v8` (with `enable-cache: true`; rely on the action's default `cache-dependency-glob` which already includes `uv.lock` and `pyproject.toml`) + `uv sync --extra test` + `make <target>`. Test job pins `python-version: "3.10"`. Top-level `concurrency` block cancels in-progress only on PRs.
+  - Copy the workflow from design doc Component 3 verbatim. Three jobs (`fmt`, `lint`, `test`), each on `ubuntu-latest`, each with `actions/checkout@v4` + `astral-sh/setup-uv@v8.1.0` (with `enable-cache: true`; rely on the action's default `cache-dependency-glob` which already includes `uv.lock` and `pyproject.toml`) + `uv sync --extra test` + `make <target>`. Test job pins `python-version: "3.10"`. Top-level `concurrency` block cancels in-progress only on PRs.
   - Verify (local lint): `python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"` parses cleanly.
   - Verify (live): open a PR with these changes; all three checks (`fmt`, `lint`, `test`) report green in the PR's status.
   - Requirements: R1.1, R1.2, R1.4, R4.1, R4.2, R4.4, R4.5, R6.1, R6.2, R6.3, R7.1, R7.2, R7.3
