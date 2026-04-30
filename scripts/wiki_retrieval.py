@@ -29,6 +29,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+from wiki_lib.paths import META_DOC_BASENAMES, is_indexable_path
+
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
@@ -101,28 +103,13 @@ class Filters:
 # In-memory chunk loader (cached for long-lived processes like the MCP server)
 # ---------------------------------------------------------------------------
 
-# Skip these meta-docs in retrieval; they describe the wiki itself, not the
-# source material the user is asking about. Originally filtered at build time
-# by build_index.py, but we belt-and-suspenders here too.
-_META_DOC_BASENAMES = {
-    "PROCESS_NEW_FILE.md",
-    "PROCESS_HEALTH_CHECK.md",
-    "PROCESS_QUERY.md",
-    "README.md",
-    "log.md",
-    "llm-wiki.md",
-    "open_questions.md",
-    "SYNTHESIS.md",
-}
-
-
 def _is_meta_doc(relpath: str) -> bool:
-    base = Path(relpath).name
-    if base in _META_DOC_BASENAMES:
-        return True
-    if base.startswith("_audit_"):
-        return True
-    return False
+    """True iff `relpath` is a meta-doc that should not appear in retrieval results.
+
+    Delegates to `wiki_lib.paths.is_indexable_path` (canonical predicate);
+    `meta-doc` is the negation of "indexable."
+    """
+    return not is_indexable_path(VAULT_PATH / relpath, VAULT_PATH)
 
 
 _chunk_cache: list[dict] | None = None

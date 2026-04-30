@@ -1,14 +1,14 @@
 """
 test_split_frontmatter — frontmatter parser + tolerant fallback.
 
-`build_index.split_frontmatter` is the canonical reader; `_tolerant_yaml`
+`wiki_lib.frontmatter.split` is the canonical reader; `_tolerant_yaml`
 is the fallback for malformed Web-Clipper-style blocks. Both matter
 because every ingest pipeline sits on top of them.
 """
 
 from __future__ import annotations
 
-import build_index as bi
+from wiki_lib import frontmatter as bi
 
 
 def test_pyyaml_path_extracts_dict():

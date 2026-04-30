@@ -15,8 +15,10 @@ import pytest
 
 @pytest.mark.needs_index
 def test_load_all_chunks_excludes_meta_files(real_index_dir, fresh_wr):
-    """No chunk's relpath basename should be in _META_DOC_BASENAMES."""
-    meta_basenames = fresh_wr._META_DOC_BASENAMES
+    """No chunk's relpath basename should be in META_DOC_BASENAMES."""
+    from wiki_lib.paths import META_DOC_BASENAMES
+
+    meta_basenames = META_DOC_BASENAMES
     chunks = fresh_wr.load_all_chunks()
     assert chunks, "no chunks loaded — index empty?"
 
