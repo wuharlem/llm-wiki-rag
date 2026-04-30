@@ -26,7 +26,7 @@ from urllib.parse import urlparse
 
 import requests
 import trafilatura
-import yaml
+from wiki_lib.frontmatter import dump as fm_dump
 
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
 WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
@@ -211,7 +211,8 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     raw_date = (meta.date if meta else None) or ""
     desc = (meta.description if meta else None) or ""
 
-    # Build YAML frontmatter via yaml.safe_dump so titles/descriptions
+    # Build YAML frontmatter via the canonical wiki_lib.frontmatter.dump so
+    # titles/descriptions
     # containing colons, quotes, or other YAML-special chars are escaped
     # correctly. Manual string concat used to corrupt the frontmatter for
     # any title like "Anthropic: a guide".
@@ -231,12 +232,11 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     meta["wiki_concepts"] = []
     meta["risk_category"] = []
     meta["source_type"] = None
-    fm = "---\n" + yaml.safe_dump(meta, sort_keys=False, allow_unicode=True, default_flow_style=False) + "---\n\n"
-
     body = f"# {title}\n\n{extracted}\n"
+    out = fm_dump(meta, body)
     fname = f"{slugify(title, 100)}_{short_hash(url)}.md"
     path = dest_dir / fname
-    path.write_text(fm + body, encoding="utf-8")
+    path.write_text(out, encoding="utf-8")
     return fname, f"{len(body)} chars"
 
 

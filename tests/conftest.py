@@ -18,6 +18,7 @@ Two big choices to be aware of:
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
@@ -25,6 +26,22 @@ import pytest
 # Project root = parent of tests/.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 INDEX_DIR = PROJECT_ROOT / "01_data" / "index"
+
+# Live vault path — used by tests marked `needs_vault`. Override with
+# AI_SAFETY_VAULT env var if the vault moves.
+_VAULT_LIVE_PATH = Path(
+    os.environ.get(
+        "AI_SAFETY_VAULT",
+        str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"),
+    )
+)
+
+
+@pytest.fixture(autouse=True)
+def _skip_if_no_vault(request):
+    """Auto-skip `needs_vault`-marked tests when the live vault is missing."""
+    if request.node.get_closest_marker("needs_vault") and not _VAULT_LIVE_PATH.exists():
+        pytest.skip(f"live vault not found at {_VAULT_LIVE_PATH} (set AI_SAFETY_VAULT)")
 
 
 # ---------------------------------------------------------------------------
@@ -139,6 +156,44 @@ title: Old Draft
 
 Trashed content.
 """,
+    # An audit file at vault root (should be excluded by the _audit_*.md glob).
+    "_audit_2026.md": """\
+---
+title: Audit 2026
+---
+
+# Audit Notes
+
+Placeholder content for the 2026 audit. Should never appear in chunks.jsonl
+because the indexable-path predicate excludes `_audit_*.md` anywhere.
+
+Second paragraph of placeholder text to make sure the body is non-trivial
+in case the audit ever gets indexed by mistake (which would be a regression).
+""",
+    # A second non-meta corpus file used by the Req 1.2 sanity check.
+    "01_Risks-and-Failure-Modes/01a_Existential-Risk/extra_corpus.md": """\
+---
+title: Extra Corpus File
+tags: [alignment]
+wiki_concepts: []
+risk_category: []
+---
+
+# Extra Corpus File
+
+This is a second non-meta document under `01_Risks-and-Failure-Modes/` so
+that the audit-file regression test can confirm exclusion is targeted and
+non-meta files still produce chunks normally. The body is intentionally
+long enough to cross the chunker's minimum-token threshold.
+
+## Why two non-meta files?
+
+With only one corpus file, a regression that filters too aggressively
+could plausibly leave the chunks set empty, and a "no audit chunks"
+assertion would still pass vacuously. A second file makes the sanity
+check meaningful: the regression test asserts non-meta files still
+land in chunks.jsonl AND audit files do not.
+""",
 }
 
 
@@ -183,6 +238,105 @@ def mini_build_env(monkeypatch, mini_vault: Path, tmp_path: Path):
         files_dir=files_dir,
         bi=bi,
     )
+
+
+# ---------------------------------------------------------------------------
+# Self-contained vaults for the e2e and dual-yaml tests
+# (kept separate from `mini_vault` so existing tests aren't coupled to
+# their content — see design Component 1 note on Req 5.5 deviation).
+# ---------------------------------------------------------------------------
+_E2E_SEED_TOKEN = "e2eseedtoken-XYZ123"
+
+
+@pytest.fixture
+def mini_vault_e2e(tmp_path: Path) -> Path:
+    """Synthetic vault for the build → query end-to-end test.
+
+    Three files:
+      - `01_Risks-and-Failure-Modes/scaling-laws-roundtrip.md` — seed file
+        with a YAML-special title and the unique seed token in body.
+      - `02_Mitigations-and-Methods/02a_Alignment-Techniques/decoy.md` —
+        BM25 contrast doc, NO seed token.
+      - `README.md` — vault-root meta file containing the seed token; must
+        be filtered at build time so retrieval never sees it.
+    """
+    vault = tmp_path / "mini_vault_e2e"
+
+    seed_body = (
+        f"# Scaling Laws Roundtrip\n\n"
+        f"Reinforcement learning from human feedback aligns language models "
+        f"to human preferences. The unique seed token {_E2E_SEED_TOKEN} appears "
+        f"exactly once in this body so the BM25 retrieval test can assert the "
+        f"top hit deterministically. We pad with extra prose so the chunker "
+        f"emits at least one chunk above the minimum-token threshold: "
+        f"alignment, scalable oversight, interpretability, evaluations, "
+        f"governance, deployment gates, and capability thresholds are all "
+        f"topics covered elsewhere in the corpus, repeated here only to "
+        f"reach the chunker's word budget.\n"
+    )
+    decoy_body = (
+        "# Decoy Document\n\n"
+        "This document discusses generic alignment topics — reward modeling, "
+        "constitutional AI, weak-to-strong generalization, scalable oversight, "
+        "and dangerous capability evaluations — without the seed token. Its "
+        "purpose is to provide a non-trivial corpus contrast for BM25 so the "
+        "scoring math has more than one document to compare against. We "
+        "include enough words to clear the minimum-token threshold the "
+        "chunker imposes on individual chunks.\n"
+    )
+    readme_body = (
+        f"# README\n\n"
+        f"This README contains the seed token {_E2E_SEED_TOKEN} on purpose. "
+        f"The build-time meta-doc filter must drop it so retrieval never "
+        f"sees it.\n"
+    )
+
+    files = {
+        "01_Risks-and-Failure-Modes/scaling-laws-roundtrip.md": (
+            "---\n"
+            'title: "Anthropic: An Update"\n'
+            "tags: [alignment]\n"
+            "wiki_concepts: []\n"
+            "risk_category: []\n"
+            "---\n\n" + seed_body
+        ),
+        "02_Mitigations-and-Methods/02a_Alignment-Techniques/decoy.md": (
+            "---\ntitle: Decoy\ntags: [alignment]\nwiki_concepts: []\nrisk_category: []\n---\n\n" + decoy_body
+        ),
+        "README.md": "---\ntitle: README\n---\n\n" + readme_body,
+    }
+    for relpath, content in files.items():
+        p = vault / relpath
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content, encoding="utf-8")
+    return vault
+
+
+@pytest.fixture
+def mini_vault_dual_yaml(tmp_path: Path) -> Path:
+    """Synthetic vault for the CLAUDE.md §8 dual-form YAML check.
+
+    Two files: one with inline-flow `tags: [a, b]`, one with block-list
+    `tags:\\n- a\\n- b`. Both must round-trip through the build pipeline
+    with `tags == ["a", "b"]` in the resulting `manifest.csv`.
+    """
+    vault = tmp_path / "mini_vault_dual_yaml"
+    body = (
+        "# Body\n\n"
+        "Some body text covering alignment, scalable oversight, interpretability, "
+        "and evaluations to clear the chunker's minimum-token threshold so the "
+        "file produces at least one chunk and lands in the manifest.\n"
+    )
+    inline_flow = "---\ntitle: Inline Flow Tags\ntags: [a, b]\nwiki_concepts: []\nrisk_category: []\n---\n\n" + body
+    block_list = "---\ntitle: Block List Tags\ntags:\n- a\n- b\nwiki_concepts: []\nrisk_category: []\n---\n\n" + body
+    for relpath, content in [
+        ("01_Risks/inline_flow.md", inline_flow),
+        ("01_Risks/block_list.md", block_list),
+    ]:
+        p = vault / relpath
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content, encoding="utf-8")
+    return vault
 
 
 # ---------------------------------------------------------------------------

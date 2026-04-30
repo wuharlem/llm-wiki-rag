@@ -40,7 +40,10 @@ from typing import Any
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-import yaml  # type: ignore
+from wiki_lib.frontmatter import (
+    split as split_frontmatter,
+)
+from wiki_lib.paths import is_indexable_path
 
 
 # pypdf is only needed for PDF extraction. Defer the import so md-only
@@ -173,76 +176,6 @@ def ensure_list(v: Any) -> list[str]:
         parts = re.split(r"[,|]", v)
         return [p.strip() for p in parts if p.strip()]
     return [str(v)]
-
-
-# ---------------------------------------------------------------------------
-# Frontmatter / body splitting
-# ---------------------------------------------------------------------------
-FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*(?:\n|$)", re.DOTALL)
-# Standalone --- ... --- block ANYWHERE in body, used to strip Web Clipper duplicates.
-INLINE_FM_RE = re.compile(r"\n---\s*\n([^\n]*\n){1,40}?---\s*\n", re.MULTILINE)
-KV_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*)\s*:\s*(.*)$")
-
-
-def _tolerant_yaml(block: str) -> dict:
-    """Best-effort line-by-line key:value parser. Used when PyYAML chokes."""
-    out: dict = {}
-    for line in block.splitlines():
-        line = line.rstrip()
-        if not line or line.startswith("#"):
-            continue
-        m = KV_RE.match(line)
-        if not m:
-            continue
-        k, v = m.group(1), m.group(2).strip()
-        # list literal: [a, b, c]
-        if v.startswith("[") and v.endswith("]"):
-            inner = v[1:-1].strip()
-            out[k] = [p.strip().strip("'\"") for p in inner.split(",")] if inner else []
-        elif v.lower() in ("null", "none", ""):
-            out[k] = None
-        else:
-            out[k] = v.strip("'\"")
-    return out
-
-
-def split_frontmatter(raw: str) -> tuple[dict, str]:
-    """Parse the FIRST YAML frontmatter block. Return (meta, body)."""
-    m = FRONTMATTER_RE.match(raw)
-    if not m:
-        return {}, raw
-    block = m.group(1)
-    meta: dict = {}
-    try:
-        parsed = yaml.safe_load(block)
-        if isinstance(parsed, dict):
-            meta = parsed
-    except yaml.YAMLError:
-        meta = {}
-    if not meta:
-        meta = _tolerant_yaml(block)
-    body = raw[m.end() :]
-
-    # Strip any further standalone ---...--- blocks (Web Clipper duplicate metadata).
-    # Detect blocks containing key:value lines and no markdown content.
-    def is_yamlish(b: str) -> bool:
-        lines = [ln for ln in b.strip().splitlines() if ln.strip()]
-        if not lines:
-            return False
-        kv_hits = sum(1 for ln in lines if KV_RE.match(ln))
-        return kv_hits / len(lines) >= 0.6
-
-    while True:
-        m2 = INLINE_FM_RE.search(body)
-        if not m2:
-            break
-        block_text = m2.group(0)
-        inner = block_text.strip().strip("-").strip()
-        if is_yamlish(inner):
-            body = body[: m2.start()] + "\n\n" + body[m2.end() :]
-        else:
-            break
-    return meta, body
 
 
 # ---------------------------------------------------------------------------
@@ -662,39 +595,7 @@ def main():
 
     classifications = load_classifications()
 
-    # Skip meta/process docs at the vault root — they describe the wiki, not source material.
-    META_NAMES = {
-        "PROCESS_NEW_FILE.md",
-        "PROCESS_HEALTH_CHECK.md",
-        "PROCESS_QUERY.md",
-        "README.md",
-        "log.md",
-        "llm-wiki.md",
-        "open_questions.md",
-        "SYNTHESIS.md",
-    }
-
-    def is_source(p: Path) -> bool:
-        # Skip dotfiles AND any path component that's a dotdir (e.g. .obsidian/).
-        if any(part.startswith(".") for part in p.parts):
-            return False
-        # Trashed files are kept on disk but should never be in the index.
-        if "_trash" in p.parts:
-            return False
-        # _index/ is mostly LLM-generated mirror pages of the source corpus —
-        # skip those so we don't index summaries of the corpus alongside the
-        # corpus itself. Exception: _index/saved_queries/ holds Q&A filed
-        # back into the vault via the save_query MCP tool. Those *are*
-        # source material (LLM synthesis the user wants searchable).
-        if "_index" in p.parts:
-            if "saved_queries" in p.parts:
-                pass  # fall through, treat as source
-            else:
-                return False
-        # vault-root files are usually meta (audits, process docs, log.md)
-        if p.parent == VAULT and (p.name in META_NAMES or p.name.startswith("_")):
-            return False
-        return True
+    is_source = lambda p: is_indexable_path(p, VAULT)  # noqa: E731
 
     md_files = sorted(p for p in VAULT.rglob("*.md") if is_source(p))
     pdf_files = [] if args.md_only else sorted(p for p in VAULT.rglob("*.pdf") if is_source(p))
