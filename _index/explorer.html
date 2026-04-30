@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AI Safety Wiki Explorer</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px 18px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #1a1a1a; background: #fafaf8;
+    font-size: 14px; line-height: 1.45;
+  }
+  h1 { font-size: 16px; margin: 0 0 12px; font-weight: 600; }
+  .stats { color: #888; font-size: 12px; margin-left: 8px; font-weight: 400; }
+
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  input[type="text"], select {
+    padding: 7px 9px;
+    border: 1px solid #d6d6d2;
+    border-radius: 6px;
+    background: white;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #5b80c8;
+    box-shadow: 0 0 0 3px rgba(91, 128, 200, 0.15);
+  }
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto auto;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #555;
+    user-select: none;
+    padding: 6px 9px;
+    background: white;
+    border: 1px solid #d6d6d2;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .toggle input { margin: 0; cursor: pointer; }
+  button {
+    padding: 7px 14px;
+    border: 1px solid #2a4f8f;
+    background: #2a4f8f;
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  button:hover { background: #1f3d70; }
+  button:disabled { background: #aaa; border-color: #aaa; cursor: not-allowed; }
+
+  .status {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+    min-height: 16px;
+  }
+  .status.error { color: #b53737; }
+
+  .results { display: flex; flex-direction: column; gap: 10px; }
+  .result {
+    background: white;
+    border: 1px solid #e6e6e2;
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.1s;
+  }
+  .result:hover { border-color: #b8c8e0; }
+  .result-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .result-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #1a1a1a;
+    text-decoration: none;
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+  .result-title:hover { color: #2a4f8f; text-decoration: underline; }
+  .result-score {
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 11px;
+    color: #777;
+    background: #f0f0ec;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .result-meta {
+    font-size: 11px;
+    color: #888;
+    margin: 4px 0 6px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 10.5px;
+    background: #e8edf5;
+    color: #2a4f8f;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+  .badge.cat { background: #efe5d5; color: #7a5b1f; }
+  .badge.concept { background: #e0eddf; color: #386639; }
+  .result-text {
+    font-size: 12.5px;
+    color: #333;
+    white-space: pre-wrap;
+    max-height: 4.5em;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  .result-text.expanded { max-height: none; }
+  .result-text:not(.expanded)::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1.5em;
+    background: linear-gradient(to bottom, transparent, white);
+    pointer-events: none;
+  }
+  .empty {
+    text-align: center;
+    color: #999;
+    padding: 40px 10px;
+    font-size: 13px;
+  }
+  mark { background: #fef3a8; padding: 0 1px; }
+</style>
+</head>
+<body>
+
+<h1>AI Safety Wiki Explorer <span class="stats" id="stats"></span></h1>
+
+<div class="controls">
+  <input id="q" type="text" placeholder="Search the wiki — try &quot;reward hacking&quot;, &quot;scalable oversight&quot;, &quot;RLHF failure&quot;..." autofocus />
+  <select id="mode" title="Retrieval mode">
+    <option value="hybrid">hybrid</option>
+    <option value="bm25">bm25</option>
+    <option value="semantic">semantic</option>
+  </select>
+  <select id="k" title="Number of results">
+    <option value="5">k=5</option>
+    <option value="8" selected>k=8</option>
+    <option value="15">k=15</option>
+    <option value="25">k=25</option>
+  </select>
+  <button id="go">Search</button>
+</div>
+
+<div class="filter-row">
+  <select id="category"><option value="">all categories</option></select>
+  <select id="concept"><option value="">all concepts</option></select>
+  <select id="tag"><option value="">all tags</option></select>
+  <select id="file_type">
+    <option value="">md + pdf</option>
+    <option value="md">.md only</option>
+    <option value="pdf">.pdf only</option>
+  </select>
+  <label class="toggle"><input id="rerank" type="checkbox" />rerank</label>
+  <button id="clear" style="background: #e6e6e2; color: #555; border-color: #d0d0cc;">clear</button>
+</div>
+
+<div class="status" id="status"></div>
+<div class="results" id="results"></div>
+
+<script>
+// ---------------------------------------------------------------------------
+// AI Safety Wiki Explorer
+// Calls the ai-safety-wiki MCP server (scripts/wiki_mcp_server.py) via
+// window.cowork.callMcpTool. Persists user filter state in localStorage.
+// ---------------------------------------------------------------------------
+
+const TOOL_PREFIX = "mcp__ai-safety-wiki__";  // adjust if server is registered under a different slug
+const LS_KEY = "ai_safety_wiki_explorer_state_v1";
+
+const $ = (id) => document.getElementById(id);
+const els = {
+  q: $("q"), mode: $("mode"), k: $("k"), go: $("go"),
+  category: $("category"), concept: $("concept"), tag: $("tag"),
+  file_type: $("file_type"), rerank: $("rerank"), clear: $("clear"),
+  status: $("status"), results: $("results"), stats: $("stats"),
+};
+
+// --------- state -----------------------------------------------------------
+function saveState() {
+  const s = {
+    q: els.q.value, mode: els.mode.value, k: els.k.value,
+    category: els.category.value, concept: els.concept.value,
+    tag: els.tag.value, file_type: els.file_type.value,
+    rerank: els.rerank.checked,
+  };
+  try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch (e) {}
+}
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
+    if (s.q) els.q.value = s.q;
+    if (s.mode) els.mode.value = s.mode;
+    if (s.k) els.k.value = s.k;
+    if (s.category) els.category.value = s.category;
+    if (s.concept) els.concept.value = s.concept;
+    if (s.tag) els.tag.value = s.tag;
+    if (s.file_type) els.file_type.value = s.file_type;
+    if (s.rerank) els.rerank.checked = s.rerank;
+  } catch (e) {}
+}
+
+// --------- mcp wrapper -----------------------------------------------------
+async function call(tool, args) {
+  if (!window.cowork || !window.cowork.callMcpTool) {
+    throw new Error("window.cowork.callMcpTool unavailable — open this inside Cowork");
+  }
+  const res = await window.cowork.callMcpTool(TOOL_PREFIX + tool, args);
+  // FastMCP returns an array of content items; the first is text JSON
+  let raw;
+  if (Array.isArray(res?.content)) raw = res.content[0]?.text ?? "";
+  else if (typeof res === "string") raw = res;
+  else if (res?.text) raw = res.text;
+  else raw = JSON.stringify(res);
+  if (typeof raw === "string" && raw.startsWith("Error:")) throw new Error(raw);
+  try { return JSON.parse(raw); } catch (e) { return raw; }
+}
+
+// --------- rendering -------------------------------------------------------
+function setStatus(msg, isError = false) {
+  els.status.textContent = msg || "";
+  els.status.className = "status" + (isError ? " error" : "");
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const terms = query.split(/\s+/).filter(t => t.length >= 3);
+  if (!terms.length) return text;
+  const re = new RegExp("(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+  return text.replace(re, "<mark>$1</mark>");
+}
+
+function renderResults(data) {
+  const list = data.results || [];
+  if (!list.length) {
+    els.results.innerHTML = '<div class="empty">no results — try broader terms or remove a filter</div>';
+    setStatus(`0 hits  ·  mode=${data.mode || "?"}`);
+    return;
+  }
+  setStatus(`${list.length} hits  ·  mode=${data.mode || "?"}${data.reranked ? " + rerank" : ""}`);
+
+  const q = els.q.value.trim();
+  els.results.innerHTML = list.map(r => {
+    const concepts = (r.wiki_concepts || []).slice(0, 3)
+      .map(c => `<span class="badge concept">${escapeHtml(c)}</span>`).join("");
+    const text = highlight(escapeHtml(r.text || "(no text)"), q);
+    return `
+      <div class="result">
+        <div class="result-header">
+          <span class="result-title" data-fileid="${escapeAttr(r.file_id)}">${escapeHtml(r.title || "(untitled)")}</span>
+          <span class="result-score">${(r.score ?? 0).toFixed(3)}</span>
+        </div>
+        <div class="result-meta">
+          <span class="badge cat">${escapeHtml(r.category || "?")}</span>
+          ${concepts}
+          <span style="color:#aaa">·</span>
+          <span style="font-family:ui-monospace,monospace">${escapeHtml(r.relpath || "")}</span>
+          ${r.heading_path && r.heading_path !== r.title ? ` › ${escapeHtml(r.heading_path)}` : ""}
+        </div>
+        <div class="result-text">${text}</div>
+      </div>`;
+  }).join("");
+
+  // Click on body text to expand
+  els.results.querySelectorAll(".result-text").forEach(el => {
+    el.addEventListener("click", () => el.classList.toggle("expanded"));
+  });
+  // Click on title to fetch full file detail and replace text
+  els.results.querySelectorAll(".result-title").forEach(el => {
+    el.addEventListener("click", async () => {
+      const fid = el.dataset.fileid;
+      const card = el.closest(".result");
+      const txt = card.querySelector(".result-text");
+      const wasExpanded = txt.classList.contains("expanded");
+      txt.textContent = "loading full file...";
+      txt.classList.add("expanded");
+      try {
+        const detail = await call("get_file_detail", { params: { file_id: fid, include_chunks: true } });
+        const allText = (detail.chunks || []).map(c => c.text).join("\n\n---\n\n");
+        txt.innerHTML = highlight(escapeHtml(allText), els.q.value.trim());
+      } catch (e) {
+        txt.textContent = "error: " + e.message;
+      }
+    });
+  });
+}
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+function escapeAttr(s) { return escapeHtml(s).replace(/"/g, "&quot;"); }
+
+// --------- search ----------------------------------------------------------
+let inflight = 0;
+async function doSearch() {
+  const q = els.q.value.trim();
+  if (!q) { setStatus(""); els.results.innerHTML = ""; return; }
+  saveState();
+  const myReq = ++inflight;
+  els.go.disabled = true;
+  setStatus("searching...");
+  try {
+    const args = {
+      params: {
+        query: q,
+        k: parseInt(els.k.value, 10),
+        mode: els.mode.value,
+        rerank: els.rerank.checked,
+        category: els.category.value || null,
+        concept: els.concept.value || null,
+        tag: els.tag.value || null,
+        file_type: els.file_type.value || null,
+        include_text: true,
+      },
+    };
+    const data = await call("search_wiki", args);
+    if (myReq !== inflight) return; // stale response
+    if (els.rerank.checked) data.reranked = true;
+    renderResults(data);
+  } catch (e) {
+    setStatus("error: " + e.message, true);
+    els.results.innerHTML = "";
+  } finally {
+    els.go.disabled = false;
+  }
+}
+
+// --------- bootstrap: load filter dropdowns + stats ------------------------
+async function bootstrap() {
+  setStatus("loading index metadata...");
+  try {
+    const [stats, cats, concepts, tags] = await Promise.all([
+      call("index_stats", {}),
+      call("list_categories", { params: { min_files: 1, limit: 50 } }),
+      call("list_concepts", { params: { min_files: 3, limit: 100 } }),
+      call("list_tags", { params: { min_files: 5, limit: 200 } }),
+    ]);
+    if (stats && stats.n_files != null) {
+      els.stats.textContent = `${stats.n_files} files · ${stats.n_chunks.toLocaleString()} chunks · ${(stats.total_tokens/1e6).toFixed(1)}M tokens`;
+    }
+    fillSelect(els.category, cats.map(c => ({ value: c.category, label: `${c.category} (${c.n_files})` })));
+    fillSelect(els.concept, concepts.map(c => ({ value: c.concept, label: `${c.concept} (${c.n_files})` })));
+    fillSelect(els.tag, tags.map(t => ({ value: t.tag, label: `${t.tag} (${t.n_files})` })));
+    loadState();
+    setStatus("");
+    if (els.q.value) doSearch();
+  } catch (e) {
+    setStatus("setup error: " + e.message + " — make sure the ai-safety-wiki MCP server is registered in Cowork", true);
+  }
+}
+
+function fillSelect(sel, items) {
+  for (const it of items) {
+    const opt = document.createElement("option");
+    opt.value = it.value;
+    opt.textContent = it.label;
+    sel.appendChild(opt);
+  }
+}
+
+// --------- wire up events --------------------------------------------------
+els.go.addEventListener("click", doSearch);
+els.q.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
+[els.mode, els.k, els.category, els.concept, els.tag, els.file_type, els.rerank].forEach(el => {
+  el.addEventListener("change", () => { saveState(); if (els.q.value.trim()) doSearch(); });
+});
+els.clear.addEventListener("click", () => {
+  els.category.value = ""; els.concept.value = ""; els.tag.value = "";
+  els.file_type.value = ""; els.rerank.checked = false;
+  saveState();
+  if (els.q.value.trim()) doSearch();
+});
+
+bootstrap();
+</script>
+</body>
+</html>

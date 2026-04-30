@@ -1,0 +1,628 @@
+filename,folder,source_type,risk_category,wiki_concepts,tags,confidence,reason
+102_1a2f19d2.md,AI Safety,blog_post,misalignment,,,low,default rules
+112_726c5d45.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+116_294b0039.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,scheming,medium,concepts=Alignment Faking & Scheming; tags=1
+119_a4a84e19.md,Evaluation,blog_post,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,RLHF,medium,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=1"
+143_11a0e906.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence,medium,concepts=Existential Risk & Superintelligence; tags=1
+159_fc67c38f.md,AI Safety,blog_post,misalignment,,,low,default rules
+16-634_8ed13555.pdf,AI Risk Mitigation,research_paper,misalignment,,autonomous-systems,low,tags=1
+161_b497a748.md,AI Safety,blog_post,misalignment,,catastrophic-risk,low,tags=1
+189_b6e771eb.md,AI Safety,blog_post,misalignment,,catastrophic-risk,low,tags=1
+190_f3b729eb.md,AI Safety,blog_post,misalignment,,autonomous-systems,low,tags=1
+2015_WHAT_DO_YOU_THINK_ABOUT_MACHINES_THAT_THINK_451f0222.md,AI Safety,blog_post,misalignment,,,low,default rules
+2025-05-announcement.html_43e2e365.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,shutdown-resistance,medium,concepts=Scalable Oversight; tags=1
+2025-08-20-xai-risk-management-framework_c9093de6.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+2025.02.20-RMF-Draft_88bb0c85.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+2025_Informed_the_year_of_Agentic_AI_-_TechInformed_d93fca7b.md,AI Safety,blog_post,misalignment,Agentic Misalignment,agentic-AI,medium,concepts=Agentic Misalignment; tags=1
+215_8c00ba40.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,Google,medium,concepts=Existential Risk & Superintelligence; tags=1
+221_56f53f26.md,AI Safety,blog_post,misalignment,,,low,default rules
+222_9c90fe79.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+226_9b066c2d.md,AI Safety,blog_post,misalignment,,,low,default rules
+230_fb033cda.md,Model-level Mitigation,blog_post,misalignment,Weak-to-Strong Generalization,,medium,concepts=Weak-to-Strong Generalization
+254_5f282ae9.md,AI Safety,blog_post,misalignment,,inner-alignment,low,tags=1
+281_ec170c80.md,AI Safety,blog_post,misalignment,,,low,default rules
+287_aa6f98d1.md,AI Safety,blog_post,misalignment,,,low,default rules
+290_fdd1fc9a.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,existential-risk,medium,concepts=Existential Risk & Superintelligence; tags=1
+293_5e45579a.md,AI Safety,blog_post,misalignment,,,low,default rules
+301_60c3e5f2.md,AI Safety,blog_post,misalignment,,,low,default rules
+323_f8334cba.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+374_478b16f1.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations|Existential Risk & Superintelligence,,medium,"concepts=RLHF & Its Limitations,Existential Risk & Superintelligence"
+418_ba1b2e50.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+452_758831b4.md,AI Safety,blog_post,misalignment,,,low,default rules
+458_cf90fc1b.md,AI Safety,blog_post,misalignment,,,low,default rules
+5c04925674920eb58467fb52ce4ef728-Paper_116a2200.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,,medium,"concepts=Scalable Oversight,AI Evaluations & Benchmarks"
+AI-Facilitated-Biological-Weapon-Development-Website-Copy-1_71886173.pdf,AI Risk Mitigation,research_paper,misalignment,,bioweapons,low,tags=1
+AI_Alignment_57150640.md,AI Safety,educational,misalignment,,,low,default rules
+AI_Alignment_72dc2650.md,AI Safety,educational,misalignment,,,low,default rules
+AI_Alignment_9c5918bf.md,AI Safety,educational,misalignment,,,low,default rules
+AI_Alignment_dbe0a694.md,AI Safety,educational,misalignment,,,low,default rules
+AI_Could_Defeat_All_Of_Us_Combined_7a851c62.md,AI Safety,blog_post,misalignment,,,low,default rules
+AI_Models_Are_Getting_Smarter._New_Tests_Are_Racing_to_Catch_Up_d39691cc.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+AI_R_D_Evaluation_Report_bf70e565.pdf,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+AI_Timelines_Where_the_Arguments_and_the_Experts_Stand_317e7efd.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+AI_automated_discrimination._Heres_how_to_spot_it._97d7d082.md,AI Safety,blog_post,misalignment,,,low,default rules
+AI_jailbreaks_What_they_are_and_how_they_can_be_mitigated_Microsoft_Security_Blog_4cf43e3b.md,AI Safety,blog_post,misuse,,jailbreaking,low,tags=1
+AI_safety_tip_if_you_dont_want_it_giving_bioweapon_instructions_maybe_dont_put_them_in_the_training__3cdd3de8.md,AI Safety,blog_post,misuse,,bioweapons,low,tags=1
+ATTCK_Matrix_for_Enterprise_90bbfb5d.md,AI Safety,blog_post,misalignment,,,low,default rules
+A_Mathematical_Framework_for_Transformer_Circuits_928c3b5b.md,AI Safety,blog_post,misalignment,,interpretability|mechanistic-interpretability,medium,tags=2
+A_Toy_Evaluation_of_Inference_Code_Tampering_67e62168.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+A_new_initiative_for_developing_third-party_model_evaluations_b5216eaa.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+Activating_AI_Safety_Level_3_protections_3774cdbe.md,RSP,policy,structural,Responsible Scaling Policies,RSP|responsible-scaling|ASL|Anthropic,high,concepts=Responsible Scaling Policies; tags=4
+Advanced_AI_evaluations_at_AISI_May_update_AISI_Work_91e3c569.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Advances_in_CRISPR_therapeutics_-_Nature_Reviews_Nephrology_eb101748.md,AI Safety,blog_post,misalignment,,,low,default rules
+Agentic_Misalignment_Appendix_0480ae04.pdf,AI Risk Mitigation,research_paper,misalignment,Agentic Misalignment,agentic-AI|Anthropic,high,concepts=Agentic Misalignment; tags=2
+Agentic_Misalignment_Appendix_8d445219.pdf,AI Risk Mitigation,research_paper,misalignment,Agentic Misalignment,agentic-AI|Anthropic,high,concepts=Agentic Misalignment; tags=2
+Alignment-Faking-Policy-Memo_d6079e02.pdf,AI Alignment,research_paper,misalignment,Alignment Faking & Scheming|Existential Risk & Superintelligence,alignment-faking|Anthropic,high,"concepts=Alignment Faking & Scheming,Existential Risk & Superintelligence; tags=2"
+Alignment-Faking-in-Large-Language-Models-reviews_731573a2.pdf,AI Alignment,research_paper,misalignment,Alignment Faking & Scheming,alignment-faking|Anthropic,high,concepts=Alignment Faking & Scheming; tags=2
+Alignment_Research_Center_62b91b1b.md,AI Safety,blog_post,misalignment,,ARC,low,tags=1
+Alignment_faking_in_large_language_models_3d7e3773.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,alignment-faking|Anthropic,high,concepts=Alignment Faking & Scheming; tags=2
+All_Possible_Views_About_Humanitys_Future_Are_Wild_aba44c8e.md,AI Safety,blog_post,misalignment,,,low,default rules
+AlphaGo_-_Wikipedia_b8fb4193.md,AI Safety,blog_post,misalignment,,DeepMind|Google,medium,tags=2
+AlphaProteo_generates_novel_proteins_for_biology_and_health_research_887b199e.md,AI Safety,blog_post,misalignment,,DeepMind|Google,medium,tags=2
+An_Opinionated_Evals_Reading_List_Apollo_Research_318f07f1.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Announcements_0f14dddf.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Announcing_our_updated_Responsible_Scaling_Policy_3a0b4572.md,RSP,policy,structural,Responsible Scaling Policies,RSP|responsible-scaling|governance|catastrophic-risk|Anthropic,high,concepts=Responsible Scaling Policies; tags=5
+Anson_Ho_ed0b588b.md,AI Safety,blog_post,misalignment,,,low,default rules
+Antagonistic_pleiotropy_hypothesis_-_Wikipedia_0f4a99da.md,AI Safety,blog_post,misalignment,,,low,default rules
+Anthropic_Raises_450_Million_in_Series_C_Funding_to_Scale_Reliable_AI_Products_ac35f548.md,AI Safety,blog_post,misalignment,,Anthropic|interpretability,medium,tags=2
+Anthropics_Frontier_Safety_Roadmap_c71576a7.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Anthropics_Responsible_Scaling_Policy_274b3659.md,RSP,policy,structural,Responsible Scaling Policies,RSP|responsible-scaling|Anthropic,high,concepts=Responsible Scaling Policies; tags=3
+Anthropics_Responsible_Scaling_Policy_7e83d9fc.md,RSP,policy,structural,Responsible Scaling Policies,RSP|responsible-scaling|Anthropic,high,concepts=Responsible Scaling Policies; tags=3
+Anthropics_Responsible_Scaling_Policy_dc72fbff.md,RSP,policy,structural,Responsible Scaling Policies,RSP|responsible-scaling|Anthropic,high,concepts=Responsible Scaling Policies; tags=3
+Anthropicâs_Interpretability_Research_7ff6253f.md,AI Safety,blog_post,misalignment,,Anthropic|interpretability,medium,tags=2
+Anti-Scheming_9ff2d5f5.md,Evaluation,blog_post,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,scheming|OpenAI,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=2"
+Apollo_Research_057bf1be.md,Evaluation,blog_post,misalignment,Scalable Oversight|Alignment Faking & Scheming|Existential Risk & Superintelligence|AI Evaluations & Benchmarks,scheming|evaluations|governance|AGI,high,"concepts=Scalable Oversight,Alignment Faking & Scheming,Existential Risk & Superintelligence,AI Evaluations & Benchmarks; tags=4"
+Approximating_KL_Divergence_e00e4e24.md,AI Safety,blog_post,misalignment,,,low,default rules
+Article_56_Codes_of_Practice_cd9ad85d.md,AI Safety,blog_post,misalignment,,regulation,low,tags=1
+Artificial_Intelligence_Values_and_Alignment_812bd0cd.md,AI Safety,blog_post,misalignment,,DeepMind|Google,medium,tags=2
+Assurance_contract_-_Wikipedia_05c9efe6.md,AI Safety,blog_post,misalignment,,,low,default rules
+Asynchronous_Methods_for_Deep_Reinforcement_Learning_172f3efa.md,AI Safety,blog_post,misalignment,,,low,default rules
+Atoms_for_Peace_-_Wikipedia_5e142ed9.md,AI Safety,blog_post,misalignment,,,low,default rules
+Auditing_language_models_for_hidden_objectives_7147645e.md,AI Safety,blog_post,misalignment,,Anthropic|interpretability,medium,tags=2
+Aviary_training_language_agents_on_challenging_scientific_tasks_FutureHouse_a9156d94.md,AI Safety,blog_post,misalignment,,open-source,low,tags=1
+BLEU_-_Wikipedia_1eb08290.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+BadLlama_3_d33b0c77.md,AI Safety,educational,misalignment,,,low,default rules
+Baruch_Plan_-_Wikipedia_20604dc4.md,AI Safety,blog_post,misalignment,,,low,default rules
+Bayes_factor_-_Wikipedia_2aa0afd6.md,AI Safety,blog_post,misalignment,,,low,default rules
+Bill_Text_b3f665b3.md,AI Safety,blog_post,misalignment,,transparency,low,tags=1
+Biological_anchors_is_about_bounding_not_pinpointing_AI_timelines_343fcd20.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+Bria_Persaud_-_Publications_0d1f44dd.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Buck_3aaf690a.md,AI Safety,blog_post,misalignment,,,low,default rules
+CAR_T_cell_-_Wikipedia_17b955b4.md,AI Safety,blog_post,misalignment,,,low,default rules
+CBPAI_522ed094.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,governance|superintelligence|catastrophic-risk,high,concepts=Existential Risk & Superintelligence; tags=3
+CBRN_defense_-_Wikipedia_7dc02fd5.md,AI Safety,blog_post,misuse,,CBRN,low,tags=1
+CERN_for_AI_An_overview_ad031a5f.md,AI Safety,blog_post,misalignment,,,low,default rules
+CLARITY_-_Wikipedia_23c62aeb.md,AI Safety,blog_post,misalignment,,,low,default rules
+CRISPRCas_History_and_Perspectives_-_Russian_Journal_of_Developmental_Biology_35497485.md,RSP,blog_post,misalignment,Responsible Scaling Policies,RSP,medium,concepts=Responsible Scaling Policies; tags=1
+CRISPR_-_Wikipedia_6fa4f6de.md,AI Safety,blog_post,misalignment,,,low,default rules
+CS_188_Fall_2024_968558fc.md,AI Safety,blog_post,misalignment,,,low,default rules
+CYBERSECEVAL_3_Advancing_the_Evaluation_of_Cybersecurity_Risks_and_Capabilities_in_Large_Language_Mo_daa15df8.md,Evaluation,benchmark,misuse,AI Evaluations & Benchmarks,evaluations|benchmarks|cyber-offense,high,concepts=AI Evaluations & Benchmarks; tags=3
+Can_we_scale_human_feedback_for_complex_AI_tasks_An_intro_to_scalable_oversight._11db026c.md,AI Risk Mitigation,educational,misalignment,RLHF & Its Limitations|Scalable Oversight,RLHF|scalable-oversight,high,"concepts=RLHF & Its Limitations,Scalable Oversight; tags=2"
+Can_we_scale_human_feedback_for_complex_AI_tasks_An_intro_to_scalable_oversight._814aa54b.md,AI Risk Mitigation,educational,misalignment,RLHF & Its Limitations|Scalable Oversight,RLHF|scalable-oversight,high,"concepts=RLHF & Its Limitations,Scalable Oversight; tags=2"
+Catastrophic_Cyber_Capabilities_Benchmark_3CB_b8978dcf.md,Evaluation,benchmark,misuse,AI Evaluations & Benchmarks,evaluations|benchmarks|cyber-offense|catastrophic-risk|autonomous-systems,high,concepts=AI Evaluations & Benchmarks; tags=5
+Challenges_and_Prizes_ffebac34.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,benchmarks|interpretability,high,concepts=AI Evaluations & Benchmarks; tags=2
+Challenges_in_evaluating_AI_systems_a00c9d7e.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,Anthropic,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Charles_Teague_-_Publications_ab391267.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Claude_Doesnt_Want_to_Die_b85a5017.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Claudes_Constitution_5f2c1d85.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Claudes_Constitution_b1c32e58.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Code_World_Model_Preparedness_Report_d4af6e7f.md,AI Safety,blog_post,misalignment,,,low,default rules
+Collective_Constitutional_AI_Aligning_a_Language_Model_with_Public_Input_3c9b034d.md,Model-level Mitigation,blog_post,misalignment,Constitutional AI (RLAIF),Constitutional-AI|Anthropic,high,concepts=Constitutional AI (RLAIF); tags=2
+Combining_weak-to-strong_generalization_with_scalable_oversight_8d050f49.md,Model-level Mitigation,blog_post,misalignment,Scalable Oversight|Weak-to-Strong Generalization,scalable-oversight|W2SG|weak-to-strong,high,"concepts=Scalable Oversight,Weak-to-Strong Generalization; tags=3"
+Concorde_-_Wikipedia_12110b87.md,AI Safety,blog_post,misalignment,,,low,default rules
+Confidential_computing_-_Wikipedia_8466b72c.md,AI Safety,blog_post,misalignment,,,low,default rules
+Constitutional_Classifiers_Defending_against_universal_jailbreaks_fe7661a0.md,AI Safety,blog_post,misuse,,Anthropic|jailbreaking,medium,tags=2
+Construct_validity_-_Wikipedia_d940ad0b.md,AI Safety,blog_post,misalignment,,,low,default rules
+Contact_Us_Apollo_Research_f43d6548.md,Evaluation,blog_post,misalignment,Scalable Oversight|Alignment Faking & Scheming|Existential Risk & Superintelligence|AI Evaluations & Benchmarks,scheming|evaluations|governance|AGI,high,"concepts=Scalable Oversight,Alignment Faking & Scheming,Existential Risk & Superintelligence,AI Evaluations & Benchmarks; tags=4"
+Cookie_Policy_1d4cbca5.md,AI Safety,blog_post,misalignment,,,low,default rules
+Cooperative_AI_Contact_92f721d2.md,AI Safety,blog_post,misalignment,,,low,default rules
+Core_Views_on_AI_Safety_When_Why_What_and_How_8c7fd668.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Core_Views_on_AI_Safety_When_Why_What_and_How_cbeac227.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Cosmos_QA_Machine_Reading_Comprehension_with_Contextual_Commonsense_Reasoning_a5443f4c.md,AI Safety,blog_post,misalignment,,,low,default rules
+Could_Artificial_Intelligence_Be_Misused_to_Plan_Biological_Attacks_fd68ea56.md,AI Safety,blog_post,misalignment,,,low,default rules
+Countries_that_are_democracies_and_autocracies_a519aa06.md,AI Safety,blog_post,misalignment,,,low,default rules
+Crop_Yields_042899e6.md,AI Safety,blog_post,misalignment,,,low,default rules
+Cruel_and_unusual_punishment_-_Wikipedia_70a00794.md,AI Safety,blog_post,misalignment,,,low,default rules
+Cybench_05abdf0e.md,Evaluation,blog_post,misuse,AI Evaluations & Benchmarks,benchmarks|cyber-offense,high,concepts=AI Evaluations & Benchmarks; tags=2
+Dangerous_capability_tests_should_be_harder_603893a0.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,dangerous-capabilities,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Dario_Amodei_Machines_of_Loving_Grace_caf0dd8e.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Dawid_Maciorowski_-_Publications_1550c25d.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Deep_Reinforcement_Learning_from_Human_Preferences_6168096f.md,AI Safety,blog_post,misalignment,,,low,default rules
+Deep_TAMER_Interactive_Agent_Shaping_in_High-Dimensional_State_Spaces_1a8f076f.md,AI Safety,blog_post,misalignment,,autonomous-systems,low,tags=1
+Deep_Utopia_0e4e1bd3.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence,medium,concepts=Existential Risk & Superintelligence; tags=1
+Defining_Insider_Threats_CISA_9afeb970.md,AI Safety,blog_post,misuse,,cyber-offense,low,tags=1
+Details_about_METRs_preliminary_evaluation_of_OpenAI_o1-preview_ba23dd60.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|OpenAI,high,concepts=AI Evaluations & Benchmarks; tags=2
+Detecting_and_Countering_Malicious_Uses_of_Claude_f8b326a6.md,AI Safety,blog_post,misuse,,Anthropic|adversarial,medium,tags=2
+Diverse_carbon_dioxide_removal_approaches_could_reduce_impacts_on_the_energywaterland_system_-_Natur_48a120c4.md,AI Safety,blog_post,misalignment,,,low,default rules
+Down_and_Out_in_the_Magic_Kingdom_-_Wikipedia_6391e26b.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+Effective_Ventures_cd6d856a.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+Elo_rating_system_-_Wikipedia_0240201a.md,AI Safety,blog_post,misalignment,,,low,default rules
+Evals_ce1ac4cb.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Evaluating_frontier_AI_RD_capabilities_of_language_model_agents_against_human_experts_b1af10e6.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,benchmarks|METR,high,concepts=AI Evaluations & Benchmarks; tags=2
+Exclusive_New_Research_Shows_AI_Strategically_Lying_6f6ffce8.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Expansion_microscopy_-_Wikipedia_42b2892c.md,AI Safety,blog_post,misalignment,,,low,default rules
+External_validity_-_Wikipedia_c3e552b8.md,AI Safety,blog_post,misalignment,,,low,default rules
+Externality_-_Wikipedia_9530d9ad.md,AI Safety,blog_post,misalignment,,,low,default rules
+FMF_Announces_First-Of-Its-Kind_Information-Sharing_Agreement_-_Frontier_Model_Forum_0426045b.md,AI Safety,blog_post,misalignment,,,low,default rules
+Five_Eyes_-_Wikipedia_090eb4e2.md,AI Safety,blog_post,misalignment,,,low,default rules
+Forecasting_Frontier_Language_Model_Agent_Capabilities_Apollo_Research_21834e33.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Forecasting_Transformative_AI_Part_1_What_Kind_of_AI_d1735aca.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+Four_Asian_Tigers_-_Wikipedia_0a522b8a.md,AI Safety,blog_post,misalignment,,,low,default rules
+Friedrich_Hayek_-_Wikipedia_25ec0df2.md,AI Safety,blog_post,misalignment,,,low,default rules
+Frontier_Models_are_Capable_of_In-Context_Scheming_Apollo_Research_f8ac8583.md,Evaluation,blog_post,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,scheming|evaluations,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=2"
+Future_of_AI_Course_BlueDot_Impact_100477de.md,AI Safety,educational,misalignment,,,low,default rules
+Future_of_AI_Course_BlueDot_Impact_a9f3387d.md,AI Safety,educational,misalignment,,,low,default rules
+Future_of_AI_Course_BlueDot_Impact_cbe94e84.md,AI Safety,educational,misalignment,,,low,default rules
+Gene_drives_gaining_speed_-_Nature_Reviews_Genetics_37b3bbea.md,AI Safety,blog_post,misalignment,,,low,default rules
+Getting_Closer_to_AI_Complete_Question_Answering_A_Set_of_Prerequisite_Real_Tasks_d03c202c.md,AI Safety,blog_post,misalignment,,,low,default rules
+GiveWell_10b8709a.md,AI Safety,blog_post,misalignment,,,low,default rules
+Going_on_a_vacation_takes_longer_than_Going_for_a_walk_A_Study_of_Temporal_Commonsense_Understanding_ab7380ce.md,AI Safety,blog_post,misalignment,,,low,default rules
+Goodharts_law_-_Wikipedia_d425846f.md,AI Safety,blog_post,misalignment,,,low,default rules
+Google_-_Wikipedia_500fb8cf.md,AI Safety,blog_post,misalignment,,Google,low,tags=1
+Google_Security_Keys_Neutralized_Employee_Phishing_34af5dff.md,AI Safety,blog_post,misalignment,,Google,low,tags=1
+Google_pauses_AI-generated_images_of_people_after_ethnicity_criticism_e22a3751.md,AI Safety,blog_post,misalignment,,Google,low,tags=1
+Googles_AI_Beats_Legendary_Go_Player_c87361a1.md,AI Safety,blog_post,misalignment,,DeepMind,low,tags=1
+Grant_Ellison_-_Publications_863807a9.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Green_Revolution_-_Wikipedia_1d22240b.md,AI Safety,blog_post,misalignment,,,low,default rules
+Harry_Mayne_1493ede0.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Henry_Alexander_Bradley_-_Publications_81f9abaa.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+HiLumi_LHC_CERNs_full-scale_test_stand_ente..._f5bf7d31.md,AI Safety,blog_post,misalignment,,,low,default rules
+High-Low_Frequency_Detectors_69e34f7f.md,AI Safety,blog_post,misalignment,,,low,default rules
+Highly_accurate_protein_structure_prediction_with_AlphaFold_-_Nature_a06e223c.md,AI Safety,blog_post,misalignment,,,low,default rules
+HodgkinHuxley_model_-_Wikipedia_cbacdc23.md,AI Safety,blog_post,misalignment,,,low,default rules
+Home_2f5a1bdc.md,AI Safety,blog_post,misalignment,,Meta|interpretability,medium,tags=2
+Home_Anthropic_138dc8d9.md,AI Safety,blog_post,misalignment,,Anthropic|interpretability,medium,tags=2
+How_AI_Labs_Can_Safeguard_Model_Weights_f80e302b.md,AI Safety,blog_post,misalignment,,,low,default rules
+How_OpenAIs_Sam_Altman_Is_Thinking_About_AGI_and_Superintelligence_in_2025_c4d0c5c3.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence|AGI|OpenAI,high,concepts=Existential Risk & Superintelligence; tags=3
+How_to_make_the_best_of_the_most_important_century_8d776ced.md,AI Safety,blog_post,misalignment,,,low,default rules
+I._From_GPT-4_to_AGI_Counting_the_OOMs_-_SITUATIONAL_AWARENESS_93687572.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI,medium,concepts=Existential Risk & Superintelligence; tags=1
+IBMs_Watson_gave_unsafe_recommendations_for_treating_cancer_f6b8efde.md,AI Safety,blog_post,misalignment,,,low,default rules
+ICDL08-knox_33571213.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+II._From_AGI_to_Superintelligence_the_Intelligence_Explosion_-_SITUATIONAL_AWARENESS_1744d725.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence|AGI|intelligence-explosion,high,concepts=Existential Risk & Superintelligence; tags=3
+IIIb._Lock_Down_the_Labs_Security_for_AGI_-_SITUATIONAL_AWARENESS_f1d77867.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI,medium,concepts=Existential Risk & Superintelligence; tags=1
+IIId._The_Free_World_Must_Prevail_-_SITUATIONAL_AWARENESS_ca7b1bb1.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence,medium,concepts=Existential Risk & Superintelligence; tags=1
+If-Then_Commitments_for_AI_Risk_Reduction_420ae078.md,AI Safety,blog_post,misalignment,,,low,default rules
+If_Anyone_Builds_It_Everyone_Dies_87ba691e.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence|extinction,high,concepts=Existential Risk & Superintelligence; tags=2
+Import_AI_a098b9cd.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+In_the_AI_science_boom_beware_your_results_are_only_as_good_as_your_data_aa0d4625.md,AI Safety,blog_post,misalignment,,,low,default rules
+Increasing_the_Policy_Readiness_of_Ideas_Tom_Kalil_9daa4574.md,AI Safety,blog_post,misalignment,,,low,default rules
+Inhibition_of_IL-11_signalling_extends_mammalian_healthspan_and_lifespan_-_Nature_4dbe3a8d.md,AI Safety,blog_post,misalignment,,,low,default rules
+Inside_the_hunt_for_new_physics_at_the_worlds_largest_particle_collider_185a25b3.md,AI Safety,blog_post,misalignment,,,low,default rules
+Inspect_bfb7a89d.md,Evaluation,blog_post,misalignment,Agentic Misalignment|AI Evaluations & Benchmarks,evaluations|agentic-AI|open-source,high,"concepts=Agentic Misalignment,AI Evaluations & Benchmarks; tags=3"
+Institute_for_Disease_Modeling_-_Wikipedia_ef22656c.md,AI Safety,blog_post,misalignment,,,low,default rules
+Intel_-_Wikipedia_d0c6776a.md,AI Safety,blog_post,misalignment,,,low,default rules
+International_AI_Safety_Report_a7f7f227.md,AI Safety,blog_post,misalignment,,,low,default rules
+Introducing_computer_use_a_new_Claude_3.5_Sonnet_and_Claude_3.5_Haiku_03af6638.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Introducing_the_Anthropic_Fellows_Program_for_AI_Safety_Research_3a87facf.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Introducing_the_Frontier_Safety_Framework_4380930c.md,AI Safety,blog_post,misalignment,,DeepMind|Google,medium,tags=2
+Introduction_to_Mechanistic_Interpretability_0aa60341.md,AI Safety,blog_post,misalignment,,interpretability|mechanistic-interpretability,medium,tags=2
+Is_Democracy_a_Fad_6c2db200.md,AI Safety,blog_post,misalignment,,,low,default rules
+Jailbreak_tricks_Discords_new_chatbot_into_sharing_napalm_and_meth_instructions_TechCrunch_ec6b1403.md,AI Safety,blog_post,misuse,,jailbreaking,low,tags=1
+Jason_Matheny_-_Profile_8006f865.md,AI Safety,blog_post,misalignment,,,low,default rules
+Jeffrey_Lee_faf2d73f.md,AI Safety,blog_post,misalignment,,,low,default rules
+John_D._Morley_b9ea4300.md,AI Safety,blog_post,misalignment,,regulation,low,tags=1
+John_Schulman_OpenAI_Cofounder_-_Reasoning_RLHF_Plan_for_2027_AGI_edd8fc6e.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations|Existential Risk & Superintelligence,RLHF|AGI|OpenAI,high,"concepts=RLHF & Its Limitations,Existential Risk & Superintelligence; tags=3"
+Jordan_Despanie_-_Publications_994e2c89.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Keep_The_Future_Human_c11277d1.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,superintelligence|AGI,high,concepts=Existential Risk & Superintelligence; tags=2
+Keep_the_Future_Human__AnthonyAguirre__5March2025_b5deba72.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,superintelligence|AGI,high,concepts=Existential Risk & Superintelligence; tags=2
+Key_Components_of_an_RSP_de1a0076.md,RSP,policy,structural,AI Evaluations & Benchmarks|Responsible Scaling Policies,dangerous-capabilities|RSP|responsible-scaling|METR,high,"concepts=AI Evaluations & Benchmarks,Responsible Scaling Policies; tags=4"
+Knowledge_Unlearning_for_Mitigating_Privacy_Risks_in_Language_Models_69ee0583.md,AI Risk Mitigation,blog_post,misalignment,Pretraining Data Filtering,unlearning,medium,concepts=Pretraining Data Filtering; tags=1
+KullbackLeibler_divergence_-_Wikipedia_f9bd8e99.md,AI Safety,blog_post,misalignment,,,low,default rules
+Kyle_Brady_-_Publications_4421dc4b.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+LAB-Bench_Measuring_Capabilities_of_Language_Models_for_Biology_Research_FutureHouse_71d8629b.md,AI Safety,blog_post,misalignment,,,low,default rules
+LESSWRONG_19a05258.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+LESSWRONG_318b69cf.md,AI Safety,blog_post,misalignment,,,low,default rules
+LESSWRONG_3b7cdedf.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+LESSWRONG_6e8fb49c.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+LESSWRONG_cc1eed09.md,AI Safety,blog_post,misalignment,,,low,default rules
+LESSWRONG_d0aef86c.md,AI Safety,blog_post,misalignment,,,low,default rules
+LESSWRONG_ee64d13a.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI,medium,concepts=Existential Risk & Superintelligence; tags=1
+LESSWRONG_f945d0f4.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI|DeepMind,high,concepts=Existential Risk & Superintelligence; tags=2
+LESSWRONG_f9826af5.md,AI Safety,blog_post,misalignment,,,low,default rules
+LLM_CTF_SaTML_2024_97b1f306.md,AI Safety,blog_post,misalignment,,prompt-injection,low,tags=1
+Landauers_principle_-_Wikipedia_1e0a71ad.md,AI Safety,blog_post,misalignment,,,low,default rules
+Language_Model_Pilot_Report_409a066e.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,METR,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Learning_to_summarize_with_human_feedback_f59a43c5.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+Life_Expectancy_5bd162df.md,AI Safety,blog_post,misalignment,,,low,default rules
+Locating_and_Editing_Factual_Associations_in_GPT_c596305d.md,AI Safety,blog_post,misalignment,,,low,default rules
+Location_Verification_for_AI_Chips_Institute_for_AI_Policy_and_Strategy_de9e0639.md,AI Safety,blog_post,misalignment,,governance,low,tags=1
+Lump_of_labour_fallacy_-_Wikipedia_be3ef851.md,AI Safety,blog_post,misalignment,,,low,default rules
+MATS_Research_fb0dee66.md,AI Safety,blog_post,misalignment,,governance,low,tags=1
+METR_516949eb.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,evaluations|autonomous-systems|METR,high,concepts=AI Evaluations & Benchmarks; tags=3
+Malaria_vaccine_-_Wikipedia_a81e30ed.md,AI Safety,blog_post,misalignment,,,low,default rules
+Many-shot_jailbreaking_0db64752.md,AI Safety,blog_post,misuse,,Anthropic|interpretability|jailbreaking,medium,tags=3
+Mapping_the_Mind_of_a_Large_Language_Model_498fcf79.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Mechanistic_anomaly_detection_and_ELK_d034dfdf.md,Model-level Mitigation,blog_post,misalignment,Weak-to-Strong Generalization,ARC,medium,concepts=Weak-to-Strong Generalization; tags=1
+Model_Safety_Bug_Bounty_Program_Claude_Help_Center_52e7c661.md,AI Risk Mitigation,blog_post,misuse,RLHF & Its Limitations,jailbreaking,medium,concepts=RLHF & Its Limitations; tags=1
+Modifying_LLM_Beliefs_with_Synthetic_Document_Finetuning_6e2b5ec5.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Monitor_An_AI-Driven_Observability_Interface--_--_283a18bf.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Multi-Agent_Risks_from_Advanced_AI_3503a57f.md,Multi-Agent,blog_post,mistakes,Agentic Misalignment,multi-agent,medium,concepts=Agentic Misalignment; tags=1
+Multi-Agent_Risks_from_Advanced_AI_f1e393e5.md,Multi-Agent,blog_post,misalignment,Agentic Misalignment,multi-agent,medium,concepts=Agentic Misalignment; tags=1
+New_Tests_Reveal_AIs_Capacity_for_Deception_c3258560.md,Evaluation,blog_post,misalignment,Scalable Oversight|Alignment Faking & Scheming|AI Evaluations & Benchmarks,deception,medium,"concepts=Scalable Oversight,Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=1"
+New_report_Scheming_AIs_Will_AIs_fake_alignment_during_training_in_order_to_get_power_-_Joe_Carlsmit_71b7a799.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,scheming|deception|deceptive-alignment,high,concepts=Alignment Faking & Scheming; tags=3
+News_0a2a5014.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Noah_R._Feldman_-_Harvard_Law_School_c07b20cb.md,AI Safety,blog_post,misalignment,,governance,low,tags=1
+Nobodys_on_the_ball_on_AGI_alignment_4021700d.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI,medium,concepts=Existential Risk & Superintelligence; tags=1
+Official_Leaderboards_cf42ebe4.md,AI Safety,blog_post,misalignment,,,low,default rules
+OpenAI_Model_Spec_49ff3771.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+OpenAI_dissolves_team_focused_on_long-term_AI_risks_less_than_one_year_after_announcing_it_31baf3f0.md,Model-level Mitigation,blog_post,misalignment,Weak-to-Strong Generalization,superalignment|OpenAI,high,concepts=Weak-to-Strong Generalization; tags=2
+Optogenetics_-_Wikipedia_2e1a262a.md,AI Safety,blog_post,misalignment,,,low,default rules
+Order_statistic_-_Wikipedia_8127eb5f.md,AI Safety,blog_post,misalignment,,,low,default rules
+Paul_Christiano_471e48d9.md,AI Safety,blog_post,misalignment,,OpenAI|ARC,medium,tags=2
+Paul_Christiano_Current_Work_in_AI_Alignment_Effective_Altruism_c4e0b2b8.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+Pause_Giant_AI_Experiments_An_Open_Letter_-_Future_of_Life_Institute_d6f15827.md,AI Safety,petition,misalignment,,,low,default rules
+Philanthropically_Supported_Research_1363e6e2.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,Anthropic,medium,concepts=RLHF & Its Limitations; tags=1
+Pioneering_threat_assessment_and_mitigation_for_AI_systems_75cd7726.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Political_Declaration_on_Responsible_Military_Use_of_Artificial_Intelligence_and_Autonomy_-_United_S_bf03e86d.md,AI Safety,blog_post,misalignment,,,low,default rules
+Population_Growth_0b6d4e35.md,AI Safety,blog_post,misalignment,,,low,default rules
+Pre-Deployment_evaluation_of_OpenAIs_o1_model_AISI_Work_2d942ebd.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|OpenAI,high,concepts=AI Evaluations & Benchmarks; tags=2
+Pre-agriculture_gender_relations_seem_bad_b40c36f1.md,AI Safety,blog_post,misalignment,,,low,default rules
+Pre-deployment_evaluation_of_Anthropics_upgraded_Claude_3.5_Sonnet_AISI_Work_6dc8cac0.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+Pretraining_Data_Filtering_for_Open-Weight_AI_Safety_9659f2e8.md,AI Risk Mitigation,blog_post,misalignment,Pretraining Data Filtering,pretraining-filtering|data-filtering|open-weight,high,concepts=Pretraining Data Filtering; tags=3
+Prioritized_Training_on_Points_that_are_Learnable_Worth_Learning_and_not_yet_Learnt_fbf9225e.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+Privacy_Notice_80f27f3c.md,AI Safety,blog_post,misalignment,,,low,default rules
+Proximal_Policy_OptimizationÂ_900da9d4.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,PPO|OpenAI,high,concepts=RLHF & Its Limitations; tags=2
+Publications_48c622e6.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,DeepMind|Google,high,concepts=RLHF & Its Limitations; tags=2
+Putting_up_Bumpers_0d0b4e54.md,AI Safety,blog_post,misalignment,,Anthropic,low,tags=1
+Quantum_tunnelling_-_Wikipedia_fd74ba02.md,AI Safety,blog_post,misalignment,,,low,default rules
+RAND_Global_and_Emerging_Risks_28d3042c.md,AI Safety,blog_post,misalignment,,catastrophic-risk,low,tags=1
+RAND_Provides_Objective_Research_Services_and_Public_Policy_Analysis_1dbe37c2.md,AI Safety,blog_post,misalignment,,,low,default rules
+RAND_RRA2849-1_62681a1f.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+RAND_RRA2977-2_50bfade5.pdf,Evaluation,research_paper,misalignment,Existential Risk & Superintelligence|AI Evaluations & Benchmarks,red-teaming|bioweapons|regulation,high,"concepts=Existential Risk & Superintelligence,AI Evaluations & Benchmarks; tags=3"
+RAND_WRA3056-1_608d53e9.pdf,AI Risk Mitigation,research_paper,misalignment,,governance,low,tags=1
+Reasons_that_AI_Can_Help_with_AI_Governance_56a98a0a.md,AI Safety,blog_post,misalignment,,governance,low,tags=1
+Redirecting..._3be50887.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Redirecting_143339e8.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Redirecting_24880147.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Redirecting_a7f555e0.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Redirecting_ba0fe928.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Redirecting_fb5699a0.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Reinforcement_Learning_from_Human_Feedback_RLHF_A_Simple_Explainer_e0204920.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,RLHF,medium,concepts=RLHF & Its Limitations; tags=1
+Related_posts_28280009.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Reliable_Shared_Web_Hosting_Services_f7cc5afa.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+Revisiting_Al-Qaidas_Anthrax_Program_-_Combating_Terrorism_Center_at_West_Point_3aeea483.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+Reward_Hacking_in_Reinforcement_Learning_d6a56447.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,reward-hacking,medium,concepts=RLHF & Its Limitations; tags=1
+Rights_and_Permissions_dd3789cd.md,AI Safety,blog_post,misalignment,,,low,default rules
+Roth_v._United_States_-_Wikipedia_82972646.md,AI Safety,blog_post,misalignment,,,low,default rules
+Sabotage_evaluations_for_frontier_models_a3405563.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+Safety_engineering_target_selection_and_alignment_theory_-_Machine_Intelligence_Research_Institute_8e289f7b.md,AI Safety,blog_post,misalignment,,,low,default rules
+Sandbagging_QA_with_Note_Chain-of-Thought_Transcript_Anti-Scheming_c45ec4f2.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,scheming|sandbagging|chain-of-thought,high,concepts=Alignment Faking & Scheming; tags=3
+Sarah_L._Gebauer_-_Publications_8a417304.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Scaling_tacit_knowledge_8d8f5a60.md,AI Safety,blog_post,misalignment,,,low,default rules
+Secretary_of_State_speech_at_CogX_Festival_3ceb7a55.md,AI Safety,blog_post,misalignment,,,low,default rules
+Sensitive_compartmented_information_facility_-_Wikipedia_f4baae85.md,AI Safety,blog_post,misalignment,,,low,default rules
+Shell_Games_Control_Protocols_for_Adversarial_AI_Agents_bd1bfcb4.md,AI Safety,blog_post,misalignment,Agentic Misalignment|Existential Risk & Superintelligence,tool-use|adversarial,high,"concepts=Agentic Misalignment,Existential Risk & Superintelligence; tags=2"
+Short_letter_to_my_11-year-old_self_174af071.md,AI Safety,blog_post,misalignment,,,low,default rules
+Shutdown_resistance_in_reasoning_models_62f31ec4.md,AI Safety,blog_post,misalignment,,shutdown-resistance|OpenAI,medium,tags=2
+Simple_probes_can_catch_sleeper_agents_b6ca1938.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,deception|sleeper-agents|Anthropic,high,concepts=Alignment Faking & Scheming; tags=3
+Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_2dc73751.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,deception|sleeper-agents|Anthropic,high,concepts=Alignment Faking & Scheming; tags=3
+Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_7defe513.md,AI Alignment,blog_post,misalignment,Alignment Faking & Scheming,deception|sleeper-agents|Anthropic|interpretability,high,concepts=Alignment Faking & Scheming; tags=4
+Smallpox_8f3d0739.md,AI Safety,blog_post,misalignment,,,low,default rules
+Smart_contract_-_Wikipedia_a859c087.md,AI Safety,blog_post,misalignment,,,low,default rules
+Social_Security_debate_in_the_United_States_-_Wikipedia_75e533ce.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,debate,medium,concepts=Scalable Oversight; tags=1
+Socialist_calculation_debate_-_Wikipedia_23def74e.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,debate,medium,concepts=Scalable Oversight; tags=1
+Sortition_-_Wikipedia_38461114.md,AI Safety,blog_post,misalignment,,,low,default rules
+Specification_gaming_the_flip_side_of_AI_ingenuity_20cfc7f7.md,AI Safety,blog_post,misalignment,,DeepMind|Google,medium,tags=2
+Squiggle_Maximizer_formerly_Paperclip_maximizer_9bc9007c.md,AI Safety,blog_post,misalignment,,,low,default rules
+Statement_on_AI_Risk_CAIS_0b044cb6.md,AI Safety,petition,misalignment,Existential Risk & Superintelligence,extinction,medium,concepts=Existential Risk & Superintelligence; tags=1
+Statement_on_AI_Risk_CAIS_3943efdd.md,AI Safety,petition,misalignment,Existential Risk & Superintelligence,extinction,medium,concepts=Existential Risk & Superintelligence; tags=1
+Statement_on_AI_Risk_CAIS_a5ac984d.md,AI Safety,petition,misalignment,Existential Risk & Superintelligence,extinction,medium,concepts=Existential Risk & Superintelligence; tags=1
+Statistical_hypothesis_test_-_Wikipedia_391af5d7.md,AI Safety,blog_post,misalignment,,,low,default rules
+Steering_at_the_Frontier_Extending_the_Power_of_Prompting_-_Microsoft_Research_aacb2dd9.md,AI Safety,blog_post,misalignment,,,low,default rules
+Stress_Testing_Deliberative_Alignment_for_Anti-Scheming_Training_Apollo_Research_238004f9.md,Evaluation,blog_post,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,scheming|deliberative-alignment|OpenAI,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=3"
+Subscribe_to_Epoch_AI_0f65568e.md,AI Safety,blog_post,misalignment,,,low,default rules
+Sunishchal_Dev_-_Profile_24892b97.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,evaluations|benchmarks,high,concepts=AI Evaluations & Benchmarks; tags=2
+Sydney_Brenner_-_Wikipedia_68c339bd.md,AI Safety,blog_post,misalignment,,,low,default rules
+Synthetic_data_real_harm_190b80b8.md,AI Safety,blog_post,misalignment,,,low,default rules
+Synthetic_virology_the_experts_speak_-_Nature_Biotechnology_bad50acf.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,debate,medium,concepts=Scalable Oversight; tags=1
+TIME100_AI_2024_Yoshua_Bengio_1464b780.md,AI Safety,blog_post,misalignment,,,low,default rules
+Technological_singularity_-_Wikipedia_cbb7a8a9.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_AI_Revolution_Our_Immortality_or_Extinction_96160d68.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,extinction,medium,concepts=Existential Risk & Superintelligence; tags=1
+The_Amyloid-β_Pathway_in_Alzheimers_Disease_-_Molecular_Psychiatry_6e1c20d8.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Art_of_the_Deal_-_Wikipedia_b79326db.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Association_between_Subjective_Well-being_and_Regime_Type_across_78_countries_the_moderating_rol_d6fc7d31.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Better_Angels_of_Our_Nature_-_Wikipedia_c0162d30.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Bread_and_Butter_Problem_in_AI_Policy_b0ce0b11.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Building_Blocks_of_Interpretability_1d4292ce.md,AI Safety,blog_post,misalignment,,interpretability,low,tags=1
+The_CIFAR-10_dataset_857ecb19.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Computational_Democracy_Project_f509dda6.md,AI Safety,blog_post,misalignment,,open-source,low,tags=1
+The_Duplicator_e65d0141.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_End_of_History_and_the_Last_Man_-_Wikipedia_c764d2ce.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Goddess_of_Everything_Else_ab84d811.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Great_Illusion_-_Wikipedia_bf74fee6.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_Precipice_e8e6b56d.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,existential-risk,medium,concepts=Existential Risk & Superintelligence; tags=1
+The_U.S._Public_Wants_Regulation_or_Prohibition_of_ExpertLevel_and_Superhuman_AI_-_Future_of_Life_In_c40e1edd.md,AI Safety,blog_post,misalignment,,regulation,low,tags=1
+The_WMDP_Benchmark_Measuring_and_Reducing_Malicious_Use_With_Unlearning_CAIS_15f3ed05.md,Evaluation,benchmark,misuse,Pretraining Data Filtering|AI Evaluations & Benchmarks,unlearning|benchmarks,high,"concepts=Pretraining Data Filtering,AI Evaluations & Benchmarks; tags=2"
+The_case_for_taking_AI_seriously_as_a_threat_to_humanity_3004f8c2.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_costs_of_caution_a3459305.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_lifesaving_Nobel_Prize-winning_discovery_that_almost_didnt_happen_7a287508.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_most_important_century_blog_post_series_fd178cb0.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_near-term_impact_of_AI_on_the_cyber_threat_ed1654d4.md,AI Safety,blog_post,misalignment,,,low,default rules
+The_real_reason_AI_benchmarks_havenât_reflected_economic_impacts_5991a9fe.md,Evaluation,benchmark,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+The_world_is_awful._The_world_is_much_better._The_world_can_be_much_better._fafa44ac.md,AI Safety,blog_post,misalignment,,,low,default rules
+Three-body_problem_-_Wikipedia_f2d9a2b9.md,AI Safety,blog_post,misalignment,,,low,default rules
+Three_rules_for_technological_fixes_-_Nature_92877fb3.md,AI Safety,blog_post,misalignment,,,low,default rules
+Tim_Huas_Personal_Website_15d671dc.md,AI Safety,blog_post,misalignment,,,low,default rules
+Tit_for_tat_-_Wikipedia_99757fe1.md,AI Safety,blog_post,misalignment,,,low,default rules
+Towards_Monosemanticity_Decomposing_Language_Models_With_Dictionary_Learning_eaa33128.md,AI Safety,blog_post,misalignment,,interpretability,low,tags=1
+Towards_Understanding_Sycophancy_in_Language_Models_26016be3.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,sycophancy|RLHF|Anthropic,high,concepts=RLHF & Its Limitations; tags=3
+Two_US_lawyers_fined_for_submitting_fake_court_citations_from_ChatGPT_c4a26fae.md,AI Safety,blog_post,misalignment,,,low,default rules
+U.S._Commerce_Secretary_Gina_Raimondo_Announces_Expansion_of_U.S._AI_Safety_Institute_Leadership_Tea_ead0c98f.md,AI Safety,blog_post,misalignment,,,low,default rules
+U.S._Pushes_for_Less_AI_Regulation_at_Paris_Summit_e783d383.md,AI Safety,blog_post,misalignment,,regulation,low,tags=1
+US_UK_AI20Safety20Institute_20December_Publication-OpenAIo1_5e9fc56d.pdf,AI Risk Mitigation,research_paper,misalignment,,OpenAI,low,tags=1
+United_States_Armed_Forces_-_Wikipedia_f075ee33.md,AI Safety,blog_post,misalignment,,,low,default rules
+United_States_government_role_in_civil_aviation_-_Wikipedia_56879b18.md,AI Safety,blog_post,misalignment,,,low,default rules
+Unlearning_Bias_in_Language_Models_by_Partitioning_Gradients_148b0a55.md,AI Risk Mitigation,blog_post,misalignment,Pretraining Data Filtering,unlearning,medium,concepts=Pretraining Data Filtering; tags=1
+Updated_October_7_Semiconductor_Export_Controls_c314c235.md,AI Safety,blog_post,misalignment,,,low,default rules
+Updating_the_Frontier_Safety_Framework_26f849eb.md,AI Safety,blog_post,misalignment,Existential Risk & Superintelligence,AGI|DeepMind|Google,high,concepts=Existential Risk & Superintelligence; tags=3
+Vending-Bench_Testing_long-term_coherence_in_agents_Andon_Labs_fe7f5bac.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+Virology_Capabilities_Test_430289e6.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+WebArena-x_8490816c.md,Evaluation,blog_post,misalignment,Agentic Misalignment|AI Evaluations & Benchmarks,evaluations|benchmarks|autonomous-systems,high,"concepts=Agentic Misalignment,AI Evaluations & Benchmarks; tags=3"
+What_Is_DeepSeek_the_New_Chinese_OpenAI_Rival_8399055d.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+What_do_coherence_arguments_imply_about_the_behavior_of_advanced_AI_284a99f9.md,AI Safety,blog_post,misalignment,,,low,default rules
+What_is_AI_alignment_510ee1d0.md,AI Safety,educational,misalignment,,,low,default rules
+What_is_AI_alignment_c1a9b2f0.md,AI Safety,blog_post,misalignment,,,low,default rules
+What_is_Constitutional_AI_c83cc433.md,Model-level Mitigation,blog_post,misalignment,Constitutional AI (RLAIF),Constitutional-AI,medium,concepts=Constitutional AI (RLAIF); tags=1
+What_is_Recursive_Reward_Modelling_b2db8f27.md,AI Risk Mitigation,blog_post,misalignment,RLHF & Its Limitations,RLHF|reward-modeling|recursive-reward-modeling,high,concepts=RLHF & Its Limitations; tags=3
+What_is_faithful_chain-of-thought_reasoning_and_why_is_it_useful_for_AI_safety_4f1c4c90.md,AI Safety,blog_post,misalignment,,chain-of-thought,low,tags=1
+What_is_machine_unlearning_and_why_is_it_useful_989a904b.md,AI Risk Mitigation,blog_post,misalignment,Pretraining Data Filtering,unlearning,medium,concepts=Pretraining Data Filtering; tags=1
+What_is_supervised_fine-tuning_ea12b59d.md,AI Safety,blog_post,misalignment,,,low,default rules
+What_is_the_alignment_problem_c4c79e06.md,AI Safety,blog_post,misalignment,,,low,default rules
+What_normal_Americans_not_AI_companies_want_for_AI_ce23b483.md,AI Safety,blog_post,misalignment,,regulation,low,tags=1
+Who_Is_Open_to_Authoritarian_Governance_within_Western_Democracies_Perspectives_on_Politics_Cambridg_6478fd10.md,RSP,blog_post,misalignment,Weak-to-Strong Generalization|Responsible Scaling Policies,RSP|governance,high,"concepts=Weak-to-Strong Generalization,Responsible Scaling Policies; tags=2"
+Whole-genome_risk_prediction_of_common_diseases_in_human_preimplantation_embryos_-_Nature_Medicine_085889be.md,AI Safety,blog_post,misalignment,,,low,default rules
+Why_AI_alignment_could_be_hard_with_modern_deep_learning_fadf7c15.md,AI Safety,blog_post,misalignment,,,low,default rules
+Why_Arms_Control_Is_So_Rare_American_Political_Science_Review_Cambridge_Core_ff5c046a.md,AI Safety,blog_post,misalignment,,,low,default rules
+Why_Does_Ozempic_Cure_All_Diseases_71f051a8.md,AI Safety,blog_post,misalignment,,,low,default rules
+Why_Im_Leaving_OpenAI_and_What_Im_Doing_Next_42a87e0f.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+Why_Im_optimistic_about_our_alignment_approach_3063882f.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+Why_Would_AI_Aim_To_Defeat_Humanity_efd7b429.md,AI Safety,blog_post,misalignment,,deception,low,tags=1
+Why_the_Godfather_of_A.I._Fears_What_Hes_Built_0d17111a.md,AI Safety,blog_post,misalignment,,,low,default rules
+WikipediaManual_of_Style_-_Wikipedia_b6776631.md,AI Safety,blog_post,misalignment,,,low,default rules
+Yoshua_Bengio_How_Rogue_AIs_may_Arise_ddf1395b.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight|Existential Risk & Superintelligence,governance|regulation,high,"concepts=Scalable Oversight,Existential Risk & Superintelligence; tags=2"
+arxiv_1207.4708_fa33d71d.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_1306.5709_20499d5f.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1409.0575_06aa950e.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_1511.06732_91752f74.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_1601.04468_51b794ae.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1607.07086_9200daa4.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1612.03651_af35910d.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_1705.08439_d6456a25.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1705.08807_e98d2a63.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1707.06209_cb1d4272.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1707.07402_1e6edf40.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations|Scalable Oversight,,medium,"concepts=RLHF & Its Limitations,Scalable Oversight"
+arxiv_1804.07461_1a0560a9.pdf,AI Risk Mitigation,research_paper,misalignment,,DeepMind,low,tags=1
+arxiv_1805.00899_d6049e8c.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,debate|OpenAI,high,concepts=Scalable Oversight; tags=2
+arxiv_1809.02789_7524201f.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1810.03993_43bf99d2.pdf,RSP,model_card,structural,AI Evaluations & Benchmarks|Responsible Scaling Policies,evaluations|model-card,high,"concepts=AI Evaluations & Benchmarks,Responsible Scaling Policies; tags=2"
+arxiv_1810.08575_53517e7a.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,IDA|OpenAI,high,"concepts=Scalable Oversight,AI Evaluations & Benchmarks; tags=2"
+arxiv_1811.07871_c8980056.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,reward-modeling|DeepMind,high,concepts=RLHF & Its Limitations; tags=2
+arxiv_1904.01130_935b435c.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,Google,medium,concepts=Scalable Oversight; tags=1
+arxiv_1904.09728_a7f312d0.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_1905.07830_2afe6f6e.pdf,AI Risk Mitigation,research_paper,misalignment,,adversarial,low,tags=1
+arxiv_1905.10044_284120f6.pdf,AI Risk Mitigation,research_paper,misalignment,,Google,low,tags=1
+arxiv_1906.01820_626ef3bb.pdf,AI Risk Mitigation,research_paper,misalignment,,mesa-optimization|transparency,medium,tags=2
+arxiv_1909.03553_3e5c8291.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_1909.08593_01814b94.pdf,AI Risk Mitigation,research_paper,misalignment,,OpenAI,low,tags=1
+arxiv_1911.11641_ca63c0c7.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2001.08361_751878a7.pdf,AI Risk Mitigation,research_paper,misalignment,,OpenAI,low,tags=1
+arxiv_2004.00345_7f7ee403.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2004.07213_55998b84.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+arxiv_2005.14165_eb9f79f3.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|OpenAI,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2006.04948_1de6b0d8.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,existential-risk,medium,concepts=Existential Risk & Superintelligence; tags=1
+arxiv_2008.02275_0c5277a5.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2009.03300_1bd1157d.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2010.06595_5e9fd70b.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2012.00363_d5502e00.pdf,AI Risk Mitigation,research_paper,misalignment,,Google,low,tags=1
+arxiv_2012.08347_3db12b42.pdf,AI Risk Mitigation,research_paper,misalignment,,transparency,low,tags=1
+arxiv_2103.03874_f6ee975b.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2106.09685_6e77126e.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2107.03374_cfef0bfa.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2108.04812_b21e1efe.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2108.07790_e488f1c5.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2108.12099_898d8f37.pdf,AI Risk Mitigation,research_paper,mistakes,,,low,default rules
+arxiv_2109.01652_0c57a508.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,Google,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2109.10862_98de0ba9.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,reward-modeling|OpenAI,high,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=2"
+arxiv_2110.07602_4d6bb1cb.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2112.00861_34fd70f8.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2112.09332_83a6a3da.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,evaluations|OpenAI,high,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=2"
+arxiv_2112.11446_1508faab.pdf,RSP,research_paper,misalignment,Scalable Oversight|Responsible Scaling Policies,,medium,"concepts=Scalable Oversight,Responsible Scaling Policies"
+arxiv_2201.11903_888dd8e4.pdf,AI Risk Mitigation,research_paper,misalignment,,chain-of-thought|Google,medium,tags=2
+arxiv_2202.03286_9822e011.pdf,RSP,research_paper,misalignment,AI Evaluations & Benchmarks|Responsible Scaling Policies,red-teaming|DeepMind,high,"concepts=AI Evaluations & Benchmarks,Responsible Scaling Policies; tags=2"
+arxiv_2203.02155_80867b0f.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations|Scalable Oversight,OpenAI,medium,"concepts=RLHF & Its Limitations,Scalable Oversight; tags=1"
+arxiv_2203.10079_0c3713d4.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2203.11171_ff8dcb0e.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,chain-of-thought|Google,high,concepts=Existential Risk & Superintelligence; tags=2
+arxiv_2203.15556_593710fa.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+arxiv_2204.05862_71c25fc9.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,RLHF|Anthropic,high,concepts=RLHF & Its Limitations; tags=2
+arxiv_2206.04615_b8e781bd.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2206.05802_2bba6c32.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,OpenAI,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2206.07682_be8be94b.pdf,AI Risk Mitigation,research_paper,misalignment,,DeepMind|Google,medium,tags=2
+arxiv_2206.11871_88c11c96.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2206.13353_311b3e40.pdf,Evaluation,research_paper,misalignment,Existential Risk & Superintelligence|AI Evaluations & Benchmarks,power-seeking|existential-risk,high,"concepts=Existential Risk & Superintelligence,AI Evaluations & Benchmarks; tags=2"
+arxiv_2207.11680_e99141d0.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2208.02294_58e2db8a.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,Google,medium,concepts=Scalable Oversight; tags=1
+arxiv_2209.00626_c1868760.pdf,RSP,policy,structural,Existential Risk & Superintelligence|Responsible Scaling Policies,deception|RSP|OpenAI,high,"concepts=Existential Risk & Superintelligence,Responsible Scaling Policies; tags=3"
+arxiv_2209.07858_986c4af2.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,red-teaming|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2209.14375_46491ec7.pdf,RSP,research_paper,misalignment,Responsible Scaling Policies,DeepMind,medium,concepts=Responsible Scaling Policies; tags=1
+arxiv_2210.01241_8842ac98.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2210.10760_b79a972c.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,reward-modeling|OpenAI,high,concepts=RLHF & Its Limitations; tags=2
+arxiv_2210.12353_25696464.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+arxiv_2211.03540_1eb4fb86.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,scalable-oversight,medium,concepts=Scalable Oversight; tags=1
+arxiv_2211.09110_3d3d51b0.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2212.03827_021cf036.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2212.08073_5eacf5e7.pdf,Model-level Mitigation,research_paper,misalignment,Constitutional AI (RLAIF),Constitutional-AI,medium,concepts=Constitutional AI (RLAIF); tags=1
+arxiv_2212.09251_ad683c29.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2212.09710_301cd5ae.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2301.01768_950cbdca.pdf,AI Risk Mitigation,research_paper,misalignment,,OpenAI,low,tags=1
+arxiv_2302.08582_87e65df1.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2303.08033_7529cac3.pdf,Model-level Mitigation,research_paper,misalignment,Weak-to-Strong Generalization,,medium,concepts=Weak-to-Strong Generalization
+arxiv_2303.09001_db4893ea.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2303.13360_003271e4.pdf,Evaluation,research_paper,mistakes,Agentic Misalignment|AI Evaluations & Benchmarks,evaluations|multi-agent,high,"concepts=Agentic Misalignment,AI Evaluations & Benchmarks; tags=2"
+arxiv_2304.13734_6347b94f.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2304.15004_b0c96341.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2305.04388_8a8abdf7.pdf,AI Risk Mitigation,research_paper,misalignment,,chain-of-thought|Anthropic|transparency,medium,tags=3
+arxiv_2305.10403_4ad550aa.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2305.10601_fa045610.pdf,AI Risk Mitigation,research_paper,misalignment,,DeepMind|Google,medium,tags=2
+arxiv_2305.15324_31d9a8c2.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|governance|Anthropic|OpenAI|DeepMind|Google|ARC,high,concepts=AI Evaluations & Benchmarks; tags=7
+arxiv_2305.16367_fca470d1.pdf,AI Risk Mitigation,research_paper,misalignment,,DeepMind,low,tags=1
+arxiv_2306.03341_8f37248e.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2306.03809_d706908c.pdf,AI Risk Mitigation,research_paper,misuse,,dual-use,low,tags=1
+arxiv_2306.05685_d86911cb.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2306.09983_636af9ab.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,interpretability,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2306.13952_1d8ad22c.pdf,AI Risk Mitigation,research_paper,misuse,,bioweapons|dual-use,medium,tags=2
+arxiv_2306.14898_22dcbdae.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2307.03109_e6202492.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2307.09288_25e38443.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2307.11768_87ec67be.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2307.13702_5865bfd6.pdf,AI Risk Mitigation,research_paper,misalignment,,chain-of-thought,low,tags=1
+arxiv_2307.15043_bd1d543e.pdf,AI Risk Mitigation,research_paper,misuse,,DeepMind|Google|adversarial|jailbreaking,medium,tags=4
+arxiv_2308.03296_e306821e.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2308.03688_687fa97f.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2308.14752_440ef73c.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight|Alignment Faking & Scheming,deception,medium,"concepts=Scalable Oversight,Alignment Faking & Scheming; tags=1"
+arxiv_2309.00667_7aa1d3a7.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2310.01405_1df66dc4.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2310.06824_3f2ce5da.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2310.07298_ff5b04a9.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2310.10683_41480945.pdf,Evaluation,research_paper,mistakes,RLHF & Its Limitations|Pretraining Data Filtering|AI Evaluations & Benchmarks,RLHF|unlearning|red-teaming,high,"concepts=RLHF & Its Limitations,Pretraining Data Filtering,AI Evaluations & Benchmarks; tags=3"
+arxiv_2310.11324_adae8624.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2310.11986_4bcc2385.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|DeepMind|Google,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2310.13548_6ccb2e48.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,sycophancy,medium,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=1"
+arxiv_2310.18233_9175d27d.pdf,AI Risk Mitigation,research_paper,misuse,,dual-use,low,tags=1
+arxiv_2311.00117_0372e8a0.pdf,AI Risk Mitigation,research_paper,misuse,,Meta,low,tags=1
+arxiv_2311.02462_6a24bc3f.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,AGI,medium,concepts=Existential Risk & Superintelligence; tags=1
+arxiv_2311.05915_141a6579.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2311.07590_9f89adf4.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,autonomous-systems,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2311.08379_c82ec1dd.pdf,AI Alignment,research_paper,misalignment,Alignment Faking & Scheming,scheming|deception|deceptive-alignment,high,concepts=Alignment Faking & Scheming; tags=3
+arxiv_2311.08702_30bea640.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,debate|Anthropic,high,concepts=Scalable Oversight; tags=2
+arxiv_2311.10538_7037b425.pdf,AI Risk Mitigation,research_paper,misalignment,Agentic Misalignment,autonomous-systems,medium,concepts=Agentic Misalignment; tags=1
+arxiv_2311.12022_9fcb4b1f.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,benchmarks|Anthropic,high,"concepts=Scalable Oversight,AI Evaluations & Benchmarks; tags=2"
+arxiv_2311.14125_071a04c8.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,debate|DeepMind|Google,high,concepts=Scalable Oversight; tags=3
+arxiv_2311.14455_cf055b69.pdf,AI Risk Mitigation,research_paper,misuse,RLHF & Its Limitations,RLHF|adversarial|jailbreaking,high,concepts=RLHF & Its Limitations; tags=3
+arxiv_2311.16452_598f3920.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2311.17295_ddd24d60.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|robustness,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2312.01037_2425414f.pdf,Model-level Mitigation,research_paper,misalignment,Weak-to-Strong Generalization,,medium,concepts=Weak-to-Strong Generalization
+arxiv_2312.01276_959091f3.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2312.01552_e7018118.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,RLHF,medium,concepts=RLHF & Its Limitations; tags=1
+arxiv_2312.03729_2b7805cf.pdf,Evaluation,research_paper,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,deception,medium,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=1"
+arxiv_2312.04945_648b6065.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2312.06681_855051b6.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,Anthropic,medium,concepts=Existential Risk & Superintelligence; tags=1
+arxiv_2312.06942_aa0a3798.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,autonomous-systems,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2312.07398_e78ecea8.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2312.07413_a30da042.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2312.09390_60381954.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,RLHF|OpenAI,high,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=2"
+arxiv_2312.11805_efa29797.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|benchmarks,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2312.12747_8805d76c.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2312.16171_6611a090.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+arxiv_2401.00595_72f16ca0.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|benchmarks,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2401.03408_5511ab6b.pdf,Evaluation,research_paper,mistakes,AI Evaluations & Benchmarks,evaluations|autonomous-systems,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2401.05566_74cd9ebd.pdf,AI Risk Mitigation,research_paper,misalignment,,Anthropic,low,tags=1
+arxiv_2401.06102_8080a62e.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+arxiv_2401.06751_65394dec.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,scalable-oversight,medium,concepts=Scalable Oversight; tags=1
+arxiv_2401.07955_c0749d42.pdf,AI Risk Mitigation,research_paper,misalignment,,open-source,low,tags=1
+arxiv_2401.13138_86dc27c5.pdf,AI Risk Mitigation,research_paper,misalignment,,governance,low,tags=1
+arxiv_2401.13986_ff28f0c0.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2402.06782_1838b47c.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,debate|evaluations,high,"concepts=Scalable Oversight,AI Evaluations & Benchmarks; tags=2"
+arxiv_2402.09739_9e5ce05f.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2402.10260_141b4f65.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,benchmarks|jailbreaking,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2402.16835_fbdbe12a.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|Pretraining Data Filtering|AI Evaluations & Benchmarks,unlearning|evaluations|robustness,high,"concepts=Scalable Oversight,Pretraining Data Filtering,AI Evaluations & Benchmarks; tags=3"
+arxiv_2403.03218_3de0ec62.pdf,Evaluation,research_paper,misuse,Pretraining Data Filtering|AI Evaluations & Benchmarks,unlearning|benchmarks,high,"concepts=Pretraining Data Filtering,AI Evaluations & Benchmarks; tags=2"
+arxiv_2403.05030_fe947922.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,red-teaming|adversarial,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2403.05518_260d2cdd.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,sycophancy|chain-of-thought|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2403.07918_7f23fb5a.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2403.09472_9511b543.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2403.10949_a17c983d.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,transparency,medium,concepts=Existential Risk & Superintelligence; tags=1
+arxiv_2403.13793_a6ba0c76.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|dangerous-capabilities,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2404.09932_0db552b0.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2404.13076_5fa813eb.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|Constitutional AI (RLAIF)|AI Evaluations & Benchmarks,Constitutional-AI|reward-modeling|evaluations,high,"concepts=RLHF & Its Limitations,Constitutional AI (RLAIF),AI Evaluations & Benchmarks; tags=3"
+arxiv_2405.00332_d78e5059.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2405.06624_1d47e019.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+arxiv_2405.10938_a49bfe91.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2405.19550_b39ec4a4.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,dangerous-capabilities|capability-elicitation,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2406.04313_2e43aa7d.pdf,AI Risk Mitigation,research_paper,misalignment,,robustness|adversarial,medium,tags=2
+arxiv_2406.04341_8b5ca268.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2406.05590_c2a8af0d.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,benchmarks|cyber-offense|open-source,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2406.06046_c9555aa1.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2406.06196_5dc26ecc.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2406.07358_e36d8f95.pdf,Evaluation,research_paper,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,sandbagging|evaluations|regulation,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=3"
+arxiv_2406.07882_47ee6bbe.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,Google|interpretability|transparency,high,concepts=Scalable Oversight; tags=3
+arxiv_2406.13352_c8740393.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|robustness|adversarial|prompt-injection,high,concepts=AI Evaluations & Benchmarks; tags=4
+arxiv_2407.04622_3c80510a.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,scalable-oversight|DeepMind|Google,high,concepts=Scalable Oversight; tags=3
+arxiv_2407.04694_fb5972de.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+arxiv_2407.08708_273d68b1.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|open-source,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2407.13647_8977ba25.pdf,Model-level Mitigation,research_paper,misalignment,Scalable Oversight|Weak-to-Strong Generalization,W2SG|weak-to-strong,high,"concepts=Scalable Oversight,Weak-to-Strong Generalization; tags=2"
+arxiv_2407.13692_9ab7ee86.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,chain-of-thought|OpenAI,high,concepts=RLHF & Its Limitations; tags=2
+arxiv_2407.21783_423fc170.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,evaluations,medium,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=1"
+arxiv_2408.03314_1364358c.pdf,AI Risk Mitigation,research_paper,misalignment,,DeepMind|Google,medium,tags=2
+arxiv_2408.06292_305680d1.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2408.08926_412dea06.pdf,AI Risk Mitigation,research_paper,misuse,,cyber-offense|autonomous-systems,medium,tags=2
+arxiv_2409.02822_3294c7d6.pdf,AI Risk Mitigation,research_paper,misalignment,,regulation,low,tags=1
+arxiv_2409.04109_96a74c22.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,evaluations|autonomous-systems,high,"concepts=Scalable Oversight,AI Evaluations & Benchmarks; tags=2"
+arxiv_2409.05816_a455d2b1.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2409.07985_f977b960.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|red-teaming|adversarial,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2409.12822_a24d118e.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,RLHF|Anthropic,high,concepts=RLHF & Its Limitations; tags=2
+arxiv_2409.16986_257d63fb.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2409.18025_9f780c3e.pdf,RSP,policy,misuse,Pretraining Data Filtering|Responsible Scaling Policies,unlearning|RSP|adversarial|jailbreaking,high,"concepts=Pretraining Data Filtering,Responsible Scaling Policies; tags=4"
+arxiv_2409.18433_db0ce75a.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2410.03768_fdddd0f6.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2410.05629_e91b0436.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2410.07095_505cb777.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|OpenAI,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2410.08827_c1f30091.pdf,Evaluation,research_paper,misuse,RLHF & Its Limitations|Pretraining Data Filtering|AI Evaluations & Benchmarks,unlearning|evaluations|bioweapons|Anthropic|adversarial,high,"concepts=RLHF & Its Limitations,Pretraining Data Filtering,AI Evaluations & Benchmarks; tags=5"
+arxiv_2410.09024_0f07054d.pdf,AI Risk Mitigation,research_paper,misuse,,robustness|jailbreaking,medium,tags=2
+arxiv_2410.09114_ce9a2497.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|catastrophic-risk|transparency,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2410.13215_fb4ba518.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,scalable-oversight,medium,"concepts=Scalable Oversight,AI Evaluations & Benchmarks; tags=1"
+arxiv_2410.13722_5c649617.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|AI Evaluations & Benchmarks,DeepMind|Google|Meta,high,"concepts=RLHF & Its Limitations,AI Evaluations & Benchmarks; tags=3"
+arxiv_2410.13787_cb17e218.pdf,AI Risk Mitigation,research_paper,misalignment,,Anthropic,low,tags=1
+arxiv_2410.21514_b1ff2e52.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2411.00640_7fa1cbc8.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2411.03336_8f4c9ea6.pdf,Evaluation,research_paper,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,scheming|evaluations|safety-cases|catastrophic-risk|METR,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=5"
+arxiv_2411.04872_efc4b605.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2411.07494_f9b96b70.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,benchmarks|robustness|adversarial|jailbreaking,high,concepts=AI Evaluations & Benchmarks; tags=4
+arxiv_2411.12990_0ca66ea8.pdf,Evaluation,research_paper,mistakes,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2411.16035_85d08627.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2412.00586_a96c5ca8.pdf,Evaluation,research_paper,misalignment,Scalable Oversight|AI Evaluations & Benchmarks,,medium,"concepts=Scalable Oversight,AI Evaluations & Benchmarks"
+arxiv_2412.01946_f578f0c5.pdf,AI Risk Mitigation,research_paper,misuse,Scalable Oversight,biorisk,medium,concepts=Scalable Oversight; tags=1
+arxiv_2412.04984_fc6880af.pdf,Evaluation,research_paper,misalignment,Alignment Faking & Scheming|Agentic Misalignment|AI Evaluations & Benchmarks,scheming|evaluations|agentic-AI|autonomous-systems,high,"concepts=Alignment Faking & Scheming,Agentic Misalignment,AI Evaluations & Benchmarks; tags=4"
+arxiv_2412.08686_10916ec8.pdf,AI Risk Mitigation,research_paper,misalignment,,transparency,low,tags=1
+arxiv_2412.08905_6420b30c.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+arxiv_2412.12480_04b25f9b.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,Anthropic,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2412.14093_ac957a1e.pdf,AI Alignment,research_paper,misalignment,Alignment Faking & Scheming|Existential Risk & Superintelligence,alignment-faking|Anthropic,high,"concepts=Alignment Faking & Scheming,Existential Risk & Superintelligence; tags=2"
+arxiv_2412.14161_892accfd.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2412.16339_b449e61c.pdf,Model-level Mitigation,research_paper,misalignment,,deliberative-alignment|OpenAI,medium,tags=2
+arxiv_2412.16720_76b3df06.pdf,RSP,model_card,misuse,AI Evaluations & Benchmarks,deliberative-alignment|benchmarks|chain-of-thought|model-card|OpenAI|robustness|jailbreaking,high,concepts=AI Evaluations & Benchmarks; tags=7
+arxiv_2412.19437_761c102c.pdf,AI Risk Mitigation,research_paper,misalignment,Scalable Oversight,,medium,concepts=Scalable Oversight
+arxiv_2501.18837_a49c6f96.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,red-teaming|Anthropic|jailbreaking,high,concepts=AI Evaluations & Benchmarks; tags=3
+arxiv_2502.02180_d4556fc9.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|capability-elicitation|Anthropic|OpenAI|DeepMind|Google,high,concepts=AI Evaluations & Benchmarks; tags=6
+arxiv_2502.03461_a0cf712c.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,evaluations|benchmarks,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2502.12115_10319adc.pdf,Evaluation,research_paper,misalignment,Agentic Misalignment|AI Evaluations & Benchmarks,benchmarks|agentic-AI|Anthropic|OpenAI|DeepMind,high,"concepts=Agentic Misalignment,AI Evaluations & Benchmarks; tags=5"
+arxiv_2502.14143_0b8f852a.pdf,Multi-Agent,research_paper,misalignment,Agentic Misalignment,multi-agent,medium,concepts=Agentic Misalignment; tags=1
+arxiv_2502.14499_680cf1de.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|Meta,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2503.05731_31036499.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2503.11926_4a5fa1e9.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations|Agentic Misalignment,reward-hacking|CoT-monitoring|chain-of-thought|agentic-AI|OpenAI,high,"concepts=RLHF & Its Limitations,Agentic Misalignment; tags=5"
+arxiv_2503.17332_5e13cdc7.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks|autonomous-systems,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2504.01849_634415aa.pdf,AI Safety,research_paper,misalignment,Existential Risk & Superintelligence,AGI|DeepMind|Google,high,concepts=Existential Risk & Superintelligence; tags=3
+arxiv_2504.16137_9ca093b9.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+arxiv_2505.05410_66f0f52a.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,chain-of-thought|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+arxiv_2507.11473_263bfab5.pdf,Evaluation,research_paper,misalignment,RLHF & Its Limitations|Existential Risk & Superintelligence|AI Evaluations & Benchmarks,chain-of-thought|Anthropic|OpenAI|DeepMind|Google|METR,high,"concepts=RLHF & Its Limitations,Existential Risk & Superintelligence,AI Evaluations & Benchmarks; tags=6"
+arxiv_2508.06601_086e6f46.pdf,AI Risk Mitigation,research_paper,misalignment,,open-weight,low,tags=1
+arxiv_2509.15541_c4da741e.pdf,Evaluation,research_paper,misalignment,Alignment Faking & Scheming|AI Evaluations & Benchmarks,scheming|deliberative-alignment|OpenAI,high,"concepts=Alignment Faking & Scheming,AI Evaluations & Benchmarks; tags=3"
+arxiv_2510.07192_553833a1.pdf,AI Risk Mitigation,research_paper,misalignment,,Anthropic,low,tags=1
+arxiv_2602.16703_387e0af9.pdf,Evaluation,research_paper,misuse,AI Evaluations & Benchmarks,evaluations|benchmarks|dual-use,high,concepts=AI Evaluations & Benchmarks; tags=3
+bitter_lesson_1c4b2bb3.pdf,AI Safety,educational,misalignment,Existential Risk & Superintelligence,,medium,concepts=Existential Risk & Superintelligence
+buolamwini18a_400f0c88.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,transparency,medium,concepts=AI Evaluations & Benchmarks; tags=1
+common-elements-nov-2024_66a59187.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,,medium,concepts=AI Evaluations & Benchmarks
+cs188-fa24-lec25_70157e44.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+ed3fea9033a80fea1376299fa7863f4a-Paper-Conference_33e31b28.pdf,AI Risk Mitigation,research_paper,misalignment,,chain-of-thought|Anthropic|transparency,medium,tags=3
+koh17a_2e5028fb.pdf,AI Risk Mitigation,research_paper,misalignment,,,low,default rules
+macglashan17a_eb343d23.pdf,AI Risk Mitigation,research_paper,misalignment,RLHF & Its Limitations,,medium,concepts=RLHF & Its Limitations
+reasoning_models_paper_3cf549cf.pdf,Evaluation,research_paper,misalignment,AI Evaluations & Benchmarks,chain-of-thought|Anthropic,high,concepts=AI Evaluations & Benchmarks; tags=2
+Ω_16_253a538b.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,benchmarks,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Ω_34_67f38999.md,AI Safety,blog_post,misalignment,,,low,default rules
+Ω_35_160a57c3.md,AI Risk Mitigation,blog_post,misalignment,Scalable Oversight,debate,medium,concepts=Scalable Oversight; tags=1
+Ω_35_51bcd6bb.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,DeepMind,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Ω_36_b7040c0e.md,AI Safety,blog_post,misalignment,,,low,default rules
+Ω_38_e12fdd1d.md,AI Safety,blog_post,misalignment,,,low,default rules
+Ω_3_f162cf38.md,AI Safety,blog_post,misalignment,,,low,default rules
+Ω_40_e075e628.md,AI Safety,blog_post,misalignment,,OpenAI,low,tags=1
+Ω_41_0dc16d11.md,Evaluation,blog_post,misalignment,AI Evaluations & Benchmarks,deception,medium,concepts=AI Evaluations & Benchmarks; tags=1
+Ω_55_79d493f9.md,AI Safety,blog_post,misalignment,,,low,default rules
+Ω_5_0ee81fb2.md,RSP,blog_post,misalignment,RLHF & Its Limitations|Responsible Scaling Policies,ASL|Anthropic,high,"concepts=RLHF & Its Limitations,Responsible Scaling Policies; tags=2"

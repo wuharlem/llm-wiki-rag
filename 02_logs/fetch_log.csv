@@ -1,0 +1,825 @@
+timestamp,url,handler,status,filename,info
+2026-04-26T15:43:27,http://proceedings.mlr.press/v70/macglashan17a/macglashan17a.pdf,pdf,fail,,HTTPError: 403 Client Error: Forbidden for url: http://proceedings.mlr.press/v70/macglashan17a/macglashan17a.pdf
+2026-04-26T15:43:27,http://proceedings.mlr.press/v48/mniha16.html?ref=https://githubhelp.com,web,fail,,HTTPError: 403 Client Error: Forbidden for url: http://proceedings.mlr.press/v48/mniha16.html?ref=https://githubhelp.com
+2026-04-26T15:43:27,http://joschu.net/blog/kl-approx.html,web,fail,,HTTPError: 403 Client Error: Forbidden for url: http://joschu.net/blog/kl-approx.html
+2026-04-26T15:43:27,http://timhua.me/,web,fail,,HTTPError: 403 Client Error: Forbidden for url: http://timhua.me/
+2026-04-26T15:43:27,https://ar5iv.labs.arxiv.org/html/lichess.org,arxiv,fail,,"ProxyError: HTTPSConnectionPool(host='ar5iv.labs.arxiv.org', port=443): Max retries exceeded with url: /html/lichess.org (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 "
+2026-04-26T15:43:27,https://arxiv.org/abs/1207.4708,arxiv,fail,,"ProxyError: HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /pdf/1207.4708.pdf (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden'"
+2026-04-26T15:43:27,http://arxiv.org/abs/2502.14143,arxiv,fail,,"ProxyError: HTTPSConnectionPool(host='arxiv.org', port=443): Max retries exceeded with url: /pdf/2502.14143.pdf (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden"
+2026-04-26T15:43:27,https://assets.anthropic.com/m/24c8d0a3a7d0a1f1/original/Alignment-Faking-in-Large-Language-Models-reviews.pdf,pdf,fail,,"SSLError: HTTPSConnectionPool(host='assets.anthropic.com', port=443): Max retries exceeded with url: /m/24c8d0a3a7d0a1f1/original/Alignment-Faking-in-Large-Language-Models-reviews.pdf (Caused by SSLError(SSLCer"
+2026-04-26T15:43:27,https://assets.anthropic.com/m/52eab1f8cf3f04a6/original/Alignment-Faking-Policy-Memo.pdf,pdf,fail,,"SSLError: HTTPSConnectionPool(host='assets.anthropic.com', port=443): Max retries exceeded with url: /m/52eab1f8cf3f04a6/original/Alignment-Faking-Policy-Memo.pdf (Caused by SSLError(SSLCertVerificationError(1,"
+2026-04-26T23:47:58,https://assets.anthropic.com/m/24c8d0a3a7d0a1f1/original/Alignment-Faking-in-Large-Language-Models-reviews.pdf,pdf,ok,Alignment-Faking-in-Large-Language-Models-reviews_731573a2.pdf,292798 bytes
+2026-04-26T23:47:58,https://assets.anthropic.com/m/52eab1f8cf3f04a6/original/Alignment-Faking-Policy-Memo.pdf,pdf,ok,Alignment-Faking-Policy-Memo_d6079e02.pdf,1809412 bytes
+2026-04-26T23:47:58,http://proceedings.mlr.press/v48/mniha16.html?ref=https://githubhelp.com,web,ok,Asynchronous_Methods_for_Deep_Reinforcement_Learning_172f3efa.md,1669 chars
+2026-04-26T23:47:58,http://proceedings.mlr.press/v70/macglashan17a/macglashan17a.pdf,pdf,ok,macglashan17a_eb343d23.pdf,410757 bytes
+2026-04-26T23:47:58,http://timhua.me/,web,ok,Tim_Huas_Personal_Website_15d671dc.md,3884 chars
+2026-04-26T23:47:58,http://joschu.net/blog/kl-approx.html,web,ok,Approximating_KL_Divergence_e00e4e24.md,5941 chars
+2026-04-26T23:47:58,https://arxiv.org/abs/1207.4708,arxiv,ok,arxiv_1207.4708_fa33d71d.pdf,583107 bytes
+2026-04-26T23:47:58,https://ar5iv.labs.arxiv.org/html/lichess.org,arxiv,fail,,HTTPError: 404 Client Error: Not Found for url: https://arxiv.org/abs/lichess.org
+2026-04-26T23:47:58,http://arxiv.org/abs/2502.14143,arxiv,ok,arxiv_2502.14143_0b8f852a.pdf,4061553 bytes
+2026-04-26T23:56:25,https://academic.oup.com/humupd/advance-article/doi/10.1093/humupd/dmae012/7684172,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://academic.oup.com/humupd/advance-article/doi/10.1093/humupd/dmae012/7684172
+2026-04-26T23:56:25,http://proceedings.mlr.press/v48/mniha16.html?ref=https://githubhelp.com,web,ok,Asynchronous_Methods_for_Deep_Reinforcement_Learning_172f3efa.md,1669 chars
+2026-04-26T23:56:25,https://academic.oup.com/spp/article/41/5/597/1636559,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://academic.oup.com/spp/article/41/5/597/1636559
+2026-04-26T23:56:25,http://proceedings.mlr.press/v70/macglashan17a/macglashan17a.pdf,pdf,ok,macglashan17a_eb343d23.pdf,410757 bytes
+2026-04-26T23:56:25,http://timhua.me/,web,ok,Tim_Huas_Personal_Website_15d671dc.md,3884 chars
+2026-04-26T23:56:25,http://arxiv.org/abs/2502.14143,arxiv,ok,arxiv_2502.14143_0b8f852a.pdf,4061553 bytes
+2026-04-26T23:56:25,https://ai-alignment.com/clarifying-ai-alignment-cec47cd69dd6,web,fail,,"SSLError: HTTPSConnectionPool(host='ai-alignment.com', port=443): Max retries exceeded with url: /clarifying-ai-alignment-cec47cd69dd6 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_F"
+2026-04-26T23:56:25,https://ai-alignment.com/ai-alignment-is-distinct-from-its-near-term-applications-81300500ad2e,web,fail,,"SSLError: HTTPSConnectionPool(host='ai-alignment.com', port=443): Max retries exceeded with url: /ai-alignment-is-distinct-from-its-near-term-applications-81300500ad2e (Caused by SSLError(SSLCertVerificationErr"
+2026-04-26T23:56:25,https://aclanthology.org/D19-1332,web,ok,Going_on_a_vacation_takes_longer_than_Going_for_a_walk_A_Study_of_Temporal_Commonsense_Understanding_ab7380ce.md,2991 chars
+2026-04-26T23:56:25,https://aclanthology.org/2023.findings-acl.375,web,ok,Unlearning_Bias_in_Language_Models_by_Partitioning_Gradients_148b0a55.md,3141 chars
+2026-04-26T23:56:25,http://joschu.net/blog/kl-approx.html,web,ok,Approximating_KL_Divergence_e00e4e24.md,5941 chars
+2026-04-26T23:56:25,https://ai.meta.com/static-resource/meta-frontier-ai-framework,web,fail,,HTTPError: 500 Server Error: Internal Server Error for url: https://ai.meta.com/static-resource/meta-frontier-ai-framework
+2026-04-26T23:56:25,https://ai.meta.com/static-resource/Meta_Advanced-AI-Scaling-Framework-v2,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://ai.meta.com/research/publications/cyberseceval-3-advancing-the-evaluation-of-cybersecurity-risks-and-capabilities-in-large-language-models,web,ok,CYBERSECEVAL_3_Advancing_the_Evaluation_of_Cybersecurity_Risks_and_Capabilities_in_Large_Language_Mo_daa15df8.md,2828 chars
+2026-04-26T23:56:25,https://ai.meta.com/research/publications/code-world-model-preparedness-report,web,ok,Code_World_Model_Preparedness_Report_d4af6e7f.md,2925 chars
+2026-04-26T23:56:25,https://aligned.substack.com/p/alignment-optimism,web,ok,Why_Im_optimistic_about_our_alignment_approach_3063882f.md,43684 chars
+2026-04-26T23:56:25,https://aiimpacts.org/what-do-coherence-arguments-imply-about-the-behavior-of-advanced-ai,web,ok,What_do_coherence_arguments_imply_about_the_behavior_of_advanced_AI_284a99f9.md,9746 chars
+2026-04-26T23:56:25,https://aligned.substack.com/p/combining-w2sg-with-scalable-oversight,web,ok,Combining_weak-to-strong_generalization_with_scalable_oversight_8d050f49.md,11839 chars
+2026-04-26T23:56:25,https://alignment.anthropic.com/2024/anthropic-fellows-program,web,ok,Introducing_the_Anthropic_Fellows_Program_for_AI_Safety_Research_3a87facf.md,6677 chars
+2026-04-26T23:56:25,https://aligned.substack.com/p/what-is-alignment,web,ok,What_is_the_alignment_problem_c4c79e06.md,5199 chars
+2026-04-26T23:56:25,https://aisafetyfundamentals.com/blog/scalable-oversight-intro,web,ok,Can_we_scale_human_feedback_for_complex_AI_tasks_An_intro_to_scalable_oversight._11db026c.md,22974 chars
+2026-04-26T23:56:25,https://aisafetyfundamentals.com/alignment-course-details,web,ok,AI_Alignment_57150640.md,262 chars
+2026-04-26T23:56:25,https://alignment.anthropic.com/2025/bumpers,web,ok,Putting_up_Bumpers_0d0b4e54.md,26813 chars
+2026-04-26T23:56:25,https://alignment.anthropic.com/2024/rogue-eval,web,ok,A_Toy_Evaluation_of_Inference_Code_Tampering_67e62168.md,16214 chars
+2026-04-26T23:56:25,https://aisafetyfundamentals.com/blog/what-is-ai-alignment,web,ok,What_is_AI_alignment_510ee1d0.md,17847 chars
+2026-04-26T23:56:25,https://alignment.anthropic.com/2025/modifying-beliefs-via-sdf,web,ok,Modifying_LLM_Beliefs_with_Synthetic_Document_Finetuning_6e2b5ec5.md,28420 chars
+2026-04-26T23:56:25,https://aisafetyfundamentals.com/projects/badllama-3-remove-safety-finetuning-from-llama-3-8b-instruct-for-a-few-cents,web,ok,BadLlama_3_d33b0c77.md,896 chars
+2026-04-26T23:56:25,https://ar5iv.labs.arxiv.org/html/lichess.org,arxiv,fail,,HTTPError: 404 Client Error: Not Found for url: https://arxiv.org/abs/lichess.org
+2026-04-26T23:56:25,https://anthropic.com/feb-2026-risk-report,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://anthropic.com/responsible-scaling-policy/rsp-v3-0,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://antischeming.ai/,web,ok,Anti-Scheming_9ff2d5f5.md,3034 chars
+2026-04-26T23:56:25,https://andonlabs.com/evals/vending-bench,web,ok,Vending-Bench_Testing_long-term_coherence_in_agents_Andon_Labs_fe7f5bac.md,9141 chars
+2026-04-26T23:56:25,https://arxiv.org/abs/1207.4708,arxiv,ok,arxiv_1207.4708_fa33d71d.pdf,583107 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1306.5709,arxiv,ok,arxiv_1306.5709_20499d5f.pdf,1308713 bytes
+2026-04-26T23:56:25,https://arena3-chapter1-transformer-interp.streamlit.app/Monthly_Algorithmic_Problems,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://artificialintelligenceact.eu/article/56,web,ok,Article_56_Codes_of_Practice_cd9ad85d.md,5044 chars
+2026-04-26T23:56:25,https://anthropic.com/responsible-scaling-policy/roadmap,web,ok,Anthropics_Frontier_Safety_Roadmap_c71576a7.md,13953 chars
+2026-04-26T23:56:25,https://arxiv.org/abs/1601.04468,arxiv,ok,arxiv_1601.04468_51b794ae.pdf,159178 bytes
+2026-04-26T23:56:25,https://arbital.com/p/orthogonality,web,ok,LESSWRONG_19a05258.md,24800 chars
+2026-04-26T23:56:25,https://arxiv.org/abs/1607.07086,arxiv,ok,arxiv_1607.07086_9200daa4.pdf,386009 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1612.03651,arxiv,ok,arxiv_1612.03651_af35910d.pdf,331095 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1707.06209,arxiv,ok,arxiv_1707.06209_cb1d4272.pdf,465627 bytes
+2026-04-26T23:56:25,https://arbital.com/p/expected_utility_formalism?l=7hh,web,ok,LESSWRONG_cc1eed09.md,43377 chars
+2026-04-26T23:56:25,https://arxiv.org/abs/1804.07461,arxiv,ok,arxiv_1804.07461_1a0560a9.pdf,382439 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1511.06732,arxiv,ok,arxiv_1511.06732_91752f74.pdf,1713690 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1810.03993,arxiv,ok,arxiv_1810.03993_43bf99d2.pdf,995470 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1707.07402,arxiv,ok,arxiv_1707.07402_1e6edf40.pdf,1352150 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1810.08575,arxiv,ok,arxiv_1810.08575_53517e7a.pdf,917555 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1809.02789,arxiv,ok,arxiv_1809.02789_7524201f.pdf,481873 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1811.07871,arxiv,ok,arxiv_1811.07871_c8980056.pdf,591813 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1904.01130,arxiv,ok,arxiv_1904.01130_935b435c.pdf,421032 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1905.10044,arxiv,ok,arxiv_1905.10044_284120f6.pdf,190540 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1909.03553,arxiv,ok,arxiv_1909.03553_3e5c8291.pdf,309848 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1904.09728,arxiv,ok,arxiv_1904.09728_a7f312d0.pdf,596580 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1909.08593,arxiv,ok,arxiv_1909.08593_01814b94.pdf,967470 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1905.07830v1,arxiv,ok,arxiv_1905.07830_2afe6f6e.pdf,1192712 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2004.00345,arxiv,ok,arxiv_2004.00345_7f7ee403.pdf,1825885 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2006.04948,arxiv,ok,arxiv_2006.04948_1de6b0d8.pdf,2803902 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1911.11641,arxiv,ok,arxiv_1911.11641_ca63c0c7.pdf,1065406 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2009.03300,arxiv,ok,arxiv_2009.03300_1bd1157d.pdf,2074939 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1805.00899,arxiv,ok,arxiv_1805.00899_d6049e8c.pdf,1315239 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2004.07213,arxiv,ok,arxiv_2004.07213_55998b84.pdf,881233 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2012.00363,arxiv,ok,arxiv_2012.00363_d5502e00.pdf,545299 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2012.08347,arxiv,ok,arxiv_2012.08347_3db12b42.pdf,406485 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2010.06595,arxiv,ok,arxiv_2010.06595_5e9fd70b.pdf,1276428 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2106.09685,arxiv,ok,arxiv_2106.09685_6e77126e.pdf,1609513 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2103.03874,arxiv,ok,arxiv_2103.03874_f6ee975b.pdf,2030715 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2107.03374,arxiv,ok,arxiv_2107.03374_cfef0bfa.pdf,1885177 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2108.12099,arxiv,ok,arxiv_2108.12099_898d8f37.pdf,1148282 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2109.01652,arxiv,ok,arxiv_2109.01652_0c57a508.pdf,1626775 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2108.04812,arxiv,ok,arxiv_2108.04812_b21e1efe.pdf,2864146 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2109.10862,arxiv,ok,arxiv_2109.10862_98de0ba9.pdf,2023522 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2112.00861,arxiv,ok,arxiv_2112.00861_34fd70f8.pdf,2518122 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2001.08361,arxiv,ok,arxiv_2001.08361_751878a7.pdf,2493004 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2008.02275,arxiv,ok,arxiv_2008.02275_0c5277a5.pdf,2856411 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2203.02155,arxiv,ok,arxiv_2203.02155_80867b0f.pdf,1797405 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2112.09332,arxiv,ok,arxiv_2112.09332_83a6a3da.pdf,1486858 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2112.11446,arxiv,ok,arxiv_2112.11446_1508faab.pdf,3412401 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2201.11903,arxiv,ok,arxiv_2201.11903_888dd8e4.pdf,891773 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2203.15556,arxiv,ok,arxiv_2203.15556_593710fa.pdf,6004349 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2203.10079,arxiv,ok,arxiv_2203.10079_0c3713d4.pdf,638775 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2206.05802,arxiv,ok,arxiv_2206.05802_2bba6c32.pdf,2644623 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2206.07682,arxiv,ok,arxiv_2206.07682_be8be94b.pdf,842905 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2206.11871,arxiv,ok,arxiv_2206.11871_88c11c96.pdf,1841467 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2202.03286,arxiv,ok,arxiv_2202.03286_9822e011.pdf,3087681 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2208.02294,arxiv,ok,arxiv_2208.02294_58e2db8a.pdf,989103 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2206.13353,arxiv,ok,arxiv_2206.13353_311b3e40.pdf,701049 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2206.04615,arxiv,ok,arxiv_2206.04615_b8e781bd.pdf,3874852 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2209.14375,arxiv,ok,arxiv_2209.14375_46491ec7.pdf,3948958 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2210.01241,arxiv,ok,arxiv_2210.01241_8842ac98.pdf,2425976 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/1409.0575,arxiv,ok,arxiv_1409.0575_06aa950e.pdf,8479445 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2210.10760,arxiv,ok,arxiv_2210.10760_b79a972c.pdf,3186215 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2211.03540,arxiv,ok,arxiv_2211.03540_1eb4fb86.pdf,1095997 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2210.12353,arxiv,ok,arxiv_2210.12353_25696464.pdf,581740 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2212.03827,arxiv,ok,arxiv_2212.03827_021cf036.pdf,2032858 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2212.09710,arxiv,ok,arxiv_2212.09710_301cd5ae.pdf,1780335 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2302.08582,arxiv,ok,arxiv_2302.08582_87e65df1.pdf,1403604 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2303.08033,arxiv,ok,arxiv_2303.08033_7529cac3.pdf,318958 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2303.09001,arxiv,ok,arxiv_2303.09001_db4893ea.pdf,719295 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2209.07858,arxiv,ok,arxiv_2209.07858_986c4af2.pdf,3266545 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2301.01768,arxiv,ok,arxiv_2301.01768_950cbdca.pdf,2837714 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2304.13734,arxiv,ok,arxiv_2304.13734_6347b94f.pdf,169907 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2305.04388,arxiv,ok,arxiv_2305.04388_8a8abdf7.pdf,836076 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2204.05862,arxiv,ok,arxiv_2204.05862_71c25fc9.pdf,9503688 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2305.10601,arxiv,ok,arxiv_2305.10601_fa045610.pdf,799685 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2304.15004,arxiv,ok,arxiv_2304.15004_b0c96341.pdf,1894670 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2305.16367,arxiv,ok,arxiv_2305.16367_fca470d1.pdf,377701 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2305.15324,arxiv,ok,arxiv_2305.15324_31d9a8c2.pdf,803928 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.03809,arxiv,ok,arxiv_2306.03809_d706908c.pdf,160978 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.05685,arxiv,ok,arxiv_2306.05685_d86911cb.pdf,1580141 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.13952,arxiv,ok,arxiv_2306.13952_1d8ad22c.pdf,302452 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.09983,arxiv,ok,arxiv_2306.09983_636af9ab.pdf,5429389 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2303.13360,arxiv,ok,arxiv_2303.13360_003271e4.pdf,1670798 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2307.03109,arxiv,ok,arxiv_2307.03109_e6202492.pdf,1029796 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.14898,arxiv,ok,arxiv_2306.14898_22dcbdae.pdf,8311918 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2307.11768,arxiv,ok,arxiv_2307.11768_87ec67be.pdf,4596139 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2203.11171,arxiv,ok,arxiv_2203.11171_ff8dcb0e.pdf,10505941 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2307.15043,arxiv,ok,arxiv_2307.15043_bd1d543e.pdf,4656473 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2308.03296,arxiv,ok,arxiv_2308.03296_e306821e.pdf,3772019 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2306.03341,arxiv,ok,arxiv_2306.03341_8f37248e.pdf,2228205 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2309.00667,arxiv,ok,arxiv_2309.00667_7aa1d3a7.pdf,5330276 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2307.13702,arxiv,ok,arxiv_2307.13702_5865bfd6.pdf,1091161 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.07298,arxiv,ok,arxiv_2310.07298_ff5b04a9.pdf,3415718 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.10683,arxiv,ok,arxiv_2310.10683_41480945.pdf,866880 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.11324,arxiv,ok,arxiv_2310.11324_adae8624.pdf,2670188 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.11986,arxiv,ok,arxiv_2310.11986_4bcc2385.pdf,1828455 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.13548,arxiv,ok,arxiv_2310.13548_6ccb2e48.pdf,1383108 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.18233,arxiv,ok,arxiv_2310.18233_9175d27d.pdf,642223 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.06824,arxiv,ok,arxiv_2310.06824_3f2ce5da.pdf,5534697 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.02462,arxiv,ok,arxiv_2311.02462_6a24bc3f.pdf,295341 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.05915,arxiv,ok,arxiv_2311.05915_141a6579.pdf,1621902 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.07590,arxiv,ok,arxiv_2311.07590_9f89adf4.pdf,2304607 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2211.09110,arxiv,ok,arxiv_2211.09110_3d3d51b0.pdf,6045688 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.08379,arxiv,ok,arxiv_2311.08379_c82ec1dd.pdf,2336525 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.10538,arxiv,ok,arxiv_2311.10538_7037b425.pdf,1451642 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.08702,arxiv,ok,arxiv_2311.08702_30bea640.pdf,2953383 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.12022,arxiv,ok,arxiv_2311.12022_9fcb4b1f.pdf,617128 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.14455,arxiv,ok,arxiv_2311.14455_cf055b69.pdf,2566251 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.16452,arxiv,ok,arxiv_2311.16452_598f3920.pdf,1103969 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2311.00117,arxiv,ok,arxiv_2311.00117_0372e8a0.pdf,3323012 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.01276,arxiv,ok,arxiv_2312.01276_959091f3.pdf,191331 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.03729,arxiv,ok,arxiv_2312.03729_2b7805cf.pdf,1610443 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.01037,arxiv,ok,arxiv_2312.01037_2425414f.pdf,1624003 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.04945,arxiv,ok,arxiv_2312.04945_648b6065.pdf,485845 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.06942,arxiv,ok,arxiv_2312.06942_aa0a3798.pdf,1102474 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.06681,arxiv,ok,arxiv_2312.06681_855051b6.pdf,4858484 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.01552,arxiv,ok,arxiv_2312.01552_e7018118.pdf,3743913 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.07398,arxiv,ok,arxiv_2312.07398_e78ecea8.pdf,1539805 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.09390,arxiv,ok,arxiv_2312.09390_60381954.pdf,2299371 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.12747,arxiv,ok,arxiv_2312.12747_8805d76c.pdf,1233590 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.16171v2,arxiv,ok,arxiv_2312.16171_6611a090.pdf,1577522 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.00595,arxiv,ok,arxiv_2401.00595_72f16ca0.pdf,1078029 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.03408,arxiv,ok,arxiv_2401.03408_5511ab6b.pdf,3611788 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.05566,arxiv,ok,arxiv_2401.05566_74cd9ebd.pdf,3696766 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.07413,arxiv,ok,arxiv_2312.07413_a30da042.pdf,3830980 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.06751,arxiv,ok,arxiv_2401.06751_65394dec.pdf,1738035 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.06102,arxiv,ok,arxiv_2401.06102_8080a62e.pdf,1991817 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.07955,arxiv,ok,arxiv_2401.07955_c0749d42.pdf,676852 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.13138,arxiv,ok,arxiv_2401.13138_86dc27c5.pdf,819639 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2401.13986,arxiv,ok,arxiv_2401.13986_ff28f0c0.pdf,357807 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2310.01405,arxiv,ok,arxiv_2310.01405_1df66dc4.pdf,10661161 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2307.09288,arxiv,ok,arxiv_2307.09288_25e38443.pdf,13661300 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2402.10260,arxiv,ok,arxiv_2402.10260_141b4f65.pdf,600542 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2402.16835,arxiv,ok,arxiv_2402.16835_fbdbe12a.pdf,615654 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.03218,arxiv,ok,arxiv_2403.03218_3de0ec62.pdf,920832 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.05518,arxiv,ok,arxiv_2403.05518_260d2cdd.pdf,746612 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.07918,arxiv,ok,arxiv_2403.07918_7f23fb5a.pdf,976594 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2402.06782,arxiv,ok,arxiv_2402.06782_1838b47c.pdf,4511882 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.05030,arxiv,ok,arxiv_2403.05030_fe947922.pdf,2371479 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.13793,arxiv,ok,arxiv_2403.13793_a6ba0c76.pdf,1720586 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2404.09932,arxiv,ok,arxiv_2404.09932_0db552b0.pdf,3106540 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2404.13076,arxiv,ok,arxiv_2404.13076_5fa813eb.pdf,1132502 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2405.00332,arxiv,ok,arxiv_2405.00332_d78e5059.pdf,7180592 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2402.09739,arxiv,ok,arxiv_2402.09739_9e5ce05f.pdf,5237610 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2405.10938,arxiv,ok,arxiv_2405.10938_a49bfe91.pdf,4369337 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2405.19550,arxiv,ok,arxiv_2405.19550_b39ec4a4.pdf,1451970 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.04313,arxiv,ok,arxiv_2406.04313_2e43aa7d.pdf,920758 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.09472,arxiv,ok,arxiv_2403.09472_9511b543.pdf,4503382 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2405.06624,arxiv,ok,arxiv_2405.06624_1d47e019.pdf,2086079 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.04341,arxiv,ok,arxiv_2406.04341_8b5ca268.pdf,1995744 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.06046,arxiv,ok,arxiv_2406.06046_c9555aa1.pdf,1626783 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.05590,arxiv,ok,arxiv_2406.05590_c2a8af0d.pdf,858159 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2403.10949,arxiv,ok,arxiv_2403.10949_a17c983d.pdf,4138454 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.07358v2,arxiv,ok,arxiv_2406.07358_e36d8f95.pdf,1631294 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.13352,arxiv,ok,arxiv_2406.13352_c8740393.pdf,1042076 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.04622,arxiv,ok,arxiv_2407.04622_3c80510a.pdf,4084703 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.08708,arxiv,ok,arxiv_2407.08708_273d68b1.pdf,371491 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.13647,arxiv,ok,arxiv_2407.13647_8977ba25.pdf,1943399 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.06196,arxiv,ok,arxiv_2406.06196_5dc26ecc.pdf,3240501 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.13692,arxiv,ok,arxiv_2407.13692_9ab7ee86.pdf,1700235 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.21783,arxiv,ok,arxiv_2407.21783_423fc170.pdf,9833173 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2308.03688,arxiv,ok,arxiv_2308.03688_687fa97f.pdf,23017024 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2407.04694,arxiv,ok,arxiv_2407.04694_fb5972de.pdf,5381789 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2408.08926,arxiv,ok,arxiv_2408.08926_412dea06.pdf,3457783 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.02822,arxiv,ok,arxiv_2409.02822_3294c7d6.pdf,4393247 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.05816,arxiv,ok,arxiv_2409.05816_a455d2b1.pdf,3249511 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.07985,arxiv,ok,arxiv_2409.07985_f977b960.pdf,758876 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2408.03314,arxiv,ok,arxiv_2408.03314_1364358c.pdf,3870997 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.16986,arxiv,ok,arxiv_2409.16986_257d63fb.pdf,4161553 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.18433,arxiv,ok,arxiv_2409.18433_db0ce75a.pdf,3723130 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2406.07882,arxiv,ok,arxiv_2406.07882_47ee6bbe.pdf,7902615 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.05629v1,arxiv,ok,arxiv_2410.05629_e91b0436.pdf,1421546 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.07095,arxiv,ok,arxiv_2410.07095_505cb777.pdf,817725 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.08827,arxiv,ok,arxiv_2410.08827_c1f30091.pdf,693005 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.09024,arxiv,ok,arxiv_2410.09024_0f07054d.pdf,1054913 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.09114,arxiv,ok,arxiv_2410.09114_ce9a2497.pdf,609292 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.03768,arxiv,ok,arxiv_2410.03768_fdddd0f6.pdf,3547689 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.13722,arxiv,ok,arxiv_2410.13722_5c649617.pdf,950345 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.13215,arxiv,ok,arxiv_2410.13215_fb4ba518.pdf,490982 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.13722v1,arxiv,ok,arxiv_2410.13722_5c649617.pdf,950345 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.13787,arxiv,ok,arxiv_2410.13787_cb17e218.pdf,2447522 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.00640v1,arxiv,ok,arxiv_2411.00640_7fa1cbc8.pdf,330983 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.03336,arxiv,ok,arxiv_2411.03336_8f4c9ea6.pdf,915402 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2410.21514,arxiv,ok,arxiv_2410.21514_b1ff2e52.pdf,4687004 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.18025,arxiv,ok,arxiv_2409.18025_9f780c3e.pdf,4960701 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.12990,arxiv,ok,arxiv_2411.12990_0ca66ea8.pdf,805390 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.07494v1,arxiv,ok,arxiv_2411.07494_f9b96b70.pdf,1296289 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.04872,arxiv,ok,arxiv_2411.04872_efc4b605.pdf,1687781 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.00586,arxiv,ok,arxiv_2412.00586_a96c5ca8.pdf,957506 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.01946,arxiv,ok,arxiv_2412.01946_f578f0c5.pdf,312129 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2411.16035,arxiv,ok,arxiv_2411.16035_85d08627.pdf,1553966 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.04984,arxiv,ok,arxiv_2412.04984_fc6880af.pdf,1569497 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.08905,arxiv,ok,arxiv_2412.08905_6420b30c.pdf,1016588 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.12480,arxiv,ok,arxiv_2412.12480_04b25f9b.pdf,946658 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.08686,arxiv,ok,arxiv_2412.08686_10916ec8.pdf,821763 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.19437,arxiv,ok,arxiv_2412.19437_761c102c.pdf,1887366 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2409.12822,arxiv,ok,arxiv_2409.12822_a24d118e.pdf,8178582 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2501.18837,arxiv,ok,arxiv_2501.18837_a49c6f96.pdf,1339179 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2502.02180,arxiv,ok,arxiv_2502.02180_d4556fc9.pdf,2256206 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.14161,arxiv,ok,arxiv_2412.14161_892accfd.pdf,2169754 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2408.06292,arxiv,ok,arxiv_2408.06292_305680d1.pdf,11731143 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2503.05731,arxiv,ok,arxiv_2503.05731_31036499.pdf,2312478 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2503.17332,arxiv,ok,arxiv_2503.17332_5e13cdc7.pdf,602933 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2504.01849,arxiv,ok,arxiv_2504.01849_634415aa.pdf,2825100 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2412.14093,arxiv,ok,arxiv_2412.14093_ac957a1e.pdf,3236586 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2502.03461,arxiv,ok,arxiv_2502.03461_a0cf712c.pdf,2514315 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2507.11473,arxiv,ok,arxiv_2507.11473_263bfab5.pdf,416330 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2508.06601,arxiv,ok,arxiv_2508.06601_086e6f46.pdf,1365763 bytes
+2026-04-26T23:56:25,https://arxiv.org/html/2310.06474v3,arxiv,fail,,RuntimeError: not a PDF (content-type=text/html; charset=utf-8)
+2026-04-26T23:56:25,https://arxiv.org/abs/2510.07192,arxiv,ok,arxiv_2510.07192_553833a1.pdf,1688317 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2502.12115,arxiv,ok,arxiv_2502.12115_10319adc.pdf,3265247 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1705.08439.pdf,arxiv,ok,arxiv_1705.08439_d6456a25.pdf,1251901 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1810.08575.pdf,arxiv,ok,arxiv_1810.08575_53517e7a.pdf,917555 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1811.07871.pdf,arxiv,ok,arxiv_1811.07871_c8980056.pdf,591813 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1705.08807.pdf,arxiv,ok,arxiv_1705.08807_e98d2a63.pdf,1413178 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1906.01820,arxiv,ok,arxiv_1906.01820_626ef3bb.pdf,923940 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2108.07790,arxiv,ok,arxiv_2108.07790_e488f1c5.pdf,648540 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/1805.00899.pdf,arxiv,ok,arxiv_1805.00899_d6049e8c.pdf,1315239 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2503.11926,arxiv,ok,arxiv_2503.11926_4a5fa1e9.pdf,5643216 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2110.07602.pdf,arxiv,ok,arxiv_2110.07602_4d6bb1cb.pdf,695040 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2201.11903.pdf,arxiv,ok,arxiv_2201.11903_888dd8e4.pdf,891773 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2206.13353.pdf,arxiv,ok,arxiv_2206.13353_311b3e40.pdf,701049 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2206.05802.pdf,arxiv,ok,arxiv_2206.05802_2bba6c32.pdf,2644623 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2207.11680.pdf,arxiv,ok,arxiv_2207.11680_e99141d0.pdf,1445276 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2212.08073.pdf,arxiv,ok,arxiv_2212.08073_5eacf5e7.pdf,2088111 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2209.00626.pdf,arxiv,ok,arxiv_2209.00626_c1868760.pdf,490417 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2212.09251.pdf,arxiv,ok,arxiv_2212.09251_ad683c29.pdf,3365665 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2308.14752,arxiv,ok,arxiv_2308.14752_440ef73c.pdf,5835192 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2305.10403,arxiv,ok,arxiv_2305.10403_4ad550aa.pdf,5412215 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2310.13548,arxiv,ok,arxiv_2310.13548_6ccb2e48.pdf,1383108 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2308.14752.pdf,arxiv,ok,arxiv_2308.14752_440ef73c.pdf,5835192 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2311.12022,arxiv,ok,arxiv_2311.12022_9fcb4b1f.pdf,617128 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2311.14125.pdf,arxiv,ok,arxiv_2311.14125_071a04c8.pdf,739487 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2310.13548.pdf,arxiv,ok,arxiv_2310.13548_6ccb2e48.pdf,1383108 bytes
+2026-04-26T23:56:25,https://arxiv.org/abs/2505.05410,arxiv,ok,arxiv_2505.05410_66f0f52a.pdf,6178102 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2403.13793,arxiv,ok,arxiv_2403.13793_a6ba0c76.pdf,1720586 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2402.06782.pdf,arxiv,ok,arxiv_2402.06782_1838b47c.pdf,4511882 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2409.04109,arxiv,ok,arxiv_2409.04109_96a74c22.pdf,942188 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2410.07095,arxiv,ok,arxiv_2410.07095_505cb777.pdf,817725 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2311.17295.pdf,arxiv,ok,arxiv_2311.17295_ddd24d60.pdf,1456928 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2410.09114,arxiv,ok,arxiv_2410.09114_ce9a2497.pdf,609292 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2412.16339,arxiv,ok,arxiv_2412.16339_b449e61c.pdf,2439335 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2502.14499,arxiv,ok,arxiv_2502.14499_680cf1de.pdf,1811246 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2412.16720,arxiv,ok,arxiv_2412.16720_76b3df06.pdf,4487525 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2507.11473,arxiv,ok,arxiv_2507.11473_263bfab5.pdf,416330 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2504.16137,arxiv,ok,arxiv_2504.16137_9ca093b9.pdf,5264889 bytes
+2026-04-26T23:56:25,https://assets.anthropic.com/m/24c8d0a3a7d0a1f1/original/Alignment-Faking-in-Large-Language-Models-reviews.pdf,pdf,ok,Alignment-Faking-in-Large-Language-Models-reviews_731573a2.pdf,292798 bytes
+2026-04-26T23:56:25,https://assets.anthropic.com/m/52eab1f8cf3f04a6/original/Alignment-Faking-Policy-Memo.pdf,pdf,ok,Alignment-Faking-Policy-Memo_d6079e02.pdf,1809412 bytes
+2026-04-26T23:56:25,https://assets.anthropic.com/m/6d46dac66e1a132a/original/Agentic\_Misalignment\_Appendix.pdf,pdf,ok,Agentic_Misalignment_Appendix_8d445219.pdf,1400994 bytes
+2026-04-26T23:56:25,https://assets.anthropic.com/m/6d46dac66e1a132a/original/Agentic_Misalignment_Appendix.pdf,pdf,ok,Agentic_Misalignment_Appendix_0480ae04.pdf,1400994 bytes
+2026-04-26T23:56:25,https://assets.anthropic.com/m/71876fabef0f0ed4/original/reasoning_models_paper.pdf,pdf,ok,reasoning_models_paper_3cf549cf.pdf,6860152 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2602.16703,arxiv,ok,arxiv_2602.16703_387e0af9.pdf,1431377 bytes
+2026-04-26T23:56:25,https://arxiv.org/pdf/2005.14165.pdf,arxiv,ok,arxiv_2005.14165_eb9f79f3.pdf,6768044 bytes
+2026-04-26T23:56:25,https://attack.mitre.org/,web,ok,ATTCK_Matrix_for_Enterprise_90bbfb5d.md,2383 chars
+2026-04-26T23:56:25,https://benchmarking-interpretability.csail.mit.edu/challenges-and-prizes,web,ok,Challenges_and_Prizes_ffebac34.md,3208 chars
+2026-04-26T23:56:25,https://benmgarfinkel.blog/2021/02/26/is-democracy-a-fad,web,ok,Is_Democracy_a_Fad_6c2db200.md,32063 chars
+2026-04-26T23:56:25,https://blog.eleuther.ai/deep-ignorance,web,ok,Pretraining_Data_Filtering_for_Open-Weight_AI_Safety_9659f2e8.md,17182 chars
+2026-04-26T23:56:25,https://arxiv.org/pdf/2204.05862,arxiv,ok,arxiv_2204.05862_71c25fc9.pdf,9503688 bytes
+2026-04-26T23:56:25,https://bluedot.org/blog/introduction-to-mechanistic-interpretability,web,ok,Introduction_to_Mechanistic_Interpretability_0aa60341.md,12535 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/rlhf-explainer,web,ok,Reinforcement_Learning_from_Human_Feedback_RLHF_A_Simple_Explainer_e0204920.md,5838 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/scalable-oversight-intro,web,ok,Can_we_scale_human_feedback_for_complex_AI_tasks_An_intro_to_scalable_oversight._814aa54b.md,22896 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/faithful-chain-of-thought,web,ok,What_is_faithful_chain-of-thought_reasoning_and_why_is_it_useful_for_AI_safety_4f1c4c90.md,8012 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/what-is-ai-alignment?utm_source=civai,web,ok,What_is_AI_alignment_c1a9b2f0.md,17769 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/what-is-constitutional-ai,web,ok,What_is_Constitutional_AI_c83cc433.md,5990 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/what-is-machine-unlearning-and-why-is-it-useful,web,ok,What_is_machine_unlearning_and_why_is_it_useful_989a904b.md,6959 chars
+2026-04-26T23:56:25,https://bluedot.org/blog/what-is-recursive-reward-modelling,web,ok,What_is_Recursive_Reward_Modelling_b2db8f27.md,5581 chars
+2026-04-26T23:56:25,https://bluedot.org/contact,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://bluedot.org/contact
+2026-04-26T23:56:25,https://bluedot.org/blog/what-is-supervised-fine-tuning,web,ok,What_is_supervised_fine-tuning_ea12b59d.md,5643 chars
+2026-04-26T23:56:25,https://bluedot.org/courses/future-of-ai,web,ok,Future_of_AI_Course_BlueDot_Impact_a9f3387d.md,2597 chars
+2026-04-26T23:56:25,https://bluedot.org/courses/future-of-ai?utm_source=bluedot-blog&utm_campaign=deliberative-alignment,web,ok,Future_of_AI_Course_BlueDot_Impact_cbe94e84.md,2597 chars
+2026-04-26T23:56:25,https://arxiv.org/pdf/2408.06292,arxiv,ok,arxiv_2408.06292_305680d1.pdf,11731143 bytes
+2026-04-26T23:56:25,https://bluedot.org/courses/future-of-ai?utm_source=civai,web,ok,Future_of_AI_Course_BlueDot_Impact_100477de.md,2597 chars
+2026-04-26T23:56:25,https://civai.org/blog/situational-awareness-alignment,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://civai.org/blog/situational-awareness-alignment
+2026-04-26T23:56:25,https://compdemocracy.org/,web,ok,The_Computational_Democracy_Project_f509dda6.md,1612 chars
+2026-04-26T23:56:25,https://carnegieendowment.org/research/2024/09/if-then-commitments-for-ai-risk-reduction?lang=en,web,ok,If-Then_Commitments_for_AI_Risk_Reduction_420ae078.md,76355 chars
+2026-04-26T23:56:25,https://carper.ai/,web,ok,Reliable_Shared_Web_Hosting_Services_f7cc5afa.md,2890 chars
+2026-04-26T23:56:25,https://crfm.stanford.edu/helm/classic/latest,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://course.aisafetyfundamentals.com/alignment?session=3,web,ok,AI_Alignment_9c5918bf.md,262 chars
+2026-04-26T23:56:25,https://course.aisafetyfundamentals.com/alignment?session=3&scrollTo=exercises,web,ok,AI_Alignment_dbe0a694.md,262 chars
+2026-04-26T23:56:25,https://crfm.stanford.edu/helm/lite/latest,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://course.aisafetyfundamentals.com/alignment?session=4,web,ok,AI_Alignment_72dc2650.md,262 chars
+2026-04-26T23:56:25,https://ctf.spylab.ai/,web,ok,LLM_CTF_SaTML_2024_97b1f306.md,9257 chars
+2026-04-26T23:56:25,https://cybench.github.io/,web,ok,Cybench_05abdf0e.md,7086 chars
+2026-04-26T23:56:25,https://cybercapabilities.org/,web,ok,Catastrophic_Cyber_Capabilities_Benchmark_3CB_b8978dcf.md,1912 chars
+2026-04-26T23:56:25,https://data.x.ai/2025-08-20-xai-risk-management-framework.pdf,pdf,ok,2025-08-20-xai-risk-management-framework_c9093de6.pdf,144214 bytes
+2026-04-26T23:56:25,https://ctc.westpoint.edu/revisiting-al-qaidas-anthrax-program,web,ok,Revisiting_Al-Qaidas_Anthrax_Program_-_Combating_Terrorism_Center_at_West_Point_3aeea483.md,26771 chars
+2026-04-26T23:56:25,https://darioamodei.com/machines-of-loving-grace,web,ok,Dario_Amodei_Machines_of_Loving_Grace_caf0dd8e.md,98388 chars
+2026-04-26T23:56:25,https://deepmind.google/discover/blog/alphaproteo-generates-novel-proteins-for-biology-and-health-research,web,ok,AlphaProteo_generates_novel_proteins_for_biology_and_health_research_887b199e.md,3414 chars
+2026-04-26T23:56:25,https://deepmind.google/discover/blog/artificial-intelligence-values-and-alignment,web,ok,Artificial_Intelligence_Values_and_Alignment_812bd0cd.md,6008 chars
+2026-04-26T23:56:25,https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00264/43501/DREAM-A-Challenge-Data-Set-and-Models-for-Dialogue,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00264/43501/DREAM-A-Challenge-Data-Set-and-Models-for-Dialogue
+2026-04-26T23:56:25,https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework,web,ok,Introducing_the_Frontier_Safety_Framework_4380930c.md,4123 chars
+2026-04-26T23:56:25,https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity,web,ok,Specification_gaming_the_flip_side_of_AI_ingenuity_20cfc7f7.md,3489 chars
+2026-04-26T23:56:25,https://dl.acm.org/doi/abs/10.1145/3351095.3372873,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://dl.acm.org/doi/abs/10.1145/3351095.3372873
+2026-04-26T23:56:25,https://deepmind.google/discover/blog/updating-the-frontier-safety-framework,web,ok,Updating_the_Frontier_Safety_Framework_26f849eb.md,7984 chars
+2026-04-26T23:56:25,https://distill.pub/2018/building-blocks,web,ok,The_Building_Blocks_of_Interpretability_1d4292ce.md,25745 chars
+2026-04-26T23:56:25,https://distill.pub/2020/circuits/frequency-edges,web,ok,High-Low_Frequency_Detectors_69e34f7f.md,20319 chars
+2026-04-26T23:56:25,https://doi.org/10.48550/arXiv.2502.14143,web,ok,Multi-Agent_Risks_from_Advanced_AI_f1e393e5.md,3694 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Antagonistic_pleiotropy_hypothesis,web,ok,Antagonistic_pleiotropy_hypothesis_-_Wikipedia_0f4a99da.md,28212 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Arcadia_\(play\,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://en.wikipedia.org/wiki/Arcadia_%5C(play%5C
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/American_Psycho_\(film\,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://en.wikipedia.org/wiki/American_Psycho_%5C(film%5C
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Atoms_for_Peace,web,ok,Atoms_for_Peace_-_Wikipedia_5e142ed9.md,17255 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/BLEU,web,ok,BLEU_-_Wikipedia_1eb08290.md,17375 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Baruch_Plan,web,ok,Baruch_Plan_-_Wikipedia_20604dc4.md,14773 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Assurance_contract,web,ok,Assurance_contract_-_Wikipedia_05c9efe6.md,6052 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/AlphaGo,web,ok,AlphaGo_-_Wikipedia_b8fb4193.md,92977 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Bayes_factor,web,ok,Bayes_factor_-_Wikipedia_2aa0afd6.md,23185 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/CAR_T_cell,web,ok,CAR_T_cell_-_Wikipedia_17b955b4.md,135417 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/CBRN_defense,web,ok,CBRN_defense_-_Wikipedia_7dc02fd5.md,48710 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/CLARITY,web,ok,CLARITY_-_Wikipedia_23c62aeb.md,19350 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Construct_validity,web,ok,Construct_validity_-_Wikipedia_d940ad0b.md,28488 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Concorde,web,ok,Concorde_-_Wikipedia_12110b87.md,177831 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Confidential_computing,web,ok,Confidential_computing_-_Wikipedia_8466b72c.md,53935 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/CRISPR,web,ok,CRISPR_-_Wikipedia_6fa4f6de.md,165522 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Down_and_Out_in_the_Magic_Kingdom,web,ok,Down_and_Out_in_the_Magic_Kingdom_-_Wikipedia_6391e26b.md,12182 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Deep_Blue_\(chess_computer\,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://en.wikipedia.org/wiki/Deep_Blue_%5C(chess_computer%5C
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Cruel_and_unusual_punishment,web,ok,Cruel_and_unusual_punishment_-_Wikipedia_70a00794.md,14345 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Elo_rating_system,web,ok,Elo_rating_system_-_Wikipedia_0240201a.md,91062 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Expansion_microscopy,web,ok,Expansion_microscopy_-_Wikipedia_42b2892c.md,21358 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/External_validity,web,ok,External_validity_-_Wikipedia_c3e552b8.md,34732 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Goodhart%27s_law,web,ok,Goodharts_law_-_Wikipedia_d425846f.md,18872 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Externality,web,ok,Externality_-_Wikipedia_9530d9ad.md,98884 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Five_Eyes,web,ok,Five_Eyes_-_Wikipedia_090eb4e2.md,101955 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Friedrich_Hayek,web,ok,Friedrich_Hayek_-_Wikipedia_25ec0df2.md,213301 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Four_Asian_Tigers,web,ok,Four_Asian_Tigers_-_Wikipedia_0a522b8a.md,57498 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Green_Revolution,web,ok,Green_Revolution_-_Wikipedia_1d22240b.md,97138 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Hodgkin%E2%80%93Huxley_model,web,ok,HodgkinHuxley_model_-_Wikipedia_cbacdc23.md,23405 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Google,web,ok,Google_-_Wikipedia_500fb8cf.md,302801 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Institute_for_Disease_Modeling,web,ok,Institute_for_Disease_Modeling_-_Wikipedia_ef22656c.md,8148 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Landauer%27s_principle,web,ok,Landauers_principle_-_Wikipedia_1e0a71ad.md,22136 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Intel,web,ok,Intel_-_Wikipedia_d0c6776a.md,306062 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Lump_of_labour_fallacy,web,ok,Lump_of_labour_fallacy_-_Wikipedia_be3ef851.md,8580 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence,web,ok,KullbackLeibler_divergence_-_Wikipedia_f9bd8e99.md,71995 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Malaria_vaccine,web,ok,Malaria_vaccine_-_Wikipedia_a81e30ed.md,78143 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Quantum_tunnelling,web,ok,Quantum_tunnelling_-_Wikipedia_fd74ba02.md,64407 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Order_statistic,web,ok,Order_statistic_-_Wikipedia_8127eb5f.md,24462 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/ROUGE_\(metric\,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://en.wikipedia.org/wiki/ROUGE_%5C(metric%5C
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Optogenetics,web,ok,Optogenetics_-_Wikipedia_2e1a262a.md,163529 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Sensitive_compartmented_information_facility,web,ok,Sensitive_compartmented_information_facility_-_Wikipedia_f4baae85.md,11333 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Smart_contract,web,ok,Smart_contract_-_Wikipedia_a859c087.md,50795 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Roth_v._United_States,web,ok,Roth_v._United_States_-_Wikipedia_82972646.md,11778 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Socialist_calculation_debate,web,ok,Socialist_calculation_debate_-_Wikipedia_23def74e.md,44939 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Social_Security_debate_in_the_United_States,web,ok,Social_Security_debate_in_the_United_States_-_Wikipedia_75e533ce.md,140352 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Sortition,web,ok,Sortition_-_Wikipedia_38461114.md,65603 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Statistical_hypothesis_testing,web,ok,Statistical_hypothesis_test_-_Wikipedia_391af5d7.md,95073 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Sr%C4%91a_Popovi%C4%87_\(activist\,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://en.wikipedia.org/wiki/Sr%C4%91a_Popovi%C4%87_%5C(activist%5C
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Sydney_Brenner,web,ok,Sydney_Brenner_-_Wikipedia_68c339bd.md,55092 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Technological_singularity,web,ok,Technological_singularity_-_Wikipedia_cbb7a8a9.md,127831 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/The_End_of_History_and_the_Last_Man,web,ok,The_End_of_History_and_the_Last_Man_-_Wikipedia_c764d2ce.md,30331 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/The_Great_Illusion,web,ok,The_Great_Illusion_-_Wikipedia_bf74fee6.md,12100 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/The_Better_Angels_of_Our_Nature,web,ok,The_Better_Angels_of_Our_Nature_-_Wikipedia_c0162d30.md,66205 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Tit_for_tat,web,ok,Tit_for_tat_-_Wikipedia_99757fe1.md,23158 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Three-body_problem,web,ok,Three-body_problem_-_Wikipedia_f2d9a2b9.md,58915 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/The_Art_of_the_Deal,web,ok,The_Art_of_the_Deal_-_Wikipedia_b79326db.md,47104 chars
+2026-04-26T23:56:25,https://epoch.ai/cookies,web,ok,Cookie_Policy_1d4cbca5.md,7680 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/United_States_government_role_in_civil_aviation,web,ok,United_States_government_role_in_civil_aviation_-_Wikipedia_56879b18.md,32728 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/United_States_Armed_Forces,web,ok,United_States_Armed_Forces_-_Wikipedia_f075ee33.md,247095 chars
+2026-04-26T23:56:25,https://epoch.ai/gradient-updates/the-real-reason-ai-benchmarks-havent-reflected-economic-impacts,web,ok,The_real_reason_AI_benchmarks_havenât_reflected_economic_impacts_5991a9fe.md,8405 chars
+2026-04-26T23:56:25,https://epoch.ai/privacy,web,ok,Privacy_Notice_80f27f3c.md,33998 chars
+2026-04-26T23:56:25,https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style,web,ok,WikipediaManual_of_Style_-_Wikipedia_b6776631.md,213462 chars
+2026-04-26T23:56:25,https://epochai.substack.com/subscribe,web,ok,Subscribe_to_Epoch_AI_0f65568e.md,528 chars
+2026-04-26T23:56:25,https://evaluations.metr.org/openai-o1-preview-report,web,ok,Details_about_METRs_preliminary_evaluation_of_OpenAI_o1-preview_ba23dd60.md,25099 chars
+2026-04-26T23:56:25,https://epoch.ai/about/team/anson-ho,web,ok,Anson_Ho_ed0b588b.md,10345 chars
+2026-04-26T23:56:25,https://forum.effectivealtruism.org/posts/ajBYeiggAzu6Cgb3o/biological-anchors-is-about-bounding-not-pinpointing-ai?commentId=59wqZk8wcKdEWQG3J,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://ev.org/,web,ok,Effective_Ventures_cd6d856a.md,395 chars
+2026-04-26T23:56:25,https://foresight.org/ai-safety,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://foresight.org/ai-safety
+2026-04-26T23:56:25,https://forum.effectivealtruism.org/posts/ajBYeiggAzu6Cgb3o/biological-anchors-is-about-bounding-not-pinpointing-ai?commentId=nEeuknn4unKTWEd6i,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://fortune.com/2025/08/14/worried-ai-could-teach-people-to-build-bioweapons-dont-teach-it-how-say-researchers,web,ok,AI_safety_tip_if_you_dont_want_it_giving_bioweapon_instructions_maybe_dont_put_them_in_the_training__3cdd3de8.md,9024 chars
+2026-04-26T23:56:25,https://fas.org/publication/increasing-policy-readiness-of-ideas,web,ok,Increasing_the_Policy_Readiness_of_Ideas_Tom_Kalil_9daa4574.md,8621 chars
+2026-04-26T23:56:25,https://haizelabs.com/,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://haizelabs.com/
+2026-04-26T23:56:25,https://futureoflife.org/asi-polling,web,ok,The_U.S._Public_Wants_Regulation_or_Prohibition_of_ExpertLevel_and_Superhuman_AI_-_Future_of_Life_In_c40e1edd.md,8369 chars
+2026-04-26T23:56:25,https://gluebenchmark.com/,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://ifanyonebuildsit.com/_next/image?url=%2Fprivate%2Fmedia-resources%2FIABIED%2520Creatives%2520Resources%2520(Internal,web,fail,,HTTPError: 400 Client Error: Bad Request for url: https://ifanyonebuildsit.com/_next/image?url=%2Fprivate%2Fmedia-resources%2FIABIED%2520Creatives%2520Resources%2520(Internal
+2026-04-26T23:56:25,https://garrisonlovely.substack.com/p/claude-doesnt-want-to-die,web,ok,Claude_Doesnt_Want_to_Die_b85a5017.md,19493 chars
+2026-04-26T23:56:25,https://hls.harvard.edu/faculty/noah-r-feldman,web,ok,Noah_R._Feldman_-_Harvard_Law_School_c07b20cb.md,4472 chars
+2026-04-26T23:56:25,https://ifanyonebuildsit.com/media-kit,web,ok,If_Anyone_Builds_It_Everyone_Dies_87ba691e.md,5458 chars
+2026-04-26T23:56:25,https://futureoflife.org/open-letter/pause-giant-ai-experiments,web,ok,Pause_Giant_AI_Experiments_An_Open_Letter_-_Future_of_Life_Institute_d6f15827.md,7736 chars
+2026-04-26T23:56:25,https://home.cern/resources/faqs/five-sigma,web,ok,HiLumi_LHC_CERNs_full-scale_test_stand_ente..._f5bf7d31.md,8935 chars
+2026-04-26T23:56:25,https://inspect.ai-safety-institute.org.uk/,web,ok,Inspect_bfb7a89d.md,15614 chars
+2026-04-26T23:56:25,https://jack-clark.net/,web,ok,Import_AI_a098b9cd.md,20597 chars
+2026-04-26T23:56:25,https://inst.eecs.berkeley.edu/~cs188/fa24,web,ok,CS_188_Fall_2024_968558fc.md,11326 chars
+2026-04-26T23:56:25,https://intelligence.org/2015/12/31/safety-engineering-target-selection-and-alignment-theory,web,ok,Safety_engineering_target_selection_and_alignment_theory_-_Machine_Intelligence_Research_Institute_8e289f7b.md,20911 chars
+2026-04-26T23:56:25,https://keepthefuturehuman.ai/essay/docs/chapter-1,web,ok,Keep_The_Future_Human_c11277d1.md,5326 chars
+2026-04-26T23:56:25,https://joecarlsmith.com/2023/11/15/new-report-scheming-ais-will-ais-fake-alignment-during-training-in-order-to-get-power,web,ok,New_report_Scheming_AIs_Will_AIs_fake_alignment_during_training_in_order_to_get_power_-_Joe_Carlsmit_71b7a799.md,71193 chars
+2026-04-26T23:56:25,https://law.yale.edu/john-d-morley,web,ok,John_D._Morley_b9ea4300.md,1765 chars
+2026-04-26T23:56:25,https://keepthefuturehuman.ai/wp-content/uploads/2025/03/Keep_the_Future_Human__AnthonyAguirre__5March2025.pdf,pdf,ok,Keep_the_Future_Human__AnthonyAguirre__5March2025_b5deba72.pdf,666272 bytes
+2026-04-26T23:56:25,https://krebsonsecurity.com/2018/07/google-security-keys-neutralized-employee-phishing,web,ok,Google_Security_Keys_Neutralized_Employee_Phishing_34af5dff.md,9225 chars
+2026-04-26T23:56:25,https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260SB53,web,ok,Bill_Text_b3f665b3.md,20126 chars
+2026-04-26T23:56:25,https://lesswrong.com/users/buck,web,ok,Buck_3aaf690a.md,2126 chars
+2026-04-26T23:56:25,https://lilianweng.github.io/posts/2024-11-28-reward-hacking,web,ok,Reward_Hacking_in_Reinforcement_Learning_d6a56447.md,52173 chars
+2026-04-26T23:56:25,https://link.springer.com/article/10.1134/S1062360422040075,web,ok,CRISPRCas_History_and_Perspectives_-_Russian_Journal_of_Developmental_Biology_35497485.md,59880 chars
+2026-04-26T23:56:25,https://manifund.org/projects/apart-research-research-and-talent-acceleration,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://manifund.org/projects/apart-research-research-and-talent-acceleration
+2026-04-26T23:56:25,https://link.springer.com/article/10.1007/s11482-022-10070-y,web,ok,The_Association_between_Subjective_Well-being_and_Regime_Type_across_78_countries_the_moderating_rol_d6fc7d31.md,65799 chars
+2026-04-26T23:56:25,https://machinocene.substack.com/p/cern-for-ai-an-overview,web,ok,CERN_for_AI_An_overview_ad031a5f.md,58483 chars
+2026-04-26T23:56:25,https://metr.org/,web,ok,METR_516949eb.md,4229 chars
+2026-04-26T23:56:25,https://metr.github.io/autonomy-evals-guide/elicitation-protocol,web,ok,Redirecting..._3be50887.md,353 chars
+2026-04-26T23:56:25,https://metr.org/assets/common-elements-nov-2024.pdf,pdf,ok,common-elements-nov-2024_66a59187.pdf,1034269 bytes
+2026-04-26T23:56:25,https://metr.org/blog/2024-08-29-common-elements-of-frontier-ai-safety-policies,web,ok,Redirecting_24880147.md,323 chars
+2026-04-26T23:56:25,https://metr.org/faisc,web,ok,Redirecting_fb5699a0.md,186 chars
+2026-04-26T23:56:25,https://metr.org/blog/2024-11-22-evaluating-r-d-capabilities-of-llms,web,ok,Evaluating_frontier_AI_RD_capabilities_of_language_model_agents_against_human_experts_b1af10e6.md,23705 chars
+2026-04-26T23:56:25,https://metr.org/language-model-pilot-report,web,ok,Language_Model_Pilot_Report_409a066e.md,2911 chars
+2026-04-26T23:56:25,https://metr.org/rsp-key-components,web,ok,Key_Components_of_an_RSP_de1a0076.md,31595 chars
+2026-04-26T23:56:25,https://metr.org/team?name=chris-painter,web,ok,Redirecting_a7f555e0.md,208 chars
+2026-04-26T23:56:25,https://metr.org/team?name=holden-karnofsky,web,ok,Redirecting_143339e8.md,208 chars
+2026-04-26T23:56:25,https://metr.org/team?name=paul-christiano,web,ok,Redirecting_ba0fe928.md,208 chars
+2026-04-26T23:56:25,https://milesbrundage.substack.com/2b7a7fa9-e94d-4b06-80a1-547a43e8587e,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/2b7a7fa9-e94d-4b06-80a1-547a43e8587e
+2026-04-26T23:56:25,https://milesbrundage.substack.com/7a98eba7-030a-45ce-9d4f-24e5d9ff8ee9,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/7a98eba7-030a-45ce-9d4f-24e5d9ff8ee9
+2026-04-26T23:56:25,https://milesbrundage.substack.com/90fdaa2c-422f-4d38-8cfb-2e92e69d59f4,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/90fdaa2c-422f-4d38-8cfb-2e92e69d59f4
+2026-04-26T23:56:25,https://milesbrundage.substack.com/b0f500a6-de37-40c9-b2c2-7e190d7326f3,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/b0f500a6-de37-40c9-b2c2-7e190d7326f3
+2026-04-26T23:56:25,https://milesbrundage.substack.com/b74c3bec-5801-4790-ac31-2fb08f0848c8,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/b74c3bec-5801-4790-ac31-2fb08f0848c8
+2026-04-26T23:56:25,https://milesbrundage.substack.com/d7120fb8-27ee-4f3a-8c68-50bdac4ddb8f,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/d7120fb8-27ee-4f3a-8c68-50bdac4ddb8f
+2026-04-26T23:56:25,https://milesbrundage.substack.com/c9fd6b02-2b1c-45c2-bd0a-12a2e4044d4a,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/c9fd6b02-2b1c-45c2-bd0a-12a2e4044d4a
+2026-04-26T23:56:25,https://milesbrundage.substack.com/fd841daf-2848-48ec-bfad-c138840410ae,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://milesbrundage.substack.com/fd841daf-2848-48ec-bfad-c138840410ae
+2026-04-26T23:56:25,https://milesbrundage.substack.com/p/the-bread-and-butter-problem-in-ai,web,ok,The_Bread_and_Butter_Problem_in_AI_Policy_b0ce0b11.md,4953 chars
+2026-04-26T23:56:25,https://milesbrundage.substack.com/p/reasons-that-ai-can-help-with-ai,web,ok,Reasons_that_AI_Can_Help_with_AI_Governance_56a98a0a.md,12264 chars
+2026-04-26T23:56:25,https://milesbrundage.substack.com/p/why-im-leaving-openai-and-what-im,web,ok,Why_Im_Leaving_OpenAI_and_What_Im_Doing_Next_42a87e0f.md,35676 chars
+2026-04-26T23:56:25,https://metr.org/AI_R_D_Evaluation_Report.pdf,pdf,ok,AI_R_D_Evaluation_Report_bf70e565.pdf,15058765 bytes
+2026-04-26T23:56:25,https://nickbostrom.com/deep-utopia,web,ok,Deep_Utopia_0e4e1bd3.md,4672 chars
+2026-04-26T23:56:25,https://nintil.com/scaling-tacit-knowledge,web,ok,Scaling_tacit_knowledge_8d8f5a60.md,82847 chars
+2026-04-26T23:56:25,https://ojs.aaai.org/index.php/AAAI/article/view/6398,web,ok,Getting_Closer_to_AI_Complete_Question_Answering_A_Set_of_Prerequisite_Real_Tasks_d03c202c.md,2610 chars
+2026-04-26T23:56:25,https://ojs.aaai.org/index.php/AAAI/article/view/11485,web,ok,Deep_TAMER_Interactive_Agent_Shaping_in_High-Dimensional_State_Spaces_1a8f076f.md,3241 chars
+2026-04-26T23:56:25,https://neurips.cc/virtual/2023/82192,web,ok,Multi-Agent_Risks_from_Advanced_AI_3503a57f.md,774 chars
+2026-04-26T23:56:25,https://openai.com/blog/chatgpt,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/blog/chatgpt
+2026-04-26T23:56:25,https://openai.com/blog/deep-reinforcement-learning-from-human-preferences,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/blog/deep-reinforcement-learning-from-human-preferences
+2026-04-26T23:56:25,https://model-spec.openai.com/2025-04-11.html,web,ok,OpenAI_Model_Spec_49ff3771.md,79094 chars
+2026-04-26T23:56:25,https://openai.com/blog/instruction-following,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/blog/instruction-following
+2026-04-26T23:56:25,https://openai.com/blog/introducing-superalignment,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/blog/introducing-superalignment
+2026-04-26T23:56:25,https://openai.com/blog/our-approach-to-alignment-research,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/blog/our-approach-to-alignment-research
+2026-04-26T23:56:25,https://openai.com/global-affairs/an-update-on-disrupting-deceptive-uses-of-ai,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/global-affairs/an-update-on-disrupting-deceptive-uses-of-ai
+2026-04-26T23:56:25,https://onlinelibrary.wiley.com/doi/full/10.1002/wps.21034,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://onlinelibrary.wiley.com/doi/full/10.1002/wps.21034
+2026-04-26T23:56:25,https://onlinelibrary.wiley.com/doi/full/10.1002/wps.21203,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://onlinelibrary.wiley.com/doi/full/10.1002/wps.21203
+2026-04-26T23:56:25,https://openai.com/index/building-an-early-warning-system-for-llm-aided-biological-threat-creation,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/building-an-early-warning-system-for-llm-aided-biological-threat-creation
+2026-04-26T23:56:25,https://openai.com/index/chain-of-thought-monitoring,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/chain-of-thought-monitoring
+2026-04-26T23:56:25,https://openai.com/index/dall-e-3-system-card,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/dall-e-3-system-card
+2026-04-26T23:56:25,https://openai.com/index/deliberative-alignment?utm_source=chatgpt.com,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/deliberative-alignment?utm_source=chatgpt.com
+2026-04-26T23:56:25,https://openai.com/index/debate,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/debate
+2026-04-26T23:56:25,https://openai.com/index/deliberative-alignment,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/deliberative-alignment
+2026-04-26T23:56:25,https://openai.com/index/democratic-inputs-to-ai-grant-program-update,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/democratic-inputs-to-ai-grant-program-update
+2026-04-26T23:56:25,https://openai.com/index/disrupting-malicious-uses-of-ai-by-state-affiliated-threat-actors,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/disrupting-malicious-uses-of-ai-by-state-affiliated-threat-actors
+2026-04-26T23:56:25,https://openai.com/index/disrupting-deceptive-uses-of-AI-by-covert-influence-operations,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/disrupting-deceptive-uses-of-AI-by-covert-influence-operations
+2026-04-26T23:56:25,https://openai.com/index/disrupting-a-covert-iranian-influence-operation,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/disrupting-a-covert-iranian-influence-operation
+2026-04-26T23:56:25,https://openai.com/index/faulty-reward-functions,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/faulty-reward-functions
+2026-04-26T23:56:25,https://openai.com/index/gpt-5-system-card,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/gpt-5-system-card
+2026-04-26T23:56:25,https://openai.com/index/instruction-following,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/instruction-following
+2026-04-26T23:56:25,https://openai.com/index/introducing-chatgpt-pro,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/introducing-chatgpt-pro
+2026-04-26T23:56:25,https://openai.com/index/introducing-o3-and-o4-mini,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/introducing-o3-and-o4-mini
+2026-04-26T23:56:25,https://openai.com/index/introducing-operator,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/introducing-operator
+2026-04-26T23:56:25,https://openai.com/index/introducing-superalignment,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/introducing-superalignment
+2026-04-26T23:56:25,https://openai.com/index/introducing-swe-bench-verified,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/introducing-swe-bench-verified
+2026-04-26T23:56:25,https://openai.com/index/learning-from-human-preferences,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/learning-from-human-preferences
+2026-04-26T23:56:25,https://openai.com/index/learning-to-reason-with-llms,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/learning-to-reason-with-llms
+2026-04-26T23:56:25,https://openai.com/index/openai-anthropic-safety-evaluation,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/openai-anthropic-safety-evaluation
+2026-04-26T23:56:25,https://openai.com/index/openai-o1-system-card,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/openai-o1-system-card
+2026-04-26T23:56:25,https://openai.com/index/updating-our-preparedness-framework,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/updating-our-preparedness-framework
+2026-04-26T23:56:25,https://openai.com/index/weak-to-strong-generalization,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/index/weak-to-strong-generalization
+2026-04-26T23:56:25,https://openai.com/research/critiques,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/research/critiques
+2026-04-26T23:56:25,https://openai.com/o1,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/o1
+2026-04-26T23:56:25,https://openai.com/research/learning-from-human-preferences,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/research/learning-from-human-preferences
+2026-04-26T23:56:25,https://openai.com/research/summarizing-books,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://openai.com/research/summarizing-books
+2026-04-26T23:56:25,https://ourworldindata.org/crop-yields,web,ok,Crop_Yields_042899e6.md,2552 chars
+2026-04-26T23:56:25,https://openreview.net/forum?id=zAxuIJLb38,web,ok,Knowledge_Unlearning_for_Mitigating_Privacy_Risks_in_Language_Models_69ee0583.md,2964 chars
+2026-04-26T23:56:25,https://openreview.net/forum?id=oycEeFXX74,web,ok,Shell_Games_Control_Protocols_for_Adversarial_AI_Agents_bd1bfcb4.md,3901 chars
+2026-04-26T23:56:25,https://ourworldindata.org/grapher/countries-democracies-autocracies-row,web,ok,Countries_that_are_democracies_and_autocracies_a519aa06.md,18882 chars
+2026-04-26T23:56:25,https://openai.notion.site/Research-directions-0df8dd8136004615b0936bf48eb6aeb8,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://openai.notion.site/Research-directions-0df8dd8136004615b0936bf48eb6aeb8
+2026-04-26T23:56:25,https://ourworldindata.org/life-expectancy,web,ok,Life_Expectancy_5bd162df.md,8647 chars
+2026-04-26T23:56:25,https://ourworldindata.org/much-better-awful-can-be-better,web,ok,The_world_is_awful._The_world_is_much_better._The_world_can_be_much_better._fafa44ac.md,13950 chars
+2026-04-26T23:56:25,https://ourworldindata.org/smallpox,web,ok,Smallpox_8f3d0739.md,36364 chars
+2026-04-26T23:56:25,https://ourworldindata.org/world-population-growth,web,ok,Population_Growth_0b6d4e35.md,3580 chars
+2026-04-26T23:56:25,https://palisaderesearch.github.io/shutdown_avoidance/2025-05-announcement.html,web,ok,2025-05-announcement.html_43e2e365.md,4732 chars
+2026-04-26T23:56:25,https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3933677,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3933677
+2026-04-26T23:56:25,https://palisaderesearch.org/blog/shutdown-resistance,web,ok,Shutdown_resistance_in_reasoning_models_62f31ec4.md,19032 chars
+2026-04-26T23:56:25,https://proceedings.mlr.press/v162/mindermann22a.html,web,ok,Prioritized_Training_on_Points_that_are_Learnable_Worth_Learning_and_not_yet_Learnt_fbf9225e.md,2171 chars
+2026-04-26T23:56:25,https://paulfchristiano.com/,web,ok,Paul_Christiano_471e48d9.md,894 chars
+2026-04-26T23:56:25,https://proceedings.neurips.cc/paper/2017/hash/d5e2c0adad503c91f91df240d0cd4e49-Abstract.html,web,ok,Deep_Reinforcement_Learning_from_Human_Preferences_6168096f.md,1415 chars
+2026-04-26T23:56:25,https://proceedings.mlr.press/v81/buolamwini18a/buolamwini18a.pdf,pdf,ok,buolamwini18a_400f0c88.pdf,1070544 bytes
+2026-04-26T23:56:25,https://proceedings.mlr.press/v70/koh17a/koh17a.pdf,pdf,ok,koh17a_2e5028fb.pdf,4815350 bytes
+2026-04-26T23:56:25,https://proceedings.neurips.cc/paper/2020/hash/1f89885d556929e98d3ef9b86448f951-Abstract.html,web,ok,Learning_to_summarize_with_human_feedback_f59a43c5.md,1982 chars
+2026-04-26T23:56:25,https://robertkirk.github.io/,web,ok,Home_2f5a1bdc.md,3239 chars
+2026-04-26T23:56:25,https://safe.ai/blog/wmdp-benchmark,web,ok,The_WMDP_Benchmark_Measuring_and_Reducing_Malicious_Use_With_Unlearning_CAIS_15f3ed05.md,5108 chars
+2026-04-26T23:56:25,https://rome.baulab.info/,web,ok,Locating_and_Editing_Factual_Associations_in_GPT_c596305d.md,15634 chars
+2026-04-26T23:56:25,https://safe.ai/work/statement-on-ai-risk,web,ok,Statement_on_AI_Risk_CAIS_a5ac984d.md,874 chars
+2026-04-26T23:56:25,https://sd11.senate.ca.gov/news/20230913-senator-wiener-introduces-safety-framework-artificial-intelligence-legislation,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://sd11.senate.ca.gov/news/20230913-senator-wiener-introduces-safety-framework-artificial-intelligence-legislation
+2026-04-26T23:56:25,https://scottaaronson.blog/?p=6919,web,ok,Short_letter_to_my_11-year-old_self_174af071.md,4884 chars
+2026-04-26T23:56:25,https://situational-awareness.ai/from-agi-to-superintelligence,web,ok,II._From_AGI_to_Superintelligence_the_Intelligence_Explosion_-_SITUATIONAL_AWARENESS_1744d725.md,58596 chars
+2026-04-26T23:56:25,https://situational-awareness.ai/lock-down-the-labs,web,ok,IIIb._Lock_Down_the_Labs_Security_for_AGI_-_SITUATIONAL_AWARENESS_f1d77867.md,36255 chars
+2026-04-26T23:56:25,https://situational-awareness.ai/from-gpt-4-to-agi,web,ok,I._From_GPT-4_to_AGI_Counting_the_OOMs_-_SITUATIONAL_AWARENESS_93687572.md,66064 chars
+2026-04-26T23:56:25,https://situational-awareness.ai/the-free-world-must-prevail,web,ok,IIId._The_Free_World_Must_Prevail_-_SITUATIONAL_AWARENESS_ca7b1bb1.md,39219 chars
+2026-04-26T23:56:25,https://spinningup.openai.com/en/latest/algorithms/ppo.html,web,ok,Proximal_Policy_OptimizationÂ_900da9d4.md,13231 chars
+2026-04-26T23:56:25,https://slatestarcodex.com/2015/08/17/the-goddess-of-everything-else-2,web,ok,The_Goddess_of_Everything_Else_ab84d811.md,13369 chars
+2026-04-26T23:56:25,https://super.gluebenchmark.com/,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://support.claude.com/en/articles/12119250-model-safety-bug-bounty-program,web,ok,Model_Safety_Bug_Bounty_Program_Claude_Help_Center_52e7c661.md,5020 chars
+2026-04-26T23:56:25,https://techinformed.com/2025-informed-the-year-of-agentic-ai,web,ok,2025_Informed_the_year_of_Agentic_AI_-_TechInformed_d93fca7b.md,13611 chars
+2026-04-26T23:56:25,https://theprecipice.com/,web,ok,The_Precipice_e8e6b56d.md,3323 chars
+2026-04-26T23:56:25,https://techcrunch.com/2023/04/20/jailbreak-tricks-discords-new-chatbot-into-sharing-napalm-and-meth-instructions,web,ok,Jailbreak_tricks_Discords_new_chatbot_into_sharing_napalm_and_meth_instructions_TechCrunch_ec6b1403.md,8618 chars
+2026-04-26T23:56:25,https://time.com/4252312/googles-artificial-intelligence-beats-legendary-go-player,web,ok,Googles_AI_Beats_Legendary_Go_Player_c87361a1.md,1096 chars
+2026-04-26T23:56:25,https://time.com/7012890/yoshua-bengio-2,web,ok,TIME100_AI_2024_Yoshua_Bengio_1464b780.md,7543 chars
+2026-04-26T23:56:25,https://time.com/7202312/new-tests-reveal-ai-capacity-for-deception,web,ok,New_Tests_Reveal_AIs_Capacity_for_Deception_c3258560.md,9673 chars
+2026-04-26T23:56:25,https://time.com/7202784/ai-research-strategic-lying,web,ok,Exclusive_New_Research_Shows_AI_Strategically_Lying_6f6ffce8.md,7595 chars
+2026-04-26T23:56:25,https://time.com/7205596/sam-altman-superintelligence-agi,web,ok,How_OpenAIs_Sam_Altman_Is_Thinking_About_AGI_and_Superintelligence_in_2025_c4d0c5c3.md,14781 chars
+2026-04-26T23:56:25,https://time.com/7203729/ai-evaluations-safety,web,ok,AI_Models_Are_Getting_Smarter._New_Tests_Are_Racing_to_Catch_Up_d39691cc.md,18496 chars
+2026-04-26T23:56:25,https://time.com/7221384/ai-regulation-takes-backseat-paris-summit,web,ok,U.S._Pushes_for_Less_AI_Regulation_at_Paris_Summit_e783d383.md,5483 chars
+2026-04-26T23:56:25,https://time.com/7210296/chinese-ai-company-deepseek-stuns-american-ai-industry,web,ok,What_Is_DeepSeek_the_New_Chinese_OpenAI_Rival_8399055d.md,12581 chars
+2026-04-26T23:56:25,https://transcripts.metr.org/,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://transcripts.metr.org/run,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://transformer-circuits.pub/,web,ok,Anthropicâs_Interpretability_Research_7ff6253f.md,469 chars
+2026-04-26T23:56:25,https://transformer-circuits.pub/2021/framework/index.html,web,ok,A_Mathematical_Framework_for_Transformer_Circuits_928c3b5b.md,73361 chars
+2026-04-26T23:56:25,https://transluce.org/observability-interface,web,ok,Monitor_An_AI-Driven_Observability_Interface--_--_283a18bf.md,24298 chars
+2026-04-26T23:56:25,https://trust.anthropic.com/resources?s=eorilovp4wxk38nxbi7k3&name=anthropic-frontier-compliance-framework,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://transformer-circuits.pub/2023/monosemantic-features,web,ok,Towards_Monosemanticity_Decomposing_Language_Models_With_Dictionary_Learning_eaa33128.md,123839 chars
+2026-04-26T23:56:25,https://waitbutwhy.com/2015/01/artificial-intelligence-revolution-2.html,web,ok,The_AI_Revolution_Our_Immortality_or_Extinction_96160d68.md,110493 chars
+2026-04-26T23:56:25,https://webarena.dev/,web,ok,WebArena-x_8490816c.md,622 chars
+2026-04-26T23:56:25,https://www.adalovelaceinstitute.org/blog/synthetic-data-real-harm,web,ok,Synthetic_data_real_harm_190b80b8.md,17211 chars
+2026-04-26T23:56:25,https://www.adept.ai/act,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.adept.ai/act
+2026-04-26T23:56:25,https://www.ai-transparency.org/,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.aclweb.org/anthology/D19-1243,web,ok,Cosmos_QA_Machine_Reading_Comprehension_with_Contextual_Commonsense_Reasoning_a5443f4c.md,3391 chars
+2026-04-26T23:56:25,https://www.aisi.gov.uk/work/advanced-ai-evaluations-may-update,web,ok,Advanced_AI_evaluations_at_AISI_May_update_AISI_Work_91e3c569.md,25533 chars
+2026-04-26T23:56:25,https://www.aisi.gov.uk/work/pre-deployment-evaluation-of-anthropics-upgraded-claude-3-5-sonnet,web,ok,Pre-deployment_evaluation_of_Anthropics_upgraded_Claude_3.5_Sonnet_AISI_Work_6dc8cac0.md,10889 chars
+2026-04-26T23:56:25,https://www.aisi.gov.uk/work/pre-deployment-evaluation-of-openais-o1-model,web,ok,Pre-Deployment_evaluation_of_OpenAIs_o1_model_AISI_Work_2d942ebd.md,9851 chars
+2026-04-26T23:56:25,https://www.alignment.org/,web,ok,Alignment_Research_Center_62b91b1b.md,3041 chars
+2026-04-26T23:56:25,https://www.alignment.org/blog/mechanistic-anomaly-detection-and-elk,web,ok,Mechanistic_anomaly_detection_and_ELK_d034dfdf.md,39461 chars
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/ChDH335ckdvpxXaXX/model-organisms-of-misalignment-the-case-for-a-new-pillar-of-1,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/ChDH335ckdvpxXaXX/model-organisms-of-misalignment-the-case-for-a-new-pillar-of-1
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/GCqoks9eZDfpL8L3Q/how-to-prevent-collusion-when-using-untrusted-models-to,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/GCqoks9eZDfpL8L3Q/how-to-prevent-collusion-when-using-untrusted-models-to
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/EFrsvnF6uZieZr3uG/adversarial-training-importance-sampling-and-anti,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/EFrsvnF6uZieZr3uG/adversarial-training-importance-sampling-and-anti
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/JKwrDwsaRiSxTv9ur/categorizing-failures-as-outer-or-inner-misalignment-is,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/JKwrDwsaRiSxTv9ur/categorizing-failures-as-outer-or-inner-misalignment-is
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/KENtuXySHJgxsH2Qk/managing-catastrophic-misuse-without-robust-ais,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/KENtuXySHJgxsH2Qk/managing-catastrophic-misuse-without-robust-ais
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/LbrPTJ4fmABEdEnLf/200-concrete-open-problems-in-mechanistic-interpretability,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/LbrPTJ4fmABEdEnLf/200-concrete-open-problems-in-mechanistic-interpretability
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/LjgcRbptarrRfJWtR/a-breakdown-of-ai-capability-levels-focused-on-ai-r-and-d,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/LjgcRbptarrRfJWtR/a-breakdown-of-ai-capability-levels-focused-on-ai-r-and-d
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/PJLABqQ962hZEqhdB/debate-update-obfuscated-arguments-problem,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/PJLABqQ962hZEqhdB/debate-update-obfuscated-arguments-problem
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/d9FJHawgkiMSPjagR/ai-control-improving-safety-despite-intentional-subversion,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/d9FJHawgkiMSPjagR/ai-control-improving-safety-despite-intentional-subversion
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/Qo2EkG3dEMv8GnX8d/ai-strategy-nearcasting,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/Qo2EkG3dEMv8GnX8d/ai-strategy-nearcasting
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/dxgEaDrEBkkE96CXr/thoughts-on-responsible-scaling-policies-and-regulation,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/dxgEaDrEBkkE96CXr/thoughts-on-responsible-scaling-policies-and-regulation
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/dxgEaDrEBkkE96CXr/thoughts-on-responsible-scaling-policies-and-regulation?commentId=HMAL8nK47hD6XBTCw,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/dxgEaDrEBkkE96CXr/thoughts-on-responsible-scaling-policies-and-regulation?commentId=HMAL8nK47hD6XBTCw
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/i2nmBfCXnadeGmhzW/catching-ais-red-handed,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/i2nmBfCXnadeGmhzW/catching-ais-red-handed
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/mFAvspg4sXkrfZ7FA/deep-forgetting-and-unlearning-for-safely-scoped-llms,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/mFAvspg4sXkrfZ7FA/deep-forgetting-and-unlearning-for-safely-scoped-llms
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/vYWDEtJ2b8tkbG7Rv/behavioral-red-teaming-is-unlikely-to-produce-clear-strong,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/vYWDEtJ2b8tkbG7Rv/behavioral-red-teaming-is-unlikely-to-produce-clear-strong
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/vhfATmAoJcN8RqGg6/a-guide-to-iterated-amplification-and-debate,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/vhfATmAoJcN8RqGg6/a-guide-to-iterated-amplification-and-debate
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/vphFJzK3mWA4PJKAg/coherent-behaviour-in-the-real-world-is-an-incoherent,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/vphFJzK3mWA4PJKAg/coherent-behaviour-in-the-real-world-is-an-incoherent
+2026-04-26T23:56:25,https://proceedings.neurips.cc/paper/2021/file/5c04925674920eb58467fb52ce4ef728-Paper.pdf,pdf,ok,5c04925674920eb58467fb52ce4ef728-Paper_116a2200.pdf,627583 bytes
+2026-04-26T23:56:25,https://www.alignmentforum.org/posts/xqkGmfikqapbJ2YMj/shard-theory-an-overview,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/posts/xqkGmfikqapbJ2YMj/shard-theory-an-overview
+2026-04-26T23:56:25,https://www.alignmentforum.org/s/4dHMdK5TLN6xcqtyc/p/NxF5G6CJiof6cemTw,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/s/4dHMdK5TLN6xcqtyc/p/NxF5G6CJiof6cemTw
+2026-04-26T23:56:25,https://www.alignmentforum.org/s/mzgtmmTKKn5MuCzFJ,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/s/mzgtmmTKKn5MuCzFJ
+2026-04-26T23:56:25,https://www.alignmentforum.org/w/daemons,web,fail,,HTTPError: 429 Client Error: Too Many Requests for url: https://www.alignmentforum.org/w/daemons
+2026-04-26T23:56:25,https://www.annualreviews.org/content/journals/10.1146/annurev-animal-021022-055132,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.annualreviews.org/content/journals/10.1146/annurev-animal-021022-055132
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F063a4368697f13e8d297f3cfed31a4cf9fe0790e-4584x1667.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F246a928da96d21474848647bc4b0938d182aeb8b-4096x1746.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/,web,ok,Home_Anthropic_138dc8d9.md,332 chars
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F389ef6fe2011f65e3f7bd7c56eadbe89ea9b45b7-4584x2580.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F6cc34bfc6ba9f1e033a62fcde68ed97b88c9a253-2200x1152.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F70cae1622a2d6c22e2c6e263ea158167ca2106c1-4584x2579.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F713234b3b3dc00ab02ff4c16b7ad3fd9d1171ad9-4584x2579.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F13036ed61a509a1464aa1ac39d8de229b30772a3-4096x2304.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F99736e27f302232297c0aca0f5b33e2600ec8906-4096x1139.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fa04240ddbf30daf711a186ceed0a240bd390a312-4584x2580.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fa7c09ecd57c986788a20b71daaa533bc691830b3-4096x2304.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fae6d3c4209ac5fa888cb21941f25e0d24c14e275-4584x2579.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F303486c9f04cab24abd889087830712ba2c5ebb0-4096x2304.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fc53d3d072ceef20105299251a03ecd0f30190a11-1728x1258.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fc704ae324f51c73c9a723aed7f725d6a28159380-2200x1690.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd4ecf930303d3c5b9bdb6d953fd845eac92ffb48-3840x2160.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd8889f94ef801509c36d02fabe7e61bd468ca6f6-3840x2160.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://proceedings.neurips.cc/paper_files/paper/2023/file/ed3fea9033a80fea1376299fa7863f4a-Paper-Conference.pdf,pdf,ok,ed3fea9033a80fea1376299fa7863f4a-Paper-Conference_33e31b28.pdf,1000186 bytes
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fe85c883654e0a7e6d096cfa0413b35bcb7ccad58-2880x1620.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Ff16473f9893693a59cb4794883ed0dce965ce93e-2514x1414.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F86e82c64197d0ed38c940b6207c6cd5b0b2f1bb6-4096x2304.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Ff58920b4636df3919c1bda221581692c794a1399-4584x2579.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fc1c6988a3be22b2f0cd2de650c71bbdca4742497-4096x2304.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Ff8ade2db0fefac490af1e2a991b0d4ce3f0b238c-3840x2160.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/claude/opus,web,ok,Announcements_0f14dddf.md,14524 chars
+2026-04-26T23:56:25,https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fe8268392d72d86966a9695e3c66e11bf5b2e7b69-4584x2579.png&w=3840&q=75,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/index/anthropics-responsible-scaling-policy,web,ok,Anthropics_Responsible_Scaling_Policy_274b3659.md,6345 chars
+2026-04-26T23:56:25,https://www.anthropic.com/claude-4-system-card,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.anthropic.com/news/3-5-models-and-computer-use,web,ok,Introducing_computer_use_a_new_Claude_3.5_Sonnet_and_Claude_3.5_Haiku_03af6638.md,8152 chars
+2026-04-26T23:56:25,https://www.anthropic.com/constitution,web,ok,Claudes_Constitution_b1c32e58.md,152111 chars
+2026-04-26T23:56:25,https://www.anthropic.com/index/core-views-on-ai-safety,web,ok,Core_Views_on_AI_Safety_When_Why_What_and_How_cbeac227.md,43608 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/activating-asl3-protections,web,ok,Activating_AI_Safety_Level_3_protections_3774cdbe.md,11900 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/alignment-faking,web,ok,Alignment_faking_in_large_language_models_3d7e3773.md,12876 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/announcing-our-updated-responsible-scaling-policy,web,ok,Announcing_our_updated_Responsible_Scaling_Policy_3a0b4572.md,10510 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/anthropic-series-c,web,ok,Anthropic_Raises_450_Million_in_Series_C_Funding_to_Scale_Reliable_AI_Products_ac35f548.md,3308 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/anthropics-responsible-scaling-policy,web,ok,Anthropics_Responsible_Scaling_Policy_dc72fbff.md,6344 chars
+2026-04-26T23:56:25,https://inst.eecs.berkeley.edu/~cs188/fa24/assets/lectures/cs188-fa24-lec25.pdf,pdf,ok,cs188-fa24-lec25_70157e44.pdf,9796304 bytes
+2026-04-26T23:56:25,https://www.anthropic.com/news/claudes-constitution,web,ok,Claudes_Constitution_5f2c1d85.md,21162 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/a-new-initiative-for-developing-third-party-model-evaluations,web,ok,A_new_initiative_for_developing_third-party_model_evaluations_b5216eaa.md,14076 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/core-views-on-ai-safety,web,ok,Core_Views_on_AI_Safety_When_Why_What_and_How_8c7fd668.md,43607 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/detecting-and-countering-malicious-uses-of-claude-march-2025,web,ok,Detecting_and_Countering_Malicious_Uses_of_Claude_f8b326a6.md,12284 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/evaluating-ai-systems,web,ok,Challenges_in_evaluating_AI_systems_a00c9d7e.md,23874 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/auditing-hidden-objectives,web,ok,Auditing_language_models_for_hidden_objectives_7147645e.md,17835 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/agentic-misalignment},web,fail,,HTTPError: 404 Client Error: Not Found for url: https://www.anthropic.com/research/agentic-misalignment%7D
+2026-04-26T23:56:25,https://www.anthropic.com/research/constitutional-classifiers,web,ok,Constitutional_Classifiers_Defending_against_universal_jailbreaks_fe7661a0.md,19180 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/probes-catch-sleeper-agents,web,ok,Simple_probes_can_catch_sleeper_agents_b6ca1938.md,25140 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/collective-constitutional-ai-aligning-a-language-model-with-public-input,web,ok,Collective_Constitutional_AI_Aligning_a_Language_Model_with_Public_Input_3c9b034d.md,21578 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/sabotage-evaluations,web,ok,Sabotage_evaluations_for_frontier_models_a3405563.md,10431 chars
+2026-04-26T23:56:25,https://www.anthropic.com/news/sleeper-agents-training-deceptive-llms-that-persist-through-safety-training,web,ok,Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_7defe513.md,2494 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/many-shot-jailbreaking,web,ok,Many-shot_jailbreaking_0db64752.md,9957 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/mapping-mind-language-model,web,ok,Mapping_the_Mind_of_a_Large_Language_Model_498fcf79.md,12741 chars
+2026-04-26T23:56:25,https://www.antischeming.ai/cot-transcripts/figure-47,web,ok,Sandbagging_QA_with_Note_Chain-of-Thought_Transcript_Anti-Scheming_c45ec4f2.md,1859 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/,web,ok,Apollo_Research_057bf1be.md,1384 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/sleeper-agents-training-deceptive-llms-that-persist-through-safety-training,web,ok,Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_2dc73751.md,2365 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/blog/an-opinionated-evals-reading-list,web,ok,An_Opinionated_Evals_Reading_List_Apollo_Research_318f07f1.md,28354 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/blog/forecasting-frontier-language-model-agent-capabilities,web,ok,Forecasting_Frontier_Language_Model_Agent_Capabilities_Apollo_Research_21834e33.md,10632 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/contact,web,ok,Contact_Us_Apollo_Research_f43d6548.md,859 chars
+2026-04-26T23:56:25,https://www.anthropic.com/research/towards-understanding-sycophancy-in-language-models,web,ok,Towards_Understanding_Sycophancy_in_Language_Models_26016be3.md,1996 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/research/stress-testing-deliberative-alignment-for-anti-scheming-training,web,ok,Stress_Testing_Deliberative_Alignment_for_Anti-Scheming_Training_Apollo_Research_238004f9.md,13548 chars
+2026-04-26T23:56:25,https://www.apolloresearch.ai/research/scheming-reasoning-evaluations,web,ok,Frontier_Models_are_Capable_of_In-Context_Scheming_Apollo_Research_f8ac8583.md,5134 chars
+2026-04-26T23:56:25,https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai
+2026-04-26T23:56:25,https://www.astralcodexten.com/p/why-does-ozempic-cure-all-diseases,web,ok,Why_Does_Ozempic_Cure_All_Diseases_71f051a8.md,23517 chars
+2026-04-26T23:56:25,https://www.bloomberg.com/opinion/articles/2023-08-16/ai-won-t-supercharge-the-us-economy,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.bloomberg.com/opinion/articles/2023-08-16/ai-won-t-supercharge-the-us-economy
+2026-04-26T23:56:25,https://www.cambridge.org/core/journals/perspectives-on-politics/article/abs/who-is-open-to-authoritarian-governance-within-western-democracies/0ADCD5FFE5B7E9267E8283C7561FB6BE,web,ok,Who_Is_Open_to_Authoritarian_Governance_within_Western_Democracies_Perspectives_on_Politics_Cambridg_6478fd10.md,3300 chars
+2026-04-26T23:56:25,https://www.cambridge.org/core/journals/american-political-science-review/article/why-arms-control-is-so-rare/BAC79354627F72CDDDB102FE82889B8A,web,ok,Why_Arms_Control_Is_So_Rare_American_Political_Science_Review_Cambridge_Core_ff5c046a.md,77137 chars
+2026-04-26T23:56:25,https://www.cisa.gov/topics/physical-security/insider-threat-mitigation/defining-insider-threats,web,ok,Defining_Insider_Threats_CISA_9afeb970.md,10028 chars
+2026-04-26T23:56:25,https://www.anthropic.com/rsp-updates,web,ok,Anthropics_Responsible_Scaling_Policy_7e83d9fc.md,22590 chars
+2026-04-26T23:56:25,https://www.cognition-labs.com/introducing-devin,web,ok,Related_posts_28280009.md,1282 chars
+2026-04-26T23:56:25,https://www.arxiv.org/abs/2408.08926,arxiv,ok,arxiv_2408.08926_412dea06.pdf,3457783 bytes
+2026-04-26T23:56:25,https://www.cbpai.org/,web,ok,CBPAI_522ed094.md,3482 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/all-possible-views-about-humanitys-future-are-wild,web,ok,All_Possible_Views_About_Humanitys_Future_Are_Wild_aba44c8e.md,20390 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/biological-anchors-is-about-bounding-not-pinpointing-ai-timelines,web,ok,Biological_anchors_is_about_bounding_not_pinpointing_AI_timelines_343fcd20.md,21506 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/hunter-gatherer-gender-relations-seem-bad,web,ok,Pre-agriculture_gender_relations_seem_bad_b40c36f1.md,29290 chars
+2026-04-26T23:56:25,https://www.cnbc.com/2024/05/17/openai-superalignment-sutskever-leike.html,web,ok,OpenAI_dissolves_team_focused_on_long-term_AI_risks_less_than_one_year_after_announcing_it_31baf3f0.md,6944 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/most-important-century,web,ok,The_most_important_century_blog_post_series_fd178cb0.md,17028 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/making-the-best-of-the-most-important-century,web,ok,How_to_make_the_best_of_the_most_important_century_8d776ced.md,31371 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/the-duplicator,web,ok,The_Duplicator_e65d0141.md,18138 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/transformative-ai-timelines-part-1-of-4-what-kind-of-ai,web,ok,Forecasting_Transformative_AI_Part_1_What_Kind_of_AI_d1735aca.md,21900 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/p/50c1ecc0-befa-491d-8938-17477bd18e5f,web,ok,Why_Would_AI_Aim_To_Defeat_Humanity_efd7b429.md,68040 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/p/4a610336-be1d-42fc-b76f-c33e34598340,web,ok,AI_Could_Defeat_All_Of_Us_Combined_7a851c62.md,34089 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/where-ai-forecasting-stands-today,web,ok,AI_Timelines_Where_the_Arguments_and_the_Experts_Stand_317e7efd.md,23816 chars
+2026-04-26T23:56:25,https://www.cold-takes.com/why-ai-alignment-could-be-hard-with-modern-deep-learning,web,ok,Why_AI_alignment_could_be_hard_with_modern_deep_learning_fadf7c15.md,28813 chars
+2026-04-26T23:56:25,https://www.cooperativeai.com/contact,web,ok,Cooperative_AI_Contact_92f721d2.md,1171 chars
+2026-04-26T23:56:25,https://www.arxiv.org/abs/2509.15541,arxiv,ok,arxiv_2509.15541_c4da741e.pdf,3869832 bytes
+2026-04-26T23:56:25,https://www.cs.toronto.edu/~kriz/cifar.html,web,ok,The_CIFAR-10_dataset_857ecb19.md,2891 chars
+2026-04-26T23:56:25,https://www.cs.utexas.edu/~eunsol/courses/data/bitter_lesson.pdf,pdf,ok,bitter_lesson_1c4b2bb3.pdf,53884 bytes
+2026-04-26T23:56:25,https://www.csis.org/analysis/updated-october-7-semiconductor-export-controls,web,ok,Updated_October_7_Semiconductor_Export_Controls_c314c235.md,12285 chars
+2026-04-26T23:56:25,https://www.deepmind.com/publications/gophercite-teaching-language-models-to-support-answers-with-verified-quotes,web,ok,Publications_48c622e6.md,2979 chars
+2026-04-26T23:56:25,https://www.effectivealtruism.org/articles/paul-christiano-current-work-in-ai-alignment,web,ok,Paul_Christiano_Current_Work_in_AI_Alignment_Effective_Altruism_c4e0b2b8.md,37506 chars
+2026-04-26T23:56:25,https://www.edge.org/response-detail/26243,web,ok,2015_WHAT_DO_YOU_THINK_ABOUT_MACHINES_THAT_THINK_451f0222.md,6504 chars
+2026-04-26T23:56:25,https://www.fhi.ox.ac.uk/brain-emulation-roadmap-report.pdf,pdf,fail,,"ConnectionError: HTTPSConnectionPool(host='www.fhi.ox.ac.uk', port=443): Max retries exceeded with url: /brain-emulation-roadmap-report.pdf (Caused by NameResolutionError(""<urllib3.connection.HTTPSConnection object at"
+2026-04-26T23:56:25,https://www.fhi.ox.ac.uk/Existential-risk-and-existential-hope.pdf,pdf,fail,,"ConnectionError: HTTPSConnectionPool(host='www.fhi.ox.ac.uk', port=443): Max retries exceeded with url: /Existential-risk-and-existential-hope.pdf (Caused by NameResolutionError(""<urllib3.connection.HTTPSConnection ob"
+2026-04-26T23:56:25,https://www.fhi.ox.ac.uk/wp-content/uploads/2021/03/International-Control-of-Powerful-Technology-Lessons-from-the-Baruch-Plan-Zaidi-Dafoe-2021.pdf,pdf,fail,,"ConnectionError: HTTPSConnectionPool(host='www.fhi.ox.ac.uk', port=443): Max retries exceeded with url: /wp-content/uploads/2021/03/International-Control-of-Powerful-Technology-Lessons-from-the-Baruch-Plan-Zaidi-Dafoe"
+2026-04-26T23:56:25,https://www.cs.utexas.edu/~pstone,web,ok,News_0a2a5014.md,1040 chars
+2026-04-26T23:56:25,https://www.futurehouse.org/research-announcements/aviary,web,ok,Aviary_training_language_agents_on_challenging_scientific_tasks_FutureHouse_a9156d94.md,7833 chars
+2026-04-26T23:56:25,https://www.forourposterity.com/nobodys-on-the-ball-on-agi-alignment,web,ok,Nobodys_on_the_ball_on_AGI_alignment_4021700d.md,27414 chars
+2026-04-26T23:56:25,https://www.futurehouse.org/research-announcements/lab-bench-measuring-capabilities-of-language-models-for-biology-research,web,ok,LAB-Bench_Measuring_Capabilities_of_Language_Models_for_Biology_Research_FutureHouse_71d8629b.md,6977 chars
+2026-04-26T23:56:25,https://www.cs.utexas.edu/~pstone/Papers/bib2html-links/ICDL08-knox.pdf,pdf,ok,ICDL08-knox_33571213.pdf,1154133 bytes
+2026-04-26T23:56:25,https://www.frontiermodelforum.org/updates/fmf-announces-first-of-its-kind-information-sharing-agreement,web,ok,FMF_Announces_First-Of-Its-Kind_Information-Sharing_Agreement_-_Frontier_Model_Forum_0426045b.md,3801 chars
+2026-04-26T23:56:25,https://www.givewell.org/,web,ok,GiveWell_10b8709a.md,5715 chars
+2026-04-26T23:56:25,https://www.harrymayne.com/,web,ok,Harry_Mayne_1493ede0.md,3481 chars
+2026-04-26T23:56:25,https://www.iaps.ai/research/location-verification-for-ai-chips,web,ok,Location_Verification_for_AI_Chips_Institute_for_AI_Policy_and_Strategy_de9e0639.md,8057 chars
+2026-04-26T23:56:25,https://www.dwarkeshpatel.com/p/john-schulman,web,ok,John_Schulman_OpenAI_Cofounder_-_Reasoning_RLHF_Plan_for_2027_AGI_edd8fc6e.md,76252 chars
+2026-04-26T23:56:25,https://www.gov.uk/government/speeches/secretary-of-state-speech-at-cogx-festival,web,ok,Secretary_of_State_speech_at_CogX_Festival_3ceb7a55.md,12422 chars
+2026-04-26T23:56:25,https://www.jmlr.org/papers/volume18/16-634/16-634.pdf,pdf,ok,16-634_8ed13555.pdf,4679565 bytes
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/4inoCWnKrpHt4gCx9/protecting-large-projects-against-mazedom,web,ok,LESSWRONG_318b69cf.md,13837 chars
+2026-04-26T23:56:25,https://www.gov.uk/government/publications/international-ai-safety-report-2025,web,ok,International_AI_Safety_Report_a7f7f227.md,3085 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/2x7fwbwb35sG8QmEt/sunset-at-noon,web,ok,221_56f53f26.md,46120 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/6cWgaaxWqGYwJs3vj/a-basic-systems-architecture-for-ai-agents-that-do,web,ok,190_f3b729eb.md,26986 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/4ZvJab25tDebB8FGE/you-get-about-five-words,web,ok,281_ec170c80.md,43424 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/AyNHoTWWAJ5eb99ji/another-outer-alignment-failure-story,web,ok,254_5f282ae9.md,90565 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/BAzCGCys4BkzGDCWR/the-prototypical-catastrophic-ai-action-is-getting-root,web,ok,189_b6e771eb.md,14481 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/AfH2oPHCApdKicM4m/two-year-update-on-my-personal-ai-timelines,web,ok,293_5e45579a.md,69232 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/FBoyR2rt29oYvazsE/high-reliability-orgs-and-ai-companies,web,ok,LESSWRONG_ee64d13a.md,29917 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/FAJWEfXxws8pMp8Hk/link-why-i-m-optimistic-about-openai-s-alignment-approach,web,ok,Ω_40_e075e628.md,18860 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/EFQ3F6kmt4WHXRqik/ugh-fields,web,ok,458_cf90fc1b.md,36250 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/DkcdXsP56g9kXyBdq/coherence-arguments-imply-a-force-for-goal-directed-behavior,web,ok,Ω_38_e12fdd1d.md,47807 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/GE6pcmmLc3kdpNJja/fuzzing-llms-sometimes-makes-them-reveal-their-secrets,web,ok,Ω_34_67f38999.md,27103 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/G5TwJ9BGxcgh5DsmQ/yes-requires-the-possibility-of-no,web,ok,301_60c3e5f2.md,44056 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/what-failure-looks-like,web,ok,452_758831b4.md,71746 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/GfZfDHZHCuYwrHGCd/without-fundamental-advances-misalignment-and-catastrophe,web,ok,161_b497a748.md,211187 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/LTtNXM9shNM9AC2mp/superintelligence-faq,web,ok,143_11a0e906.md,64076 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/KrJfoZzpSDpnrv9va/draft-report-on-ai-timelines,web,ok,215_8c00ba40.md,72142 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/PY3HEHc5fMQkTrQo4/beware-safety-washing,web,ok,LESSWRONG_d0aef86c.md,9446 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/FG54euEAesRkSZuJN/ryan_greenblatt-s-shortform?commentId=B6oDGoyphuNuzdDAT,web,ok,Ω_5_0ee81fb2.md,318608 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/NKmjGS4a3ykriqRNR/analyzing-deepmind-s-probabilistic-methods-for-evaluating,web,ok,Ω_35_51bcd6bb.md,32606 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/QqYfxeogtatKotyEC/training-ai-agents-to-solve-hard-problems-could-lead-to,web,ok,Ω_36_b7040c0e.md,73065 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/SbAgRYo8tkHwhd9Qx/deepmind-the-podcast-excerpts-on-agi,web,ok,LESSWRONG_f945d0f4.md,19291 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/WCj7WgFSLmyKaMwPR/coup-probes-catching-catastrophes-with-probes-trained-off,web,ok,Ω_55_79d493f9.md,30032 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/a5e9arCnbDac9Doig/it-looks-like-you-re-trying-to-take-over-the-world,web,ok,418_ba1b2e50.md,58599 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/YWwzccGbcHMJMpT45/ai-safety-via-market-making,web,ok,Ω_35_160a57c3.md,65806 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/dLg7CyeTE4pqbbcnp/language-models-model-us,web,ok,159_fc67c38f.md,67025 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/doPbyzPgKdjedohud/the-case-for-more-ambitious-language-model-evals,web,ok,119_a4a84e19.md,36445 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/LpM3EAakwYdS6aRKf/what-multipolar-failure-looks-like-and-robust-agent-agnostic,web,ok,290_fdd1fc9a.md,157716 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/iDFTmb8HSGtL4zTvf/how-could-we-know-that-an-agi-system-will-have-good,web,ok,112_726c5d45.md,35065 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/i3BTagvt3HbPMx6PN/embedded-agency-full-text-version,web,ok,222_9c90fe79.md,104818 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/oC4wv4nTrs2yrP5hz/what-are-the-strongest-arguments-for-very-short-timelines?commentId=Kzam9tz2WsDnBZYAu,web,ok,102_1a2f19d2.md,5478 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/keiYkaeoLHoKK4LYA/six-dimensions-of-operational-adequacy-in-agi-projects,web,ok,323_f8334cba.md,99097 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled,web,ok,287_aa6f98d1.md,164864 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/pHfPvb4JMhGDr4B7n/recursive-middle-manager-hell,web,ok,226_9b066c2d.md,46200 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/qGRk7uF92Gcmq2oeK/ablations-for-frontier-models-are-capable-of-in-context,web,ok,116_294b0039.md,5137 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/pRkFkzwKZ2zfa3R6H/without-specific-countermeasures-the-easiest-path-to,web,ok,374_478b16f1.md,209057 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/t7gqDrb657xhbKkem/uncovering-deceptive-tendencies-in-language-models-a,web,ok,Ω_41_0dc16d11.md,19451 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/tbJdxJMAiehewGpq2/impressions-from-base-gpt-4?commentId%3DCemTb7c2gmwuSAwCC=,web,ok,LESSWRONG_6e8fb49c.md,11997 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/qHCDysDnvhteW7kRd/arc-s-first-technical-report-eliciting-latent-knowledge,web,ok,230_fb033cda.md,85130 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/yxdHp2cZeQbZGREEN/improving-model-written-evals-for-ai-safety-benchmarking,web,ok,Ω_16_253a538b.md,47297 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/tmWMuY5HCSNXXZ9oq/buck-s-shortform?commentId=TNFatFiqHd8BpAXEp,web,ok,Ω_3_f162cf38.md,215183 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/tag/instrumental-convergence,web,ok,LESSWRONG_3b7cdedf.md,30998 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/posts/wqDRRx9RqwKLzWt7R/nonperson-predicates,web,ok,LESSWRONG_f9826af5.md,61890 chars
+2026-04-26T23:56:25,https://www.lesswrong.com/tag/paperclip-maximizer,web,ok,Squiggle_Maximizer_formerly_Paperclip_maximizer_9bc9007c.md,7431 chars
+2026-04-26T23:56:25,https://www.llama.com/developer-use-guide,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.metaculus.com/questions/3479/date-weakly-general-ai-is-publicly-known,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.metaculus.com/questions/3479/date-weakly-general-ai-is-publicly-known
+2026-04-26T23:56:25,https://www.matsprogram.org/,web,ok,MATS_Research_fb0dee66.md,23588 chars
+2026-04-26T23:56:25,https://www.metaculus.com/questions/5121/date-of-artificial-general-intelligence,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.metaculus.com/questions/5121/date-of-artificial-general-intelligence
+2026-04-26T23:56:25,https://www.llama.com/docs/model-cards-and-prompt-formats/llama-guard-4,web,fail,,RuntimeError: no extractable content (len=0)
+2026-04-26T23:56:25,https://www.mariushobbhahn.com/evals,web,ok,Evals_ce1ac4cb.md,10875 chars
+2026-04-26T23:56:25,https://www.microsoft.com/en-us/security/blog/2024/06/04/ai-jailbreaks-what-they-are-and-how-they-can-be-mitigated,web,ok,AI_jailbreaks_What_they_are_and_how_they_can_be_mitigated_Microsoft_Security_Blog_4cf43e3b.md,14366 chars
+2026-04-26T23:56:25,https://www.microsoft.com/en-us/research/blog/steering-at-the-frontier-extending-the-power-of-prompting,web,ok,Steering_at_the_Frontier_Extending_the_Power_of_Prompting_-_Microsoft_Research_aacb2dd9.md,5721 chars
+2026-04-26T23:56:25,https://www.longtermresilience.org/wp-content/uploads/2024/09/AI-Facilitated-Biological-Weapon-Development-Website-Copy-1.pdf,pdf,ok,AI-Facilitated-Biological-Weapon-Development-Website-Copy-1_71886173.pdf,389870 bytes
+2026-04-26T23:56:25,https://www.nature.com/articles/456871a,web,ok,Three_rules_for_technological_fixes_-_Nature_92877fb3.md,13805 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/d41586-024-00306-2,web,ok,In_the_AI_science_boom_beware_your_results_are_only_as_good_as_your_data_aa0d4625.md,1823 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41558-023-01604-9,web,ok,Diverse_carbon_dioxide_removal_approaches_could_reduce_impacts_on_the_energywaterland_system_-_Natur_48a120c4.md,25189 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41581-022-00636-2,web,ok,Advances_in_CRISPR_therapeutics_-_Nature_Reviews_Nephrology_eb101748.md,38934 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41576-021-00386-0,web,ok,Gene_drives_gaining_speed_-_Nature_Reviews_Genetics_37b3bbea.md,45135 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41380-021-01249-0,web,ok,The_Amyloid-β_Pathway_in_Alzheimers_Disease_-_Molecular_Psychiatry_6e1c20d8.md,206104 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41586-021-03819-2,web,ok,Highly_accurate_protein_structure_prediction_with_AlphaFold_-_Nature_a06e223c.md,72179 chars
+2026-04-26T23:56:25,https://www.newyorker.com/magazine/2023/11/20/geoffrey-hinton-profile-ai,web,ok,Why_the_Godfather_of_A.I._Fears_What_Hes_Built_0d17111a.md,61373 chars
+2026-04-26T23:56:25,https://www.ncsc.gov.uk/report/impact-of-ai-on-cyber-threat,web,ok,The_near-term_impact_of_AI_on_the_cyber_threat_ed1654d4.md,1822 chars
+2026-04-26T23:56:25,https://www.nist.gov/news-events/news/2024/04/us-commerce-secretary-gina-raimondo-announces-expansion-us-ai-safety,web,ok,U.S._Commerce_Secretary_Gina_Raimondo_Announces_Expansion_of_U.S._AI_Safety_Institute_Leadership_Tea_ead0c98f.md,3115 chars
+2026-04-26T23:56:25,https://www.nature.com/articles/s41586-024-07701-9,web,ok,Inhibition_of_IL-11_signalling_extends_mammalian_healthspan_and_lifespan_-_Nature_4dbe3a8d.md,97175 chars
+2026-04-26T23:56:25,https://www.nysenate.gov/legislation/bills/2025/A6453/amendment/A,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.nysenate.gov/legislation/bills/2025/A6453/amendment/A
+2026-04-26T23:56:25,https://www.nature.com/articles/s41591-022-01735-0,web,ok,Whole-genome_risk_prediction_of_common_diseases_in_human_preimplantation_embryos_-_Nature_Medicine_085889be.md,44502 chars
+2026-04-26T23:56:25,https://www.nytimes.com/2023/02/16/technology/bing-chatbot-transcript.html,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.nytimes.com/2023/02/16/technology/bing-chatbot-transcript.html
+2026-04-26T23:56:25,https://www.nist.gov/system/files/documents/2024/12/18/US_UK_AI%20Safety%20Institute_%20December_Publication-OpenAIo1.pdf,pdf,ok,US_UK_AI20Safety20Institute_20December_Publication-OpenAIo1_5e9fc56d.pdf,2132284 bytes
+2026-04-26T23:56:25,https://www.nature.com/articles/s41587-021-01078-0,web,ok,Synthetic_virology_the_experts_speak_-_Nature_Biotechnology_bad50acf.md,1605 chars
+2026-04-26T23:56:25,https://www.nytimes.com/2025/06/05/opinion/anthropic-ceo-regulate-transparency.html,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.nytimes.com/2025/06/05/opinion/anthropic-ceo-regulate-transparency.html
+2026-04-26T23:56:25,https://www.ox.ac.uk/news/2025-08-12-study-finds-filtered-data-stops-openly-available-ai-models-performing-dangerous,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.ox.ac.uk/news/2025-08-12-study-finds-filtered-data-stops-openly-available-ai-models-performing-dangerous
+2026-04-26T23:56:25,https://www.nytimes.com/2024/07/08/opinion/elevator-construction-regulation-labor-immigration.html,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.nytimes.com/2024/07/08/opinion/elevator-construction-regulation-labor-immigration.html
+2026-04-26T23:56:25,https://www.nytimes.com/2024/04/10/technology/ai-chatbot-training-chatgpt.html,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.nytimes.com/2024/04/10/technology/ai-chatbot-training-chatgpt.html
+2026-04-26T23:56:25,https://www.planned-obsolescence.org/the-costs-of-caution,web,ok,The_costs_of_caution_a3459305.md,7210 chars
+2026-04-26T23:56:25,https://www.rand.org/,web,ok,RAND_Provides_Objective_Research_Services_and_Public_Policy_Analysis_1dbe37c2.md,1179 chars
+2026-04-26T23:56:25,https://www.rand.org/about/people/d/dev_sunishchal.html,web,ok,Sunishchal_Dev_-_Profile_24892b97.md,580 chars
+2026-04-26T23:56:25,https://www.planned-obsolescence.org/dangerous-capability-tests-should-be-harder,web,ok,Dangerous_capability_tests_should_be_harder_603893a0.md,15187 chars
+2026-04-26T23:56:25,https://www.rand.org/about/people/l/lee_jeffrey.html,web,ok,Jeffrey_Lee_faf2d73f.md,698 chars
+2026-04-26T23:56:25,https://www.rand.org/about/people/m/matheny_jason.html,web,ok,Jason_Matheny_-_Profile_8006f865.md,2155 chars
+2026-04-26T23:56:25,https://www.rand.org/content/dam/rand/pubs/research_reports/RRA2900/RRA2977-2/RAND_RRA2977-2.pdf,pdf,ok,RAND_RRA2977-2_50bfade5.pdf,252262 bytes
+2026-04-26T23:56:25,https://www.rand.org/content/dam/rand/pubs/working_papers/WRA3700/WRA3797-1/RAND_WRA3797-1.pdf,pdf,fail,,HTTPError: 404 Client Error: Not Found for url: https://www.rand.org/content/dam/rand/pubs/working_papers/WRA3700/WRA3797-1/RAND_WRA3797-1.pdf
+2026-04-26T23:56:25,https://www.rand.org/global-and-emerging-risks.html,web,ok,RAND_Global_and_Emerging_Risks_28d3042c.md,939 chars
+2026-04-26T23:56:25,https://www.rand.org/content/dam/rand/pubs/working_papers/WRA3000/WRA3056-1/RAND_WRA3056-1.pdf,pdf,ok,RAND_WRA3056-1_608d53e9.pdf,1147426 bytes
+2026-04-26T23:56:25,https://www.rand.org/content/dam/rand/pubs/research_reports/RRA2800/RRA2849-1/RAND_RRA2849-1.pdf,pdf,ok,RAND_RRA2849-1_62681a1f.pdf,1178937 bytes
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/b/bradley_henry_alexander.html,web,ok,Henry_Alexander_Bradley_-_Publications_81f9abaa.md,416 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/d/despanie_jordan.html,web,ok,Jordan_Despanie_-_Publications_994e2c89.md,384 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/e/ellison_grant.html,web,ok,Grant_Ellison_-_Publications_863807a9.md,376 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/g/gebauer_sarah.html,web,ok,Sarah_L._Gebauer_-_Publications_8a417304.md,385 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/b/brady_kyle.html,web,ok,Kyle_Brady_-_Publications_4421dc4b.md,364 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/m/maciorowski_dawid.html,web,ok,Dawid_Maciorowski_-_Publications_1550c25d.md,392 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/p/persaud_bria.html,web,ok,Bria_Persaud_-_Publications_0d1f44dd.md,372 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/authors/t/teague_charles.html,web,ok,Charles_Teague_-_Publications_ab391267.md,380 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/research_reports/RRA2849-1.html,web,ok,How_AI_Labs_Can_Safeguard_Model_Weights_f80e302b.md,2666 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/permissions.html,web,ok,Rights_and_Permissions_dd3789cd.md,3082 chars
+2026-04-26T23:56:25,https://www.rand.org/pubs/research_reports/RRA2977-1.html,web,ok,Could_Artificial_Intelligence_Be_Misused_to_Plan_Biological_Attacks_fd68ea56.md,2181 chars
+2026-04-26T23:56:25,https://www.rand.org/support-us/philanthropically-supported-research.html,web,ok,Philanthropically_Supported_Research_1363e6e2.md,961 chars
+2026-04-26T23:56:25,https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19,web,fail,,HTTPError: 401 Client Error: HTTP Forbidden for url: https://www.reuters.com/technology/artificial-intelligence/us-government-commission-pushes-manhattan-project-style-ai-initiative-2024-11-19
+2026-04-26T23:56:25,https://www.reuters.com/world/biden-xi-agreed-that-humans-not-ai-should-control-nuclear-weapons-white-house-2024-11-16,web,fail,,HTTPError: 401 Client Error: HTTP Forbidden for url: https://www.reuters.com/world/biden-xi-agreed-that-humans-not-ai-should-control-nuclear-weapons-white-house-2024-11-16
+2026-04-26T23:56:25,https://www.redwoodresearch.org/,web,ok,Pioneering_threat_assessment_and_mitigation_for_AI_systems_75cd7726.md,648 chars
+2026-04-26T23:56:25,https://www.safe.ai/work/statement-on-ai-risk,web,ok,Statement_on_AI_Risk_CAIS_3943efdd.md,874 chars
+2026-04-26T23:56:25,https://www.science.org/content/article/new-genetic-tricks-boosting-crop-yield-take-clues-ancient-farmers,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.science.org/content/article/new-genetic-tricks-boosting-crop-yield-take-clues-ancient-farmers
+2026-04-26T23:56:25,https://www.science.org/doi/10.1126/sciadv.adn1524,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.science.org/doi/10.1126/sciadv.adn1524
+2026-04-26T23:56:25,https://www.sciencedirect.com/science/article/pii/S0016328721001932,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S0016328721001932
+2026-04-26T23:56:25,https://www.sciencedirect.com/science/article/pii/S0305737220300578,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S0305737220300578
+2026-04-26T23:56:25,https://www.sciencedirect.com/science/article/pii/S135964462400134X,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S135964462400134X
+2026-04-26T23:56:25,https://www.sciencedirect.com/science/article/pii/S0022202X18322930,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S0022202X18322930
+2026-04-26T23:56:25,https://www.scmagazine.com/news/ai-package-hallucination-malicious-code-developer-environments,web,fail,,HTTPError: 403 Client Error: Forbidden for url: https://www.scworld.com/news/ai-package-hallucination-malicious-code-developer-environments
+2026-04-26T23:56:25,https://www.state.gov/political-declaration-on-responsible-military-use-of-artificial-intelligence-and-autonomy,web,ok,Political_Declaration_on_Responsible_Military_Use_of_Artificial_Intelligence_and_Autonomy_-_United_S_bf03e86d.md,1522 chars
+2026-04-26T23:56:25,https://www.swebench.com/,web,ok,Official_Leaderboards_cf42ebe4.md,2151 chars
+2026-04-26T23:56:25,https://www.safe.ai/statement-on-ai-risk,web,ok,Statement_on_AI_Risk_CAIS_0b044cb6.md,874 chars
+2026-04-26T23:56:25,https://www.theguardian.com/technology/2023/jun/23/two-us-lawyers-fined-submitting-fake-court-citations-chatgpt,web,ok,Two_US_lawyers_fined_for_submitting_fake_court_citations_from_ChatGPT_c4a26fae.md,4270 chars
+2026-04-26T23:56:25,https://www.technologyreview.com/2024/02/20/1088002/higgs-boson-physics-particle-collider-large-hadron-collider,web,ok,Inside_the_hunt_for_new_physics_at_the_worlds_largest_particle_collider_185a25b3.md,24414 chars
+2026-04-26T23:56:25,https://www.theguardian.com/technology/2024/feb/22/google-pauses-ai-generated-images-of-people-after-ethnicity-criticism,web,ok,Google_pauses_AI-generated_images_of_people_after_ethnicity_criticism_e22a3751.md,3831 chars
+2026-04-26T23:56:25,https://www.synnada.ai/glossary/data-pruning,web,fail,,HTTPError: 404 Client Error: Not Found for url: https://synnada.ai/glossary/data-pruning
+2026-04-26T23:56:25,https://www.vox.com/future-perfect/2023/10/5/23903292/katalin-kariko-drew-weissman-nobel-prize-medicine-mrna-vaccines-covid-coronavirus,web,ok,The_lifesaving_Nobel_Prize-winning_discovery_that_almost_didnt_happen_7a287508.md,9406 chars
+2026-04-26T23:56:25,https://www.theverge.com/2018/7/26/17619382/ibms-watson-cancer-ai-healthcare-science,web,ok,IBMs_Watson_gave_unsafe_recommendations_for_treating_cancer_f6b8efde.md,3214 chars
+2026-04-26T23:56:25,https://www.vox.com/future-perfect/2018/12/21/18126576/ai-artificial-intelligence-machine-learning-safety-alignment,web,ok,The_case_for_taking_AI_seriously_as_a_threat_to_humanity_3004f8c2.md,42006 chars
+2026-04-26T23:56:25,https://www.virologytest.ai/,web,ok,Virology_Capabilities_Test_430289e6.md,6517 chars
+2026-04-26T23:56:25,https://www.vox.com/future-perfect/2023/8/18/23836362/ai-slow-down-poll-regulation,web,ok,What_normal_Americans_not_AI_companies_want_for_AI_ce23b483.md,7956 chars
+2026-04-26T23:56:25,https://x.ai/documents/2025.02.20-RMF-Draft.pdf,pdf,ok,2025.02.20-RMF-Draft_88bb0c85.pdf,230615 bytes
+2026-04-26T23:56:25,https://www.vox.com/technology/23738987/racism-ai-automated-bias-discrimination-algorithm,web,ok,AI_automated_discrimination._Heres_how_to_spot_it._97d7d082.md,17861 chars
+2026-04-26T23:56:25,https://yoshuabengio.org/wp-content/uploads/2024/09/FlexHEG-Interim-Report_2024.pdf,pdf,fail,,HTTPError: 404 Client Error: Not Found for url: https://yoshuabengio.org/wp-content/uploads/2024/09/FlexHEG-Interim-Report_2024.pdf
+2026-04-26T23:56:25,https://yoshuabengio.org/2023/05/22/how-rogue-ais-may-arise,web,ok,Yoshua_Bengio_How_Rogue_AIs_may_Arise_ddf1395b.md,35548 chars
+2026-04-26T23:56:25,https://www.nrc.gov/reading-rm/doc-collections/fact-sheets/security-enhancements.html,web,fail,,"ReadTimeout: HTTPSConnectionPool(host='www.nrc.gov', port=443): Read timed out. (read timeout=25)"
+2026-04-26T23:56:25,https://arxiv.org/abs/2312.11805,arxiv,ok,arxiv_2312.11805_efa29797.pdf,27484659 bytes

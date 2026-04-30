@@ -1,0 +1,62 @@
+[project]
+name = "ai-safety-wiki-rag"
+version = "0.1.0"
+description = "RAG retrieval over the AI Safety wiki (BM25 + dense + rerank, exposed via MCP)."
+requires-python = ">=3.10"
+dependencies = [
+    # MCP server (FastMCP lives in this package)
+    "mcp>=1.2",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# build_index.py needs pypdf for PDF text extraction. Optional so the MCP
+# server install path stays minimal — users who already built their index don't
+# need to reinstall pypdf every time they run the server.
+indexing = [
+    "pypdf>=4",
+]
+# Priority #2: semantic embeddings (BGE-small via sentence-transformers).
+# Optional so the MCP server boots without these if the user only wants BM25.
+semantic = [
+    "sentence-transformers>=3.0",
+    "numpy>=1.26",
+]
+# Priority #3: cross-encoder reranker.
+rerank = [
+    "sentence-transformers>=3.0",
+]
+# Convenience: install everything.
+all = [
+    "pypdf>=4",
+    "sentence-transformers>=3.0",
+    "numpy>=1.26",
+]
+# Test suite. Install with: uv sync --extra test
+test = [
+    "pytest>=8",
+]
+
+[project.scripts]
+wiki-mcp = "wiki_mcp_server:main"
+
+[tool.uv]
+package = false  # treat this as a workspace, not a published package
+
+[tool.pytest.ini_options]
+# Make scripts/ importable so tests can `import wiki_retrieval` etc.
+# Also make the tests/ directory itself importable for shared helpers.
+pythonpath = ["scripts", "tests"]
+testpaths = ["tests"]
+# Quiet warnings that come from optional deps, not from our code.
+filterwarnings = [
+    "ignore::DeprecationWarning:pypdf",
+    "ignore::DeprecationWarning:sentence_transformers",
+]
+# Custom marks let us tag slow / network / model-loading tests for opt-in runs.
+markers = [
+    "slow: tests that take >5s (model loading, full build).",
+    "needs_index: requires 01_data/index/ to be built.",
+    "needs_embeddings: requires embeddings.npy to be built.",
+]

@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.tox/
+
+# ---------------------------------------------------------------------------
+# Virtual envs / package managers
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------------------------------------------------------------------------
+# Test / cache
+# ---------------------------------------------------------------------------
+.pytest_cache/
+pytest-cache-files-*/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# ---------------------------------------------------------------------------
+# Built index artifacts (rebuildable from raw vault + scripts)
+# manifest.csv is kept — small, useful for diffing what's indexed.
+# ---------------------------------------------------------------------------
+01_data/index/.cache/
+01_data/index/chunks.jsonl
+01_data/index/chunks.jsonl.tmp
+01_data/index/index.json
+01_data/index/index.json.tmp
+01_data/index/embeddings.npy
+01_data/index/embeddings.npy.tmp
+01_data/index/embeddings_ids.json
+01_data/index/embeddings_ids.json.tmp
+01_data/index/embeddings_meta.json
+01_data/index/embeddings_meta.json.tmp
+01_data/index/build.log
+
+# Timestamped notion_sources backups (keep the live one)
+01_data/notion_sources.backup_*.csv
+
+# Build state / scratch dirs the agent uses
+_build_state/
+
+# ---------------------------------------------------------------------------
+# OS / editor cruft
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
