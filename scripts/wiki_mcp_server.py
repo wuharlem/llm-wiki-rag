@@ -690,11 +690,8 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         return _error_envelope("rebuild_timeout", "rebuild_index timed out after 15 min")
     elapsed = time.time() - t0
 
-    # Drop cached chunks so subsequent search_wiki calls see the new index.
-    try:
-        wr._chunk_cache = None  # noqa: SLF001
-    except Exception:
-        pass
+    # Drop all cached state so subsequent search_wiki calls see the new index.
+    wr.invalidate_caches()
 
     stats: dict = {}
     try:

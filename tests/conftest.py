@@ -71,26 +71,13 @@ def real_embeddings_paths(real_index_dir: Path) -> dict[str, Path]:
 
 
 @pytest.fixture
-def fresh_wr(monkeypatch):
-    """Return the wiki_retrieval module with all in-memory caches invalidated.
-
-    Several tests need a clean slate (e.g. tests that monkeypatch CHUNKS_PATH).
-    Currently the module exposes its caches as private globals; this fixture
-    encapsulates the awkwardness so individual tests don't have to reach into
-    `_chunk_cache`/`_index_cache`/etc. by name.
-    """
+def fresh_wr():
+    """Yield wiki_retrieval with all caches reset (uses the module's public invalidator)."""
     import wiki_retrieval as wr
 
-    # Reset every cache the module currently owns.
-    monkeypatch.setattr(wr, "_chunk_cache", None, raising=False)
-    monkeypatch.setattr(wr, "_index_cache", None, raising=False)
-    monkeypatch.setattr(wr, "_emb_matrix", None, raising=False)
-    monkeypatch.setattr(wr, "_emb_ids", None, raising=False)
-    monkeypatch.setattr(wr, "_emb_meta", None, raising=False)
-    monkeypatch.setattr(wr, "_emb_chunk_index", None, raising=False)
-    monkeypatch.setattr(wr, "_query_model", None, raising=False)
-    monkeypatch.setattr(wr, "_reranker", None, raising=False)
+    wr.invalidate_caches()
     yield wr
+    wr.invalidate_caches()
 
 
 # ---------------------------------------------------------------------------
