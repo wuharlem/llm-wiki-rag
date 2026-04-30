@@ -124,6 +124,7 @@ def load_all_chunks(force: bool = False) -> list[dict]:
     if not CHUNKS_PATH.exists():
         raise FileNotFoundError(f"missing {CHUNKS_PATH}; run `python3 scripts/build_index.py` first")
     out: list[dict] = []
+    by_file: dict[str, list[dict]] = {}
     with open(CHUNKS_PATH) as f:
         for line in f:
             try:
@@ -133,7 +134,11 @@ def load_all_chunks(force: bool = False) -> list[dict]:
             if _is_meta_doc(d.get("relpath", "")):
                 continue
             out.append(d)
+            fid = d.get("file_id")
+            if fid:
+                by_file.setdefault(fid, []).append(d)
     _ctx.chunks = out
+    _ctx.chunks_by_file = by_file
     return out
 
 
@@ -566,7 +571,8 @@ def get_file_detail(file_id: str, *, include_chunk_text: bool = True) -> Optiona
         return None
 
     if include_chunk_text:
-        chunks = [c for c in load_all_chunks() if c.get("file_id") == file_id]
+        load_all_chunks()  # ensure both _ctx.chunks and _ctx.chunks_by_file are populated
+        chunks = list(_ctx.chunks_by_file.get(file_id, []))  # shallow copy: caller's .sort() must not mutate cache
         chunks.sort(key=lambda c: c.get("chunk_id", ""))
         file_record = dict(file_record)  # don't mutate cached object
         file_record["chunks"] = [

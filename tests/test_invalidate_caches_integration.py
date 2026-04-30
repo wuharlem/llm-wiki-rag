@@ -47,3 +47,20 @@ def test_invalidate_caches_after_load_all_chunks_repopulates(fresh_wr, real_inde
     chunks_second = fresh_wr.load_all_chunks()
     assert chunks_second, "lazy reload should re-populate chunks"
     assert fresh_wr._ctx.chunks is not None
+
+
+def test_invalidate_caches_resets_chunks_by_file(fresh_wr):
+    fresh_wr._ctx.chunks_by_file = {"f1": [{"chunk_id": "c0"}]}
+    fresh_wr.invalidate_caches()
+    assert fresh_wr._ctx.chunks_by_file is None
+
+
+@pytest.mark.needs_index
+def test_get_file_detail_uses_chunks_by_file_index(fresh_wr, real_index_dir):
+    fresh_wr.load_all_chunks()
+    assert fresh_wr._ctx.chunks_by_file, "load_all_chunks must populate chunks_by_file"
+    file_id = next(iter(fresh_wr._ctx.chunks_by_file.keys()))
+    expected_count = len(fresh_wr._ctx.chunks_by_file[file_id])
+    detail = fresh_wr.get_file_detail(file_id)
+    assert detail is not None
+    assert len(detail["chunks"]) == expected_count
