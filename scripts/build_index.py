@@ -577,74 +577,10 @@ def write_detail_md(entry: FileEntry) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Artifact emitters
 # ---------------------------------------------------------------------------
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--md-only", action="store_true", help="skip PDFs")
-    ap.add_argument("--no-detail-md", action="store_true", help="skip wiki per-file pages")
-    ap.add_argument("--limit", type=int, default=0)
-    args = ap.parse_args()
-
-    if not VAULT.exists():
-        print(f"VAULT not found: {VAULT}", file=sys.stderr)
-        sys.exit(1)
-
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
-
-    classifications = load_classifications()
-
-    is_source = lambda p: is_indexable_path(p, VAULT)  # noqa: E731
-
-    md_files = sorted(p for p in VAULT.rglob("*.md") if is_source(p))
-    pdf_files = [] if args.md_only else sorted(p for p in VAULT.rglob("*.pdf") if is_source(p))
-
-    if args.limit:
-        md_files = md_files[: args.limit]
-        pdf_files = pdf_files[: args.limit]
-
-    targets = [(p, "md") for p in md_files] + [(p, "pdf") for p in pdf_files]
-    print(f"VAULT={VAULT}")
-    print(f"MD files: {len(md_files)} | PDF files: {len(pdf_files)} | total: {len(targets)}")
-
-    entries: list[FileEntry] = []
-    log_rows: list[dict] = []
-    errors: list[tuple[str, str]] = []
-    t0 = time.time()
-    for i, (path, kind) in enumerate(targets, 1):
-        try:
-            if kind == "md":
-                entry = process_md(path, classifications)
-            else:
-                entry = process_pdf(path, classifications)
-        except Exception as e:
-            errors.append((str(path), repr(e)))
-            continue
-        if entry is None:
-            continue
-        entries.append(entry)
-        log_rows.append(
-            {
-                "file_id": entry.file_id,
-                "type": entry.type,
-                "relpath": entry.relpath,
-                "n_chunks": entry.n_chunks,
-                "n_tokens": entry.n_tokens,
-                "n_pages": entry.n_pages,
-                "title": entry.title,
-            }
-        )
-        if i % 100 == 0:
-            print(f"  [{i}/{len(targets)}] chunks={entry.n_chunks}")
-
-    print(f"Extracted {len(entries)} files in {time.time() - t0:.1f}s; {len(errors)} errors")
-    if errors:
-        for p, e in errors[:5]:
-            print(f"  err: {p}: {e}")
-
-    # ---- emit chunks.jsonl (atomic: build in memory, then atomic write) ----
-    chunks_p = DATA_DIR / "chunks.jsonl"
+def _emit_chunks_jsonl(entries: list[FileEntry], path: Path) -> None:
+    """Write chunks.jsonl atomically — one JSON object per chunk per file."""
     chunks_buf = io.StringIO()
     for e in entries:
         for c in e.chunks:
@@ -667,11 +603,11 @@ def main():
                 )
                 + "\n"
             )
-    _atomic_write_text(chunks_p, chunks_buf.getvalue())
-    print(f"Wrote {chunks_p}")
+    _atomic_write_text(path, chunks_buf.getvalue())
 
-    # ---- emit index.json (atomic: per-file, no chunk text) ----
-    index_p = DATA_DIR / "index.json"
+
+def _emit_index_json(entries: list[FileEntry], path: Path, vault: Path) -> None:
+    """Write index.json atomically — per-file metadata, no chunk text."""
     out_entries = []
     for e in entries:
         d = asdict(e)
@@ -680,18 +616,18 @@ def main():
         ]
         out_entries.append(d)
     index_payload = {
-        "vault": str(VAULT),
+        "vault": str(vault),
         "built_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "n_files": len(entries),
         "n_chunks": sum(e.n_chunks for e in entries),
         "n_tokens": sum(e.n_tokens for e in entries),
         "files": out_entries,
     }
-    _atomic_write_text(index_p, json.dumps(index_payload, ensure_ascii=False, indent=2))
-    print(f"Wrote {index_p}")
+    _atomic_write_text(path, json.dumps(index_payload, ensure_ascii=False, indent=2))
 
-    # ---- emit manifest.csv (atomic: write to .tmp then rename) ----
-    manifest_p = DATA_DIR / "manifest.csv"
+
+def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
+    """Write manifest.csv with the canonical 17-column header (CLAUDE.md §3)."""
     manifest_buf = io.StringIO()
     w = csv.writer(manifest_buf, quoting=csv.QUOTE_ALL, escapechar="\\", doublequote=True)
     w.writerow(
@@ -746,27 +682,101 @@ def main():
             w.writerow(row)
         except Exception as ex:
             print(f"CSV-FAIL {e.file_id} {e.relpath}: {ex}; row types: {[type(x).__name__ for x in row]}")
-            # write a sanitized fallback
             w.writerow([str(x) if x is not None else "" for x in row])
-    _atomic_write_text(manifest_p, manifest_buf.getvalue())
-    print(f"Wrote {manifest_p}")
+    _atomic_write_text(path, manifest_buf.getvalue())
 
-    # ---- emit per-file detail pages in wiki ----
-    if not args.no_detail_md:
-        WIKI_FILES_DIR.mkdir(parents=True, exist_ok=True)
-        for e in entries:
-            write_detail_md(e)
-        print(f"Wrote {len(entries)} detail pages to {WIKI_FILES_DIR}")
 
-    # ---- log ----
-    log_p = DATA_DIR / "build.log"
-    with open(log_p, "w") as f:
+def _emit_detail_md(entries: list[FileEntry], files_dir: Path) -> None:
+    """Write per-file detail pages to the wiki's _index/files/ directory."""
+    files_dir.mkdir(parents=True, exist_ok=True)
+    for e in entries:
+        write_detail_md(e)
+
+
+def _emit_build_log(entries: list[FileEntry], errors: list[tuple[str, str]], path: Path, vault: Path) -> None:
+    """Write build.log — non-atomic by design; non-critical artifact."""
+    with open(path, "w") as f:
         f.write(f"# build_index.py log — {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(f"VAULT: {VAULT}\n")
+        f.write(f"VAULT: {vault}\n")
         f.write(f"files: {len(entries)} | chunks: {sum(e.n_chunks for e in entries)}\n")
         f.write(f"errors: {len(errors)}\n\n")
         for p, err in errors:
             f.write(f"  ERR {p}: {err}\n")
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--md-only", action="store_true", help="skip PDFs")
+    ap.add_argument("--no-detail-md", action="store_true", help="skip wiki per-file pages")
+    ap.add_argument("--limit", type=int, default=0)
+    args = ap.parse_args()
+
+    if not VAULT.exists():
+        print(f"VAULT not found: {VAULT}", file=sys.stderr)
+        sys.exit(1)
+
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    classifications = load_classifications()
+
+    is_source = lambda p: is_indexable_path(p, VAULT)  # noqa: E731
+
+    md_files = sorted(p for p in VAULT.rglob("*.md") if is_source(p))
+    pdf_files = [] if args.md_only else sorted(p for p in VAULT.rglob("*.pdf") if is_source(p))
+
+    if args.limit:
+        md_files = md_files[: args.limit]
+        pdf_files = pdf_files[: args.limit]
+
+    targets = [(p, "md") for p in md_files] + [(p, "pdf") for p in pdf_files]
+    print(f"VAULT={VAULT}")
+    print(f"MD files: {len(md_files)} | PDF files: {len(pdf_files)} | total: {len(targets)}")
+
+    entries: list[FileEntry] = []
+    errors: list[tuple[str, str]] = []
+    t0 = time.time()
+    for i, (path, kind) in enumerate(targets, 1):
+        try:
+            if kind == "md":
+                entry = process_md(path, classifications)
+            else:
+                entry = process_pdf(path, classifications)
+        except Exception as e:
+            errors.append((str(path), repr(e)))
+            continue
+        if entry is None:
+            continue
+        entries.append(entry)
+        if i % 100 == 0:
+            print(f"  [{i}/{len(targets)}] chunks={entry.n_chunks}")
+
+    print(f"Extracted {len(entries)} files in {time.time() - t0:.1f}s; {len(errors)} errors")
+    if errors:
+        for p, e in errors[:5]:
+            print(f"  err: {p}: {e}")
+
+    chunks_p = DATA_DIR / "chunks.jsonl"
+    _emit_chunks_jsonl(entries, chunks_p)
+    print(f"Wrote {chunks_p}")
+
+    index_p = DATA_DIR / "index.json"
+    _emit_index_json(entries, index_p, VAULT)
+    print(f"Wrote {index_p}")
+
+    manifest_p = DATA_DIR / "manifest.csv"
+    _emit_manifest_csv(entries, manifest_p)
+    print(f"Wrote {manifest_p}")
+
+    if not args.no_detail_md:
+        _emit_detail_md(entries, WIKI_FILES_DIR)
+        print(f"Wrote {len(entries)} detail pages to {WIKI_FILES_DIR}")
+
+    log_p = DATA_DIR / "build.log"
+    _emit_build_log(entries, errors, log_p, VAULT)
     print(f"Wrote {log_p}")
     print("Done.")
 

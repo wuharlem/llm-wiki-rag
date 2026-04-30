@@ -156,6 +156,66 @@ _TITLE_BOOST = 0.5
 _HEADING_BOOST = 0.3
 
 
+def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
+    """Return (df, avgdl, docs_tokens) for BM25 scoring. Side effect: each chunk dict gets a "_toks" key populated for reuse."""
+    docs_tokens: list[list[str]] = []
+    df: Counter = Counter()
+    for c in chunks:
+        toks = c.get("_toks")
+        if toks is None:
+            toks = tokenize(c.get("text", ""))
+            c["_toks"] = toks
+        docs_tokens.append(toks)
+        for t in set(toks) & qset:
+            df[t] += 1
+    N = len(chunks)
+    avgdl = sum(len(t) for t in docs_tokens) / max(N, 1)
+    return df, avgdl, docs_tokens
+
+
+def _score_chunk(
+    chunk: dict,
+    toks: list[str],
+    qset: set[str],
+    df: Counter,
+    avgdl: float,
+    N: int,
+    *,
+    explain: bool,
+) -> tuple[float, dict | None]:
+    """Score one chunk via BM25 + title/heading boosts. Return (score, wrapped_or_None) where wrapped_or_None is a shallow copy carrying _explain when explain=True and score>0; None otherwise."""
+    if not toks:
+        return 0.0, None
+    tf = Counter(toks)
+    score = 0.0
+    dl = len(toks)
+    breakdown: dict[str, float] = {} if explain else None
+    for q in qset:
+        if df[q] == 0:
+            continue
+        idf = math.log((N - df[q] + 0.5) / (df[q] + 0.5) + 1)
+        f = tf.get(q, 0)
+        contrib = idf * (f * (_BM25_K1 + 1)) / (f + _BM25_K1 * (1 - _BM25_B + _BM25_B * dl / avgdl))
+        score += contrib
+        if breakdown is not None and contrib > 0:
+            breakdown[q] = round(contrib, 3)
+    title_toks = set(tokenize(chunk.get("title", "")))
+    title_hits = qset & title_toks
+    score += _TITLE_BOOST * len(title_hits)
+    heading_toks = set(tokenize(chunk.get("heading_path", "")))
+    heading_hits = qset & heading_toks
+    score += _HEADING_BOOST * len(heading_hits)
+    if score > 0 and breakdown is not None:
+        wrapped = dict(chunk)
+        wrapped["_explain"] = {
+            "terms": breakdown,
+            "title_hits": sorted(title_hits),
+            "heading_hits": sorted(heading_hits),
+        }
+        return score, wrapped
+    return score, None
+
+
 def bm25_search(
     query: str,
     chunks: list[dict],
@@ -176,64 +236,13 @@ def bm25_search(
     if not qtoks or not chunks:
         return []
     qset = set(qtoks)
-
-    # Tokenize each chunk once. For 19K chunks this is ~1s on first call;
-    # the MCP server keeps the result implicitly via the chunk cache + here
-    # we additionally cache token lists on the chunk dict to avoid retokenizing
-    # for repeated queries against the same corpus.
-    docs_tokens: list[list[str]] = []
-    df: Counter = Counter()
-    for c in chunks:
-        toks = c.get("_toks")
-        if toks is None:
-            toks = tokenize(c.get("text", ""))
-            c["_toks"] = toks
-        docs_tokens.append(toks)
-        for t in set(toks) & qset:
-            df[t] += 1
-
+    df, avgdl, docs_tokens = _compute_corpus_stats(chunks, qset)
     N = len(chunks)
-    avgdl = sum(len(t) for t in docs_tokens) / max(N, 1)
-
     scored: list[tuple[float, dict]] = []
     for i, c in enumerate(chunks):
-        toks = docs_tokens[i]
-        if not toks:
-            continue
-        tf = Counter(toks)
-        score = 0.0
-        dl = len(toks)
-        breakdown: dict[str, float] = {} if explain else None
-        for q in qset:
-            if df[q] == 0:
-                continue
-            idf = math.log((N - df[q] + 0.5) / (df[q] + 0.5) + 1)
-            f = tf.get(q, 0)
-            contrib = idf * (f * (_BM25_K1 + 1)) / (f + _BM25_K1 * (1 - _BM25_B + _BM25_B * dl / avgdl))
-            score += contrib
-            if breakdown is not None and contrib > 0:
-                breakdown[q] = round(contrib, 3)
-        # Metadata boosts
-        title_toks = set(tokenize(c.get("title", "")))
-        title_hits = qset & title_toks
-        score += _TITLE_BOOST * len(title_hits)
-        heading_toks = set(tokenize(c.get("heading_path", "")))
-        heading_hits = qset & heading_toks
-        score += _HEADING_BOOST * len(heading_hits)
+        score, wrapped = _score_chunk(c, docs_tokens[i], qset, df, avgdl, N, explain=explain)
         if score > 0:
-            if breakdown is not None:
-                # Don't mutate the cached chunk dict; carry breakdown via an
-                # ephemeral wrapper so callers can read it without poisoning
-                # the global cache for subsequent queries.
-                wrapped = dict(c)
-                wrapped["_explain"] = {
-                    "terms": breakdown,
-                    "title_hits": sorted(title_hits),
-                    "heading_hits": sorted(heading_hits),
-                }
-                scored.append((score, wrapped))
-            else:
-                scored.append((score, c))
+            scored.append((score, wrapped if wrapped is not None else c))
     scored.sort(key=lambda x: -x[0])
     return scored[:k]
 
@@ -612,15 +621,20 @@ def list_categories() -> list[dict]:
     return out
 
 
-def list_concepts(min_files: int = 1) -> list[dict]:
-    """Distinct wiki_concepts with file counts."""
+def _count_files_by_field(field: str, output_key: str, min_files: int = 1) -> list[dict]:
+    """Aggregate distinct values from chunk[field] (a list field) with file counts."""
     seen: dict[str, set[str]] = {}
     for c in load_all_chunks():
-        for concept in c.get("wiki_concepts") or []:
-            seen.setdefault(concept, set()).add(c.get("file_id"))
-    out = [{"concept": k, "n_files": len(v)} for k, v in seen.items() if len(v) >= min_files]
+        for value in c.get(field) or []:
+            seen.setdefault(value, set()).add(c.get("file_id"))
+    out = [{output_key: k, "n_files": len(v)} for k, v in seen.items() if len(v) >= min_files]
     out.sort(key=lambda d: -d["n_files"])
     return out
+
+
+def list_concepts(min_files: int = 1) -> list[dict]:
+    """Distinct wiki_concepts with file counts."""
+    return _count_files_by_field("wiki_concepts", "concept", min_files=min_files)
 
 
 def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
@@ -677,13 +691,7 @@ def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
 
 def list_tags(min_files: int = 1) -> list[dict]:
     """Distinct tags with file counts."""
-    seen: dict[str, set[str]] = {}
-    for c in load_all_chunks():
-        for tag in c.get("tags") or []:
-            seen.setdefault(tag, set()).add(c.get("file_id"))
-    out = [{"tag": k, "n_files": len(v)} for k, v in seen.items() if len(v) >= min_files]
-    out.sort(key=lambda d: -d["n_files"])
-    return out
+    return _count_files_by_field("tags", "tag", min_files=min_files)
 
 
 def multi_query_search(
