@@ -36,8 +36,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import wiki_retrieval as wr
+from wiki_lib.config import get_config
 
-DEFAULT_MODEL = "BAAI/bge-small-en-v1.5"
+DEFAULT_MODEL = get_config().retrieval.embedding_model
 
 
 def _is_up_to_date(n_chunks: int, model_name: str) -> bool:

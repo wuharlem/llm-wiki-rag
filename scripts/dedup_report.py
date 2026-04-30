@@ -27,13 +27,15 @@ from collections import defaultdict
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
+from wiki_lib.config import get_config
+
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
 WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
 LOG = WORK / "02_logs" / "dedup_report.csv"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 
-DROP_PARAM_PREFIXES = ("utm_", "ref", "fbclid", "gclid", "mc_cid", "mc_eid")
+DROP_PARAM_PREFIXES = tuple(get_config().ingest.drop_query_param_prefixes)
 
 
 def get_field(fm: str, key: str) -> str:

@@ -1,0 +1,36 @@
+# Tunable parameters for the AI Safety wiki build/retrieval pipeline.
+# Loaded by scripts/wiki_lib/config.py::get_config(). All keys are required
+# (the loader uses Pydantic with extra="forbid" + frozen=True, strict=True).
+
+chunking:
+  target_tokens: 500          # rough chunk size target (build_index.py)
+  min_tokens: 80              # don't emit chunks shorter than this unless final
+  max_tokens: 800             # hard upper bound
+  overlap_tokens: 50          # carry-over between adjacent chunks
+  words_per_token: 0.75       # heuristic, no tokenizer dependency
+
+retrieval:
+  bm25_k1: 1.5                # BM25 term-saturation; standard value
+  bm25_b: 0.75                # BM25 length-normalization; standard value
+  title_boost: 0.5            # chunks whose file title matches the query get this lift
+  heading_boost: 0.3          # chunks whose surrounding heading matches the query get this lift
+  rrf_k: 60                   # Cormack et al. 2009 RRF rank-fusion constant; bigger = flatter
+  fusion_oversample: 4        # candidate-pool multiplier for hybrid mode
+  rerank_candidates: 40       # max candidates passed to the cross-encoder reranker
+  reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  embedding_model: "BAAI/bge-small-en-v1.5"
+
+ingest:
+  http_timeout_seconds: 25    # fetch.py request timeout
+  http_user_agent: "Mozilla/5.0 (compatible; AISafetyVaultBot/1.0; personal research archive)"
+  skip_url_handlers:          # URL handlers fetch.py declines to download
+    - github
+    - huggingface
+    - youtube
+  drop_query_param_prefixes:  # query-param prefixes dedup_report.py strips during URL canonicalization
+    - utm_
+    - ref
+    - fbclid
+    - gclid
+    - mc_cid
+    - mc_eid

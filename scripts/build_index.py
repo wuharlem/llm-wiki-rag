@@ -40,6 +40,7 @@ from typing import Any
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
+from wiki_lib.config import get_config
 from wiki_lib.frontmatter import (
     split as split_frontmatter,
 )
@@ -88,13 +89,14 @@ WIKI_INDEX_DIR = VAULT / "_index"
 WIKI_FILES_DIR = WIKI_INDEX_DIR / "files"
 
 # ---------------------------------------------------------------------------
-# Tunables
+# Tunables (sourced from config.yml — see scripts/wiki_lib/config.py)
 # ---------------------------------------------------------------------------
-TARGET_TOKENS = 500  # rough chunk size target
-MIN_TOKENS = 80  # don't emit chunks shorter than this unless final
-MAX_TOKENS = 800  # hard upper bound
-OVERLAP_TOKENS = 50  # carry-over between adjacent chunks
-WORDS_PER_TOKEN = 0.75  # heuristic, no tokenizer dependency
+_CFG_CHUNKING = get_config().chunking
+TARGET_TOKENS = _CFG_CHUNKING.target_tokens
+MIN_TOKENS = _CFG_CHUNKING.min_tokens
+MAX_TOKENS = _CFG_CHUNKING.max_tokens
+OVERLAP_TOKENS = _CFG_CHUNKING.overlap_tokens
+WORDS_PER_TOKEN = _CFG_CHUNKING.words_per_token
 
 
 # ---------------------------------------------------------------------------
