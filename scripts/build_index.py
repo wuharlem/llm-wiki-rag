@@ -40,15 +40,10 @@ from typing import Any
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-import yaml  # type: ignore
-
 from wiki_lib.frontmatter import (
-    FRONTMATTER_RE,
-    INLINE_FM_RE,
-    KV_RE,
     split as split_frontmatter,
 )
-from wiki_lib.paths import META_DOC_BASENAMES, is_indexable_path
+from wiki_lib.paths import is_indexable_path
 
 
 # pypdf is only needed for PDF extraction. Defer the import so md-only

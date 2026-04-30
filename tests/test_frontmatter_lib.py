@@ -8,9 +8,7 @@ CLAUDE.md §8.
 from __future__ import annotations
 
 import yaml
-
 from wiki_lib.frontmatter import dump, split
-
 
 # ---------------------------------------------------------------------------
 # split
@@ -51,12 +49,7 @@ def test_split_no_top_block_leaves_inline_blocks_alone():
 def test_split_strips_yamlish_inline_block_when_top_present():
     """Web Clipper duplicate metadata: when a top block is present, any
     subsequent yamlish `---` block in the body is stripped (not parsed)."""
-    text = (
-        "---\ntitle: Top\n---\n"
-        "intro paragraph\n"
-        "\n---\nduplicate: yes\nkey: val\n---\n"
-        "real content\n"
-    )
+    text = "---\ntitle: Top\n---\nintro paragraph\n\n---\nduplicate: yes\nkey: val\n---\nreal content\n"
     meta, body = split(text)
     assert meta == {"title": "Top"}
     assert "duplicate: yes" not in body
@@ -94,12 +87,12 @@ def test_dump_roundtrips_safe_meta():
 def test_dump_escapes_yaml_special_chars():
     """Titles with YAML-special chars must round-trip cleanly."""
     cases = [
-        "Anthropic: An Update",   # colon
-        'He said "hi"',            # double quote
-        "It's a test",             # apostrophe
-        "# starts with hash",      # comment char
-        "- starts with dash",      # leading dash
-        "line one\nline two",      # embedded newline
+        "Anthropic: An Update",  # colon
+        'He said "hi"',  # double quote
+        "It's a test",  # apostrophe
+        "# starts with hash",  # comment char
+        "- starts with dash",  # leading dash
+        "line one\nline two",  # embedded newline
     ]
     for original in cases:
         meta = {"title": original, "tags": []}

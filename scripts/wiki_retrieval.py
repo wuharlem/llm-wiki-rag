@@ -29,7 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from wiki_lib.paths import META_DOC_BASENAMES, is_indexable_path
+from wiki_lib.paths import is_indexable_path
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -102,6 +102,7 @@ class Filters:
 # ---------------------------------------------------------------------------
 # In-memory chunk loader (cached for long-lived processes like the MCP server)
 # ---------------------------------------------------------------------------
+
 
 def _is_meta_doc(relpath: str) -> bool:
     """True iff `relpath` is a meta-doc that should not appear in retrieval results.

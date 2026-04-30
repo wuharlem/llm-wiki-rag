@@ -108,7 +108,5 @@ def dump(meta: dict, body: str) -> str:
     Returns `f"---\\n{yaml}---\\n\\n{body}"`. Mirrors the previous inline
     construction in `fetch.py`.
     """
-    yaml_text = yaml.safe_dump(
-        meta, sort_keys=False, allow_unicode=True, default_flow_style=False
-    )
+    yaml_text = yaml.safe_dump(meta, sort_keys=False, allow_unicode=True, default_flow_style=False)
     return f"---\n{yaml_text}---\n\n{body}"

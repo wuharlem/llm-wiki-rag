@@ -72,9 +72,7 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
         if "saved_queries" not in parts:
             return False
 
-    if rel.parent == Path(".") and (
-        rel.name in META_DOC_BASENAMES or rel.name.startswith("_")
-    ):
+    if rel.parent == Path(".") and (rel.name in META_DOC_BASENAMES or rel.name.startswith("_")):
         return False
 
     if fnmatch.fnmatch(rel.name, "_audit_*.md"):
