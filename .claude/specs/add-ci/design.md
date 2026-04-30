@@ -19,21 +19,21 @@ ruff check --select E,F,W,I scripts/ tests/   →  575 errors
 ruff format --check scripts/ tests/           →  43 files would reformat
 ```
 
-Lint breakdown:
+Lint breakdown and plan:
 
 | Rule | Count | Auto-fix? | Plan |
 |---|---:|---|---|
-| E501 line-too-long | 470 | no | **Bump `line-length` to 120** (kills ~all of these — current code targets ~100–110 already) |
+| E501 line-too-long | 470 | no | `line-length = 120` plus **ignore E501 globally** — `ruff format` already wraps wherever it can; remaining long lines are unwrappable strings |
 | F401 unused-import | 32 | yes | `ruff check --fix` |
 | I001 unsorted-imports | 26 | yes | `ruff check --fix` (also covered by `ruff format`) |
-| E701/E702 multi-statement-line | 27 | no | Manual fix (small) |
+| E701/E702 multi-statement-line | 27 | no/yes | Resolved by `ruff format` |
 | E402 import-not-at-top | 6 | no | Per-file-ignore — scripts with `sys.path.insert(...)` legitimately import after path setup |
 | F841 unused-variable | 6 | no | Manual fix (real bugs worth keeping in lint) |
 | E741 ambiguous-variable | 4 | no | **Ignore globally** — bikeshed, not worth the churn |
 | F541 f-string-missing-placeholders | 3 | yes | `ruff check --fix` |
 | E401 multiple-imports-one-line | 1 | yes | `ruff check --fix` |
 
-After `ruff format` + `ruff check --fix` + `line-length=120` + ignoring `E741` + per-file-ignores for `E402` in scripts that need it, **the residual cleanup is roughly 30 manual fixes** — well within scope of a single cleanup task in this spec.
+After `ruff format` + `ruff check --fix` + `line-length=120` + ignoring `E501,E741` + per-file-ignores for `E402` in scripts/, **the residual cleanup is just the 6 F841 manual fixes**.
 
 ## Steering Document Alignment
 
@@ -147,9 +147,13 @@ extend-exclude = [
 [tool.ruff.lint]
 # Ruff defaults (E, F) plus warnings (W) and import sorting (I).
 # Justified per-rule choices:
-#   E741 (ambiguous names like `l`, `I`, `O`) is too noisy for research code.
+#   E501 (line-too-long): `ruff format` already wraps where it can; the
+#       residual long lines are unwrappable strings (Field descriptions,
+#       file paths, f-strings) where E501 only adds noise. Standard practice
+#       when running `ruff format`.
+#   E741 (ambiguous names: `l`, `I`, `O`) is too noisy for research code.
 select = ["E", "F", "W", "I"]
-ignore = ["E741"]
+ignore = ["E501", "E741"]
 
 [tool.ruff.lint.per-file-ignores]
 # Scripts that mutate sys.path before importing — legitimate in standalone
@@ -177,7 +181,7 @@ test = [
 
 - **Purpose:** Run `make fmt-check`, `make lint`, `make test` on every PR and `main` push.
 - **Interfaces:** GitHub Actions YAML schema; provides three named status checks: `fmt`, `lint`, `test`.
-- **Dependencies:** `astral-sh/setup-uv@v3`, `actions/checkout@v4`.
+- **Dependencies:** `astral-sh/setup-uv@v8`, `actions/checkout@v4`.
 - **Reuses:** Nothing — net-new.
 
 ```yaml
@@ -200,10 +204,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v8
         with:
           enable-cache: true
-          cache-dependency-glob: uv.lock
       - run: uv sync --extra test
       - run: make fmt-check
 
@@ -212,10 +215,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v8
         with:
           enable-cache: true
-          cache-dependency-glob: uv.lock
       - run: uv sync --extra test
       - run: make lint
 
@@ -224,10 +226,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v8
         with:
           enable-cache: true
-          cache-dependency-glob: uv.lock
           python-version: "3.10"
       - run: uv sync --extra test
       - run: make test
@@ -236,7 +237,7 @@ jobs:
 Design choices in the workflow:
 
 - **Three jobs, not one job with three steps.** Reasons: (a) parallel execution, (b) failures stay isolated (one red check shows exactly which gate broke), (c) you can require any subset in branch protection.
-- **`setup-uv@v3` with `enable-cache: true`.** Caches the `uv` global download cache keyed on `uv.lock` hash — cold install ~30 s, warm ~5 s.
+- **`setup-uv@v8` with `enable-cache: true`.** Caches the `uv` global download cache. The action's default `cache-dependency-glob` (covers `uv.lock`, `pyproject.toml`, `requirements*.txt`, `*.py.lock`) is correct for this repo, so we don't override it — that way a `pyproject.toml` change correctly invalidates the cache. Cold install ~30 s, warm ~5 s.
 - **Python pinned only on the `test` job.** Pinning to 3.10 ensures we test on the floor version. `fmt`/`lint` don't execute Python code, so they don't need a specific interpreter version.
 - **`concurrency` block cancels stale PR runs** when a new commit is pushed to the same branch. Saves CI time without affecting correctness.
 - **No matrix.** Per requirements non-goals.

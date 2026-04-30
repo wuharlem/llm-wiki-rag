@@ -6,7 +6,7 @@ Each task is scoped to 1–3 files and one testable outcome. Tasks are ordered s
 
 - [ ] **1. Add `[tool.ruff]` config to `pyproject.toml`**
   - File: `pyproject.toml`
-  - Add three new sections per design doc Component 2: `[tool.ruff]` (with `line-length = 120`, `target-version = "py310"`, `extend-exclude`), `[tool.ruff.lint]` (`select = ["E","F","W","I"]`, `ignore = ["E741"]`), `[tool.ruff.lint.per-file-ignores]` (`"scripts/*.py" = ["E402"]`), and `[tool.ruff.format]` (empty body, defaults).
+  - Add three new sections per design doc Component 2: `[tool.ruff]` (with `line-length = 120`, `target-version = "py310"`, `extend-exclude`), `[tool.ruff.lint]` (`select = ["E","F","W","I"]`, `ignore = ["E501","E741"]`), `[tool.ruff.lint.per-file-ignores]` (`"scripts/*.py" = ["E402"]`), and `[tool.ruff.format]` (empty body, defaults).
   - Verify: `uv run --with ruff ruff check --show-settings | head -40` reports `line-length = 120` and the selected rule set.
   - Requirements: R3.3, R3.4
 
@@ -66,7 +66,7 @@ These tasks bring the existing code into compliance with the rules from Phase A.
 
 - [ ] **9. Create `.github/workflows/ci.yml`**
   - File: `.github/workflows/ci.yml` (new; create `.github/` and `.github/workflows/` first)
-  - Copy the workflow from design doc Component 3 verbatim. Three jobs (`fmt`, `lint`, `test`), each on `ubuntu-latest`, each with `actions/checkout@v4` + `astral-sh/setup-uv@v3` (with `enable-cache: true`, `cache-dependency-glob: uv.lock`) + `uv sync --extra test` + `make <target>`. Test job pins `python-version: "3.10"`. Top-level `concurrency` block cancels in-progress only on PRs.
+  - Copy the workflow from design doc Component 3 verbatim. Three jobs (`fmt`, `lint`, `test`), each on `ubuntu-latest`, each with `actions/checkout@v4` + `astral-sh/setup-uv@v8` (with `enable-cache: true`; rely on the action's default `cache-dependency-glob` which already includes `uv.lock` and `pyproject.toml`) + `uv sync --extra test` + `make <target>`. Test job pins `python-version: "3.10"`. Top-level `concurrency` block cancels in-progress only on PRs.
   - Verify (local lint): `python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"` parses cleanly.
   - Verify (live): open a PR with these changes; all three checks (`fmt`, `lint`, `test`) report green in the PR's status.
   - Requirements: R1.1, R1.2, R1.4, R4.1, R4.2, R4.4, R4.5, R6.1, R6.2, R6.3, R7.1, R7.2, R7.3
