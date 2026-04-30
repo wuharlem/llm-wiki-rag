@@ -13,102 +13,49 @@ scripts/                 # all pipeline tooling (Python)
 README.md                # this file
 ```
 
-## Pipeline stages (run in order)
-
-Each stage produces inputs for the next. Logs land in `02_logs/`; data products land in `01_data/`.
+## Pipeline stages
 
 ### Stage 1 — Fetch (network-bound; runs on user's Mac)
 
 ```bash
-python3 scripts/fetch.py [--sample 3] [--handlers arxiv,pdf,web]
+uv run python scripts/fetch.py [--sample 3] [--handlers arxiv,pdf,web]
 ```
 
 Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_inbox/` (arxiv → PDF, web → markdown via trafilatura). Writes `02_logs/fetch_log.csv`. See [scripts/README.md](scripts/README.md) for full setup.
 
-### Stage 2 — Classify
+### Stage 2 — Index and embed
 
 ```bash
-python3 scripts/build_manifest.py        # extracts title/desc/url/excerpt for each inbox file
-python3 scripts/classify.py              # heuristic vocab match → folder + tags + concepts
-python3 scripts/apply_classifications.py # rewrites md frontmatter, moves files into topical folders
+uv run python scripts/build_index.py
+uv run --extra all python scripts/build_embeddings.py
 ```
 
-Produces `01_data/classification_manifest.csv` and `01_data/classifications.csv`. Apply pass logs to `02_logs/apply_log.csv`.
+Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
 
-### Stage 3 — Refine low-confidence catchalls
+### Stage 3 — Query
 
 ```bash
-python3 scripts/refine.py
-python3 scripts/apply_refinement.py
+uv run python scripts/query_index.py "RLHF"           # CLI
+uv run python scripts/wiki_mcp_server.py              # MCP server
 ```
 
-Re-classifies low-confidence files in the AI Safety/ catch-all using full body text + URL hints. Logs to `02_logs/refinement.csv` and `02_logs/refinement_apply_log.csv`.
+`query_index.py` is the local CLI; `wiki_mcp_server.py` exposes the same retrieval to MCP-compatible clients (Claude Desktop, Claude Code via the MCP config).
 
-### Stage 4 — Rename cryptic stems
+### Stage 4 — Wiki overview rebuild (occasional)
 
 ```bash
-python3 scripts/rename_files.py        # MDs from frontmatter title; PDFs from first-page text
-python3 scripts/fix_pdf_titles.py      # second pass: strip venue prefix, collapse small-caps, trim author bleed
-python3 scripts/fix_titles.py          # MD frontmatter title cleanup (URL slug derivation for numeric stems)
+uv run python scripts/build_wiki_index.py
 ```
 
-Logs to `02_logs/rename_log.csv`, `02_logs/fix_pdf_titles_log.csv`, `02_logs/title_fix_log.csv`.
+Regenerates the `_index/` overview pages (one MD per concept). Run after large vault changes.
 
-### Stage 5 — Unlink misclassified concept tags
+### Stage 5 — Maintenance tools
 
-```bash
-python3 scripts/unlink_misclassified.py
-```
+The `scripts/cleanup_metadata.py`, `scripts/dedup_report.py`, and `scripts/regenerate_notion_sources.py` tools are dry-run-by-default; pass `--apply` to mutate. See each script's `--help` for details.
 
-Removes concept tags from frontmatter where the heuristic over-tagged (Wikipedia tag-pages, profile stubs, etc.). Logs to `02_logs/unlink_log.csv`.
+## Historical pipeline (one-shot, April 2026)
 
-### Stage 6 — Vault structure refactor (one-time)
-
-```bash
-python3 scripts/refactor_vault.py --apply           # flat 21-folder restructure
-python3 scripts/multilevel_restructure.py --apply   # nest into 5 top-level groups
-```
-
-Logs to `02_logs/refactor_log.csv`. The vault is now structured as:
-
-```
-01_Risks-and-Failure-Modes/
-  01a_Existential-Risk/             104
-  01b_AGI-Capability-and-Forecasting/ 7
-  01c_Alignment-Faking-Scheming/     30
-  01d_Agentic-Misalignment-and-Control/ 11
-  01e_Multi-Agent/                    4
-02_Mitigations-and-Methods/
-  02a_RLHF-and-Limitations/         173
-  02b_Constitutional-AI/              6
-  02c_Scalable-Oversight/            24
-  02d_Weak-to-Strong-and-ELK/         5
-  02e_Pretraining-Filtering-and-Unlearning/ 6
-  02f_Interpretability/              30
-03_Evaluations/
-  03a_Methodology/                   16
-  03b_Capability-Benchmarks/         19
-  03c_Cyber-Bio-Benchmarks/          19
-  03d_Agent-Benchmarks-and-Frameworks/ 6
-  03e_Other-Evaluations/            136
-04_Governance-and-Policy/
-  04a_RSPs-and-Frontier-Frameworks/  37
-  04b_Lab-Scorecards/                 7
-  04c_Other-Governance/              11
-05_Resources/
-  05a_Educational/                   22
-  05b_Sources-Background/            19
-```
-
-### Stage 7 — Quality audit
-
-```bash
-python3 scripts/audit_frontmatter.py        # report-only
-python3 scripts/audit_frontmatter.py --fix  # apply mechanical fixes (mojibake, slug artifacts)
-python3 scripts/apply_title_fixes.py        # explicit per-file fixes for known cases
-```
-
-Logs to `02_logs/audit_log.csv`.
+The vault was bulk-classified in April 2026 by a one-shot pipeline that performed: manifest extraction, heuristic classification, low-confidence refinement, file renaming, frontmatter audit, vault restructure. Those scripts have been removed from the tree — see `git log --diff-filter=D --since=2026-04-01 --name-only -- scripts/` to recover any of them. The audit at `CODE_AUDIT_2026-04-30.md` documents what each one did.
 
 ## Data products
 
