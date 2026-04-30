@@ -29,6 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+from wiki_lib.cache import RetrievalContext
 from wiki_lib.paths import is_indexable_path
 
 # ---------------------------------------------------------------------------
@@ -113,14 +114,13 @@ def _is_meta_doc(relpath: str) -> bool:
     return not is_indexable_path(VAULT_PATH / relpath, VAULT_PATH)
 
 
-_chunk_cache: list[dict] | None = None
+_ctx: RetrievalContext = RetrievalContext()
 
 
 def load_all_chunks(force: bool = False) -> list[dict]:
     """Load every chunk from chunks.jsonl. Cached for the life of the process."""
-    global _chunk_cache
-    if _chunk_cache is not None and not force:
-        return _chunk_cache
+    if _ctx.chunks is not None and not force:
+        return _ctx.chunks
     if not CHUNKS_PATH.exists():
         raise FileNotFoundError(f"missing {CHUNKS_PATH}; run `python3 scripts/build_index.py` first")
     out: list[dict] = []
@@ -133,7 +133,7 @@ def load_all_chunks(force: bool = False) -> list[dict]:
             if _is_meta_doc(d.get("relpath", "")):
                 continue
             out.append(d)
-    _chunk_cache = out
+    _ctx.chunks = out
     return out
 
 
@@ -258,18 +258,11 @@ def bm25_search(
 # CLI (short-lived).
 # ---------------------------------------------------------------------------
 
-_emb_matrix = None  # numpy.ndarray (n_chunks, dim)
-_emb_ids: list[dict] | None = None  # list of {"file_id", "chunk_id"} per row
-_emb_meta: dict | None = None
-_emb_chunk_index: dict[tuple[str, str], int] | None = None  # (file_id, chunk_id) -> row
-_query_model = None  # SentenceTransformer instance
-
 
 def _load_embeddings():
     """Load embeddings.npy + embeddings_ids.json. Idempotent. Raises a clear
     error if the build hasn't happened yet."""
-    global _emb_matrix, _emb_ids, _emb_meta, _emb_chunk_index
-    if _emb_matrix is not None:
+    if _ctx.emb_matrix is not None:
         return
     try:
         import numpy as np  # noqa: F401  (lazy import; only needed for semantic mode)
@@ -290,29 +283,28 @@ def _load_embeddings():
             )
     import numpy as np
 
-    _emb_matrix = np.load(EMB_NPY_PATH)
-    _emb_ids = json.loads(EMB_IDS_PATH.read_text())
+    _ctx.emb_matrix = np.load(EMB_NPY_PATH)
+    _ctx.emb_ids = json.loads(EMB_IDS_PATH.read_text())
     if EMB_META_PATH.exists():
-        _emb_meta = json.loads(EMB_META_PATH.read_text())
-    _emb_chunk_index = {(rec["file_id"], rec["chunk_id"]): i for i, rec in enumerate(_emb_ids)}
+        _ctx.emb_meta = json.loads(EMB_META_PATH.read_text())
+    _ctx.emb_chunk_index = {(rec["file_id"], rec["chunk_id"]): i for i, rec in enumerate(_ctx.emb_ids)}
 
 
 def _get_query_model():
     """Lazily instantiate the embedding model. Cached for process lifetime."""
-    global _query_model
-    if _query_model is not None:
-        return _query_model
-    if _emb_meta is None:
+    if _ctx.query_model is not None:
+        return _ctx.query_model
+    if _ctx.emb_meta is None:
         _load_embeddings()
-    model_name = (_emb_meta or {}).get("model", "BAAI/bge-small-en-v1.5")
+    model_name = (_ctx.emb_meta or {}).get("model", "BAAI/bge-small-en-v1.5")
     try:
         from sentence_transformers import SentenceTransformer
     except ImportError as e:
         raise RuntimeError(
             "semantic retrieval requires sentence-transformers; install with `uv sync --extra semantic`"
         ) from e
-    _query_model = SentenceTransformer(model_name)
-    return _query_model
+    _ctx.query_model = SentenceTransformer(model_name)
+    return _ctx.query_model
 
 
 def semantic_search(
@@ -322,7 +314,7 @@ def semantic_search(
 ) -> list[tuple[float, dict]]:
     """Cosine similarity between the query embedding and chunk embeddings.
 
-    `chunks` is the post-filter pool. We score only the rows in `_emb_matrix`
+    `chunks` is the post-filter pool. We score only the rows in `_ctx.emb_matrix`
     that correspond to those chunks, so filters compose naturally with the
     semantic layer.
     """
@@ -337,10 +329,10 @@ def semantic_search(
     # Gather row indices for the filtered chunk pool.
     rows: list[int] = []
     kept: list[dict] = []
-    assert _emb_chunk_index is not None
+    assert _ctx.emb_chunk_index is not None
     for c in chunks:
         key = (c.get("file_id"), c.get("chunk_id"))
-        idx = _emb_chunk_index.get(key)
+        idx = _ctx.emb_chunk_index.get(key)
         if idx is None:
             # Chunk was added after embeddings were built — skip rather than
             # crash. User should rerun build_embeddings.py.
@@ -349,7 +341,7 @@ def semantic_search(
         kept.append(c)
     if not rows:
         return []
-    sub = _emb_matrix[rows]  # (m, dim)
+    sub = _ctx.emb_matrix[rows]  # (m, dim)
     sims = sub @ qv  # (m,)
     order = np.argsort(-sims)[:k]
     return [(float(sims[i]), kept[i]) for i in order]
@@ -399,19 +391,16 @@ def _rrf(
 
 DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
-_reranker = None
-
 
 def _get_reranker(model_name: str = DEFAULT_RERANKER_MODEL):
-    global _reranker
-    if _reranker is not None:
-        return _reranker
+    if _ctx.reranker is not None:
+        return _ctx.reranker
     try:
         from sentence_transformers import CrossEncoder
     except ImportError as e:
         raise RuntimeError("rerank requires sentence-transformers; install with `uv sync --extra rerank`") from e
-    _reranker = CrossEncoder(model_name)
-    return _reranker
+    _ctx.reranker = CrossEncoder(model_name)
+    return _ctx.reranker
 
 
 def rerank(
@@ -547,18 +536,15 @@ def search(
 # File-level introspection helpers (used by MCP tools beyond plain search)
 # ---------------------------------------------------------------------------
 
-_index_cache: dict | None = None
-
 
 def _load_index() -> dict:
-    global _index_cache
-    if _index_cache is not None:
-        return _index_cache
+    if _ctx.index is not None:
+        return _ctx.index
     if not INDEX_JSON_PATH.exists():
         raise FileNotFoundError(f"missing {INDEX_JSON_PATH}; run `python3 scripts/build_index.py` first")
     with open(INDEX_JSON_PATH) as f:
-        _index_cache = json.load(f)
-    return _index_cache
+        _ctx.index = json.load(f)
+    return _ctx.index
 
 
 def get_file_detail(file_id: str, *, include_chunk_text: bool = True) -> Optional[dict]:
@@ -950,6 +936,11 @@ def append_open_question(kind: str, title: str, body: str = "") -> Optional[Path
         title=title,
         body=body,
     )
+
+
+def invalidate_caches() -> None:
+    """Reset every in-memory retrieval cache. Call after the underlying index changes."""
+    _ctx.invalidate()
 
 
 def index_stats() -> dict:
