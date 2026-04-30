@@ -38,7 +38,7 @@ def test_invalidate_caches_resets_models(fresh_wr, field):
 
 
 @pytest.mark.needs_index
-def test_invalidate_caches_after_load_all_chunks_repopulates(fresh_wr):
+def test_invalidate_caches_after_load_all_chunks_repopulates(fresh_wr, real_index_dir):
     chunks_first = fresh_wr.load_all_chunks()
     assert chunks_first, "expected non-empty chunks from real index"
     assert fresh_wr._ctx.chunks is not None
