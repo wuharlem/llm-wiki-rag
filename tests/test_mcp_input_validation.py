@@ -33,11 +33,6 @@ def test_save_query_input_rejects_invalid_mode():
         ws.SaveQueryInput(question="q", queries=["x"], slug="s", mode="bogus")
 
 
-@pytest.mark.xfail(
-    reason="MultiQueryInput is missing the mode validator — flagged in audit. "
-    "When fixed, this test will start passing and the xfail decorator should be removed.",
-    strict=True,
-)
 def test_multi_query_input_rejects_invalid_mode():
     """`MultiQueryInput(mode='bogus')` SHOULD raise — currently doesn't.
 

@@ -27,10 +27,11 @@ Register in Claude Desktop (~/Library/Application Support/Claude/claude_desktop_
 
 from __future__ import annotations
 
+import functools
 import json
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 # Make sibling scripts importable when run as a script.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -38,6 +39,50 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import wiki_retrieval as wr
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+# ---------------------------------------------------------------------------
+# Canonical error envelope
+# ---------------------------------------------------------------------------
+# Every MCP tool returns a JSON string. On the success path tools return
+# whatever payload they want (often a dict serialized via json.dumps). On the
+# error path they return a structured envelope so callers can reliably parse
+# errors without grepping prose:
+#
+#     {"ok": false, "error": "<code>", "detail": "<message>"}
+#
+# `error` codes are stable identifiers (snake_case). `detail` is a
+# human-readable string (typically the original exception's str() form, or a
+# templated message for domain failures).
+
+
+def _error_envelope(code: str, detail: str) -> str:
+    """Return a canonical error JSON string."""
+    return json.dumps({"ok": False, "error": code, "detail": detail}, ensure_ascii=False)
+
+
+def _wrap_errors(fn: Callable[..., str]) -> Callable[..., str]:
+    """Wrap an MCP tool so any uncaught FileNotFoundError / Exception
+    becomes a structured error envelope rather than a stack trace or a
+    free-form 'Error: ...' string.
+
+    Decorator order: `@mcp.tool(...)` OUTER, `@_wrap_errors` INNER. This
+    way FastMCP registers the wrapped callable as the actual tool
+    implementation. `functools.wraps` preserves the original __name__,
+    __doc__, and signature so FastMCP's introspection still sees the
+    right metadata.
+    """
+
+    @functools.wraps(fn)
+    def _wrapped(*args, **kwargs) -> str:
+        try:
+            return fn(*args, **kwargs)
+        except FileNotFoundError as e:
+            return _error_envelope("index_not_built", str(e))
+        except Exception as e:  # noqa: BLE001
+            return _error_envelope(type(e).__name__, str(e))
+
+    return _wrapped
+
 
 # ---------------------------------------------------------------------------
 # Server
@@ -167,6 +212,7 @@ class ListInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def search_wiki(params: SearchInput) -> str:
     """Search the local AI Safety wiki (621+ files, ~19K chunks) for chunks
     matching a natural-language query. Returns the top-k chunks ranked by
@@ -219,38 +265,38 @@ def search_wiki(params: SearchInput) -> str:
             -> search_wiki(query="frontier model evaluations", category="04_Governance-and-Policy")
         - "Just give me file titles, no text" (cheap shortlist)
             -> search_wiki(query="reward hacking", k=15, include_text=False)
+
+    On failure, returns the canonical error envelope:
+        {"ok": false, "error": "<code>", "detail": "<msg>"}
+    Codes: `index_not_built` (no index built), `<ExceptionClassName>`
+    (any other failure).
     """
-    try:
-        results = wr.search(
-            params.query,
-            k=params.k,
-            filters=wr.Filters(
-                category=params.category,
-                concept=params.concept,
-                tag=params.tag,
-                file_type=params.file_type,
-            ),
-            mode=params.mode,
-            rerank_results=params.rerank,
-            explain=params.explain,
-        )
-        if not params.include_text:
-            for r in results:
-                r.pop("text", None)
-        return json.dumps(
-            {
-                "query": params.query,
-                "mode": params.mode,
-                "n_hits": len(results),
-                "results": results,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
-    except Exception as e:  # noqa: BLE001
-        return f"Error: {type(e).__name__}: {e}"
+    results = wr.search(
+        params.query,
+        k=params.k,
+        filters=wr.Filters(
+            category=params.category,
+            concept=params.concept,
+            tag=params.tag,
+            file_type=params.file_type,
+        ),
+        mode=params.mode,
+        rerank_results=params.rerank,
+        explain=params.explain,
+    )
+    if not params.include_text:
+        for r in results:
+            r.pop("text", None)
+    return json.dumps(
+        {
+            "query": params.query,
+            "mode": params.mode,
+            "n_hits": len(results),
+            "results": results,
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 @mcp.tool(
@@ -263,6 +309,7 @@ def search_wiki(params: SearchInput) -> str:
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def get_file_detail(params: FileDetailInput) -> str:
     """Fetch the full per-file record for a given file_id, optionally with all
     chunks inlined. Use this after search_wiki to read more context around a
@@ -287,16 +334,19 @@ def get_file_detail(params: FileDetailInput) -> str:
                 ...
               ]
             }
+
+        On failure, returns the canonical error envelope:
+            {"ok": false, "error": "<code>", "detail": "<msg>"}
+        Codes: `file_not_found` (unknown `file_id`), `index_not_built`
+        (no index built), `<ExceptionClassName>` (any other failure).
     """
-    try:
-        rec = wr.get_file_detail(params.file_id, include_chunk_text=params.include_chunks)
-        if rec is None:
-            return f"Error: no file with file_id '{params.file_id}'. Use search_wiki first to discover valid file_ids."
-        return json.dumps(rec, ensure_ascii=False, indent=2)
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
-    except Exception as e:  # noqa: BLE001
-        return f"Error: {type(e).__name__}: {e}"
+    rec = wr.get_file_detail(params.file_id, include_chunk_text=params.include_chunks)
+    if rec is None:
+        return _error_envelope(
+            "file_not_found",
+            f"no file with file_id '{params.file_id}'. Use search_wiki first to discover valid file_ids.",
+        )
+    return json.dumps(rec, ensure_ascii=False, indent=2)
 
 
 @mcp.tool(
@@ -309,6 +359,7 @@ def get_file_detail(params: FileDetailInput) -> str:
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def list_categories(params: ListInput) -> str:
     """List the top-level vault folders (categories) and their subcategories.
     Useful before calling search_wiki when you want to scope the query.
@@ -324,11 +375,8 @@ def list_categories(params: ListInput) -> str:
               ...
             ]
     """
-    try:
-        out = wr.list_categories()
-        return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
+    out = wr.list_categories()
+    return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
 
 
 @mcp.tool(
@@ -341,6 +389,7 @@ def list_categories(params: ListInput) -> str:
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def list_concepts(params: ListInput) -> str:
     """List all wiki_concepts (cross-cutting research topics) with file counts,
     sorted by descending count. Use to discover valid `concept` values for
@@ -349,11 +398,8 @@ def list_concepts(params: ListInput) -> str:
     Returns:
         str: JSON list of {"concept": str, "n_files": int}.
     """
-    try:
-        out = wr.list_concepts(min_files=params.min_files)
-        return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
+    out = wr.list_concepts(min_files=params.min_files)
+    return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
 
 
 @mcp.tool(
@@ -366,17 +412,15 @@ def list_concepts(params: ListInput) -> str:
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def list_tags(params: ListInput) -> str:
     """List all tags with file counts, sorted by descending count.
 
     Returns:
         str: JSON list of {"tag": str, "n_files": int}.
     """
-    try:
-        out = wr.list_tags(min_files=params.min_files)
-        return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
+    out = wr.list_tags(min_files=params.min_files)
+    return json.dumps(out[: params.limit], ensure_ascii=False, indent=2)
 
 
 class MultiQueryInput(BaseModel):
@@ -399,6 +443,13 @@ class MultiQueryInput(BaseModel):
     rerank: bool = Field(default=False, description="Cross-encoder rerank the fused list against the first query.")
     include_text: bool = Field(default=True)
 
+    @field_validator("mode")
+    @classmethod
+    def _check_mode(cls, v: str) -> str:
+        if v not in ("bm25", "semantic", "hybrid"):
+            raise ValueError("mode must be one of bm25/semantic/hybrid")
+        return v
+
 
 @mcp.tool(
     name="multi_query_search",
@@ -410,6 +461,7 @@ class MultiQueryInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def multi_query_search(params: MultiQueryInput) -> str:
     """Run query expansion: search the wiki with several paraphrased queries
     in one call and fuse the results via RRF.
@@ -424,36 +476,31 @@ def multi_query_search(params: MultiQueryInput) -> str:
     Returns:
         str: Same JSON shape as search_wiki, with an extra "queries" field.
     """
-    try:
-        results = wr.multi_query_search(
-            params.queries,
-            k=params.k,
-            filters=wr.Filters(
-                category=params.category,
-                concept=params.concept,
-                tag=params.tag,
-                file_type=params.file_type,
-            ),
-            mode=params.mode,
-            rerank_results=params.rerank,
-        )
-        if not params.include_text:
-            for r in results:
-                r.pop("text", None)
-        return json.dumps(
-            {
-                "queries": params.queries,
-                "mode": params.mode,
-                "n_hits": len(results),
-                "results": results,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
-    except Exception as e:  # noqa: BLE001
-        return f"Error: {type(e).__name__}: {e}"
+    results = wr.multi_query_search(
+        params.queries,
+        k=params.k,
+        filters=wr.Filters(
+            category=params.category,
+            concept=params.concept,
+            tag=params.tag,
+            file_type=params.file_type,
+        ),
+        mode=params.mode,
+        rerank_results=params.rerank,
+    )
+    if not params.include_text:
+        for r in results:
+            r.pop("text", None)
+    return json.dumps(
+        {
+            "queries": params.queries,
+            "mode": params.mode,
+            "n_hits": len(results),
+            "results": results,
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 class SaveQueryInput(BaseModel):
@@ -500,6 +547,7 @@ class SaveQueryInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def save_query(params: SaveQueryInput) -> str:
     """Run the given queries, then write a markdown record of question +
     paraphrases + top results into the wiki under `_index/saved_queries/`.
@@ -515,39 +563,37 @@ def save_query(params: SaveQueryInput) -> str:
 
     Returns:
         str: JSON with the saved file's path and the result snapshot.
+        On failure, returns the canonical error envelope:
+            {"ok": false, "error": "<code>", "detail": "<msg>"}
+        Codes: `index_not_built`, `<ExceptionClassName>`.
     """
-    try:
-        results = wr.multi_query_search(
-            params.queries,
-            k=params.k,
-            filters=wr.Filters(
-                category=params.category,
-                concept=params.concept,
-                tag=params.tag,
-            ),
-            mode=params.mode,
-            rerank_results=params.rerank,
-        )
-        path = wr.save_query_result(
-            question=params.question,
-            queries=params.queries,
-            results=results,
-            slug=params.slug,
-            notes=params.notes,
-        )
-        return json.dumps(
-            {
-                "saved_to": str(path),
-                "n_results": len(results),
-                "preview_titles": [r.get("title", "") for r in results[:5]],
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
-    except Exception as e:  # noqa: BLE001
-        return f"Error: {type(e).__name__}: {e}"
+    results = wr.multi_query_search(
+        params.queries,
+        k=params.k,
+        filters=wr.Filters(
+            category=params.category,
+            concept=params.concept,
+            tag=params.tag,
+        ),
+        mode=params.mode,
+        rerank_results=params.rerank,
+    )
+    path = wr.save_query_result(
+        question=params.question,
+        queries=params.queries,
+        results=results,
+        slug=params.slug,
+        notes=params.notes,
+    )
+    return json.dumps(
+        {
+            "saved_to": str(path),
+            "n_results": len(results),
+            "preview_titles": [r.get("title", "") for r in results[:5]],
+        },
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 @mcp.tool(
@@ -560,6 +606,7 @@ def save_query(params: SaveQueryInput) -> str:
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def index_stats() -> str:
     """One-shot summary of the index: number of files, chunks, categories,
     total tokens. Use to check whether the index has been (re)built or to
@@ -568,10 +615,7 @@ def index_stats() -> str:
     Returns:
         str: JSON with {"n_chunks": int, "n_files": int, "n_categories": int, "total_tokens": int}.
     """
-    try:
-        return json.dumps(wr.index_stats(), indent=2)
-    except FileNotFoundError as e:
-        return f"Error: index not built. {e}"
+    return json.dumps(wr.index_stats(), indent=2)
 
 
 # ---------------------------------------------------------------------------
@@ -601,6 +645,7 @@ class RebuildIndexInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def rebuild_index(params: RebuildIndexInput) -> str:
     """Re-extract every source file in the vault and rewrite chunks.jsonl,
     index.json, manifest.csv, and the per-file detail pages under
@@ -618,6 +663,10 @@ def rebuild_index(params: RebuildIndexInput) -> str:
 
     Returns:
         str: JSON with build summary (n_files, n_chunks, elapsed_s, errors).
+        On failure, returns the canonical error envelope:
+            {"ok": false, "error": "<code>", "detail": "<msg>"}
+        Codes: `rebuild_timeout` (15 min subprocess timeout),
+        `<ExceptionClassName>` (any other failure).
     """
     import subprocess
     import time
@@ -638,7 +687,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
             timeout=900,  # 15 min cap; cold PDF builds can hit this
         )
     except subprocess.TimeoutExpired:
-        return json.dumps({"error": "rebuild_index timed out after 15 min"}, indent=2)
+        return _error_envelope("rebuild_timeout", "rebuild_index timed out after 15 min")
     elapsed = time.time() - t0
 
     # Drop cached chunks so subsequent search_wiki calls see the new index.
@@ -714,6 +763,7 @@ class AppendLogInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def append_log(params: AppendLogInput) -> str:
     """Append `## [YYYY-MM-DD] <kind> | <title>` plus optional body to the
     vault's log.md. Used by ingest / health-check / restructure flows that
@@ -723,13 +773,10 @@ def append_log(params: AppendLogInput) -> str:
     Returns:
         str: JSON with {"ok": bool, "log_path": str}.
     """
-    try:
-        path = wr.append_log_entry(kind=params.kind, title=params.title, body=params.body)
-        if path is None:
-            return json.dumps({"ok": False, "error": "VAULT_PATH does not exist"})
-        return json.dumps({"ok": True, "log_path": str(path)}, ensure_ascii=False)
-    except Exception as e:  # noqa: BLE001
-        return json.dumps({"ok": False, "error": f"{type(e).__name__}: {e}"})
+    path = wr.append_log_entry(kind=params.kind, title=params.title, body=params.body)
+    if path is None:
+        return _error_envelope("vault_not_found", "VAULT_PATH does not exist")
+    return json.dumps({"ok": True, "log_path": str(path)}, ensure_ascii=False)
 
 
 class AppendOpenQuestionInput(BaseModel):
@@ -763,6 +810,7 @@ class AppendOpenQuestionInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def append_open_question(params: AppendOpenQuestionInput) -> str:
     """Append a question to `<vault>/open_questions.md`. Use when a search
     against the corpus came up short on something the corpus *should* be
@@ -775,13 +823,10 @@ def append_open_question(params: AppendOpenQuestionInput) -> str:
     Returns:
         str: JSON with {"ok": bool, "open_questions_path": str}.
     """
-    try:
-        path = wr.append_open_question(kind=params.kind, title=params.title, body=params.body)
-        if path is None:
-            return json.dumps({"ok": False, "error": "VAULT_PATH does not exist"})
-        return json.dumps({"ok": True, "open_questions_path": str(path)}, ensure_ascii=False)
-    except Exception as e:  # noqa: BLE001
-        return json.dumps({"ok": False, "error": f"{type(e).__name__}: {e}"})
+    path = wr.append_open_question(kind=params.kind, title=params.title, body=params.body)
+    if path is None:
+        return _error_envelope("vault_not_found", "VAULT_PATH does not exist")
+    return json.dumps({"ok": True, "open_questions_path": str(path)}, ensure_ascii=False)
 
 
 class FindRelatedConceptsInput(BaseModel):
@@ -810,6 +855,7 @@ class FindRelatedConceptsInput(BaseModel):
         "openWorldHint": False,
     },
 )
+@_wrap_errors
 def find_related_concepts(params: FindRelatedConceptsInput) -> str:
     """Given a wiki concept, return the most related other concepts based on
     file-level co-occurrence (Jaccard similarity over the set of file_ids
@@ -829,11 +875,8 @@ def find_related_concepts(params: FindRelatedConceptsInput) -> str:
     Tip: pair with `list_concepts()` first if you're not sure of the exact
     concept name — the lookup is case-sensitive.
     """
-    try:
-        out = wr.find_related_concepts(concept=params.concept, top_k=params.top_k)
-        return json.dumps(out, indent=2, ensure_ascii=False)
-    except Exception as e:  # noqa: BLE001
-        return json.dumps({"error": f"{type(e).__name__}: {e}"})
+    out = wr.find_related_concepts(concept=params.concept, top_k=params.top_k)
+    return json.dumps(out, indent=2, ensure_ascii=False)
 
 
 # ---------------------------------------------------------------------------
