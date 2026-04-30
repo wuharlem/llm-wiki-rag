@@ -16,8 +16,8 @@ import csv
 import os
 import re
 import sys
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
 WORK = Path(os.environ.get("WORK", "/sessions/gifted-confident-hawking/mnt/AI Safety"))
@@ -25,29 +25,97 @@ LOG = WORK / "02_logs" / "audit_log.csv"
 
 # ---------- Vocabularies (from PROCESS_NEW_FILE.md) ----------
 VALID_SOURCE_TYPES = {
-    "research_paper", "blog_post", "educational", "policy",
-    "scorecard", "benchmark", "book", "petition", "model_card",
+    "research_paper",
+    "blog_post",
+    "educational",
+    "policy",
+    "scorecard",
+    "benchmark",
+    "book",
+    "petition",
+    "model_card",
 }
 VALID_RISK_CATEGORIES = {"misuse", "misalignment", "mistakes", "structural"}
 VALID_CONCEPTS = {
-    "RLHF & Its Limitations", "Constitutional AI (RLAIF)", "Scalable Oversight",
-    "Alignment Faking & Scheming", "Weak-to-Strong Generalization",
-    "Agentic Misalignment", "Existential Risk & Superintelligence",
-    "Pretraining Data Filtering", "AI Evaluations & Benchmarks",
-    "Responsible Scaling Policies", "AI Lab Safety Scorecards",
+    "RLHF & Its Limitations",
+    "Constitutional AI (RLAIF)",
+    "Scalable Oversight",
+    "Alignment Faking & Scheming",
+    "Weak-to-Strong Generalization",
+    "Agentic Misalignment",
+    "Existential Risk & Superintelligence",
+    "Pretraining Data Filtering",
+    "AI Evaluations & Benchmarks",
+    "Responsible Scaling Policies",
+    "AI Lab Safety Scorecards",
 }
 
 REQUIRED_FIELDS = ["title", "tags", "wiki_concepts", "risk_category", "source_type"]
 
 # Acronyms to keep uppercase in titles
 KEEP_UPPER_ACRONYMS = {
-    "AI", "ML", "AGI", "RLHF", "RLAIF", "ASL", "RSP", "LLM", "GPU", "TPU",
-    "API", "CSAM", "CBRN", "ELK", "W2SG", "IDA", "PPO", "DPO", "METR", "ARC",
-    "FAQ", "OOM", "OOMs", "MIRI", "ROME", "MMLU", "BIG", "BBQ", "LTBT",
-    "CAI", "RM", "RMs", "PDF", "URL", "ICLR", "NeurIPS", "ICML", "EMNLP",
-    "AAAI", "JMLR", "CSAIL", "WMDP", "VCT", "CSIS", "CISA", "NCSC",
-    "DeepMind", "OpenAI", "ARCHES", "FLI", "FSF", "DCLM", "ATLAS", "SCIF",
-    "GPT-4", "GPT-3", "GPT-2", "GPT-OSS", "RAND", "CAIS", "FMF", "MATS",
+    "AI",
+    "ML",
+    "AGI",
+    "RLHF",
+    "RLAIF",
+    "ASL",
+    "RSP",
+    "LLM",
+    "GPU",
+    "TPU",
+    "API",
+    "CSAM",
+    "CBRN",
+    "ELK",
+    "W2SG",
+    "IDA",
+    "PPO",
+    "DPO",
+    "METR",
+    "ARC",
+    "FAQ",
+    "OOM",
+    "OOMs",
+    "MIRI",
+    "ROME",
+    "MMLU",
+    "BIG",
+    "BBQ",
+    "LTBT",
+    "CAI",
+    "RM",
+    "RMs",
+    "PDF",
+    "URL",
+    "ICLR",
+    "NeurIPS",
+    "ICML",
+    "EMNLP",
+    "AAAI",
+    "JMLR",
+    "CSAIL",
+    "WMDP",
+    "VCT",
+    "CSIS",
+    "CISA",
+    "NCSC",
+    "DeepMind",
+    "OpenAI",
+    "ARCHES",
+    "FLI",
+    "FSF",
+    "DCLM",
+    "ATLAS",
+    "SCIF",
+    "GPT-4",
+    "GPT-3",
+    "GPT-2",
+    "GPT-OSS",
+    "RAND",
+    "CAIS",
+    "FMF",
+    "MATS",
     "AISI",
 }
 
@@ -112,7 +180,7 @@ def parse_fm(text: str) -> tuple[dict, str, str]:
         if ":" in line and not line.startswith("- "):
             k, _, v = line.partition(":")
             fm[k.strip()] = v.strip()
-    return fm, m.group(0), text[m.end():]
+    return fm, m.group(0), text[m.end() :]
 
 
 def parse_list_field(raw: str) -> list[str]:
@@ -161,11 +229,13 @@ def fix_title(title: str) -> str:
     # Apply regex fixes
     for pat, repl in TITLE_FIXES:
         new = pat.sub(repl, new)
+
     # Collapse spaced-out small-caps: "L ANGUAGE" → "Language"
     def _collapse(match):
         head = match.group(1)
         tail = match.group(2)
         return head + tail.lower()
+
     for _ in range(5):
         prev = new
         new = re.sub(r"\b([A-Z])\s+([A-Z]{2,})\b", _collapse, new)
@@ -216,14 +286,24 @@ def main():
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
         except Exception as e:
-            issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": "READ", "issue": str(e), "value": ""})
+            issues.append(
+                {"path": str(path.relative_to(VAULT)), "level": "error", "field": "READ", "issue": str(e), "value": ""}
+            )
             continue
 
         fm, fm_block, body = parse_fm(text)
 
         # No frontmatter
         if not fm:
-            issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": "FRONTMATTER", "issue": "no YAML frontmatter", "value": ""})
+            issues.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "level": "error",
+                    "field": "FRONTMATTER",
+                    "issue": "no YAML frontmatter",
+                    "value": "",
+                }
+            )
             continue
 
         new_fm = dict(fm)  # copy for fix-mode
@@ -232,31 +312,79 @@ def main():
         # 1. Required fields present
         for field in REQUIRED_FIELDS:
             if field not in fm:
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": field, "issue": "missing", "value": ""})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "error",
+                        "field": field,
+                        "issue": "missing",
+                        "value": "",
+                    }
+                )
 
         # 2. Title quality
-        title = (fm.get("title", "") or "").strip().strip('"\'')
+        title = (fm.get("title", "") or "").strip().strip("\"'")
         if not title or title.lower() == "null":
-            issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": "title", "issue": "empty", "value": title})
+            issues.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "level": "error",
+                    "field": "title",
+                    "issue": "empty",
+                    "value": title,
+                }
+            )
         else:
             if title_has_mojibake(title):
                 fixed = fix_title(title)
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "title", "issue": "mojibake", "value": title})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "warning",
+                        "field": "title",
+                        "issue": "mojibake",
+                        "value": title,
+                    }
+                )
                 if args.fix and fixed != title:
                     new_fm["title"] = fixed
                     changed = True
             if title_has_run_together_caps(title):
                 fixed = fix_title(title)
                 if fixed != title:
-                    issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "title", "issue": "spaced small-caps", "value": title})
+                    issues.append(
+                        {
+                            "path": str(path.relative_to(VAULT)),
+                            "level": "warning",
+                            "field": "title",
+                            "issue": "spaced small-caps",
+                            "value": title,
+                        }
+                    )
                     if args.fix:
                         new_fm["title"] = fixed
                         changed = True
             if title_has_underscores(title):
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "note", "field": "title", "issue": "underscores in title", "value": title})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "note",
+                        "field": "title",
+                        "issue": "underscores in title",
+                        "value": title,
+                    }
+                )
             if needs_title_apostrophe_fix(title):
                 fixed = fix_title(title)
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "title", "issue": "missing apostrophes (slug artifact)", "value": title})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "warning",
+                        "field": "title",
+                        "issue": "missing apostrophes (slug artifact)",
+                        "value": title,
+                    }
+                )
                 if args.fix and fixed != title:
                     new_fm["title"] = fixed
                     changed = True
@@ -264,47 +392,105 @@ def main():
             fixed = fix_title(title)
             if fixed != title and not changed:
                 # Only report if not already fixed above
-                if not (title_has_run_together_caps(title) or needs_title_apostrophe_fix(title) or title_has_mojibake(title)):
-                    issues.append({"path": str(path.relative_to(VAULT)), "level": "note", "field": "title", "issue": "acronym casing", "value": f"{title} → {fixed}"})
+                if not (
+                    title_has_run_together_caps(title) or needs_title_apostrophe_fix(title) or title_has_mojibake(title)
+                ):
+                    issues.append(
+                        {
+                            "path": str(path.relative_to(VAULT)),
+                            "level": "note",
+                            "field": "title",
+                            "issue": "acronym casing",
+                            "value": f"{title} → {fixed}",
+                        }
+                    )
                     if args.fix:
                         new_fm["title"] = fixed
                         changed = True
 
         # 3. source_type vocabulary check
-        st = (fm.get("source_type", "") or "").strip().strip('"\'')
+        st = (fm.get("source_type", "") or "").strip().strip("\"'")
         if st and st != "null" and st not in VALID_SOURCE_TYPES:
-            issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": "source_type", "issue": "invalid value", "value": st})
+            issues.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "level": "error",
+                    "field": "source_type",
+                    "issue": "invalid value",
+                    "value": st,
+                }
+            )
 
         # 4. risk_category vocabulary
         risks = parse_list_field(fm.get("risk_category", ""))
         for r in risks:
             if r not in VALID_RISK_CATEGORIES:
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "error", "field": "risk_category", "issue": "invalid value", "value": r})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "error",
+                        "field": "risk_category",
+                        "issue": "invalid value",
+                        "value": r,
+                    }
+                )
 
         # 5. wiki_concepts vocabulary
         concepts = parse_list_field(fm.get("wiki_concepts", ""))
         for c in concepts:
             if c not in VALID_CONCEPTS:
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "wiki_concepts", "issue": "non-canonical concept", "value": c})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "warning",
+                        "field": "wiki_concepts",
+                        "issue": "non-canonical concept",
+                        "value": c,
+                    }
+                )
 
         # 6. published / created date format YYYY-MM-DD
         for date_field in ("published", "created"):
-            dv = (fm.get(date_field, "") or "").strip().strip('"\'')
+            dv = (fm.get(date_field, "") or "").strip().strip("\"'")
             if dv and dv != "null":
                 if not re.match(r"^\d{4}-\d{2}-\d{2}$", dv):
-                    issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": date_field, "issue": "non-ISO date", "value": dv})
+                    issues.append(
+                        {
+                            "path": str(path.relative_to(VAULT)),
+                            "level": "warning",
+                            "field": date_field,
+                            "issue": "non-ISO date",
+                            "value": dv,
+                        }
+                    )
 
         # 7. source URL format
-        src = (fm.get("source", "") or "").strip().strip('"\'')
+        src = (fm.get("source", "") or "").strip().strip("\"'")
         if src and src != "null" and not src.startswith(("http://", "https://")):
-            issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "source", "issue": "non-URL source", "value": src})
+            issues.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "level": "warning",
+                    "field": "source",
+                    "issue": "non-URL source",
+                    "value": src,
+                }
+            )
 
         # 8. author normalization — `author: null` (no quotes) is valid YAML null, so skip.
         # Only flag if author is something weird like "Adjust author names; Order"
         author = (fm.get("author", "") or "").strip()
         if author and author != "null":
             if author.lower() in {"adjust author names; order", "authority control databases"}:
-                issues.append({"path": str(path.relative_to(VAULT)), "level": "warning", "field": "author", "issue": "stub/template author value", "value": author})
+                issues.append(
+                    {
+                        "path": str(path.relative_to(VAULT)),
+                        "level": "warning",
+                        "field": "author",
+                        "issue": "stub/template author value",
+                        "value": author,
+                    }
+                )
 
         # Apply fixes if requested
         if args.fix and changed:
@@ -330,16 +516,18 @@ def main():
         w.writerows(issues)
 
     levels = Counter(i["level"] for i in issues)
-    print(f"\n{'FIX MODE' if args.fix else 'AUDIT'} — {len(issues)} issues across {len(set(i['path'] for i in issues))} files")
+    print(
+        f"\n{'FIX MODE' if args.fix else 'AUDIT'} — {len(issues)} issues across {len(set(i['path'] for i in issues))} files"
+    )
     for lvl, n in levels.most_common():
         print(f"  {lvl}: {n}")
     if args.fix:
         print(f"  files modified: {fixes_applied}")
-    print(f"\nIssues by field:")
+    print("\nIssues by field:")
     fields = Counter(i["field"] for i in issues)
     for f, n in fields.most_common():
         print(f"  {n:4d}  {f}")
-    print(f"\nIssues by issue type:")
+    print("\nIssues by issue type:")
     types = Counter(i["issue"] for i in issues)
     for t, n in types.most_common():
         print(f"  {n:4d}  {t}")

@@ -34,9 +34,19 @@ FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 SKIP_PATH_PATTERNS = ("/.obsidian/", "/_inbox/", "/_trash_", "/_dupes_")
 SKIP_NAME_PREFIXES = ("_audit_", "_health_check_")
 
-FIELDS = ["filename", "folder", "title", "url", "source_type",
-          "risk_category", "wiki_concepts", "tags", "author",
-          "published", "description"]
+FIELDS = [
+    "filename",
+    "folder",
+    "title",
+    "url",
+    "source_type",
+    "risk_category",
+    "wiki_concepts",
+    "tags",
+    "author",
+    "published",
+    "description",
+]
 
 
 def get_field(fm: str, key: str) -> str:

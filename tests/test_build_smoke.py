@@ -5,11 +5,8 @@ Exercises process_md and the chunking pipeline against fixture files.
 Does NOT touch the real vault or 01_data/index/ — `mini_build_env` swaps
 the module-level paths via monkeypatch.
 """
+
 from __future__ import annotations
-
-from pathlib import Path
-
-import pytest
 
 
 def test_process_md_produces_file_entry_with_chunks(mini_build_env):

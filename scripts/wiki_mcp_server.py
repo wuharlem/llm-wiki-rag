@@ -24,6 +24,7 @@ Register in Claude Desktop (~/Library/Application Support/Claude/claude_desktop_
       }
     }
 """
+
 from __future__ import annotations
 
 import json
@@ -34,10 +35,9 @@ from typing import Optional
 # Make sibling scripts importable when run as a script.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
-from mcp.server.fastmcp import FastMCP
-
 import wiki_retrieval as wr
+from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 # ---------------------------------------------------------------------------
 # Server
@@ -50,8 +50,10 @@ mcp = FastMCP("ai_safety_wiki_mcp")
 # Pydantic input models
 # ---------------------------------------------------------------------------
 
+
 class SearchInput(BaseModel):
     """Inputs for a wiki search."""
+
     model_config = ConfigDict(
         str_strip_whitespace=True,
         validate_assignment=True,
@@ -153,6 +155,7 @@ class ListInput(BaseModel):
 # ---------------------------------------------------------------------------
 # Tools
 # ---------------------------------------------------------------------------
+
 
 @mcp.tool(
     name="search_wiki",
@@ -378,6 +381,7 @@ def list_tags(params: ListInput) -> str:
 
 class MultiQueryInput(BaseModel):
     """Input for multi_query_search — query expansion."""
+
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     queries: list[str] = Field(
@@ -475,8 +479,12 @@ class SaveQueryInput(BaseModel):
     )
     k: int = Field(default=8, ge=1, le=30)
     mode: str = Field(default="hybrid")
-    rerank: bool = Field(default=True, description="Default True for saved queries since the saved file is meant to be high-quality.")
-    notes: str = Field(default="", description="Optional free-text notes to embed at the top of the saved file.", max_length=4000)
+    rerank: bool = Field(
+        default=True, description="Default True for saved queries since the saved file is meant to be high-quality."
+    )
+    notes: str = Field(
+        default="", description="Optional free-text notes to embed at the top of the saved file.", max_length=4000
+    )
     category: Optional[str] = Field(default=None)
     concept: Optional[str] = Field(default=None)
     tag: Optional[str] = Field(default=None)
@@ -486,9 +494,9 @@ class SaveQueryInput(BaseModel):
     name="save_query",
     annotations={
         "title": "Save a query + its results back into the wiki",
-        "readOnlyHint": False,            # writes to disk
-        "destructiveHint": False,         # creates new files only
-        "idempotentHint": True,           # same slug overwrites
+        "readOnlyHint": False,  # writes to disk
+        "destructiveHint": False,  # creates new files only
+        "idempotentHint": True,  # same slug overwrites
         "openWorldHint": False,
     },
 )
@@ -570,6 +578,7 @@ def index_stats() -> str:
 # Maintenance tools — rebuild_index, append_log
 # ---------------------------------------------------------------------------
 
+
 class RebuildIndexInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     md_only: bool = Field(
@@ -587,7 +596,7 @@ class RebuildIndexInput(BaseModel):
     annotations={
         "title": "Rebuild the RAG index from the vault",
         "readOnlyHint": False,
-        "destructiveHint": False,    # overwrites generated artifacts only
+        "destructiveHint": False,  # overwrites generated artifacts only
         "idempotentHint": True,
         "openWorldHint": False,
     },
@@ -651,7 +660,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         try:
             wr.append_log_entry(
                 kind="index",
-                title=f"RAG rebuild — {stats.get('n_files','?')} files, {stats.get('n_chunks','?')} chunks",
+                title=f"RAG rebuild — {stats.get('n_files', '?')} files, {stats.get('n_chunks', '?')} chunks",
                 body=(
                     f"Trigger: rebuild_index MCP tool ({'md-only' if params.md_only else 'full'}). "
                     f"Elapsed: {elapsed:.1f}s."
@@ -701,7 +710,7 @@ class AppendLogInput(BaseModel):
         "title": "Append an entry to vault log.md",
         "readOnlyHint": False,
         "destructiveHint": False,
-        "idempotentHint": False,     # appending the same entry twice creates duplicates
+        "idempotentHint": False,  # appending the same entry twice creates duplicates
         "openWorldHint": False,
     },
 )
@@ -830,6 +839,7 @@ def find_related_concepts(params: FindRelatedConceptsInput) -> str:
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     mcp.run()

@@ -5,6 +5,7 @@ The most common real-world breakage is an interrupted embeddings build:
 .npy gets written but _ids.json doesn't, or shapes don't match. These
 tests catch that before retrieval silently returns garbage.
 """
+
 from __future__ import annotations
 
 import json
@@ -29,12 +30,8 @@ def test_npy_shape_matches_meta_and_ids(real_embeddings_paths):
     assert matrix.ndim == 2, f"expected 2D matrix, got shape {matrix.shape}"
     n, dim = matrix.shape
     assert n == len(ids), f"matrix rows ({n}) != ids count ({len(ids)})"
-    assert n == meta["n_chunks"], (
-        f"matrix rows ({n}) != meta n_chunks ({meta['n_chunks']})"
-    )
-    assert dim == meta["dim"], (
-        f"matrix dim ({dim}) != meta dim ({meta['dim']})"
-    )
+    assert n == meta["n_chunks"], f"matrix rows ({n}) != meta n_chunks ({meta['n_chunks']})"
+    assert dim == meta["dim"], f"matrix dim ({dim}) != meta dim ({meta['dim']})"
 
 
 @pytest.mark.needs_embeddings
@@ -43,8 +40,7 @@ def test_meta_not_synthetic_marker(real_embeddings_paths):
     placeholder (`__SYNTHETIC_TEST__`) used during early development."""
     meta = json.loads(real_embeddings_paths["meta"].read_text())
     assert meta.get("model") != "__SYNTHETIC_TEST__", (
-        "embeddings still carry the synthetic-test marker — "
-        "run build_embeddings.py to produce real vectors"
+        "embeddings still carry the synthetic-test marker — run build_embeddings.py to produce real vectors"
     )
 
 
@@ -57,10 +53,7 @@ def test_ids_align_with_chunks_jsonl(real_embeddings_paths, real_index_dir, fres
     chunks = fresh_wr.load_all_chunks()
     chunk_keys = {(c["file_id"], c["chunk_id"]) for c in chunks}
 
-    missing = [
-        i for i in ids
-        if (i["file_id"], i["chunk_id"]) not in chunk_keys
-    ]
+    missing = [i for i in ids if (i["file_id"], i["chunk_id"]) not in chunk_keys]
     assert not missing, (
         f"embeddings reference {len(missing)} chunks not in chunks.jsonl "
         f"(first 3: {missing[:3]}) — embeddings.npy is stale"
@@ -73,6 +66,4 @@ def test_meta_has_required_keys(real_embeddings_paths):
     meta = json.loads(real_embeddings_paths["meta"].read_text())
     for key in ("model", "dim", "n_chunks", "built_at", "normalized"):
         assert key in meta, f"meta missing required key {key!r}"
-    assert meta["normalized"] is True, (
-        "embeddings should be normalized for cosine == dot product"
-    )
+    assert meta["normalized"] is True, "embeddings should be normalized for cosine == dot product"

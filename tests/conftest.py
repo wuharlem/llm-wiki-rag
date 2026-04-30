@@ -15,9 +15,9 @@ Two big choices to be aware of:
    module-level globals (`VAULT`, `DATA_DIR`, `WIKI_FILES_DIR`) are
    monkeypatched per-test via the `mini_build_env` fixture.
 """
+
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
@@ -63,6 +63,7 @@ def fresh_wr(monkeypatch):
     `_chunk_cache`/`_index_cache`/etc. by name.
     """
     import wiki_retrieval as wr
+
     # Reset every cache the module currently owns.
     monkeypatch.setattr(wr, "_chunk_cache", None, raising=False)
     monkeypatch.setattr(wr, "_index_cache", None, raising=False)
@@ -163,6 +164,7 @@ def mini_build_env(monkeypatch, mini_vault: Path, tmp_path: Path):
     can assert against the produced artifacts without rebuilding paths.
     """
     import types
+
     import build_index as bi
 
     data_dir = tmp_path / "out_index"
@@ -195,43 +197,68 @@ def synthetic_chunks() -> list[dict]:
     """
     return [
         {
-            "file_id": "f001", "chunk_id": "c0000",
-            "relpath": "fake/doc1.md", "title": "Alignment paper",
-            "category": "01_Risks-and-Failure-Modes", "subcategory": "01a",
-            "tags": ["alignment"], "wiki_concepts": [],
-            "heading_path": "Intro", "tokens": 50,
+            "file_id": "f001",
+            "chunk_id": "c0000",
+            "relpath": "fake/doc1.md",
+            "title": "Alignment paper",
+            "category": "01_Risks-and-Failure-Modes",
+            "subcategory": "01a",
+            "tags": ["alignment"],
+            "wiki_concepts": [],
+            "heading_path": "Intro",
+            "tokens": 50,
             "text": "alignment of language models is hard. alignment matters.",
         },
         {
-            "file_id": "f002", "chunk_id": "c0000",
-            "relpath": "fake/doc2.md", "title": "Reward hacking survey",
-            "category": "01_Risks-and-Failure-Modes", "subcategory": "01b",
-            "tags": ["reward-hacking"], "wiki_concepts": [],
-            "heading_path": "Intro", "tokens": 40,
+            "file_id": "f002",
+            "chunk_id": "c0000",
+            "relpath": "fake/doc2.md",
+            "title": "Reward hacking survey",
+            "category": "01_Risks-and-Failure-Modes",
+            "subcategory": "01b",
+            "tags": ["reward-hacking"],
+            "wiki_concepts": [],
+            "heading_path": "Intro",
+            "tokens": 40,
             "text": "reward hacking happens when models exploit reward models.",
         },
         {
-            "file_id": "f003", "chunk_id": "c0000",
-            "relpath": "fake/doc3.md", "title": "Eval methodology",
-            "category": "03_Evaluations", "subcategory": "03a",
-            "tags": ["eval"], "wiki_concepts": [],
-            "heading_path": "Intro", "tokens": 30,
+            "file_id": "f003",
+            "chunk_id": "c0000",
+            "relpath": "fake/doc3.md",
+            "title": "Eval methodology",
+            "category": "03_Evaluations",
+            "subcategory": "03a",
+            "tags": ["eval"],
+            "wiki_concepts": [],
+            "heading_path": "Intro",
+            "tokens": 30,
             "text": "evaluation methods for safety properties.",
         },
         {
-            "file_id": "f004", "chunk_id": "c0000",
-            "relpath": "fake/doc4.md", "title": "Governance overview",
-            "category": "04_Governance-and-Policy", "subcategory": "04a",
-            "tags": [], "wiki_concepts": [],
-            "heading_path": "Intro", "tokens": 60,
+            "file_id": "f004",
+            "chunk_id": "c0000",
+            "relpath": "fake/doc4.md",
+            "title": "Governance overview",
+            "category": "04_Governance-and-Policy",
+            "subcategory": "04a",
+            "tags": [],
+            "wiki_concepts": [],
+            "heading_path": "Intro",
+            "tokens": 60,
             "text": "governance and policy approaches to AI safety.",
         },
         {
-            "file_id": "f005", "chunk_id": "c0000",
-            "relpath": "fake/doc5.md", "title": "Resources and reading",
-            "category": "05_Resources", "subcategory": "05a",
-            "tags": [], "wiki_concepts": [],
-            "heading_path": "Intro", "tokens": 25,
+            "file_id": "f005",
+            "chunk_id": "c0000",
+            "relpath": "fake/doc5.md",
+            "title": "Resources and reading",
+            "category": "05_Resources",
+            "subcategory": "05a",
+            "tags": [],
+            "wiki_concepts": [],
+            "heading_path": "Intro",
+            "tokens": 25,
             "text": "useful resources for further reading on alignment.",
         },
     ]

@@ -25,7 +25,7 @@ import os
 import re
 from collections import defaultdict
 from pathlib import Path
-from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
 WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
@@ -48,8 +48,17 @@ def parse_frontmatter(text: str) -> dict | None:
         return None
     fm = m.group(1)
     out = {}
-    for k in ("title", "source", "author", "published", "description",
-              "tags", "wiki_concepts", "risk_category", "source_type"):
+    for k in (
+        "title",
+        "source",
+        "author",
+        "published",
+        "description",
+        "tags",
+        "wiki_concepts",
+        "risk_category",
+        "source_type",
+    ):
         out[k] = get_field(fm, k)
     return out
 
@@ -69,7 +78,8 @@ def canonicalize_url(url: str) -> str:
     # Strip tracking params
     if p.query:
         kept = [
-            (k, v) for k, v in parse_qsl(p.query, keep_blank_values=True)
+            (k, v)
+            for k, v in parse_qsl(p.query, keep_blank_values=True)
             if not any(k.lower().startswith(prefix) for prefix in DROP_PARAM_PREFIXES)
         ]
         query = urlencode(kept)
@@ -110,11 +120,14 @@ def richness(meta: dict) -> int:
 
 def main():
     files = list(VAULT.rglob("*.md"))
-    files = [p for p in files
-             if "/.obsidian/" not in str(p)
-             and "/_inbox/" not in str(p)
-             and "/_dupes_" not in str(p)
-             and "/_trash_" not in str(p)]
+    files = [
+        p
+        for p in files
+        if "/.obsidian/" not in str(p)
+        and "/_inbox/" not in str(p)
+        and "/_dupes_" not in str(p)
+        and "/_trash_" not in str(p)
+    ]
     print(f"Scanning {len(files)} .md files…")
 
     # Index: file path -> meta
@@ -172,20 +185,23 @@ def main():
         scored.sort(key=lambda x: (-x[0], str(x[1])))
         winner = scored[0][1]
         for score, p in scored:
-            rows.append({
-                "group_type": group_type,
-                "group_key": group_key,
-                "richness": score,
-                "winner": "yes" if p == winner else "",
-                "file": str(p.relative_to(VAULT)),
-                "source": file_meta[p].get("source", ""),
-                "title": file_meta[p].get("title", ""),
-                "published": file_meta[p].get("published", ""),
-            })
+            rows.append(
+                {
+                    "group_type": group_type,
+                    "group_key": group_key,
+                    "richness": score,
+                    "winner": "yes" if p == winner else "",
+                    "file": str(p.relative_to(VAULT)),
+                    "source": file_meta[p].get("source", ""),
+                    "title": file_meta[p].get("title", ""),
+                    "published": file_meta[p].get("published", ""),
+                }
+            )
 
     with LOG.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["group_type", "group_key", "richness", "winner",
-                                          "file", "source", "title", "published"])
+        w = csv.DictWriter(
+            f, fieldnames=["group_type", "group_key", "richness", "winner", "file", "source", "title", "published"]
+        )
         w.writeheader()
         w.writerows(rows)
 

@@ -18,6 +18,7 @@ The chunk schema (chunks.jsonl):
   file_id, chunk_id, relpath, title, category, subcategory,
   tags[], wiki_concepts[], heading_path, tokens, text
 """
+
 from __future__ import annotations
 
 import json
@@ -26,7 +27,7 @@ import re
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Optional
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -45,10 +46,13 @@ EMB_META_PATH = DATA_DIR / "embeddings_meta.json"
 # writes back into the vault so saved Q&A shows up alongside other notes.
 # Override with AI_SAFETY_VAULT env var if the vault moves.
 import os as _os
-VAULT_PATH = Path(_os.environ.get(
-    "AI_SAFETY_VAULT",
-    str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"),
-))
+
+VAULT_PATH = Path(
+    _os.environ.get(
+        "AI_SAFETY_VAULT",
+        str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"),
+    )
+)
 
 # ---------------------------------------------------------------------------
 # Tokenization (kept identical to the original query_index.py so scoring
@@ -66,14 +70,16 @@ def tokenize(text: str) -> list[str]:
 # Filters
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class Filters:
     """Optional restrictions applied before scoring. Any field set to None means
     'no restriction'."""
-    category: Optional[str] = None       # e.g. "04_Governance-and-Policy"
-    concept: Optional[str] = None        # match against chunk["wiki_concepts"]
-    tag: Optional[str] = None            # match against chunk["tags"]
-    file_type: Optional[str] = None      # "md" | "pdf"
+
+    category: Optional[str] = None  # e.g. "04_Governance-and-Policy"
+    concept: Optional[str] = None  # match against chunk["wiki_concepts"]
+    tag: Optional[str] = None  # match against chunk["tags"]
+    file_type: Optional[str] = None  # "md" | "pdf"
 
     def matches(self, c: dict) -> bool:
         if self.category and c.get("category") != self.category:
@@ -128,9 +134,7 @@ def load_all_chunks(force: bool = False) -> list[dict]:
     if _chunk_cache is not None and not force:
         return _chunk_cache
     if not CHUNKS_PATH.exists():
-        raise FileNotFoundError(
-            f"missing {CHUNKS_PATH}; run `python3 scripts/build_index.py` first"
-        )
+        raise FileNotFoundError(f"missing {CHUNKS_PATH}; run `python3 scripts/build_index.py` first")
     out: list[dict] = []
     with open(CHUNKS_PATH) as f:
         for line in f:
@@ -217,9 +221,7 @@ def bm25_search(
                 continue
             idf = math.log((N - df[q] + 0.5) / (df[q] + 0.5) + 1)
             f = tf.get(q, 0)
-            contrib = idf * (f * (_BM25_K1 + 1)) / (
-                f + _BM25_K1 * (1 - _BM25_B + _BM25_B * dl / avgdl)
-            )
+            contrib = idf * (f * (_BM25_K1 + 1)) / (f + _BM25_K1 * (1 - _BM25_B + _BM25_B * dl / avgdl))
             score += contrib
             if breakdown is not None and contrib > 0:
                 breakdown[q] = round(contrib, 3)
@@ -259,11 +261,11 @@ def bm25_search(
 # CLI (short-lived).
 # ---------------------------------------------------------------------------
 
-_emb_matrix = None       # numpy.ndarray (n_chunks, dim)
+_emb_matrix = None  # numpy.ndarray (n_chunks, dim)
 _emb_ids: list[dict] | None = None  # list of {"file_id", "chunk_id"} per row
 _emb_meta: dict | None = None
 _emb_chunk_index: dict[tuple[str, str], int] | None = None  # (file_id, chunk_id) -> row
-_query_model = None      # SentenceTransformer instance
+_query_model = None  # SentenceTransformer instance
 
 
 def _load_embeddings():
@@ -276,8 +278,7 @@ def _load_embeddings():
         import numpy as np  # noqa: F401  (lazy import; only needed for semantic mode)
     except ImportError as e:
         raise RuntimeError(
-            "semantic retrieval requires numpy + sentence-transformers; "
-            "install with `uv sync --extra semantic`"
+            "semantic retrieval requires numpy + sentence-transformers; install with `uv sync --extra semantic`"
         ) from e
     if not (EMB_NPY_PATH.exists() and EMB_IDS_PATH.exists()):
         raise FileNotFoundError(
@@ -291,13 +292,12 @@ def _load_embeddings():
                 "run `uv run --extra semantic python scripts/build_embeddings.py` to build real ones"
             )
     import numpy as np
+
     _emb_matrix = np.load(EMB_NPY_PATH)
     _emb_ids = json.loads(EMB_IDS_PATH.read_text())
     if EMB_META_PATH.exists():
         _emb_meta = json.loads(EMB_META_PATH.read_text())
-    _emb_chunk_index = {
-        (rec["file_id"], rec["chunk_id"]): i for i, rec in enumerate(_emb_ids)
-    }
+    _emb_chunk_index = {(rec["file_id"], rec["chunk_id"]): i for i, rec in enumerate(_emb_ids)}
 
 
 def _get_query_model():
@@ -312,8 +312,7 @@ def _get_query_model():
         from sentence_transformers import SentenceTransformer
     except ImportError as e:
         raise RuntimeError(
-            "semantic retrieval requires sentence-transformers; "
-            "install with `uv sync --extra semantic`"
+            "semantic retrieval requires sentence-transformers; install with `uv sync --extra semantic`"
         ) from e
     _query_model = SentenceTransformer(model_name)
     return _query_model
@@ -336,9 +335,7 @@ def semantic_search(
     import numpy as np
 
     model = _get_query_model()
-    qv = model.encode(
-        [query], normalize_embeddings=True, convert_to_numpy=True
-    ).astype("float32")[0]
+    qv = model.encode([query], normalize_embeddings=True, convert_to_numpy=True).astype("float32")[0]
 
     # Gather row indices for the filtered chunk pool.
     rows: list[int] = []
@@ -355,8 +352,8 @@ def semantic_search(
         kept.append(c)
     if not rows:
         return []
-    sub = _emb_matrix[rows]               # (m, dim)
-    sims = sub @ qv                       # (m,)
+    sub = _emb_matrix[rows]  # (m, dim)
+    sims = sub @ qv  # (m,)
     order = np.argsort(-sims)[:k]
     return [(float(sims[i]), kept[i]) for i in order]
 
@@ -367,6 +364,7 @@ def semantic_search(
 # ---------------------------------------------------------------------------
 
 _RRF_K = 60  # Cormack et al. 2009 default; bigger = flatter
+
 
 def _rrf(
     bm25_hits: list[tuple[float, dict]],
@@ -414,9 +412,7 @@ def _get_reranker(model_name: str = DEFAULT_RERANKER_MODEL):
     try:
         from sentence_transformers import CrossEncoder
     except ImportError as e:
-        raise RuntimeError(
-            "rerank requires sentence-transformers; install with `uv sync --extra rerank`"
-        ) from e
+        raise RuntimeError("rerank requires sentence-transformers; install with `uv sync --extra rerank`") from e
     _reranker = CrossEncoder(model_name)
     return _reranker
 
@@ -459,7 +455,7 @@ def search(
     k: int = 8,
     filters: Optional[Filters] = None,
     *,
-    mode: str = "bm25",   # "bm25" | "semantic" | "hybrid"
+    mode: str = "bm25",  # "bm25" | "semantic" | "hybrid"
     rerank_results: bool = False,
     explain: bool = False,
 ) -> list[dict]:
@@ -562,9 +558,7 @@ def _load_index() -> dict:
     if _index_cache is not None:
         return _index_cache
     if not INDEX_JSON_PATH.exists():
-        raise FileNotFoundError(
-            f"missing {INDEX_JSON_PATH}; run `python3 scripts/build_index.py` first"
-        )
+        raise FileNotFoundError(f"missing {INDEX_JSON_PATH}; run `python3 scripts/build_index.py` first")
     with open(INDEX_JSON_PATH) as f:
         _index_cache = json.load(f)
     return _index_cache
@@ -618,15 +612,15 @@ def list_categories() -> list[dict]:
 
     out: list[dict] = []
     for cat in sorted(cat_files):
-        out.append({
-            "category": cat,
-            "n_files": cat_files[cat],
-            "subcategories": [
-                {"subcategory": s, "n_files": n}
-                for (c2, s), n in sorted(sub_files.items())
-                if c2 == cat
-            ],
-        })
+        out.append(
+            {
+                "category": cat,
+                "n_files": cat_files[cat],
+                "subcategories": [
+                    {"subcategory": s, "n_files": n} for (c2, s), n in sorted(sub_files.items()) if c2 == cat
+                ],
+            }
+        )
     return out
 
 
@@ -636,11 +630,7 @@ def list_concepts(min_files: int = 1) -> list[dict]:
     for c in load_all_chunks():
         for concept in c.get("wiki_concepts") or []:
             seen.setdefault(concept, set()).add(c.get("file_id"))
-    out = [
-        {"concept": k, "n_files": len(v)}
-        for k, v in seen.items()
-        if len(v) >= min_files
-    ]
+    out = [{"concept": k, "n_files": len(v)} for k, v in seen.items() if len(v) >= min_files]
     out.sort(key=lambda d: -d["n_files"])
     return out
 
@@ -667,7 +657,7 @@ def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
         title = c.get("title") or ""
         if title and fid not in file_titles:
             file_titles[fid] = title
-        for k in (c.get("wiki_concepts") or []):
+        for k in c.get("wiki_concepts") or []:
             files_per_concept.setdefault(k, set()).add(fid)
 
     base = files_per_concept.get(concept)
@@ -683,15 +673,16 @@ def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
             continue
         union = base | files
         jaccard = len(shared) / len(union) if union else 0.0
-        out.append({
-            "concept": other,
-            "score": round(jaccard, 4),
-            "shared_files": len(shared),
-            "shared_file_titles": [
-                file_titles.get(fid, fid)
-                for fid in sorted(shared, key=lambda f: file_titles.get(f, f))
-            ][:5],
-        })
+        out.append(
+            {
+                "concept": other,
+                "score": round(jaccard, 4),
+                "shared_files": len(shared),
+                "shared_file_titles": [
+                    file_titles.get(fid, fid) for fid in sorted(shared, key=lambda f: file_titles.get(f, f))
+                ][:5],
+            }
+        )
     out.sort(key=lambda d: (-d["score"], -d["shared_files"]))
     return out[:top_k]
 
@@ -702,11 +693,7 @@ def list_tags(min_files: int = 1) -> list[dict]:
     for c in load_all_chunks():
         for tag in c.get("tags") or []:
             seen.setdefault(tag, set()).add(c.get("file_id"))
-    out = [
-        {"tag": k, "n_files": len(v)}
-        for k, v in seen.items()
-        if len(v) >= min_files
-    ]
+    out = [{"tag": k, "n_files": len(v)} for k, v in seen.items() if len(v) >= min_files]
     out.sort(key=lambda d: -d["n_files"])
     return out
 
@@ -735,9 +722,7 @@ def multi_query_search(
     ranked_lists: list[list[tuple[float, dict]]] = []
     for q in queries:
         # Reuse search()'s pipeline (BM25/semantic/hybrid + filters).
-        results = search(
-            q, k=per_query_k, filters=filters, mode=mode, rerank_results=False
-        )
+        results = search(q, k=per_query_k, filters=filters, mode=mode, rerank_results=False)
         # Reconstruct (score, chunk-like-dict) pairs for RRF.
         ranked_lists.append([(r["score"], r) for r in results])
 
@@ -758,16 +743,14 @@ def multi_query_search(
     # Optional rerank step on top of the fused list.
     if rerank_results and fused:
         try:
-            fused_chunks = [(s, c) for s, c in fused[: _RERANK_CANDIDATES]]
+            fused_chunks = [(s, c) for s, c in fused[:_RERANK_CANDIDATES]]
             # rerank() expects (score, chunk) where chunk has "text"
             reranked = rerank(
                 queries[0],  # rerank against the original (first) query
                 fused_chunks,
                 k=k,
             )
-            return [
-                {**c, "score": round(float(s), 4)} for s, c in reranked
-            ]
+            return [{**c, "score": round(float(s), 4)} for s, c in reranked]
         except (RuntimeError, ImportError):
             pass
 
@@ -799,6 +782,7 @@ def save_query_result(
     path = out_dir / f"{safe_slug}.md"
 
     import datetime as _dt
+
     lines: list[str] = [
         "---",
         f"saved_at: {_dt.datetime.now().isoformat(timespec='seconds')}",
@@ -818,10 +802,10 @@ def save_query_result(
     lines += ["## Top results", ""]
     for i, r in enumerate(results, start=1):
         lines += [
-            f"### {i}. [{r.get('title','(untitled)')}](../files/{r.get('file_id')}__{Path(r.get('relpath','')).stem}.md)  ·  score {r.get('score',0):.3f}",
-            f"- file_id: `{r.get('file_id','')}`",
-            f"- path: `{r.get('relpath','')}`",
-            f"- category: {r.get('category','')}  ·  concepts: {', '.join(r.get('wiki_concepts') or []) or '—'}",
+            f"### {i}. [{r.get('title', '(untitled)')}](../files/{r.get('file_id')}__{Path(r.get('relpath', '')).stem}.md)  ·  score {r.get('score', 0):.3f}",
+            f"- file_id: `{r.get('file_id', '')}`",
+            f"- path: `{r.get('relpath', '')}`",
+            f"- category: {r.get('category', '')}  ·  concepts: {', '.join(r.get('wiki_concepts') or []) or '—'}",
             "",
             "> " + (r.get("text", "")[:1200].replace("\n", "\n> ") or "(no text)"),
             "",
@@ -835,7 +819,7 @@ def save_query_result(
         append_log_entry(
             kind="query",
             title=safe_slug,
-            body=f"Question: {question}\n\nSaved to: `{path.relative_to(VAULT_PATH) if VAULT_PATH in path.parents else path}`. Top hit: {results[0].get('title','(none)') if results else '(no results)'}.",
+            body=f"Question: {question}\n\nSaved to: `{path.relative_to(VAULT_PATH) if VAULT_PATH in path.parents else path}`. Top hit: {results[0].get('title', '(none)') if results else '(no results)'}.",
         )
     except Exception:
         pass
@@ -888,13 +872,13 @@ def _append_to_marker_file(
     elif _LEGACY_MARKER in text:
         m = re.search(r"^## \[", text, flags=re.MULTILINE)
         if m:
-            new_text = text[: m.start()] + entry + text[m.start():]
+            new_text = text[: m.start()] + entry + text[m.start() :]
         else:
             new_text = text.replace(_LEGACY_MARKER, entry + _LEGACY_MARKER, 1)
     else:
         m = re.search(r"^## \[", text, flags=re.MULTILINE)
         if m:
-            new_text = text[: m.start()] + entry + text[m.start():]
+            new_text = text[: m.start()] + entry + text[m.start() :]
         else:
             sep = "" if text.endswith("\n") else "\n"
             new_text = text + sep + "\n" + entry

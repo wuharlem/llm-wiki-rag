@@ -3,9 +3,8 @@ test_rrf — Reciprocal Rank Fusion math.
 
 `_rrf` fuses two ranked lists by `1 / (k + rank)`. Pure unit test.
 """
-from __future__ import annotations
 
-import pytest
+from __future__ import annotations
 
 
 def _mk_chunk(file_id: str) -> dict:

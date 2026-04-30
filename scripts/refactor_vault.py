@@ -13,10 +13,9 @@ import argparse
 import csv
 import os
 import re
-import shutil
 import sys
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
 WORK = Path(os.environ.get("WORK", "/sessions/gifted-confident-hawking/mnt/AI Safety"))
@@ -24,9 +23,16 @@ LOG = WORK / "02_logs" / "refactor_log.csv"
 
 # Old folders (everything in these gets re-routed)
 OLD_FOLDERS = [
-    "AI Safety", "AI Risk Mitigation", "Evaluation", "RSP",
-    "AI Alignment", "Model-level Mitigation", "Multi-Agent",
-    "Lab Scorecards", "AI Safety Risk", "Sources/Background",
+    "AI Safety",
+    "AI Risk Mitigation",
+    "Evaluation",
+    "RSP",
+    "AI Alignment",
+    "Model-level Mitigation",
+    "Multi-Agent",
+    "Lab Scorecards",
+    "AI Safety Risk",
+    "Sources/Background",
 ]
 
 # Target folder names (will be created at vault root)
@@ -56,10 +62,83 @@ NEW_FOLDERS = [
 ]
 
 # Evaluation sub-folder routing keywords
-EVAL_METHODOLOGY_KEYWORDS = ["Adding_Error_Bars", "BetterBench", "Sociotechnical_Safety_Evaluation", "Model_evaluation_for_extreme_risks", "Science_of_Evals", "Opinionated_Evals_Reading_List", "common-elements", "Challenges_in_evaluating_AI_systems", "AISI", "Advanced_AI_evaluations", "third-party_model_evaluations", "Survey_on_Evaluation", "Dangerous_capability_tests_should_be_harder", "AI_Luminate", "Putting_up_Bumpers", "Inspect"]
-CAPABILITY_BENCHMARK_KEYWORDS = ["Measuring_Massive_Multitask", "MMLU", "MATH_Dataset", "FrontierMath", "BIG-bench", "Beyond_the_Imitation_Game", "HellaSwag", "PIQA", "BoolQ", "Cosmos_QA", "OpenBook", "TruthfulQA", "SimpleQA", "ARC-AGI", "Are_Emergent_Abilities", "Emergent_Abilities", "Aligning_AI_With_Shared_Human_Values", "ETHICS", "GLUE", "Quantifying_Language_Models_Sensitivity", "ICL_Consistency_Test", "Code_World_Model", "Model_Spec", "Self_-Consistency", "Can_Generalist_Foundation_Models", "Can_LLMs_Generate_Novel"]
-CYBER_BIO_BENCHMARK_KEYWORDS = ["CYBERSECEVAL", "Cybench", "3CB", "Catastrophic_Cyber", "CVE-Bench", "WMDP", "LAB-Bench", "VCT", "AI_jailbreaks", "AI_R_D_Evaluation", "Could_Artificial_Intelligence_Be_Misused", "Biological", "biorisk", "Bio_Risk", "AI-Facilitated-Biological", "Reality_of_AI_and_Biorisk", "biological_misuse", "Cyber_threat", "near-term_impact_of_AI_on_the_cyber"]
-AGENT_BENCHMARK_KEYWORDS = ["AgentBench", "AgentDojo", "WebArena", "SWE-bench", "Aviary", "MLE-bench", "AGENT_Harm", "Forecasting_Frontier_Language_Model_Agent"]
+EVAL_METHODOLOGY_KEYWORDS = [
+    "Adding_Error_Bars",
+    "BetterBench",
+    "Sociotechnical_Safety_Evaluation",
+    "Model_evaluation_for_extreme_risks",
+    "Science_of_Evals",
+    "Opinionated_Evals_Reading_List",
+    "common-elements",
+    "Challenges_in_evaluating_AI_systems",
+    "AISI",
+    "Advanced_AI_evaluations",
+    "third-party_model_evaluations",
+    "Survey_on_Evaluation",
+    "Dangerous_capability_tests_should_be_harder",
+    "AI_Luminate",
+    "Putting_up_Bumpers",
+    "Inspect",
+]
+CAPABILITY_BENCHMARK_KEYWORDS = [
+    "Measuring_Massive_Multitask",
+    "MMLU",
+    "MATH_Dataset",
+    "FrontierMath",
+    "BIG-bench",
+    "Beyond_the_Imitation_Game",
+    "HellaSwag",
+    "PIQA",
+    "BoolQ",
+    "Cosmos_QA",
+    "OpenBook",
+    "TruthfulQA",
+    "SimpleQA",
+    "ARC-AGI",
+    "Are_Emergent_Abilities",
+    "Emergent_Abilities",
+    "Aligning_AI_With_Shared_Human_Values",
+    "ETHICS",
+    "GLUE",
+    "Quantifying_Language_Models_Sensitivity",
+    "ICL_Consistency_Test",
+    "Code_World_Model",
+    "Model_Spec",
+    "Self_-Consistency",
+    "Can_Generalist_Foundation_Models",
+    "Can_LLMs_Generate_Novel",
+]
+CYBER_BIO_BENCHMARK_KEYWORDS = [
+    "CYBERSECEVAL",
+    "Cybench",
+    "3CB",
+    "Catastrophic_Cyber",
+    "CVE-Bench",
+    "WMDP",
+    "LAB-Bench",
+    "VCT",
+    "AI_jailbreaks",
+    "AI_R_D_Evaluation",
+    "Could_Artificial_Intelligence_Be_Misused",
+    "Biological",
+    "biorisk",
+    "Bio_Risk",
+    "AI-Facilitated-Biological",
+    "Reality_of_AI_and_Biorisk",
+    "biological_misuse",
+    "Cyber_threat",
+    "near-term_impact_of_AI_on_the_cyber",
+]
+AGENT_BENCHMARK_KEYWORDS = [
+    "AgentBench",
+    "AgentDojo",
+    "WebArena",
+    "SWE-bench",
+    "Aviary",
+    "MLE-bench",
+    "AGENT_Harm",
+    "Forecasting_Frontier_Language_Model_Agent",
+]
 
 
 def route_within_evaluations(path: Path, fm: dict) -> str:
@@ -82,7 +161,8 @@ def route_within_evaluations(path: Path, fm: dict) -> str:
 
 def parse_fm(text: str) -> dict:
     m = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
-    if not m: return {}
+    if not m:
+        return {}
     fm = {}
     for line in m.group(1).splitlines():
         if ":" in line and not line.startswith("- "):
@@ -105,20 +185,50 @@ def get_tags(fm: dict) -> list[str]:
 # Priority order: most specific → most general.
 # Returns (new_folder, reason).
 
-CAPABILITY_LANDMARK_KEYWORDS = ["AlphaGo", "AlphaProteo", "AlphaFold", "Levels_of_AGI", "Frontier_Safety_Framework", "International_AI_Safety_Report"]
-ANTHROPIC_NEWS_PATTERNS = ["Anthropic_Raises", "Detecting_and_Countering_Malicious_Uses_of_Claude", "Many-shot_jailbreaking", "Auditing_language_models_for_hidden_objectives", "Constitutional_Classifiers"]
+CAPABILITY_LANDMARK_KEYWORDS = [
+    "AlphaGo",
+    "AlphaProteo",
+    "AlphaFold",
+    "Levels_of_AGI",
+    "Frontier_Safety_Framework",
+    "International_AI_Safety_Report",
+]
+ANTHROPIC_NEWS_PATTERNS = [
+    "Anthropic_Raises",
+    "Detecting_and_Countering_Malicious_Uses_of_Claude",
+    "Many-shot_jailbreaking",
+    "Auditing_language_models_for_hidden_objectives",
+    "Constitutional_Classifiers",
+]
 INTERP_KEYWORDS = ["interpretability", "mechanistic-interpretability"]
-INTERP_FILENAMES = ["Patchscopes", "SelfIE", "Steering_Llama", "Towards_Monosemanticity", "Mathematical_Framework_for_Transformer_Circuits", "Mapping_the_Mind", "Looking_Inward_Language_Models_Can_Learn_About_Themselves", "Auditing_language_models_for_hidden_objectives", "ALMANACS", "LatentQA", "High-Low_Frequency_Detectors", "Locating_and_Editing_Factual_Associations", "Representation_Engineering", "Anthropics_Interpretability_Research", "Introduction_to_Mechanistic_Interpretability", "Designing_a_Dashboard_for_Transparency", "Interpreting_THE_Second"]
+INTERP_FILENAMES = [
+    "Patchscopes",
+    "SelfIE",
+    "Steering_Llama",
+    "Towards_Monosemanticity",
+    "Mathematical_Framework_for_Transformer_Circuits",
+    "Mapping_the_Mind",
+    "Looking_Inward_Language_Models_Can_Learn_About_Themselves",
+    "Auditing_language_models_for_hidden_objectives",
+    "ALMANACS",
+    "LatentQA",
+    "High-Low_Frequency_Detectors",
+    "Locating_and_Editing_Factual_Associations",
+    "Representation_Engineering",
+    "Anthropics_Interpretability_Research",
+    "Introduction_to_Mechanistic_Interpretability",
+    "Designing_a_Dashboard_for_Transparency",
+    "Interpreting_THE_Second",
+]
 
 
 def route_file(path: Path, fm: dict) -> tuple[str, str]:
     """Return (new_folder, reason). All files get routed."""
     concepts = get_concepts(fm)
     tags = get_tags(fm)
-    stype = (fm.get("source_type", "") or "").strip().strip('"\'')
+    stype = (fm.get("source_type", "") or "").strip().strip("\"'")
     fname = path.name
     folder = path.parent.name  # current folder
-    url = (fm.get("source", "") or "").strip().lower()
 
     # ===== Hard rules first (most specific, override concept tags) =====
 
@@ -207,7 +317,15 @@ def route_file(path: Path, fm: dict) -> tuple[str, str]:
     # ===== Fallback rules for files with NO wiki_concepts =====
 
     # Governance / policy by tag
-    governance_tags = {"governance", "regulation", "compute-governance", "international-coordination", "RSP", "responsible-scaling", "ASL"}
+    governance_tags = {
+        "governance",
+        "regulation",
+        "compute-governance",
+        "international-coordination",
+        "RSP",
+        "responsible-scaling",
+        "ASL",
+    }
     if any(t in tags for t in governance_tags):
         return ("16_Governance-and-Policy", "governance tag")
 
@@ -291,11 +409,13 @@ def main():
 
         new_folder, reason = route_file(path, fm)
         target = VAULT / new_folder / path.name
-        log_rows.append({
-            "old_path": str(path.relative_to(VAULT)),
-            "new_path": f"{new_folder}/{path.name}",
-            "reason": reason,
-        })
+        log_rows.append(
+            {
+                "old_path": str(path.relative_to(VAULT)),
+                "new_path": f"{new_folder}/{path.name}",
+                "reason": reason,
+            }
+        )
         counts[new_folder] += 1
 
         if args.apply:

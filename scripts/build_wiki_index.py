@@ -12,10 +12,10 @@ Reads 01_data/index/manifest.csv (produced by build_index.py) and emits:
 
 The per-file detail pages in _index/files/ are emitted by build_index.py itself.
 """
+
 from __future__ import annotations
 
 import csv
-import os
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -27,27 +27,34 @@ VAULT_CANDIDATES = [
     Path("/Users/harlem/Desktop/AI Safety/AI Safety"),
 ]
 import glob as _glob
+
 for _p in _glob.glob("/sessions/*/mnt/AI Safety--AI Safety"):
     VAULT_CANDIDATES.append(Path(_p))
+
 
 def _safe_exists(p):
     try:
         return p.exists()
     except (PermissionError, OSError):
         return False
+
+
 VAULT = next((p for p in VAULT_CANDIDATES if _safe_exists(p)), VAULT_CANDIDATES[0])
 
 DATA_DIR = WORKDIR / "01_data" / "index"
 WIKI_INDEX_DIR = VAULT / "_index"
 
+
 def slugify(s: str, maxlen: int = 60) -> str:
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
     return s[:maxlen] if s else "untitled"
+
 
 def file_link(file_id: str, title: str) -> str:
     """Markdown link to per-file detail page in _index/files/."""
     fname = f"{file_id}__{slugify(title)}"
     return f"[[{fname}|{title}]]"
+
 
 def main():
     rows = list(csv.DictReader(open(DATA_DIR / "manifest.csv")))
@@ -137,8 +144,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
 
     # ---- master_index ----
     master = WIKI_INDEX_DIR / "00_master_index.md"
-    lines: list[str] = ["# Master Index", "",
-                        f"_{n_files} files · {n_chunks:,} chunks · {n_tokens:,} tokens_", ""]
+    lines: list[str] = ["# Master Index", "", f"_{n_files} files · {n_chunks:,} chunks · {n_tokens:,} tokens_", ""]
     by_cat: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
     for r in rows:
         by_cat[r["category"]][r["subcategory"]].append(r)
@@ -176,10 +182,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
                 by_concept[c].append(r)
     # Build file-id sets per concept for Jaccard cross-linking. file_id
     # uniquely identifies a vault file, so set ops give us co-occurrence.
-    concept_files: dict[str, set[str]] = {
-        c: {r["file_id"] for r in frows}
-        for c, frows in by_concept.items()
-    }
+    concept_files: dict[str, set[str]] = {c: {r["file_id"] for r in frows} for c, frows in by_concept.items()}
 
     def related_concepts(concept: str, top_k: int = 5) -> list[tuple[str, float, int]]:
         """Top-k other concepts by Jaccard similarity over shared file_ids.
@@ -202,34 +205,38 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
         return out[:top_k]
 
     concept_idx = WIKI_INDEX_DIR / "by_concept" / "_index.md"
-    out = ["# Concepts", "",
-           f"Wiki concepts referenced across the corpus, ranked by file count.", ""]
+    out = ["# Concepts", "", "Wiki concepts referenced across the corpus, ranked by file count.", ""]
     for concept, frows in sorted(by_concept.items(), key=lambda kv: -len(kv[1])):
         out.append(f"- [[{slugify(concept)}|{concept}]]  ({len(frows)} files)")
     concept_idx.write_text("\n".join(out) + "\n")
     for concept, frows in by_concept.items():
         p = WIKI_INDEX_DIR / "by_concept" / f"{slugify(concept)}.md"
-        body = [f"# {concept}", "",
-                f"_{len(frows)} files_", "",
-                "## Files", ""]
+        body = [f"# {concept}", "", f"_{len(frows)} files_", "", "## Files", ""]
         for r in sorted(frows, key=lambda x: x["title"].lower()):
             body.append(f"- {file_link(r['file_id'], r['title'])}  · _{r['category']}_")
         # Related concepts (Jaccard over shared file_ids)
         related = related_concepts(concept, top_k=5)
         if related:
-            body += ["", "## Related concepts", "",
-                     "Computed from file-level co-occurrence (Jaccard similarity). "
-                     "Higher score = stronger overlap. See "
-                     "`PROCESS_QUERY.md` §6 for how to use this signal.", ""]
+            body += [
+                "",
+                "## Related concepts",
+                "",
+                "Computed from file-level co-occurrence (Jaccard similarity). "
+                "Higher score = stronger overlap. See "
+                "`PROCESS_QUERY.md` §6 for how to use this signal.",
+                "",
+            ]
             body.append("| Concept | Jaccard | Shared files |")
             body.append("|---|---:|---:|")
             for other, score, n_shared in related:
-                body.append(
-                    f"| [[{slugify(other)}|{other}]] | {score:.3f} | {n_shared} |"
-                )
+                body.append(f"| [[{slugify(other)}|{other}]] | {score:.3f} | {n_shared} |")
         else:
-            body += ["", "## Related concepts", "",
-                     "_(none — this concept's files don't overlap with any other concept's files. May indicate under-tagging or genuine isolation; check `PROCESS_HEALTH_CHECK.md` Bundle H.)_"]
+            body += [
+                "",
+                "## Related concepts",
+                "",
+                "_(none — this concept's files don't overlap with any other concept's files. May indicate under-tagging or genuine isolation; check `PROCESS_HEALTH_CHECK.md` Bundle H.)_",
+            ]
         p.write_text("\n".join(body) + "\n")
 
     # ---- by_tag (top 50) ----
@@ -259,6 +266,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     print(f"Wrote {len(by_cat)} category pages")
     print(f"Wrote {len(by_concept)} concept pages + index")
     print(f"Wrote {min(80, len(tag_count))} tag pages + index")
+
 
 if __name__ == "__main__":
     main()

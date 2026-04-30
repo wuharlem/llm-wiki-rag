@@ -19,7 +19,6 @@ import argparse
 import csv
 import os
 import shutil
-from datetime import datetime
 from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
@@ -31,56 +30,70 @@ QUARANTINE_ROOT = VAULT / "_dupes_2026-04-27"
 # Format: (relative_path_to_quarantine, group_name, reason_kept_winner_is)
 DECISIONS = [
     # Future of AI Course - 3 utm variants of same canonical URL
-    ("05_Resources/05a_Educational/Future_of_AI_Course_BlueDot_Impact_a9f3387d.md",
-     "Future of AI Course (BlueDot)",
-     "winner=Future_of_AI_Course_BlueDot_Impact_100477de.md"),
-    ("05_Resources/05a_Educational/Future_of_AI_Course_BlueDot_Impact_cbe94e84.md",
-     "Future of AI Course (BlueDot)",
-     "winner=Future_of_AI_Course_BlueDot_Impact_100477de.md"),
-
+    (
+        "05_Resources/05a_Educational/Future_of_AI_Course_BlueDot_Impact_a9f3387d.md",
+        "Future of AI Course (BlueDot)",
+        "winner=Future_of_AI_Course_BlueDot_Impact_100477de.md",
+    ),
+    (
+        "05_Resources/05a_Educational/Future_of_AI_Course_BlueDot_Impact_cbe94e84.md",
+        "Future of AI Course (BlueDot)",
+        "winner=Future_of_AI_Course_BlueDot_Impact_100477de.md",
+    ),
     # Anthropic RSP - keep 274b3659 (Dec 2023 canonical) + 7e83d9fc (Apr 2026 updates page; different content)
     # Quarantine dc72fbff which is a /news/ mirror of the same Dec 2023 announcement
-    ("04_Governance-and-Policy/04a_RSPs-and-Frontier-Frameworks/Anthropics_Responsible_Scaling_Policy_dc72fbff.md",
-     "Anthropic's RSP (Dec 2023)",
-     "winner=Anthropics_Responsible_Scaling_Policy_274b3659.md (mirror of /news/ -> /index/)"),
-
+    (
+        "04_Governance-and-Policy/04a_RSPs-and-Frontier-Frameworks/Anthropics_Responsible_Scaling_Policy_dc72fbff.md",
+        "Anthropic's RSP (Dec 2023)",
+        "winner=Anthropics_Responsible_Scaling_Policy_274b3659.md (mirror of /news/ -> /index/)",
+    ),
     # Statement on AI Risk | CAIS - 3 URL variants
-    ("01_Risks-and-Failure-Modes/01a_Existential-Risk/Statement_on_AI_Risk_CAIS_3943efdd.md",
-     "Statement on AI Risk (CAIS)",
-     "winner=Statement_on_AI_Risk_CAIS_0b044cb6.md (canonical /statement-on-ai-risk URL)"),
-    ("01_Risks-and-Failure-Modes/01a_Existential-Risk/Statement_on_AI_Risk_CAIS_a5ac984d.md",
-     "Statement on AI Risk (CAIS)",
-     "winner=Statement_on_AI_Risk_CAIS_0b044cb6.md (canonical URL)"),
-
+    (
+        "01_Risks-and-Failure-Modes/01a_Existential-Risk/Statement_on_AI_Risk_CAIS_3943efdd.md",
+        "Statement on AI Risk (CAIS)",
+        "winner=Statement_on_AI_Risk_CAIS_0b044cb6.md (canonical /statement-on-ai-risk URL)",
+    ),
+    (
+        "01_Risks-and-Failure-Modes/01a_Existential-Risk/Statement_on_AI_Risk_CAIS_a5ac984d.md",
+        "Statement on AI Risk (CAIS)",
+        "winner=Statement_on_AI_Risk_CAIS_0b044cb6.md (canonical URL)",
+    ),
     # Sleeper Agents - /research vs /news mirror
-    ("02_Mitigations-and-Methods/02f_Interpretability/Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_7defe513.md",
-     "Sleeper Agents (Anthropic)",
-     "winner=01c_Alignment-Faking-Scheming/Sleeper_Agents_..._2dc73751.md (correct topic folder)"),
-
+    (
+        "02_Mitigations-and-Methods/02f_Interpretability/Sleeper_Agents_Training_Deceptive_LLMs_that_Persist_Through_Safety_Training_7defe513.md",
+        "Sleeper Agents (Anthropic)",
+        "winner=01c_Alignment-Faking-Scheming/Sleeper_Agents_..._2dc73751.md (correct topic folder)",
+    ),
     # Core Views on AI Safety - /news vs /index, both Dec 2023
-    ("02_Mitigations-and-Methods/02f_Interpretability/Core_Views_on_AI_Safety_When_Why_What_and_How_cbeac227.md",
-     "Core Views on AI Safety",
-     "winner=Core_Views_on_AI_Safety_..._8c7fd668.md (/news/ canonical)"),
-
+    (
+        "02_Mitigations-and-Methods/02f_Interpretability/Core_Views_on_AI_Safety_When_Why_What_and_How_cbeac227.md",
+        "Core Views on AI Safety",
+        "winner=Core_Views_on_AI_Safety_..._8c7fd668.md (/news/ canonical)",
+    ),
     # Dario Amodei: Machines of Loving Grace - two routes
-    ("01_Risks-and-Failure-Modes/01a_Existential-Risk/Dario Amodei — Machines of Loving Grace.md",
-     "Dario Amodei (Machines of Loving Grace)",
-     "winner=02c_Scalable-Oversight/Dario_Amodei_Machines_of_Loving_Grace_caf0dd8e.md (richer metadata)"),
-
+    (
+        "01_Risks-and-Failure-Modes/01a_Existential-Risk/Dario Amodei — Machines of Loving Grace.md",
+        "Dario Amodei (Machines of Loving Grace)",
+        "winner=02c_Scalable-Oversight/Dario_Amodei_Machines_of_Loving_Grace_caf0dd8e.md (richer metadata)",
+    ),
     # AI Could Defeat All Of Us Combined - two cold-takes URLs
-    ("02_Mitigations-and-Methods/02c_Scalable-Oversight/AI_Could_Defeat_All_Of_Us_Combined_7a851c62.md",
-     "AI Could Defeat All Of Us Combined (Karnofsky)",
-     "winner=01a_Existential-Risk/AI Could Defeat All Of Us Combined.md (correct topic folder)"),
-
+    (
+        "02_Mitigations-and-Methods/02c_Scalable-Oversight/AI_Could_Defeat_All_Of_Us_Combined_7a851c62.md",
+        "AI Could Defeat All Of Us Combined (Karnofsky)",
+        "winner=01a_Existential-Risk/AI Could Defeat All Of Us Combined.md (correct topic folder)",
+    ),
     # Why Would AI "Aim" To Defeat Humanity? - two cold-takes URLs
-    ("01_Risks-and-Failure-Modes/01c_Alignment-Faking-Scheming/Why_Would_AI_Aim_To_Defeat_Humanity_efd7b429.md",
-     "Why Would AI Aim To Defeat Humanity (Karnofsky)",
-     "winner=01a_Existential-Risk/Why Would AI \"Aim\" To Defeat Humanity?.md"),
-
+    (
+        "01_Risks-and-Failure-Modes/01c_Alignment-Faking-Scheming/Why_Would_AI_Aim_To_Defeat_Humanity_efd7b429.md",
+        "Why Would AI Aim To Defeat Humanity (Karnofsky)",
+        'winner=01a_Existential-Risk/Why Would AI "Aim" To Defeat Humanity?.md',
+    ),
     # Alignment Faking in Large Language Models - /research vs /news
-    ("01_Risks-and-Failure-Modes/01c_Alignment-Faking-Scheming/Alignment faking in large language models.md",
-     "Alignment Faking in LLMs (Anthropic)",
-     "winner=Alignment_faking_in_large_language_models_3d7e3773.md (richer metadata, same paper)"),
+    (
+        "01_Risks-and-Failure-Modes/01c_Alignment-Faking-Scheming/Alignment faking in large language models.md",
+        "Alignment Faking in LLMs (Anthropic)",
+        "winner=Alignment_faking_in_large_language_models_3d7e3773.md (richer metadata, same paper)",
+    ),
 ]
 
 # Things deliberately NOT quarantined (documented for transparency):
@@ -124,10 +137,15 @@ def main():
 
         if not src.exists():
             print(f"  MISSING (already moved or renamed?): {rel_path}")
-            log_rows.append({
-                "src": rel_path, "dst": str(dst.relative_to(VAULT)),
-                "group": group, "reason": reason, "status": "missing",
-            })
+            log_rows.append(
+                {
+                    "src": rel_path,
+                    "dst": str(dst.relative_to(VAULT)),
+                    "group": group,
+                    "reason": reason,
+                    "status": "missing",
+                }
+            )
             missing += 1
             continue
 
@@ -139,10 +157,15 @@ def main():
             status = "would_move"
 
         print(f"  {status}: {rel_path}")
-        log_rows.append({
-            "src": rel_path, "dst": str(dst.relative_to(VAULT)),
-            "group": group, "reason": reason, "status": status,
-        })
+        log_rows.append(
+            {
+                "src": rel_path,
+                "dst": str(dst.relative_to(VAULT)),
+                "group": group,
+                "reason": reason,
+                "status": status,
+            }
+        )
         moved += 1
 
     LOG.parent.mkdir(parents=True, exist_ok=True)

@@ -10,7 +10,6 @@ preserving everything else.
 import csv
 import os
 import re
-import sys
 from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
@@ -22,13 +21,11 @@ LOG = WORK / "02_logs" / "unlink_log.csv"
 UNLINK_RULES = [
     # === Weak-to-Strong Generalization ===
     ("Who_Is_Open_to_Authoritarian_Governance_within_Western_Democracies", "Weak-to-Strong Generalization"),
-
     # === Agentic Misalignment ===
     ("Tit_for_tat_-_Wikipedia", "Agentic Misalignment"),
     ("Google_-_Wikipedia", "Agentic Misalignment"),
     # Arbital pages (LessWrong tag pages with thin tags)
     ("LESSWRONG_cc1eed09", "Agentic Misalignment"),  # arbital expected_utility_formalism
-
     # === RSP & Governance ===
     # Biology / medical background
     ("CRISPR_-_Wikipedia", "Responsible Scaling Policies"),
@@ -41,7 +38,6 @@ UNLINK_RULES = [
     ("The_world_is_awful._The_world_is_much_better", "Responsible Scaling Policies"),
     # Political science
     ("Who_Is_Open_to_Authoritarian_Governance", "Responsible Scaling Policies"),
-
     # === Scalable Oversight ===
     # Wikipedia background (debate-keyword false positives)
     ("Externality_-_Wikipedia", "Scalable Oversight"),
@@ -56,7 +52,6 @@ UNLINK_RULES = [
     # Misc
     ("Technological_singularity_-_Wikipedia", "Scalable Oversight"),
     ("Scaling_tacit_knowledge", "Scalable Oversight"),
-
     # === RLHF & Its Limitations ===
     # Wikipedia background
     ("Smart_contract_-_Wikipedia", "RLHF & Its Limitations"),
@@ -74,7 +69,6 @@ UNLINK_RULES = [
     # Politics / policy
     ("Why_Arms_Control_Is_So_Rare", "RLHF & Its Limitations"),
     ("Is_Democracy_a_Fad", "RLHF & Its Limitations"),
-
     # === Existential Risk & Superintelligence ===
     # Historical / political background
     ("Atoms_for_Peace_-_Wikipedia", "Existential Risk & Superintelligence"),
@@ -92,17 +86,14 @@ UNLINK_RULES = [
     ("Roth_v._United_States_-_Wikipedia", "Existential Risk & Superintelligence"),
     ("Lump_of_labour_fallacy_-_Wikipedia", "Existential Risk & Superintelligence"),
     ("Cruel_and_unusual_punishment_-_Wikipedia", "Existential Risk & Superintelligence"),
-
     # === AI Evaluations & Benchmarks ===
     ("Antagonistic_pleiotropy_hypothesis", "AI Evaluations & Benchmarks"),
     ("Bayes_factor_-_Wikipedia", "AI Evaluations & Benchmarks"),
     ("BLEU_-_Wikipedia", "AI Evaluations & Benchmarks"),
     ("Tit_for_tat_-_Wikipedia", "AI Evaluations & Benchmarks"),
-
     # ============================================================
     # SECOND PASS — thin tags from "Other added sources" stub list
     # ============================================================
-
     # LessWrong tag-pages (Arbital pointers and generic decision-theory references)
     # — these have no real content beyond the URL pointer.
     # LESSWRONG_cc1eed09 = arbital expected_utility_formalism
@@ -115,7 +106,6 @@ UNLINK_RULES = [
     ("LESSWRONG_3b7cdedf", "RLHF & Its Limitations"),
     # LESSWRONG_f9826af5 = "nonperson predicates" (Yudkowsky speculation, not RLHF research)
     ("LESSWRONG_f9826af5", "RLHF & Its Limitations"),
-
     # Wikipedia pages with no AI-research content
     ("Sortition_-_Wikipedia", "Existential Risk & Superintelligence"),
     ("Sortition_-_Wikipedia", "RLHF & Its Limitations"),
@@ -123,7 +113,6 @@ UNLINK_RULES = [
     ("KullbackLeibler_divergence_-_Wikipedia", "AI Evaluations & Benchmarks"),
     ("Statistical_hypothesis_test_-_Wikipedia", "AI Evaluations & Benchmarks"),
     ("Tit_for_tat_-_Wikipedia", "RLHF & Its Limitations"),
-
     # Profile / about / contact pages — bibliographic stubs only
     ("Buck_3aaf690a", "RLHF & Its Limitations"),
     ("Buck_3aaf690a", "Alignment Faking & Scheming"),
@@ -143,20 +132,16 @@ UNLINK_RULES = [
     # ============================================================
     # THIRD PASS — additions from 2026-04-27 health check
     # ============================================================
-
     # CLARITY (brain imaging tech) — pulled in by "transparency" / "interpretability" keyword overlap
     ("CLARITY_-_Wikipedia", "Existential Risk & Superintelligence"),
-
     # Social Security debate Wikipedia — pulled in by "debate" keyword
     ("Social_Security_debate_in_the_United_States", "Existential Risk & Superintelligence"),
-
     # Amyloid-β / Alzheimer's paper — broadly mis-tagged in the archive (RLHF, Scalable Oversight,
     # AI Evaluations & Benchmarks, RSP). RSP rule already exists; add the others for if/when the
     # file is re-ingested.
     ("The_Amyloid", "RLHF & Its Limitations"),
     ("The_Amyloid", "Scalable Oversight"),
     ("The_Amyloid", "AI Evaluations & Benchmarks"),
-
     # RAND author publications pages (10 of them)
     ("Bria_Persaud_-_Publications", "AI Evaluations & Benchmarks"),
     ("Charles_Teague_-_Publications", "AI Evaluations & Benchmarks"),
@@ -176,7 +161,7 @@ def update_concepts_in_frontmatter(text: str, concept_to_remove: str) -> tuple[s
     if not m:
         return text, False
     fm = m.group(1)
-    rest = text[m.end():]
+    rest = text[m.end() :]
 
     # Find the wiki_concepts line (handle both inline list and block-list forms)
     # Inline: wiki_concepts: [A, B, C]
@@ -224,20 +209,32 @@ def main():
                     path.write_text(new_text, encoding="utf-8")
                     updated += 1
                     files_touched.add(path.name)
-                    log_rows.append({
-                        "substring": substring, "concept": concept,
-                        "file": str(path.relative_to(VAULT)), "status": "ok",
-                    })
+                    log_rows.append(
+                        {
+                            "substring": substring,
+                            "concept": concept,
+                            "file": str(path.relative_to(VAULT)),
+                            "status": "ok",
+                        }
+                    )
                 else:
-                    log_rows.append({
-                        "substring": substring, "concept": concept,
-                        "file": str(path.relative_to(VAULT)), "status": "concept_not_present",
-                    })
+                    log_rows.append(
+                        {
+                            "substring": substring,
+                            "concept": concept,
+                            "file": str(path.relative_to(VAULT)),
+                            "status": "concept_not_present",
+                        }
+                    )
             except Exception as e:
-                log_rows.append({
-                    "substring": substring, "concept": concept,
-                    "file": str(path.relative_to(VAULT)), "status": f"error: {e}",
-                })
+                log_rows.append(
+                    {
+                        "substring": substring,
+                        "concept": concept,
+                        "file": str(path.relative_to(VAULT)),
+                        "status": f"error: {e}",
+                    }
+                )
 
     with LOG.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["substring", "concept", "file", "status"])

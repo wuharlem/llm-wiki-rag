@@ -6,12 +6,12 @@ that `SearchInput` has the validator but `MultiQueryInput` doesn't; this
 test suite locks in current behavior and uses xfail to mark the gap so
 that flipping the audit-recommended fix turns into a passing test.
 """
+
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 import wiki_mcp_server as ws
+from pydantic import ValidationError
 
 
 def test_search_input_rejects_invalid_mode():
@@ -60,8 +60,7 @@ def test_search_input_defaults_match_mcp_default():
     we just flipped."""
     m = ws.SearchInput(query="alignment")
     assert m.mode == "hybrid", (
-        f"expected default mode=hybrid, got {m.mode!r} — "
-        "if this changes, update query_index.py too"
+        f"expected default mode=hybrid, got {m.mode!r} — if this changes, update query_index.py too"
     )
 
 

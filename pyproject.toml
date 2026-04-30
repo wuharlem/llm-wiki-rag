@@ -33,9 +33,10 @@ all = [
     "sentence-transformers>=3.0",
     "numpy>=1.26",
 ]
-# Test suite. Install with: uv sync --extra test
+# Test suite + lint/format tooling. Install with: uv sync --extra test
 test = [
     "pytest>=8",
+    "ruff>=0.5,<1.0",
 ]
 
 [project.scripts]
@@ -60,3 +61,32 @@ markers = [
     "needs_index: requires 01_data/index/ to be built.",
     "needs_embeddings: requires embeddings.npy to be built.",
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = [
+    ".venv",
+    "00_inputs",
+    "01_data",
+    "02_logs",
+    "03_notion_drafts",
+    "_index",
+    "**/pytest-cache-files-*",
+]
+
+[tool.ruff.lint]
+# Ruff defaults (E, F) plus warnings (W) and import sorting (I).
+# E501 (line-too-long) is intentionally disabled: `ruff format` already
+# wraps everywhere it can; the residual long lines are unwrappable strings
+# (Field descriptions, file paths, f-strings) where E501 just adds noise.
+# E741 (ambiguous names: `l`, `I`, `O`) ignored — too noisy for research code.
+select = ["E", "F", "W", "I"]
+ignore = ["E501", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+# Standalone CLI scripts often mutate sys.path before importing siblings.
+"scripts/*.py" = ["E402"]
+
+[tool.ruff.format]
+# Defaults: double quotes, trailing commas where allowed.

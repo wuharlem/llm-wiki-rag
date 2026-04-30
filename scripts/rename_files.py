@@ -18,7 +18,6 @@ import csv
 import os
 import re
 import subprocess
-import sys
 from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
@@ -64,8 +63,9 @@ def sanitize(name: str, maxlen: int = 90) -> str:
 def title_from_md(path: Path) -> str | None:
     text = path.read_text(encoding="utf-8", errors="replace")
     m = re.search(r"^title:\s*(.+)$", text, re.MULTILINE)
-    if not m: return None
-    title = m.group(1).strip().strip('"\'')
+    if not m:
+        return None
+    title = m.group(1).strip().strip("\"'")
     if not title or title.isdigit() or len(title) < 4:
         return None
     return title
@@ -77,7 +77,7 @@ def title_from_pdf(path: Path) -> str | None:
         r = subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True, timeout=8)
         for line in r.stdout.splitlines():
             if line.startswith("Title:"):
-                t = line[len("Title:"):].strip()
+                t = line[len("Title:") :].strip()
                 if len(t) >= 8 and not t.lower().startswith("untitled"):
                     return t
     except Exception:
@@ -85,8 +85,7 @@ def title_from_pdf(path: Path) -> str | None:
 
     # 2. Heuristic extract from first-page text
     try:
-        r = subprocess.run(["pdftotext", "-l", "1", str(path), "-"],
-                           capture_output=True, text=True, timeout=10)
+        r = subprocess.run(["pdftotext", "-l", "1", str(path), "-"], capture_output=True, text=True, timeout=10)
         lines = [l.strip() for l in r.stdout.splitlines() if l.strip()]
     except Exception:
         return None
@@ -137,10 +136,14 @@ def main():
     collisions = 0
 
     for path in VAULT.rglob("*"):
-        if not path.is_file(): continue
-        if "/.obsidian/" in str(path): continue
-        if "/_inbox/" in str(path): continue
-        if path.suffix not in {".md", ".pdf"}: continue
+        if not path.is_file():
+            continue
+        if "/.obsidian/" in str(path):
+            continue
+        if "/_inbox/" in str(path):
+            continue
+        if path.suffix not in {".md", ".pdf"}:
+            continue
 
         m = HASH_SUFFIX_RE.search(path.name)
         if not m:
@@ -161,7 +164,9 @@ def main():
 
         if not title:
             skipped_no_title += 1
-            log.append({"path": str(path.relative_to(VAULT)), "old": path.name, "new": "", "title": "", "reason": "no_title"})
+            log.append(
+                {"path": str(path.relative_to(VAULT)), "old": path.name, "new": "", "title": "", "reason": "no_title"}
+            )
             continue
 
         new_stem = sanitize(title)
@@ -179,15 +184,39 @@ def main():
             # Should not normally happen because hash makes filenames unique,
             # but if it does, skip the rename to avoid clobbering
             collisions += 1
-            log.append({"path": str(path.relative_to(VAULT)), "old": path.name, "new": new_name, "title": title, "reason": "collision_skip"})
+            log.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "old": path.name,
+                    "new": new_name,
+                    "title": title,
+                    "reason": "collision_skip",
+                }
+            )
             continue
 
         try:
             os.rename(str(path), str(new_path))
             renamed += 1
-            log.append({"path": str(path.parent.relative_to(VAULT)), "old": path.name, "new": new_name, "title": title, "reason": "ok"})
+            log.append(
+                {
+                    "path": str(path.parent.relative_to(VAULT)),
+                    "old": path.name,
+                    "new": new_name,
+                    "title": title,
+                    "reason": "ok",
+                }
+            )
         except Exception as e:
-            log.append({"path": str(path.relative_to(VAULT)), "old": path.name, "new": "", "title": title, "reason": f"error: {e}"})
+            log.append(
+                {
+                    "path": str(path.relative_to(VAULT)),
+                    "old": path.name,
+                    "new": "",
+                    "title": title,
+                    "reason": f"error: {e}",
+                }
+            )
 
     with LOG.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["path", "old", "new", "title", "reason"])

@@ -3,6 +3,7 @@ test_filters — category/concept/tag/file_type pass-through.
 
 If a filter is set, every result must satisfy it. Real-index tests.
 """
+
 from __future__ import annotations
 
 import pytest

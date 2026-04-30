@@ -12,7 +12,6 @@ import csv
 import os
 import re
 import sys
-import shutil
 from pathlib import Path
 
 VAULT = Path(os.environ.get("VAULT", "/sessions/gifted-confident-hawking/mnt/AI Safety--AI Safety"))
@@ -46,7 +45,7 @@ def update_md_frontmatter(text: str, klass: dict) -> str:
         return fm + text
 
     fm_body = m.group(1)
-    rest = text[m.end():]
+    rest = text[m.end() :]
 
     # Remove any existing taxonomy fields (we'll re-add at the end)
     new_lines = []
@@ -114,12 +113,14 @@ def main():
             else:
                 os.replace(str(path), str(target))
                 moved += 1
-            log_rows.append({
-                "filename": path.name,
-                "status": "ok",
-                "target": str(target.relative_to(VAULT)),
-                "info": f"confidence={klass['confidence']}",
-            })
+            log_rows.append(
+                {
+                    "filename": path.name,
+                    "status": "ok",
+                    "target": str(target.relative_to(VAULT)),
+                    "info": f"confidence={klass['confidence']}",
+                }
+            )
         except Exception as e:
             errors += 1
             log_rows.append({"filename": path.name, "status": "error", "target": "", "info": str(e)[:200]})

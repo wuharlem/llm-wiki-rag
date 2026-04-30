@@ -22,6 +22,7 @@ Usage:
     uv run --extra semantic python scripts/build_embeddings.py --force   # rebuild even if up to date
     uv run --extra semantic python scripts/build_embeddings.py --batch-size 64
 """
+
 from __future__ import annotations
 
 import argparse
@@ -66,8 +67,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--batch-size", type=int, default=32)
-    ap.add_argument("--force", action="store_true",
-                    help="Rebuild even if existing embeddings appear up to date.")
+    ap.add_argument("--force", action="store_true", help="Rebuild even if existing embeddings appear up to date.")
     args = ap.parse_args()
 
     # Import lazily so users without the [semantic] extra still get a clear error.
@@ -76,9 +76,7 @@ def main() -> None:
         from sentence_transformers import SentenceTransformer
     except ImportError as e:
         print(
-            "Missing semantic deps. Install with:\n"
-            "    uv sync --extra semantic\n"
-            f"(import error: {e})",
+            f"Missing semantic deps. Install with:\n    uv sync --extra semantic\n(import error: {e})",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -109,7 +107,7 @@ def main() -> None:
         normalize_embeddings=True,  # so cosine = dot product
     ).astype("float32")
     dt = time.time() - t0
-    print(f"embedded {len(texts)} chunks in {dt:.1f}s ({len(texts)/max(dt,1):.0f}/s)", file=sys.stderr)
+    print(f"embedded {len(texts)} chunks in {dt:.1f}s ({len(texts) / max(dt, 1):.0f}/s)", file=sys.stderr)
     print(f"matrix shape: {embs.shape}", file=sys.stderr)
 
     EMB_NPY_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -126,19 +124,22 @@ def main() -> None:
     os.replace(tmp_npy, EMB_NPY_PATH)
 
     tmp_ids = EMB_IDS_PATH.with_suffix(EMB_IDS_PATH.suffix + ".tmp")
-    tmp_ids.write_text(json.dumps(
-        [{"file_id": c["file_id"], "chunk_id": c["chunk_id"]} for c in chunks]
-    ))
+    tmp_ids.write_text(json.dumps([{"file_id": c["file_id"], "chunk_id": c["chunk_id"]} for c in chunks]))
     os.replace(tmp_ids, EMB_IDS_PATH)
 
     tmp_meta = EMB_META_PATH.with_suffix(EMB_META_PATH.suffix + ".tmp")
-    tmp_meta.write_text(json.dumps({
-        "model": args.model,
-        "dim": int(embs.shape[1]),
-        "n_chunks": len(chunks),
-        "built_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-        "normalized": True,
-    }, indent=2))
+    tmp_meta.write_text(
+        json.dumps(
+            {
+                "model": args.model,
+                "dim": int(embs.shape[1]),
+                "n_chunks": len(chunks),
+                "built_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "normalized": True,
+            },
+            indent=2,
+        )
+    )
     os.replace(tmp_meta, EMB_META_PATH)
     print(f"wrote {EMB_NPY_PATH} and metadata", file=sys.stderr)
 

@@ -5,11 +5,10 @@ test_save_query — round-trip a saved-query file through write + parse.
 result blocks. The contract is: re-reading the file should yield the
 same question, queries, and result count we passed in.
 """
+
 from __future__ import annotations
 
 import re
-
-import pytest
 
 
 def test_save_query_roundtrip(tmp_path, monkeypatch, fresh_wr):
@@ -70,9 +69,7 @@ def test_save_query_roundtrip(tmp_path, monkeypatch, fresh_wr):
     assert "## Top results" in text
     # Each result should produce one H3 block.
     h3_count = len(re.findall(r"^### \d+\. ", text, flags=re.MULTILINE))
-    assert h3_count == len(results), (
-        f"expected {len(results)} result H3s, got {h3_count}"
-    )
+    assert h3_count == len(results), f"expected {len(results)} result H3s, got {h3_count}"
     # Notes should appear.
     assert "A test note." in text
     # File IDs should appear so readers can trace back.
@@ -104,7 +101,10 @@ def test_save_query_empty_slug_falls_back(tmp_path, monkeypatch, fresh_wr):
     monkeypatch.setattr(fresh_wr, "WORKDIR", tmp_path)
 
     out_path = fresh_wr.save_query_result(
-        question="Q?", queries=["q"], results=[], slug="!!!",
+        question="Q?",
+        queries=["q"],
+        results=[],
+        slug="!!!",
     )
     assert out_path.exists()
     assert out_path.suffix == ".md"

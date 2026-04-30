@@ -17,6 +17,7 @@ Outputs JSON to stdout. Flags:
   --no-text         omit chunk text in output (just metadata)
   --mode MODE       hybrid (default) | bm25 | semantic — matches the MCP server's default
 """
+
 from __future__ import annotations
 
 import argparse
@@ -35,13 +36,21 @@ def main() -> None:
     ap.add_argument("--tag", default=None)
     ap.add_argument("--type", choices=["md", "pdf"], default=None, dest="file_type")
     ap.add_argument("--no-text", action="store_true")
-    ap.add_argument("--mode", choices=["bm25", "semantic", "hybrid"], default="hybrid",
-                    help="Retrieval mode (default: hybrid, matches the MCP server). "
-                         "Hybrid degrades gracefully to BM25 if embeddings aren't built.")
-    ap.add_argument("--rerank", action="store_true",
-                    help="Cross-encoder re-rank the retrieval candidates (slower, more precise).")
-    ap.add_argument("--explain", action="store_true",
-                    help="Include per-term BM25 contribution breakdown in the output (BM25 / hybrid only).")
+    ap.add_argument(
+        "--mode",
+        choices=["bm25", "semantic", "hybrid"],
+        default="hybrid",
+        help="Retrieval mode (default: hybrid, matches the MCP server). "
+        "Hybrid degrades gracefully to BM25 if embeddings aren't built.",
+    )
+    ap.add_argument(
+        "--rerank", action="store_true", help="Cross-encoder re-rank the retrieval candidates (slower, more precise)."
+    )
+    ap.add_argument(
+        "--explain",
+        action="store_true",
+        help="Include per-term BM25 contribution breakdown in the output (BM25 / hybrid only).",
+    )
     args = ap.parse_args()
 
     try:
@@ -66,16 +75,18 @@ def main() -> None:
         for r in results:
             r.pop("text", None)
 
-    print(json.dumps(
-        {
-            "query": args.query,
-            "mode": args.mode,
-            "n_hits": len(results),
-            "results": results,
-        },
-        ensure_ascii=False,
-        indent=2,
-    ))
+    print(
+        json.dumps(
+            {
+                "query": args.query,
+                "mode": args.mode,
+                "n_hits": len(results),
+                "results": results,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
