@@ -613,7 +613,12 @@ def index_stats() -> str:
     answer the question 'how big is the wiki right now'.
 
     Returns:
-        str: JSON with {"n_chunks": int, "n_files": int, "n_categories": int, "total_tokens": int}.
+        str: JSON with {"n_chunks": int, "n_files": int, "n_md_files": int,
+        "n_pdf_files": int, "n_categories": int, "total_tokens": int,
+        "degraded": bool, "warning": str (only when degraded)}.
+        `degraded=true` means the vault has PDFs but the index has none —
+        an md-only rebuild was never followed by a full rebuild; run
+        rebuild_index() to fix.
     """
     return json.dumps(wr.index_stats(), indent=2)
 
@@ -624,11 +629,15 @@ def index_stats() -> str:
 
 
 class RebuildIndexInput(BaseModel):
+    # NOTE: `md_only` was REMOVED from this tool (2026-07-03) after causing three
+    # PDF-coverage regressions (2026-06-30/07-01/07-02): it rebuilt the index
+    # without any PDF content — a drop, not an increment — leaving all PDFs
+    # unsearchable until the next full rebuild. Full rebuilds take ~3s on a warm
+    # cache, so the flag saved nothing. `extra="forbid"` means any caller still
+    # passing md_only=true now fails loudly at validation instead of silently
+    # degrading the index. The CLI flag `build_index.py --md-only` still exists
+    # for cold-build debugging only.
     model_config = ConfigDict(extra="forbid")
-    md_only: bool = Field(
-        default=False,
-        description="Skip PDF extraction (much faster). Use when you only added markdown notes since the last build.",
-    )
     skip_detail_md: bool = Field(
         default=False,
         description="Skip writing per-file detail pages into _index/files/. Saves ~1s; only useful for very fast iteration.",
@@ -658,8 +667,11 @@ def rebuild_index(params: RebuildIndexInput) -> str:
 
     Drops the in-memory chunk cache and reloads on next search.
 
+    Always a FULL rebuild (markdown + PDFs). The former `md_only` flag was
+    removed 2026-07-03 — it silently dropped every PDF from the index.
+
     Args:
-        params (RebuildIndexInput): md_only + skip_detail_md flags.
+        params (RebuildIndexInput): skip_detail_md flag.
 
     Returns:
         str: JSON with build summary (n_files, n_chunks, elapsed_s, errors).
@@ -673,8 +685,6 @@ def rebuild_index(params: RebuildIndexInput) -> str:
 
     script = Path(__file__).resolve().parent / "build_index.py"
     cmd = [sys.executable, str(script)]
-    if params.md_only:
-        cmd.append("--md-only")
     if params.skip_detail_md:
         cmd.append("--no-detail-md")
 
@@ -702,31 +712,47 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     # Append a `## [date] index | ...` entry to vault log.md so the rebuild
     # shows up in the timeline. Only log on success — failed rebuilds would
     # produce misleading "rebuild" entries in the timeline.
+    # Safety net: `degraded` (PDF-less index while the vault has PDFs) should
+    # no longer be reachable via this tool since md_only was removed, but the
+    # CLI's --md-only flag can still produce it — keep surfacing it loudly.
+    degraded = bool(stats.get("degraded"))
     if proc.returncode == 0:
         try:
             wr.append_log_entry(
                 kind="index",
-                title=f"RAG rebuild — {stats.get('n_files', '?')} files, {stats.get('n_chunks', '?')} chunks",
+                title=(
+                    f"RAG rebuild — {stats.get('n_files', '?')} files, {stats.get('n_chunks', '?')} chunks"
+                    + (" — DEGRADED (md-only, PDFs excluded)" if degraded else "")
+                ),
                 body=(
-                    f"Trigger: rebuild_index MCP tool ({'md-only' if params.md_only else 'full'}). "
+                    f"Trigger: rebuild_index MCP tool (full). "
                     f"Elapsed: {elapsed:.1f}s."
+                    + (
+                        " WARNING: index contains 0 PDF files — follow with a full rebuild_index()."
+                        if degraded
+                        else ""
+                    )
                 ),
             )
         except Exception:
             pass
 
-    return json.dumps(
-        {
-            "ok": proc.returncode == 0,
-            "returncode": proc.returncode,
-            "elapsed_s": round(elapsed, 1),
-            "stats": stats,
-            "stdout_tail": proc.stdout[-1500:] if proc.stdout else "",
-            "stderr_tail": proc.stderr[-1500:] if proc.stderr else "",
-        },
-        indent=2,
-        ensure_ascii=False,
-    )
+    payload = {
+        "ok": proc.returncode == 0,
+        "returncode": proc.returncode,
+        "elapsed_s": round(elapsed, 1),
+        "stats": stats,
+        "stdout_tail": proc.stdout[-1500:] if proc.stdout else "",
+        "stderr_tail": proc.stderr[-1500:] if proc.stderr else "",
+    }
+    if degraded:
+        payload["degraded"] = True
+        payload["warning"] = (
+            "The index contains 0 PDF files while the vault has PDFs (an md-only build "
+            "leaked in, e.g. via the CLI's --md-only flag). search_wiki cannot see any "
+            "PDF content until you run a full rebuild_index() (takes ~3s on a warm cache)."
+        )
+    return json.dumps(payload, indent=2, ensure_ascii=False)
 
 
 class AppendLogInput(BaseModel):
