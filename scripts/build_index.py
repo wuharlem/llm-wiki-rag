@@ -404,8 +404,10 @@ def cached_extract(file_id: str, src: Path, extractor) -> tuple[str, int]:
 # ---------------------------------------------------------------------------
 def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None:
     relpath = str(path.relative_to(VAULT))
-    if relpath.startswith("_index/"):
-        return None  # don't index ourselves
+    # _index/ exclusion (except _index/saved_queries/) is handled by
+    # wiki_lib.paths.is_indexable_path at file discovery — the single
+    # source of truth. A blanket startswith("_index/") drop here silently
+    # kept saved queries out of the index until 2026-07-04 (SQ-1).
     file_id = short_id(relpath)
     raw = _scrub_text(path.read_text(errors="replace"))
     meta, body = split_frontmatter(raw)
