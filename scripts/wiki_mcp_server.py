@@ -661,6 +661,12 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     `_index/files/`. Subsequent runs are fast (~3s) because PDF text is
     cached by content hash; the first cold build takes 5-10 minutes.
 
+    On success, also refreshes the Obsidian-side `_index/` mirror
+    (build_wiki_index.py: master/category/concept/tag pages + prune of
+    manifest-orphaned pages) — no separate mirror step needed since
+    2026-07-04. Mirror status is returned in the payload's "mirror" block;
+    a mirror failure never fails the rebuild.
+
     Use this after adding new sources to the vault, or after running the
     `save_query` tool a few times — saved queries aren't searchable through
     `search_wiki` until the index is rebuilt.
@@ -709,6 +715,37 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     except Exception:
         pass
 
+    # Refresh the Obsidian-side `_index/` mirror (master/category/concept/tag
+    # pages + prune of manifest-orphaned pages). Added 2026-07-04: rebuilds
+    # used to leave the mirror stale until build_wiki_index.py was run by
+    # hand — the 07-04 audit caught 5 orphan detail pages left behind by a
+    # rebuild that wasn't followed by a mirror refresh (_audit_2026-07-04.md
+    # §3). A mirror failure never fails the rebuild — it is reported in the
+    # payload["mirror"] block and the log line instead.
+    mirror: dict = {}
+    if proc.returncode == 0:
+        mirror_script = Path(__file__).resolve().parent / "build_wiki_index.py"
+        try:
+            mproc = subprocess.run(
+                [sys.executable, str(mirror_script)],
+                capture_output=True,
+                text=True,
+                timeout=300,  # 5 min cap; typical run is ~5s
+            )
+            mirror = {
+                "ok": mproc.returncode == 0,
+                "stdout_tail": mproc.stdout[-500:] if mproc.stdout else "",
+                "stderr_tail": mproc.stderr[-500:] if mproc.stderr else "",
+            }
+        except subprocess.TimeoutExpired:
+            mirror = {
+                "ok": False,
+                "error": "mirror_timeout",
+                "detail": "build_wiki_index.py timed out after 5 min",
+            }
+        except Exception as exc:  # noqa: BLE001 — mirror must never sink the rebuild
+            mirror = {"ok": False, "error": type(exc).__name__, "detail": str(exc)}
+
     # Append a `## [date] index | ...` entry to vault log.md so the rebuild
     # shows up in the timeline. Only log on success — failed rebuilds would
     # produce misleading "rebuild" entries in the timeline.
@@ -726,7 +763,8 @@ def rebuild_index(params: RebuildIndexInput) -> str:
                 ),
                 body=(
                     f"Trigger: rebuild_index MCP tool (full). "
-                    f"Elapsed: {elapsed:.1f}s."
+                    f"Elapsed: {elapsed:.1f}s. "
+                    f"Mirror: {'refreshed' if mirror.get('ok') else 'REFRESH FAILED — run build_wiki_index.py by hand'}."
                     + (
                         " WARNING: index contains 0 PDF files — follow with a full rebuild_index()."
                         if degraded
@@ -744,6 +782,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         "stats": stats,
         "stdout_tail": proc.stdout[-1500:] if proc.stdout else "",
         "stderr_tail": proc.stderr[-1500:] if proc.stderr else "",
+        "mirror": mirror,
     }
     if degraded:
         payload["degraded"] = True
