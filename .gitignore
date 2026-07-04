@@ -61,6 +61,14 @@ Thumbs.db
 *.swo
 .idea/
 .vscode/
+# LibreOffice / OpenOffice lock files (created while a doc is open)
+.~lock.*#
+# Scratch permission-probe artifact
+__perm_test
+# Timestamped / suffixed notion_sources backups (keep the live one)
+01_data/notion_sources.csv.bak-*
+# One-off temp dirs staged for deletion
+**/_tmp_delete_me/
 
 # ---------------------------------------------------------------------------
 # Local working docs — personal planning notes that shouldn't be tracked.
