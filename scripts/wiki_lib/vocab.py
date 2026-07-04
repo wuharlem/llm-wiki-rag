@@ -108,6 +108,38 @@ WIKI_CONCEPTS: dict[str, list[str]] = {
         "safety scorecard",
         "lab safety",
     ],
+    "Interpretability": [
+        "interpretab",
+        "mechanistic interpret",
+        "circuits",
+        "sparse autoencoder",
+        "sae ",
+        "monosemantic",
+        "feature attribution",
+        "probing",
+        "dictionary learning",
+        "feature visualization",
+    ],
+    # 2026-07-01 AI-Security cluster promotion (audit 2026-07-01)
+    "Prompt Injection": [
+        "prompt injection",
+        "prompt-injection",
+        "indirect prompt injection",
+        "instruction injection",
+    ],
+    "Jailbreaking": [
+        "jailbreak",
+        "jailbreaking",
+        "adversarial prompt",
+    ],
+    "Guardrails": [
+        "guardrail",
+        "runtime defense",
+        "safety filter",
+        "llm firewall",
+        "content moderation filter",
+        "input/output scanning",
+    ],
 }
 
 TAG_TRIGGERS: dict[str, list[str]] = {
@@ -214,6 +246,55 @@ TAG_TRIGGERS: dict[str, list[str]] = {
     "watermarking": ["watermark"],
     "open-source": ["open source", "open-source"],
     "open-weight": ["open weight", "open-weight"],
+    # 2026-04-30 sync from PROCESS_NEW_FILE.md (drift fix)
+    # alignment & safety extensions
+    "automated-alignment": ["automated alignment"],
+    "bootstrapping": ["bootstrap"],
+    "self-preservation": ["self-preservation", "self preservation"],
+    "situational-awareness": ["situational awareness"],
+    "model-organisms": ["model organisms", "model organism of misalignment"],
+    "Goodharts-law": ["goodhart"],
+    "AI-control": ["ai control", "ai-control", "control protocol"],
+    "collusion": ["collusion"],
+    "influence-seeking": ["influence-seeking", "influence seeking"],
+    "evolution-analogy": ["evolution analogy", "evolution-analogy"],
+    # risk-domain extensions
+    "blackmail": ["blackmail"],
+    "model-weight-theft": ["model weight theft", "weight theft", "weight exfiltration"],
+    "hallucination": ["hallucinat"],
+    "algorithmic-bias": ["algorithmic bias"],
+    # governance extensions
+    "scaling-pause": ["scaling pause", "pause ai"],
+    "arms-race": ["arms race", "arms-race"],
+    "safety-culture": ["safety culture"],
+    "export-controls": ["export controls", "export-controls"],
+    "differential-privacy": ["differential privacy"],
+    "federated-learning": ["federated learning"],
+    "compute": ["compute "],
+    # models / orgs
+    "Claude": ["claude"],
+    "GPT-4": ["gpt-4"],
+    "Gemini": ["gemini"],
+    "InstructGPT": ["instructgpt"],
+    "Llama": ["llama"],
+    "Llama-Guard": ["llama guard", "llama-guard"],
+    "o3": [" o3 ", "o3 model"],
+    # other
+    "mistakes": ["mistake-class risk", "high-stakes mistake"],
+    # 2026-07-01 AI-Security cluster promotion (audit 2026-07-01)
+    "guardrails": ["guardrail"],
+    "jailbreak": ["jailbreak"],
+    "llm-security": ["llm security", "llm-security"],
+    "detection": ["detection", "detector"],
+    "adversarial-robustness": ["adversarial robustness", "adversarial-robustness"],
+    "agent-security": ["agent security", "agent-security", "agentic security", "agentic-security"],
+    "activation-probes": ["activation probe", "activation-probe"],
+    "perplexity": ["perplexity"],
+    "real-time": ["real-time", "real time"],
+    # audit / discoverability (no body triggers — these are curatorial tags)
+    "background-reading": [],
+    "audit": [],
+    "vault-health": [],
 }
 
 RISK_TRIGGERS: dict[str, list[str]] = {
