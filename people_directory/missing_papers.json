@@ -1,0 +1,1574 @@
+[
+ {
+  "title": "Trading Inference-Time Compute for Adversarial Robustness",
+  "arxiv": "2501.18841",
+  "url": "https://arxiv.org/abs/2501.18841",
+  "via": "Boaz Barak"
+ },
+ {
+  "title": "The Instruction Hierarchy",
+  "arxiv": "2404.13208",
+  "url": "https://arxiv.org/abs/2404.13208",
+  "via": "Eric Wallace"
+ },
+ {
+  "title": "Stealing Part of a Production Language Model",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Stealing+Part+of+a+Production+Language+Model%22+Eric+Wallace",
+  "via": "Eric Wallace"
+ },
+ {
+  "title": "Scalable Extraction of Training Data from Production Language Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Scalable+Extraction+of+Training+Data+from+Production+Language+Models%22+Eric+Wallace",
+  "via": "Eric Wallace"
+ },
+ {
+  "title": "Toy Models of Superposition",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Toy+Models+of+Superposition%22+Chris+Olah",
+  "via": "Chris Olah"
+ },
+ {
+  "title": "Scaling Monosemanticity",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Scaling+Monosemanticity%22+Chris+Olah",
+  "via": "Chris Olah"
+ },
+ {
+  "title": "Circuit Tracing: Revealing Computational Graphs in Language Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Circuit+Tracing%3A+Revealing+Computational+Graphs+in+Language+Models%22+Chris+Olah",
+  "via": "Chris Olah"
+ },
+ {
+  "title": "On the Biology of a Large Language Model",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22On+the+Biology+of+a+Large+Language+Model%22+Chris+Olah",
+  "via": "Chris Olah"
+ },
+ {
+  "title": "InstructGPT",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22InstructGPT%22+Jan+Leike",
+  "via": "Jan Leike"
+ },
+ {
+  "title": "Natural emergent misalignment from reward hacking in production RL",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Natural+emergent+misalignment+from+reward+hacking+in+production+RL%22+Jan+Leike",
+  "via": "Jan Leike"
+ },
+ {
+  "title": "Circuit Tracing",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Circuit+Tracing%22+Jack+Lindsey",
+  "via": "Jack Lindsey"
+ },
+ {
+  "title": "Emergent Introspective Awareness in Large Language Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Emergent+Introspective+Awareness+in+Large+Language+Models%22+Jack+Lindsey",
+  "via": "Jack Lindsey"
+ },
+ {
+  "title": "200 Concrete Open Problems in Mechanistic Interpretability",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22200+Concrete+Open+Problems+in+Mechanistic+Interpretability%22+Neel+Nanda",
+  "via": "Neel Nanda"
+ },
+ {
+  "title": "Sanity Checks for Saliency Maps",
+  "arxiv": "2502.07586",
+  "url": "https://arxiv.org/abs/2502.07586",
+  "via": "Been Kim"
+ },
+ {
+  "title": "We Can't Understand AI Using Our Existing Vocabulary",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22We+Can%27t+Understand+AI+Using+Our+Existing+Vocabulary%22+Been+Kim",
+  "via": "Been Kim"
+ },
+ {
+  "title": "Goal Misgeneralization in Deep RL",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Goal+Misgeneralization+in+Deep+RL%22+Victoria+Krakovna",
+  "via": "Victoria Krakovna"
+ },
+ {
+  "title": "Cooperative Inverse Reinforcement Learning",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Cooperative+Inverse+Reinforcement+Learning%22+Anca+Dragan",
+  "via": "Anca Dragan"
+ },
+ {
+  "title": "BERT Rediscovers the Classical NLP Pipeline",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22BERT+Rediscovers+the+Classical+NLP+Pipeline%22+Ian+Tenney",
+  "via": "Ian Tenney"
+ },
+ {
+  "title": "Lessons From Red Teaming 100 Generative AI Products",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Lessons+From+Red+Teaming+100+Generative+AI+Products%22+Amanda+Minnich",
+  "via": "Amanda Minnich"
+ },
+ {
+  "title": "Inference-Time Scaling for Complex Tasks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Inference-Time+Scaling+for+Complex+Tasks%22+Besmira+Nushi",
+  "via": "Besmira Nushi"
+ },
+ {
+  "title": "Lessons from Red Teaming 100 GenAI Products",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Lessons+from+Red+Teaming+100+GenAI+Products%22+Ram+Shankar+Siva+Kumar",
+  "via": "Ram Shankar Siva Kumar"
+ },
+ {
+  "title": "Adversarial Machine Learning: Industry Perspectives",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Adversarial+Machine+Learning%3A+Industry+Perspectives%22+Ram+Shankar+Siva+Kumar",
+  "via": "Ram Shankar Siva Kumar"
+ },
+ {
+  "title": "Robust Physical-World Attacks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Robust+Physical-World+Attacks%22+Ivan+Evtimov",
+  "via": "Ivan Evtimov"
+ },
+ {
+  "title": "Differentially Private Empirical Risk Minimization",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Differentially+Private+Empirical+Risk+Minimization%22+Kamalika+Chaudhuri",
+  "via": "Kamalika Chaudhuri"
+ },
+ {
+  "title": "NeMo Guardrails: A Toolkit for Controllable and Safe LLM Applications with Programmable Rails",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22NeMo+Guardrails%3A+A+Toolkit+for+Controllable+and+Safe+LLM+Applications+with+Programmable+Rails%22+Traian+Rebedea",
+  "via": "Traian Rebedea"
+ },
+ {
+  "title": "CoDial",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22CoDial%22+Traian+Rebedea",
+  "via": "Traian Rebedea"
+ },
+ {
+  "title": "Aegis2.0",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Aegis2.0%22+Makesh+Narsimhan+Sreedhar",
+  "via": "Makesh Narsimhan Sreedhar"
+ },
+ {
+  "title": "Trustworthy Machine Learning",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Trustworthy+Machine+Learning%22+Kush+Varshney",
+  "via": "Kush Varshney"
+ },
+ {
+  "title": "The Ethical Algorithm",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Ethical+Algorithm%22+Michael+Kearns",
+  "via": "Michael Kearns"
+ },
+ {
+  "title": "The Algorithmic Foundations of Differential Privacy",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Algorithmic+Foundations+of+Differential+Privacy%22+Aaron+Roth",
+  "via": "Aaron Roth"
+ },
+ {
+  "title": "LowKey: Leveraging Adversarial Attacks to Protect Social Media Users from Facial Recognition",
+  "arxiv": "2101.07922",
+  "url": "https://arxiv.org/abs/2101.07922",
+  "via": "Valeriia Cherepanova"
+ },
+ {
+  "title": "Has My System Prompt Been Used?",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Has+My+System+Prompt+Been+Used%3F%22+Valeriia+Cherepanova",
+  "via": "Valeriia Cherepanova"
+ },
+ {
+  "title": "Trade-offs in Data Memorization via Strong Data Processing Inequalities",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Trade-offs+in+Data+Memorization+via+Strong+Data+Processing+Inequalities%22+Vitaly+Feldman",
+  "via": "Vitaly Feldman"
+ },
+ {
+  "title": "Cram Less to Fit More: Training Data Pruning Improves Memorization of Facts",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Cram+Less+to+Fit+More%3A+Training+Data+Pruning+Improves+Memorization+of+Facts%22+Vitaly+Feldman",
+  "via": "Vitaly Feldman"
+ },
+ {
+  "title": "Instance-Optimal Private Density Estimation in the Wasserstein Distance",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Instance-Optimal+Private+Density+Estimation+in+the+Wasserstein+Distance%22+Kunal+Talwar",
+  "via": "Kunal Talwar"
+ },
+ {
+  "title": "Local Pan-privacy for Federated Analytics",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Local+Pan-privacy+for+Federated+Analytics%22+Kunal+Talwar",
+  "via": "Kunal Talwar"
+ },
+ {
+  "title": "Unsolved Problems in ML Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Unsolved+Problems+in+ML+Safety%22+Dan+Hendrycks",
+  "via": "Dan Hendrycks"
+ },
+ {
+  "title": "Humanity's Last Exam",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Humanity%27s+Last+Exam%22+Dan+Hendrycks",
+  "via": "Dan Hendrycks"
+ },
+ {
+  "title": "Superintelligence Strategy",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Superintelligence+Strategy%22+Dan+Hendrycks",
+  "via": "Dan Hendrycks"
+ },
+ {
+  "title": "arXiv:2508.09998",
+  "arxiv": "2508.09998",
+  "url": "https://arxiv.org/abs/2508.09998",
+  "via": "Giada Pistilli"
+ },
+ {
+  "title": "The Leaderboard Illusion",
+  "arxiv": "2504.20879",
+  "url": "https://arxiv.org/abs/2504.20879",
+  "via": "Beyza Ermi\u015f"
+ },
+ {
+  "title": "Global MMLU",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Global+MMLU%22+Beyza+Ermi%C5%9F",
+  "via": "Beyza Ermi\u015f"
+ },
+ {
+  "title": "The State of Multilingual LLM Safety Research",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+State+of+Multilingual+LLM+Safety+Research%22+Beyza+Ermi%C5%9F",
+  "via": "Beyza Ermi\u015f"
+ },
+ {
+  "title": "Aya Model",
+  "arxiv": "2412.04261",
+  "url": "https://arxiv.org/abs/2412.04261",
+  "via": "Ahmet \u00dcst\u00fcn"
+ },
+ {
+  "title": "Aya Expanse",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Aya+Expanse%22+Ahmet+%C3%9Cst%C3%BCn",
+  "via": "Ahmet \u00dcst\u00fcn"
+ },
+ {
+  "title": "AtMan",
+  "arxiv": "2301.08110",
+  "url": "https://arxiv.org/abs/2301.08110",
+  "via": "Bj\u00f6rn Deiseroth"
+ },
+ {
+  "title": "AtManRL",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AtManRL%22+Bj%C3%B6rn+Deiseroth",
+  "via": "Bj\u00f6rn Deiseroth"
+ },
+ {
+  "title": "Safe Latent Diffusion",
+  "arxiv": "2211.05105",
+  "url": "https://arxiv.org/abs/2211.05105",
+  "via": "Manuel Brack"
+ },
+ {
+  "title": "MultiFusion",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22MultiFusion%22+Manuel+Brack",
+  "via": "Manuel Brack"
+ },
+ {
+  "title": "LlavaGuard",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22LlavaGuard%22+Manuel+Brack",
+  "via": "Manuel Brack"
+ },
+ {
+  "title": "arXiv:2510.11823",
+  "arxiv": "2510.11823",
+  "url": "https://arxiv.org/abs/2510.11823",
+  "via": "Mrityunjay Gautam"
+ },
+ {
+  "title": "Shared Imagination: LLMs Hallucinate Alike",
+  "arxiv": "2407.16604",
+  "url": "https://arxiv.org/abs/2407.16604",
+  "via": "Chien-Sheng (Jason) Wu"
+ },
+ {
+  "title": "FaithEval",
+  "arxiv": "2504.15253",
+  "url": "https://arxiv.org/abs/2504.15253",
+  "via": "Shafiq Joty"
+ },
+ {
+  "title": "TRAIL",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22TRAIL%22+Shafiq+Joty",
+  "via": "Shafiq Joty"
+ },
+ {
+  "title": "Fully Autonomous AI Agents Should Not Be Developed",
+  "arxiv": "2502.02649",
+  "url": "https://arxiv.org/abs/2502.02649",
+  "via": "Margaret Mitchell"
+ },
+ {
+  "title": "Learning with User-Level Privacy",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Learning+with+User-Level+Privacy%22+Daniel+Levy",
+  "via": "Daniel Levy"
+ },
+ {
+  "title": "Gandalf the Red: Adaptive Security for LLMs",
+  "arxiv": "2501.07927",
+  "url": "https://arxiv.org/abs/2501.07927",
+  "via": "Niklas Pfister"
+ },
+ {
+  "title": "Breaking Agent Backbones",
+  "arxiv": "2510.22620",
+  "url": "https://arxiv.org/abs/2510.22620",
+  "via": "Niklas Pfister"
+ },
+ {
+  "title": "arXiv:2501.11830",
+  "arxiv": "2501.11830",
+  "url": "https://arxiv.org/abs/2501.11830",
+  "via": "Kasimir Schulz"
+ },
+ {
+  "title": "Weaponizing ML Models with Ransomware",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Weaponizing+ML+Models+with+Ransomware%22+Eoin+Wickens",
+  "via": "Eoin Wickens"
+ },
+ {
+  "title": "Weaponizing Machine Learning Models with Ransomware",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Weaponizing+Machine+Learning+Models+with+Ransomware%22+Tom+Bonner",
+  "via": "Tom Bonner"
+ },
+ {
+  "title": "AI Threat Landscape Report",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Threat+Landscape+Report%22+Marta+Janus",
+  "via": "Marta Janus"
+ },
+ {
+  "title": "Not with a Bug, But with a Sticker",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Not+with+a+Bug%2C+But+with+a+Sticker%22+Hyrum+Anderson",
+  "via": "Hyrum Anderson"
+ },
+ {
+  "title": "Lynx",
+  "arxiv": "2407.08488",
+  "url": "https://arxiv.org/abs/2407.08488",
+  "via": "Rebecca Qian"
+ },
+ {
+  "title": "Universal LLM Jailbreak",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Universal+LLM+Jailbreak%22+Alex+Polyakov",
+  "via": "Alex Polyakov"
+ },
+ {
+  "title": "Bypassing LLM Guardrails: An Empirical Analysis of Evasion Attacks",
+  "arxiv": "2504.11168",
+  "url": "https://arxiv.org/abs/2504.11168",
+  "via": "Peter Garraghan"
+ },
+ {
+  "title": "Beyond Text: Multimodal Jailbreaking of Vision-Language and Audio Models",
+  "arxiv": "2510.20223",
+  "url": "https://arxiv.org/abs/2510.20223",
+  "via": "Divyanshu Kumar"
+ },
+ {
+  "title": "Quantifying CBRN Risk in Frontier Models",
+  "arxiv": "2510.21133",
+  "url": "https://arxiv.org/abs/2510.21133",
+  "via": "Divyanshu Kumar"
+ },
+ {
+  "title": "SAGE-RT",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22SAGE-RT%22+Divyanshu+Kumar",
+  "via": "Divyanshu Kumar"
+ },
+ {
+  "title": "Beyond Text: Multimodal Jailbreaking",
+  "arxiv": "2510.20223",
+  "url": "https://arxiv.org/abs/2510.20223",
+  "via": "Nitin Aravind Birur"
+ },
+ {
+  "title": "Uncovering Safety Gaps in Gemini: A Multimodal Red Teaming Study",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Uncovering+Safety+Gaps+in+Gemini%3A+A+Multimodal+Red+Teaming+Study%22+Nitin+Aravind+Birur",
+  "via": "Nitin Aravind Birur"
+ },
+ {
+  "title": "From Discovery to Large-Scale Validation: Chat Template Backdoors Across 18 Models and 4 Engines",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22From+Discovery+to+Large-Scale+Validation%3A+Chat+Template+Backdoors+Across+18+Models+and+4+Engines%22+Ariel+Fogel",
+  "via": "Ariel Fogel"
+ },
+ {
+  "title": "Universal and Transferable Adversarial Attacks on Aligned LLMs",
+  "arxiv": "2406.04313",
+  "url": "https://arxiv.org/abs/2406.04313",
+  "via": "Andy Zou"
+ },
+ {
+  "title": "Luna",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Luna%22+Atindriyo+Sanyal",
+  "via": "Atindriyo Sanyal"
+ },
+ {
+  "title": "Towards Algorithm Auditing",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Towards+Algorithm+Auditing%22+Adriano+Koshiyama",
+  "via": "Adriano Koshiyama"
+ },
+ {
+  "title": "MemGPT: Towards LLMs as Operating Systems",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22MemGPT%3A+Towards+LLMs+as+Operating+Systems%22+Charles+Packer",
+  "via": "Charles Packer"
+ },
+ {
+  "title": "MemGPT",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22MemGPT%22+Sarah+Wooders",
+  "via": "Sarah Wooders"
+ },
+ {
+  "title": "Deceptive Delight",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Deceptive+Delight%22+Royce+Lu+%28Chien-Hua+Lu%29",
+  "via": "Royce Lu (Chien-Hua Lu)"
+ },
+ {
+  "title": "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Fooling+AI+Agents%3A+Web-Based+Indirect+Prompt+Injection+Observed+in+the+Wild%22+Haozhe+Zhang",
+  "via": "Haozhe Zhang"
+ },
+ {
+  "title": "DeepCode AI Fix: Fixing Security Vulnerabilities with Large Language Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22DeepCode+AI+Fix%3A+Fixing+Security+Vulnerabilities+with+Large+Language+Models%22+Berkay+Berabi",
+  "via": "Berkay Berabi"
+ },
+ {
+  "title": "Serverless Security",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Serverless+Security%22+Liran+Tal",
+  "via": "Liran Tal"
+ },
+ {
+  "title": "Trust No AI: Prompt Injection Along the CIA Security Triad",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Trust+No+AI%3A+Prompt+Injection+Along+the+CIA+Security+Triad%22+Johann+Rehberger",
+  "via": "Johann Rehberger"
+ },
+ {
+  "title": "Jailbreaking LLMs via FlipAttack",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jailbreaking+LLMs+via+FlipAttack%22+Keysight+ATI+%2F+Novel+Vulnerability+Security+research+team",
+  "via": "Keysight ATI / Novel Vulnerability Security research team"
+ },
+ {
+  "title": "Using Social Manipulation / Persuasive Techniques to Jailbreak Aligned Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Using+Social+Manipulation+%2F+Persuasive+Techniques+to+Jailbreak+Aligned+Models%22+Keysight+ATI+%2F+Novel+Vulnerability+Security+research+team",
+  "via": "Keysight ATI / Novel Vulnerability Security research team"
+ },
+ {
+  "title": "AIRTBench",
+  "arxiv": "2506.14682",
+  "url": "https://arxiv.org/abs/2506.14682",
+  "via": "Ads Dawson (Adam Dawson)"
+ },
+ {
+  "title": "The Developer's Playbook for LLM Security",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Developer%27s+Playbook+for+LLM+Security%22+Steve+Wilson",
+  "via": "Steve Wilson"
+ },
+ {
+  "title": "Adversarial Robustness Toolbox",
+  "arxiv": "1807.01069",
+  "url": "https://arxiv.org/abs/1807.01069",
+  "via": "Maria-Irina Nicolae"
+ },
+ {
+  "title": "Stealix: Model Stealing via Prompt Evolution",
+  "arxiv": "2506.05867",
+  "url": "https://arxiv.org/abs/2506.05867",
+  "via": "Maria-Irina Nicolae"
+ },
+ {
+  "title": "From Prompts to Pwns: Exploiting and Securing AI Agents",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22From+Prompts+to+Pwns%3A+Exploiting+and+Securing+AI+Agents%22+Rich+Harang",
+  "via": "Rich Harang"
+ },
+ {
+  "title": "garak paper",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22garak+paper%22+Erick+Galinkin",
+  "via": "Erick Galinkin"
+ },
+ {
+  "title": "PyRIT: A Framework for Security Risk Identification and Red Teaming in Generative AI Systems",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22PyRIT%3A+A+Framework+for+Security+Risk+Identification+and+Red+Teaming+in+Generative+AI+Systems%22+Richard+Lundeen",
+  "via": "Richard Lundeen"
+ },
+ {
+  "title": "Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Adversarial+Machine+Learning%3A+A+Taxonomy+and+Terminology+of+Attacks+and+Mitigations%22+Apostol+Vassilev",
+  "via": "Apostol Vassilev"
+ },
+ {
+  "title": "Ethically Aligned Design",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Ethically+Aligned+Design%22+Raja+Chatila",
+  "via": "Raja Chatila"
+ },
+ {
+  "title": "AILuminate v1.0",
+  "arxiv": "2503.05731",
+  "url": "https://arxiv.org/abs/2503.05731",
+  "via": "Shaona Ghosh"
+ },
+ {
+  "title": "arXiv:2511.21990",
+  "arxiv": "2511.21990",
+  "url": "https://arxiv.org/abs/2511.21990",
+  "via": "Shaona Ghosh"
+ },
+ {
+  "title": "Generative AI Security",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Generative+AI+Security%22+Ken+Huang",
+  "via": "Ken Huang"
+ },
+ {
+  "title": "Agentic AI: Theories and Practices",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Agentic+AI%3A+Theories+and+Practices%22+Ken+Huang",
+  "via": "Ken Huang"
+ },
+ {
+  "title": "Securing AI Agents",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Securing+AI+Agents%22+Ken+Huang",
+  "via": "Ken Huang"
+ },
+ {
+  "title": "Risk Taxonomy and Thresholds for Frontier AI Frameworks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Risk+Taxonomy+and+Thresholds+for+Frontier+AI+Frameworks%22+Chris+Meserole",
+  "via": "Chris Meserole"
+ },
+ {
+  "title": "Frontier AI Biosafety Thresholds",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Frontier+AI+Biosafety+Thresholds%22+Chris+Meserole",
+  "via": "Chris Meserole"
+ },
+ {
+  "title": "Preliminary Reporting Tiers for AI-Bio Safety Evaluations",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Preliminary+Reporting+Tiers+for+AI-Bio+Safety+Evaluations%22+Chris+Meserole",
+  "via": "Chris Meserole"
+ },
+ {
+  "title": "Preliminary Taxonomy of AI-Bio Misuse Mitigations",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Preliminary+Taxonomy+of+AI-Bio+Misuse+Mitigations%22+Chris+Meserole",
+  "via": "Chris Meserole"
+ },
+ {
+  "title": "From Principles to Practices: Lessons Learned from Applying PAI's Synthetic Media Framework to 11 Use Cases",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22From+Principles+to+Practices%3A+Lessons+Learned+from+Applying+PAI%27s+Synthetic+Media+Framework+to+11+Use+Cases%22+Claire+Leibowicz",
+  "via": "Claire Leibowicz"
+ },
+ {
+  "title": "AI & Job Quality: Insights from Frontline Workers",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+%26+Job+Quality%3A+Insights+from+Frontline+Workers%22+Stephanie+Bell",
+  "via": "Stephanie Bell"
+ },
+ {
+  "title": "Redesigning AI for Shared Prosperity",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Redesigning+AI+for+Shared+Prosperity%22+Stephanie+Bell",
+  "via": "Stephanie Bell"
+ },
+ {
+  "title": "The State of Open Source AI Trust and Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+State+of+Open+Source+AI+Trust+and+Safety%22+Dean+Wampler",
+  "via": "Dean Wampler"
+ },
+ {
+  "title": "Generative AI Governance: Shaping Our Collective Global Future",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Generative+AI+Governance%3A+Shaping+Our+Collective+Global+Future%22+Cathy+Li",
+  "via": "Cathy Li"
+ },
+ {
+  "title": "Unlocking Value from Generative AI",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Unlocking+Value+from+Generative+AI%22+Cathy+Li",
+  "via": "Cathy Li"
+ },
+ {
+  "title": "AI Agents in Action: Foundations for Evaluation and Governance",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Agents+in+Action%3A+Foundations+for+Evaluation+and+Governance%22+Connie+Kuang",
+  "via": "Connie Kuang"
+ },
+ {
+  "title": "Technology Convergence Report 2026",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Technology+Convergence+Report+2026%22+Connie+Kuang",
+  "via": "Connie Kuang"
+ },
+ {
+  "title": "AI Agents in Action: A Playbook for Trusted Adoption, Authorization and Scaling",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Agents+in+Action%3A+A+Playbook+for+Trusted+Adoption%2C+Authorization+and+Scaling%22+Connie+Kuang",
+  "via": "Connie Kuang"
+ },
+ {
+  "title": "The ethics of algorithms: Mapping the debate",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+ethics+of+algorithms%3A+Mapping+the+debate%22+Brent+Mittelstadt",
+  "via": "Brent Mittelstadt"
+ },
+ {
+  "title": "Principles alone cannot guarantee ethical AI",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Principles+alone+cannot+guarantee+ethical+AI%22+Brent+Mittelstadt",
+  "via": "Brent Mittelstadt"
+ },
+ {
+  "title": "Trustworthiness Auditing for AI",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Trustworthiness+Auditing+for+AI%22+Brent+Mittelstadt",
+  "via": "Brent Mittelstadt"
+ },
+ {
+  "title": "Safety by Design for Generative AI: Preventing Child Sexual Abuse",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Safety+by+Design+for+Generative+AI%3A+Preventing+Child+Sexual+Abuse%22+Dr.+Rebecca+Portnoff",
+  "via": "Dr. Rebecca Portnoff"
+ },
+ {
+  "title": "Stanford Internet Observatory report on generative ML and CSAM",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Stanford+Internet+Observatory+report+on+generative+ML+and+CSAM%22+Dr.+Rebecca+Portnoff",
+  "via": "Dr. Rebecca Portnoff"
+ },
+ {
+  "title": "Deploying AI Systems Securely",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Deploying+AI+Systems+Securely%22+Kristina+Walter",
+  "via": "Kristina Walter"
+ },
+ {
+  "title": "AI Data Security: Best Practices for Securing Data Used to Train & Operate AI Systems",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Data+Security%3A+Best+Practices+for+Securing+Data+Used+to+Train+%26+Operate+AI+Systems%22+Kristina+Walter",
+  "via": "Kristina Walter"
+ },
+ {
+  "title": "An Alignment Safety Case Sketch Based on Debate",
+  "arxiv": "2505.03989",
+  "url": "https://arxiv.org/abs/2505.03989",
+  "via": "Geoffrey Irving"
+ },
+ {
+  "title": "A Sketch of an AI Control Safety Case",
+  "arxiv": "2501.17315",
+  "url": "https://arxiv.org/abs/2501.17315",
+  "via": "Tomek Korbak"
+ },
+ {
+  "title": "AgentHarm",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AgentHarm%22+Xander+Davies",
+  "via": "Xander Davies"
+ },
+ {
+  "title": "STACK",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22STACK%22+Xander+Davies",
+  "via": "Xander Davies"
+ },
+ {
+  "title": "The PRISM Alignment Dataset",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+PRISM+Alignment+Dataset%22+Hannah+Rose+Kirk",
+  "via": "Hannah Rose Kirk"
+ },
+ {
+  "title": "Vulnerabilities of Connectionist AI Applications",
+  "arxiv": "2003.08837",
+  "url": "https://arxiv.org/abs/2003.08837",
+  "via": "Dr. Arndt von Twickel"
+ },
+ {
+  "title": "Towards Auditable AI Systems",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Towards+Auditable+AI+Systems%22+Dr.+Arndt+von+Twickel",
+  "via": "Dr. Arndt von Twickel"
+ },
+ {
+  "title": "The science and practice of proportionality in AI risk evaluations",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+science+and+practice+of+proportionality+in+AI+risk+evaluations%22+Jan+Brauner",
+  "via": "Jan Brauner"
+ },
+ {
+  "title": "Large AI Partnerships & Investments (6(b) staff report)",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Large+AI+Partnerships+%26+Investments+%286%28b%29+staff+report%29%22+Ian+Mason",
+  "via": "Ian Mason"
+ },
+ {
+  "title": "AI companion-chatbot 6(b) inquiry",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+companion-chatbot+6%28b%29+inquiry%22+Ian+Mason",
+  "via": "Ian Mason"
+ },
+ {
+  "title": "Guide to Evaluation Perspectives on AI Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Guide+to+Evaluation+Perspectives+on+AI+Safety%22+Akiko+Murakami",
+  "via": "Akiko Murakami"
+ },
+ {
+  "title": "Guide to Red Teaming Methodology on AI Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Guide+to+Red+Teaming+Methodology+on+AI+Safety%22+Akiko+Murakami",
+  "via": "Akiko Murakami"
+ },
+ {
+  "title": "Verifiable and Provably Secure Machine Unlearning",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Verifiable+and+Provably+Secure+Machine+Unlearning%22+Nicolas+Papernot",
+  "via": "Nicolas Papernot"
+ },
+ {
+  "title": "Inexact Unlearning Needs More Careful Evaluations",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Inexact+Unlearning+Needs+More+Careful+Evaluations%22+Nicolas+Papernot",
+  "via": "Nicolas Papernot"
+ },
+ {
+  "title": "Gauss-Newton Unlearning for the LLM Era",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Gauss-Newton+Unlearning+for+the+LLM+Era%22+Nicolas+Papernot",
+  "via": "Nicolas Papernot"
+ },
+ {
+  "title": "Elements of Causal Inference",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Elements+of+Causal+Inference%22+Bernhard+Sch%C3%B6lkopf",
+  "via": "Bernhard Sch\u00f6lkopf"
+ },
+ {
+  "title": "HarmBench",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22HarmBench%22+Mantas+Mazeika",
+  "via": "Mantas Mazeika"
+ },
+ {
+  "title": "Outlier Exposure",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Outlier+Exposure%22+Mantas+Mazeika",
+  "via": "Mantas Mazeika"
+ },
+ {
+  "title": "Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Deep+Ignorance%3A+Filtering+Pretraining+Data+Builds+Tamper-Resistant+Safeguards+into+Open-Weight+LLMs%22+Stella+Biderman",
+  "via": "Stella Biderman"
+ },
+ {
+  "title": "Automatically Interpreting Millions of Features",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Automatically+Interpreting+Millions+of+Features%22+Nora+Belrose",
+  "via": "Nora Belrose"
+ },
+ {
+  "title": "AI Control: Improving Safety Despite Intentional Subversion",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Control%3A+Improving+Safety+Despite+Intentional+Subversion%22+Ryan+Greenblatt",
+  "via": "Ryan Greenblatt"
+ },
+ {
+  "title": "Misalignment and Strategic Underperformance: Sandbagging and Exploration Hacking",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Misalignment+and+Strategic+Underperformance%3A+Sandbagging+and+Exploration+Hacking%22+Julian+Stastny",
+  "via": "Julian Stastny"
+ },
+ {
+  "title": "Reversal Curse",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Reversal+Curse%22+Mikita+Balesni",
+  "via": "Mikita Balesni"
+ },
+ {
+  "title": "Using Degeneracy in the Loss Landscape for Mechanistic Interpretability",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Using+Degeneracy+in+the+Loss+Landscape+for+Mechanistic+Interpretability%22+Lucius+Bushnaq",
+  "via": "Lucius Bushnaq"
+ },
+ {
+  "title": "Open Problems in Mechanistic Interpretability",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Open+Problems+in+Mechanistic+Interpretability%22+Lucius+Bushnaq",
+  "via": "Lucius Bushnaq"
+ },
+ {
+  "title": "Measuring AI Ability to Complete Long Tasks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Measuring+AI+Ability+to+Complete+Long+Tasks%22+Beth+Barnes",
+  "via": "Beth Barnes"
+ },
+ {
+  "title": "HCAST",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22HCAST%22+David+Rein",
+  "via": "David Rein"
+ },
+ {
+  "title": "RE-Bench",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22RE-Bench%22+David+Rein",
+  "via": "David Rein"
+ },
+ {
+  "title": "Local Learning Coefficient",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Local+Learning+Coefficient%22+George+Wang",
+  "via": "George Wang"
+ },
+ {
+  "title": "Factored Verification",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Factored+Verification%22+Andreas+Stuhlm%C3%BCller",
+  "via": "Andreas Stuhlm\u00fcller"
+ },
+ {
+  "title": "Adversarial Policies Beat Superhuman Go AIs",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Adversarial+Policies+Beat+Superhuman+Go+AIs%22+Adam+Gleave",
+  "via": "Adam Gleave"
+ },
+ {
+  "title": "Can Go AIs be adversarially robust?",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Can+Go+AIs+be+adversarially+robust%3F%22+Tom+Tseng",
+  "via": "Tom Tseng"
+ },
+ {
+  "title": "Engineering Monosemanticity in Toy Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Engineering+Monosemanticity+in+Toy+Models%22+Adam+Jermyn",
+  "via": "Adam Jermyn"
+ },
+ {
+  "title": "A Methodology for Quantitative AI Risk Modeling",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22A+Methodology+for+Quantitative+AI+Risk+Modeling%22+Malcolm+Murray",
+  "via": "Malcolm Murray"
+ },
+ {
+  "title": "Not All LM Features Are One-Dimensionally Linear",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Not+All+LM+Features+Are+One-Dimensionally+Linear%22+Max+Tegmark",
+  "via": "Max Tegmark"
+ },
+ {
+  "title": "Without specific countermeasures, the easiest path to transformative AI likely leads to AI takeover",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Without+specific+countermeasures%2C+the+easiest+path+to+transformative+AI+likely+leads+to+AI+takeover%22+Ajeya+Cotra",
+  "via": "Ajeya Cotra"
+ },
+ {
+  "title": "Frontier AI Regulation: Managing Emerging Risks to Public Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Frontier+AI+Regulation%3A+Managing+Emerging+Risks+to+Public+Safety%22+Markus+Anderljung",
+  "via": "Markus Anderljung"
+ },
+ {
+  "title": "Compute Trends Across Three Eras of ML",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Compute+Trends+Across+Three+Eras+of+ML%22+Jaime+Sevilla",
+  "via": "Jaime Sevilla"
+ },
+ {
+  "title": "Can AI scaling continue through 2030?",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Can+AI+scaling+continue+through+2030%3F%22+Jaime+Sevilla",
+  "via": "Jaime Sevilla"
+ },
+ {
+  "title": "Preventing an AI-related catastrophe",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Preventing+an+AI-related+catastrophe%22+Benjamin+Hilton",
+  "via": "Benjamin Hilton"
+ },
+ {
+  "title": "Values in the Wild",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Values+in+the+Wild%22+Saffron+Huang",
+  "via": "Saffron Huang"
+ },
+ {
+  "title": "Defense in Depth",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Defense+in+Depth%22+Edouard+Harris",
+  "via": "Edouard Harris"
+ },
+ {
+  "title": "America's Superintelligence Project",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22America%27s+Superintelligence+Project%22+Edouard+Harris",
+  "via": "Edouard Harris"
+ },
+ {
+  "title": "Emergent Misalignment",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Emergent+Misalignment%22+Owain+Evans",
+  "via": "Owain Evans"
+ },
+ {
+  "title": "Tell me about yourself: LLMs are aware of their learned behaviors",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Tell+me+about+yourself%3A+LLMs+are+aware+of+their+learned+behaviors%22+Owain+Evans",
+  "via": "Owain Evans"
+ },
+ {
+  "title": "Causal Abstractions of Neural Networks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Causal+Abstractions+of+Neural+Networks%22+Atticus+Geiger",
+  "via": "Atticus Geiger"
+ },
+ {
+  "title": "Distributed Alignment Search",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Distributed+Alignment+Search%22+Atticus+Geiger",
+  "via": "Atticus Geiger"
+ },
+ {
+  "title": "Army of None",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Army+of+None%22+Paul+Scharre",
+  "via": "Paul Scharre"
+ },
+ {
+  "title": "Four Battlegrounds: Power in the Age of AI",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Four+Battlegrounds%3A+Power+in+the+Age+of+AI%22+Paul+Scharre",
+  "via": "Paul Scharre"
+ },
+ {
+  "title": "Setting the Rules for AI Warfare",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Setting+the+Rules+for+AI+Warfare%22+Paul+Scharre",
+  "via": "Paul Scharre"
+ },
+ {
+  "title": "Catalyzing Crisis: A Primer on AI, Catastrophes, and National Security",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Catalyzing+Crisis%3A+A+Primer+on+AI%2C+Catastrophes%2C+and+National+Security%22+Bill+Drexel",
+  "via": "Bill Drexel"
+ },
+ {
+  "title": "Promethean Rivalry: The World-Altering Stakes of Sino-American AI Competition",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Promethean+Rivalry%3A+The+World-Altering+Stakes+of+Sino-American+AI+Competition%22+Bill+Drexel",
+  "via": "Bill Drexel"
+ },
+ {
+  "title": "Securing AI Model Weights: Preventing Theft and Misuse of Frontier Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Securing+AI+Model+Weights%3A+Preventing+Theft+and+Misuse+of+Frontier+Models%22+Jeff+Alstott",
+  "via": "Jeff Alstott"
+ },
+ {
+  "title": "Digitally Invisible: How the Internet Is Creating the New Underclass",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Digitally+Invisible%3A+How+the+Internet+Is+Creating+the+New+Underclass%22+Nicol+Turner+Lee",
+  "via": "Nicol Turner Lee"
+ },
+ {
+  "title": "AI is not Africa's saviour: Avoiding technosolutionism in digital development",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+is+not+Africa%27s+saviour%3A+Avoiding+technosolutionism+in+digital+development%22+Chinasa+T.+Okolo",
+  "via": "Chinasa T. Okolo"
+ },
+ {
+  "title": "Deployment Corrections: An incident response framework for frontier AI models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Deployment+Corrections%3A+An+incident+response+framework+for+frontier+AI+models%22+Joe+O%27Brien",
+  "via": "Joe O'Brien"
+ },
+ {
+  "title": "Weaving a Safety Net",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Weaving+a+Safety+Net%22+Niki+Iliadis",
+  "via": "Niki Iliadis"
+ },
+ {
+  "title": "Ten AI Governance Priorities",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Ten+AI+Governance+Priorities%22+Niki+Iliadis",
+  "via": "Niki Iliadis"
+ },
+ {
+  "title": "Artificial Intelligence and Democratic Values",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Artificial+Intelligence+and+Democratic+Values%22+Merve+Hickok",
+  "via": "Merve Hickok"
+ },
+ {
+  "title": "AI Policy Sourcebook",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI+Policy+Sourcebook%22+Marc+Rotenberg",
+  "via": "Marc Rotenberg"
+ },
+ {
+  "title": "Under the Radar?",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Under+the+Radar%3F%22+Elliot+Jones",
+  "via": "Elliot Jones"
+ },
+ {
+  "title": "Artificial Power: 2025 Landscape Report",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Artificial+Power%3A+2025+Landscape+Report%22+Sarah+Myers+West",
+  "via": "Sarah Myers West"
+ },
+ {
+  "title": "Gender Shades",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Gender+Shades%22+Joy+Buolamwini",
+  "via": "Joy Buolamwini"
+ },
+ {
+  "title": "Unmasking AI",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Unmasking+AI%22+Joy+Buolamwini",
+  "via": "Joy Buolamwini"
+ },
+ {
+  "title": "Responsible AI Impact Report 2025",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Responsible+AI+Impact+Report+2025%22+Rebekah+Tweed",
+  "via": "Rebekah Tweed"
+ },
+ {
+  "title": "Lessons for Editors of AI Incidents",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Lessons+for+Editors+of+AI+Incidents%22+Sean+McGregor",
+  "via": "Sean McGregor"
+ },
+ {
+  "title": "On the Dangers of Stochastic Parrots",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22On+the+Dangers+of+Stochastic+Parrots%22+Timnit+Gebru",
+  "via": "Timnit Gebru"
+ },
+ {
+  "title": "Blueprint for an AI Bill of Rights",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Blueprint+for+an+AI+Bill+of+Rights%22+Alondra+Nelson",
+  "via": "Alondra Nelson"
+ },
+ {
+  "title": "Artificial Intelligence: A Modern Approach",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Artificial+Intelligence%3A+A+Modern+Approach%22+Stuart+Russell",
+  "via": "Stuart Russell"
+ },
+ {
+  "title": "Human Compatible",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Human+Compatible%22+Stuart+Russell",
+  "via": "Stuart Russell"
+ },
+ {
+  "title": "Characterizing Manipulation from AI Systems",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Characterizing+Manipulation+from+AI+Systems%22+Micah+Carroll",
+  "via": "Micah Carroll"
+ },
+ {
+  "title": "On Targeted Manipulation and Deception when Optimizing LLMs for User Feedback",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22On+Targeted+Manipulation+and+Deception+when+Optimizing+LLMs+for+User+Feedback%22+Micah+Carroll",
+  "via": "Micah Carroll"
+ },
+ {
+  "title": "The Off-Switch Game",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Off-Switch+Game%22+Dylan+Hadfield-Menell",
+  "via": "Dylan Hadfield-Menell"
+ },
+ {
+  "title": "Inverse Reward Design",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Inverse+Reward+Design%22+Dylan+Hadfield-Menell",
+  "via": "Dylan Hadfield-Menell"
+ },
+ {
+  "title": "Concrete Problems in AI Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Concrete+Problems+in+AI+Safety%22+Jacob+Steinhardt",
+  "via": "Jacob Steinhardt"
+ },
+ {
+  "title": "Predictive Concept Decoders",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Predictive+Concept+Decoders%22+Jacob+Steinhardt",
+  "via": "Jacob Steinhardt"
+ },
+ {
+  "title": "DecodingTrust",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22DecodingTrust%22+Dawn+Song",
+  "via": "Dawn Song"
+ },
+ {
+  "title": "On the Opportunities and Risks of Foundation Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22On+the+Opportunities+and+Risks+of+Foundation+Models%22+Percy+Liang",
+  "via": "Percy Liang"
+ },
+ {
+  "title": "Alpaca",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Alpaca%22+Tatsunori+Hashimoto",
+  "via": "Tatsunori Hashimoto"
+ },
+ {
+  "title": "Foundation Model Transparency Index",
+  "arxiv": "2512.10169",
+  "url": "https://arxiv.org/abs/2512.10169",
+  "via": "Rishi Bommasani"
+ },
+ {
+  "title": "California Report on Frontier AI Policy",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22California+Report+on+Frontier+AI+Policy%22+Rishi+Bommasani",
+  "via": "Rishi Bommasani"
+ },
+ {
+  "title": "Understanding artificial intelligence ethics and safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Understanding+artificial+intelligence+ethics+and+safety%22+David+Leslie",
+  "via": "David Leslie"
+ },
+ {
+  "title": "Open Problems and Fundamental Limitations of RLHF",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Open+Problems+and+Fundamental+Limitations+of+RLHF%22+David+Krueger",
+  "via": "David Krueger"
+ },
+ {
+  "title": "Gradual Disempowerment: Systemic Existential Risks from Incremental AI Development",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Gradual+Disempowerment%3A+Systemic+Existential+Risks+from+Incremental+AI+Development%22+David+Krueger",
+  "via": "David Krueger"
+ },
+ {
+  "title": "Hidden Incentives for Auto-Induced Distributional Shift",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Hidden+Incentives+for+Auto-Induced+Distributional+Shift%22+Tegan+Maharaj",
+  "via": "Tegan Maharaj"
+ },
+ {
+  "title": "Natural Language Descriptions of Deep Visual Features",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Natural+Language+Descriptions+of+Deep+Visual+Features%22+Jacob+Andreas",
+  "via": "Jacob Andreas"
+ },
+ {
+  "title": "Towards Deep Learning Models Resistant to Adversarial Attacks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Towards+Deep+Learning+Models+Resistant+to+Adversarial+Attacks%22+Aleksander+Madry",
+  "via": "Aleksander Madry"
+ },
+ {
+  "title": "Small-to-Large Generalization",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Small-to-Large+Generalization%22+Aleksander+Madry",
+  "via": "Aleksander Madry"
+ },
+ {
+  "title": "The Malicious Use of Artificial Intelligence",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Malicious+Use+of+Artificial+Intelligence%22+Se%C3%A1n+%C3%93+h%C3%89igeartaigh",
+  "via": "Se\u00e1n \u00d3 h\u00c9igeartaigh"
+ },
+ {
+  "title": "The Measure of All Minds",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Measure+of+All+Minds%22+Jos%C3%A9+Hern%C3%A1ndez-Orallo",
+  "via": "Jos\u00e9 Hern\u00e1ndez-Orallo"
+ },
+ {
+  "title": "General Scales Unlock AI Evaluation",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22General+Scales+Unlock+AI+Evaluation%22+Jos%C3%A9+Hern%C3%A1ndez-Orallo",
+  "via": "Jos\u00e9 Hern\u00e1ndez-Orallo"
+ },
+ {
+  "title": "Gradual Disempowerment",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Gradual+Disempowerment%22+David+Duvenaud",
+  "via": "David Duvenaud"
+ },
+ {
+  "title": "Reward Machines",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Reward+Machines%22+Sheila+McIlraith",
+  "via": "Sheila McIlraith"
+ },
+ {
+  "title": "Chain-of-Thought Is Not Explainability",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Chain-of-Thought+Is+Not+Explainability%22+Fazl+Barez",
+  "via": "Fazl Barez"
+ },
+ {
+  "title": "FRIT",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22FRIT%22+Fazl+Barez",
+  "via": "Fazl Barez"
+ },
+ {
+  "title": "Persistent Pre-Training Poisoning of LLMs",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Persistent+Pre-Training+Poisoning+of+LLMs%22+Florian+Tram%C3%A8r",
+  "via": "Florian Tram\u00e8r"
+ },
+ {
+  "title": "Fine-tuning Aligned Language Models Compromises Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Fine-tuning+Aligned+Language+Models+Compromises+Safety%22+Peter+Henderson",
+  "via": "Peter Henderson"
+ },
+ {
+  "title": "Safety Alignment Should Be Made More Than Just a Few Tokens Deep",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Safety+Alignment+Should+Be+Made+More+Than+Just+a+Few+Tokens+Deep%22+Peter+Henderson",
+  "via": "Peter Henderson"
+ },
+ {
+  "title": "Your diffusion model is secretly a certifiably robust classifier",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Your+diffusion+model+is+secretly+a+certifiably+robust+classifier%22+Jun+Zhu",
+  "via": "Jun Zhu"
+ },
+ {
+  "title": "AI-45\u00b0 Law",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AI-45%C2%B0+Law%22+Zhou+Bowen+%28Bowen+Zhou%29",
+  "via": "Zhou Bowen (Bowen Zhou)"
+ },
+ {
+  "title": "Shanghai Consensus on AI Safety",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Shanghai+Consensus+on+AI+Safety%22+Zhou+Bowen+%28Bowen+Zhou%29",
+  "via": "Zhou Bowen (Bowen Zhou)"
+ },
+ {
+  "title": "Jailbreaking Leading Safety-Aligned LLMs with Simple Adaptive Attacks",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jailbreaking+Leading+Safety-Aligned+LLMs+with+Simple+Adaptive+Attacks%22+Nicolas+Flammarion",
+  "via": "Nicolas Flammarion"
+ },
+ {
+  "title": "Locating and Editing Factual Associations in GPT (ROME)",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Locating+and+Editing+Factual+Associations+in+GPT+%28ROME%29%22+David+Bau",
+  "via": "David Bau"
+ },
+ {
+  "title": "Mass-Editing Memory in a Transformer (MEMIT)",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Mass-Editing+Memory+in+a+Transformer+%28MEMIT%29%22+David+Bau",
+  "via": "David Bau"
+ },
+ {
+  "title": "GAN Dissection",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22GAN+Dissection%22+David+Bau",
+  "via": "David Bau"
+ },
+ {
+  "title": "AutoDAN",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22AutoDAN%22+Chaowei+Xiao",
+  "via": "Chaowei Xiao"
+ },
+ {
+  "title": "Practical Black-Box Attacks against Machine Learning",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Practical+Black-Box+Attacks+against+Machine+Learning%22+Patrick+McDaniel",
+  "via": "Patrick McDaniel"
+ },
+ {
+  "title": "The Limitations of Deep Learning in Adversarial Settings",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22The+Limitations+of+Deep+Learning+in+Adversarial+Settings%22+Patrick+McDaniel",
+  "via": "Patrick McDaniel"
+ },
+ {
+  "title": "A Hacker's Mind",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22A+Hacker%27s+Mind%22+Bruce+Schneier",
+  "via": "Bruce Schneier"
+ },
+ {
+  "title": "Devising and Detecting Phishing: Large Language Models vs. Smaller Human Models",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Devising+and+Detecting+Phishing%3A+Large+Language+Models+vs.+Smaller+Human+Models%22+Bruce+Schneier",
+  "via": "Bruce Schneier"
+ },
+ {
+  "title": "Emergent World Representations (Othello-GPT)",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Emergent+World+Representations+%28Othello-GPT%29%22+Martin+Wattenberg",
+  "via": "Martin Wattenberg"
+ },
+ {
+  "title": "Attention is not not Explanation",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Attention+is+not+not+Explanation%22+Sarah+Wiegreffe",
+  "via": "Sarah Wiegreffe"
+ },
+ {
+  "title": "Teach Me to Explain: A Review of Datasets for Explainable NLP",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Teach+Me+to+Explain%3A+A+Review+of+Datasets+for+Explainable+NLP%22+Sarah+Wiegreffe",
+  "via": "Sarah Wiegreffe"
+ },
+ {
+  "title": "Demystifying the Draft EU AI Act",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Demystifying+the+Draft+EU+AI+Act%22+Michael+Veale",
+  "via": "Michael Veale"
+ },
+ {
+  "title": "https://actionable-interpretability.github.io/2025/",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Factionable-interpretability.github.io%2F2025%2F%22+Samuel+Marks",
+  "via": "Samuel Marks"
+ },
+ {
+  "title": "https://neurips.cc/virtual/2023/workshop/66526",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fneurips.cc%2Fvirtual%2F2023%2Fworkshop%2F66526%22+Joe+Benton",
+  "via": "Joe Benton"
+ },
+ {
+  "title": "https://action.ucsb.edu/news/action-distinguished-lecture-dr-nicholas-carlini",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Faction.ucsb.edu%2Fnews%2Faction-distinguished-lecture-dr-nicholas-carlini%22+Nicholas+Carlini",
+  "via": "Nicholas Carlini"
+ },
+ {
+  "title": "https://www.far.ai/events/event-list/bayarea-aw-24",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.far.ai%2Fevents%2Fevent-list%2Fbayarea-aw-24%22+Alex+Turner+%28TurnTrout%29",
+  "via": "Alex Turner (TurnTrout)"
+ },
+ {
+  "title": "https://mechinterpworkshop.com/neurips2025/",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fmechinterpworkshop.com%2Fneurips2025%2F%22+Stefan+Heimersheim",
+  "via": "Stefan Heimersheim"
+ },
+ {
+  "title": "https://www.far.ai/events/event-list/san-diego-alignment-workshop",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.far.ai%2Fevents%2Fevent-list%2Fsan-diego-alignment-workshop%22+Cozmin+Ududec",
+  "via": "Cozmin Ududec"
+ },
+ {
+  "title": "https://www.mlsafety.org/events/neurips/2024",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.mlsafety.org%2Fevents%2Fneurips%2F2024%22+Daniel+Kang",
+  "via": "Daniel Kang"
+ },
+ {
+  "title": "https://i.blackhat.com/BH-US-23/Presentations/US23-Heiding-Devicing-and-Detecting-Phishing.pdf",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fi.blackhat.com%2FBH-US-23%2FPresentations%2FUS23-Heiding-Devicing-and-Detecting-Phishing.pdf%22+Fred+Heiding",
+  "via": "Fred Heiding"
+ },
+ {
+  "title": "https://www.bloodinthemachine.com/p/ai-disagreements",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.bloodinthemachine.com%2Fp%2Fai-disagreements%22+Daniel+Kokotajlo",
+  "via": "Daniel Kokotajlo"
+ },
+ {
+  "title": "https://www.far.ai/events/event-list/singapore-aw-25",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.far.ai%2Fevents%2Fevent-list%2Fsingapore-aw-25%22+Yinpeng+Dong+%28Dong+Yinpeng%29",
+  "via": "Yinpeng Dong (Dong Yinpeng)"
+ },
+ {
+  "title": "https://www.far.ai/events/event-list/nola-aw-23",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22https%3A%2F%2Fwww.far.ai%2Fevents%2Fevent-list%2Fnola-aw-23%22+Lewis+Hammond",
+  "via": "Lewis Hammond"
+ },
+ {
+  "title": "When/Where",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22When%2FWhere%22+Venue",
+  "via": "Venue"
+ },
+ {
+  "title": "Oct",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Oct%22+AAAI%2FACM+AIES",
+  "via": "AAAI/ACM AIES"
+ },
+ {
+  "title": "2026: Malm\u00f6, Sweden",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%222026%3A+Malm%C3%B6%2C+Sweden%22+AAAI%2FACM+AIES",
+  "via": "AAAI/ACM AIES"
+ },
+ {
+  "title": "Nov 2026, The Hague",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Nov+2026%2C+The+Hague%22+ACM+AISec+Workshop+%28%40+CCS%29",
+  "via": "ACM AISec Workshop (@ CCS)"
+ },
+ {
+  "title": "With AAAI each Jan/Feb",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22With+AAAI+each+Jan%2FFeb%22+SafeAI+Workshop+%40+AAAI",
+  "via": "SafeAI Workshop @ AAAI"
+ },
+ {
+  "title": "Jan 2026, Singapore",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jan+2026%2C+Singapore%22+AAAI+AI+Alignment+Special+Track",
+  "via": "AAAI AI Alignment Special Track"
+ },
+ {
+  "title": "Mar 2025 + 2026, London",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Mar+2025+%2B+2026%2C+London%22+ControlConf+%28Redwood%2FFAR.AI%2FUK+AISI%29",
+  "via": "ControlConf (Redwood/FAR.AI/UK AISI)"
+ },
+ {
+  "title": "Apr, Tokyo",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Apr%2C+Tokyo%22+TAIS+%E2%80%94+Technical+AI+Safety+Conference+Tokyo",
+  "via": "TAIS \u2014 Technical AI Safety Conference Tokyo"
+ },
+ {
+  "title": "Aug, Lighthaven Berkeley",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Aug%2C+Lighthaven+Berkeley%22+ILIAD",
+  "via": "ILIAD"
+ },
+ {
+  "title": "Feb Paris + Aug Vegas",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Feb+Paris+%2B+Aug+Vegas%22+AI+Security+Forum",
+  "via": "AI Security Forum"
+ },
+ {
+  "title": "Spring, Geneva",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Spring%2C+Geneva%22+UNIDIR+Global+Conference+on+AI%2C+Security+and+Ethics",
+  "via": "UNIDIR Global Conference on AI, Security and Ethics"
+ },
+ {
+  "title": "Apr 2025, Kigali",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Apr+2025%2C+Kigali%22+Global+AI+Summit+on+Africa",
+  "via": "Global AI Summit on Africa"
+ },
+ {
+  "title": "Aug, Half Moon Bay CA",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Aug%2C+Half+Moon+Bay+CA%22+AI+Risk+Summit+%28SecurityWeek%29",
+  "via": "AI Risk Summit (SecurityWeek)"
+ },
+ {
+  "title": "Rolling (London/SF/Paris)",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Rolling+%28London%2FSF%2FParis%29%22+AI+Security+Summit+city+series+%28Snyk+%C3%97+AI+Engineer%29",
+  "via": "AI Security Summit city series (Snyk \u00d7 AI Engineer)"
+ },
+ {
+  "title": "Spring, Paris",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Spring%2C+Paris%22+Paris+Cyber+Summit",
+  "via": "Paris Cyber Summit"
+ },
+ {
+  "title": "Jul, Prague",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jul%2C+Prague%22+Human-Aligned+AI+Summer+School",
+  "via": "Human-Aligned AI Summer School"
+ },
+ {
+  "title": "Jan\u2013Apr, virtual",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jan%E2%80%93Apr%2C+virtual%22+AI+Safety+Camp",
+  "via": "AI Safety Camp"
+ },
+ {
+  "title": "Monthly, global hubs",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Monthly%2C+global+hubs%22+Apart+Research+Sprints+%28Alignment+Jams%29",
+  "via": "Apart Research Sprints (Alignment Jams)"
+ },
+ {
+  "title": "Jun, Lighthaven Berkeley",
+  "arxiv": null,
+  "url": "https://scholar.google.com/scholar?q=%22Jun%2C+Lighthaven+Berkeley%22+LessOnline",
+  "via": "LessOnline"
+ }
+]
