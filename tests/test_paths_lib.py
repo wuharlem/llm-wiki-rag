@@ -56,6 +56,18 @@ def test_trash_in_subfolder_excluded(tmp_path: Path):
     assert is_indexable_path(p, tmp_path) is False
 
 
+def test_add_by_me_excluded(tmp_path: Path):
+    """`_add_by_me/` is a staging area for fetched-but-not-yet-curated
+    sources — never indexed (added 2026-07-04)."""
+    p = tmp_path / "_add_by_me" / "Some_Paper_1234abcd.pdf"
+    assert is_indexable_path(p, tmp_path) is False
+
+
+def test_add_by_me_nested_excluded(tmp_path: Path):
+    p = tmp_path / "_add_by_me" / "2026-07-04" / "x.md"
+    assert is_indexable_path(p, tmp_path) is False
+
+
 def test_index_excluded(tmp_path: Path):
     p = tmp_path / "_index" / "foo.md"
     assert is_indexable_path(p, tmp_path) is False

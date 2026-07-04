@@ -48,11 +48,14 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
       1. `p` not under `vault` → False (defensive).
       2. Any dotpath component under `vault` (`.obsidian/`, `.cache/`, etc.) → False.
       3. `_trash` ancestor → False.
-      4. `_index/` ancestor, EXCEPT `_index/saved_queries/` → False.
-      5. Vault-root file whose basename is in META_DOC_BASENAMES OR starts
+      4. `_add_by_me` ancestor → False (staging area for fetched-but-not-yet-
+         curated sources; indexed only after files are curated and moved into
+         a category folder — added 2026-07-04).
+      5. `_index/` ancestor, EXCEPT `_index/saved_queries/` → False.
+      6. Vault-root file whose basename is in META_DOC_BASENAMES OR starts
          with `_` (e.g. `_audit_2026_04_29.md`, `_drafts.md`) → False.
-      6. `_audit_*.md` glob anywhere → False.
-      7. Otherwise → True.
+      7. `_audit_*.md` glob anywhere → False.
+      8. Otherwise → True.
     """
     p = Path(p)
     try:
@@ -66,6 +69,9 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
         return False
 
     if "_trash" in parts:
+        return False
+
+    if "_add_by_me" in parts:
         return False
 
     if "_index" in parts:
