@@ -31,6 +31,8 @@ OUT = WORK / "01_data" / "notion_sources.csv"
 CLASSIFICATIONS = WORK / "01_data" / "classifications.csv"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+# Legacy patterns kept for pre-2026-04 layouts; the canonical filter is
+# wiki_lib.paths.is_indexable_path (see should_skip below and CLAUDE.md §2).
 SKIP_PATH_PATTERNS = ("/.obsidian/", "/_inbox/", "/_trash_", "/_dupes_")
 SKIP_NAME_PREFIXES = ("_audit_", "_health_check_")
 
@@ -79,6 +81,16 @@ def parse_scalar_field(raw: str) -> str:
 
 
 def should_skip(path: Path) -> bool:
+    # Canonical filter — single source of truth shared with build_index.py and
+    # wiki_retrieval.py (CLAUDE.md contract §2). Excludes _index/, _trash/,
+    # _audit_log/, _add_by_me/, dotpaths, vault-root meta-docs, _audit_*.md.
+    try:
+        from wiki_lib.paths import is_indexable_path
+
+        if not is_indexable_path(path, VAULT):
+            return True
+    except ImportError:
+        pass  # fall back to the legacy patterns below
     s = str(path)
     if any(p in s for p in SKIP_PATH_PATTERNS):
         return True

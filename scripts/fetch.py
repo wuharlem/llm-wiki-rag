@@ -34,6 +34,7 @@ WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI S
 INBOX = VAULT / "Sources" / "_inbox"
 DEDUP_CSV = WORK / "00_inputs" / "urls_dedup.csv"
 LOG_CSV = WORK / "02_logs" / "fetch_log.csv"
+SOURCES_CSV = WORK / "01_data" / "notion_sources.csv"
 
 _CFG_INGEST = get_config().ingest
 TIMEOUT = _CFG_INGEST.http_timeout_seconds
@@ -271,6 +272,39 @@ def fetch_one(row: dict) -> dict:
     return out
 
 
+def record_pdf_sources(results: list[dict]) -> int:
+    """Append a notion_sources.csv row (filename + url) for each successfully
+    fetched PDF, so build_index.py's enrichment lookup can attach the source
+    URL. Markdown fetches already carry the URL in their frontmatter.
+    Never overwrites existing rows. Added 2026-07-04 after the URL/tag
+    backfill — without this, every new PDF regresses to url-less."""
+    new = [
+        r for r in results
+        if r["status"] == "ok" and r["filename"].endswith(".pdf")
+    ]
+    if not new or not SOURCES_CSV.exists():
+        return 0
+    with SOURCES_CSV.open(newline="") as f:
+        reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames or []
+        existing = {row["filename"].strip() for row in reader}
+    if "filename" not in fieldnames or "url" not in fieldnames:
+        return 0
+    added = 0
+    with SOURCES_CSV.open("a", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        for r in new:
+            if r["filename"] in existing:
+                continue
+            row = {k: "" for k in fieldnames}
+            row["filename"] = r["filename"]
+            row["url"] = r["url"]
+            w.writerow(row)
+            existing.add(r["filename"])
+            added += 1
+    return added
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0, help="only fetch first N (after handler filter)")
@@ -326,11 +360,15 @@ def main():
             r["timestamp"] = ts
             w.writerow(r)
 
+    n_recorded = record_pdf_sources(results)
+
     ok = sum(1 for r in results if r["status"] == "ok")
     fail = sum(1 for r in results if r["status"] == "fail")
     skip = sum(1 for r in results if r["status"] == "skipped")
     print(f"\nDONE: {ok} ok, {fail} fail, {skip} skipped, {time.time() - t0:.0f}s total")
     print(f"Log appended → {LOG_CSV}")
+    if n_recorded:
+        print(f"Recorded {n_recorded} new PDF url(s) → {SOURCES_CSV}")
 
 
 if __name__ == "__main__":
