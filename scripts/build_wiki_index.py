@@ -17,7 +17,9 @@ from __future__ import annotations
 
 import csv
 import re
+import shutil
 from collections import Counter, defaultdict
+from datetime import date
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -45,7 +47,11 @@ DATA_DIR = WORKDIR / "01_data" / "index"
 WIKI_INDEX_DIR = VAULT / "_index"
 
 
-def slugify(s: str, maxlen: int = 60) -> str:
+def slugify(s: str, maxlen: int = 80) -> str:
+    # maxlen MUST match build_index.py:slugify (80). A 60/80 mismatch here
+    # broke every mirror wiki-link to files with long titles and caused the
+    # 2026-07-03 prune to move live detail pages (caught same pass, restored
+    # from _trash).
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
     return s[:maxlen] if s else "untitled"
 
@@ -261,11 +267,52 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
             body.append(f"- {file_link(r['file_id'], r['title'])}  · _{r['category']}_")
         p.write_text("\n".join(body) + "\n")
 
+    # ---- prune stale mirror pages ----
+    # The loops above only WRITE pages; nothing ever removed pages whose
+    # source file / concept / tag disappeared from the manifest. Stale pages
+    # accumulate (2026-07-03 audit: 139 orphan detail pages, 8 stale concept
+    # stubs, ~50 stale tag pages). Per the vault's deletion philosophy
+    # (CLAUDE.md contract §6), stale pages are moved to _trash/, never rm'd.
+    # files/ pages are written by build_index.py; match on the file_id prefix
+    # (the part before "__") rather than the exact slug, so slug-length or
+    # slugify drift between the two scripts can never prune a live page.
+    live_ids = {r["file_id"] for r in rows}
+    expected: dict[Path, set[str]] = {
+        WIKI_INDEX_DIR / "by_category": {f"{cat}.md" for cat in by_cat},
+        WIKI_INDEX_DIR / "by_concept": {f"{slugify(c)}.md" for c in by_concept} | {"_index.md"},
+        WIKI_INDEX_DIR / "by_tag": {f"{slugify(t)}.md" for t, _ in tag_count.most_common(80)} | {"_index.md"},
+    }
+    trash_dir = VAULT / "_trash" / date.today().isoformat() / "_index_prune"
+    n_pruned = 0
+
+    def _prune(p: Path, subdir: str) -> None:
+        nonlocal n_pruned
+        dest = trash_dir / subdir
+        dest.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(p), str(dest / p.name))
+        n_pruned += 1
+
+    files_dir = WIKI_INDEX_DIR / "files"
+    if files_dir.is_dir():
+        for p in sorted(files_dir.iterdir()):
+            if p.suffix == ".md" and p.name.split("__")[0] not in live_ids:
+                _prune(p, "files")
+    for d, keep in expected.items():
+        if not d.is_dir():
+            continue
+        for p in sorted(d.iterdir()):
+            if p.suffix == ".md" and p.name not in keep:
+                _prune(p, d.name)
+
     print(f"Wrote {readme}")
     print(f"Wrote {master}")
     print(f"Wrote {len(by_cat)} category pages")
     print(f"Wrote {len(by_concept)} concept pages + index")
     print(f"Wrote {min(80, len(tag_count))} tag pages + index")
+    if n_pruned:
+        print(f"Pruned {n_pruned} stale pages -> {trash_dir}")
+    else:
+        print("Pruned 0 stale pages")
 
 
 if __name__ == "__main__":
