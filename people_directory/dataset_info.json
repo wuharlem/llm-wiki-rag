@@ -623,6 +623,66 @@
     "agent safety",
     "cybersecurity"
    ]
+  },
+  {
+   "name": "TruthfulQA",
+   "url": "https://arxiv.org/abs/2109.07958",
+   "desc": "817 questions across 38 categories testing whether models repeat common human misconceptions (imitative falsehoods) rather than the truth.",
+   "year": "2021",
+   "tags": [
+    "honesty",
+    "hallucination"
+   ]
+  },
+  {
+   "name": "AgentDojo",
+   "url": "https://github.com/ethz-spylab/agentdojo",
+   "desc": "Dynamic environment benchmarking prompt-injection attacks and defenses for tool-using LLM agents; separately scores utility and robustness.",
+   "year": "2024",
+   "tags": [
+    "prompt injection",
+    "agent security"
+   ]
+  },
+  {
+   "name": "MASK",
+   "url": "https://www.mask-benchmark.ai/",
+   "desc": "Benchmark separating honesty from accuracy by eliciting a model's belief then pressuring it to contradict that belief.",
+   "year": "2025",
+   "tags": [
+    "honesty",
+    "deception"
+   ]
+  },
+  {
+   "name": "JailbreakBench",
+   "url": "https://jailbreakbench.github.io/",
+   "desc": "Open, versioned benchmark and leaderboard for jailbreak attacks/defenses with an evolving artifact repository.",
+   "year": "2024",
+   "tags": [
+    "jailbreak",
+    "red-teaming"
+   ]
+  },
+  {
+   "name": "StrongREJECT",
+   "url": "https://arxiv.org/abs/2402.10260",
+   "desc": "Jailbreak benchmark + autograder measuring whether a jailbreak yields genuinely harmful, specific content rather than an empty refusal-bypass.",
+   "year": "2024",
+   "tags": [
+    "jailbreak",
+    "evaluation"
+   ]
+  },
+  {
+   "name": "LAB-Bench",
+   "url": "https://arxiv.org/abs/2407.10362",
+   "desc": "2,400+ biology-research tasks (literature, protocols, sequences, figures) for measuring LLM/agent capability with dual-use biosecurity relevance.",
+   "year": "2024",
+   "tags": [
+    "biorisk",
+    "dangerous capabilities"
+   ]
   }
  ]
 }

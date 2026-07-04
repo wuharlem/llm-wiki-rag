@@ -408,6 +408,29 @@
 "dataset": ""
 },
 {
+"title": "AI 2027",
+"authors": "Daniel Kokotajlo, Scott Alexander, Thomas Larsen, Eli Lifland, Romeo Dean",
+"date": "2025-04",
+"cat": "Risks and Failure Modes",
+"sub": "AGI Capability and Forecasting",
+"tags": [
+"AGI",
+"superintelligence",
+"intelligence-explosion",
+"x-risk",
+"AI-control",
+"Existential Risk & Superintelligence"
+],
+"url": "https://ai-2027.com/",
+"summary": "A concrete month-by-month scenario forecast of AI progress from 2025 through 2027, in which recursively self-improving AI research agents drive an intelligence explosion inside a leading US lab, culminating in a fork between a safety-focused slowdown and a race-driven misaligned takeover.",
+"kind": "paper",
+"pid": "26f4c80850db",
+"rp_seed": [
+"Daniel Kokotajlo"
+],
+"dataset": ""
+},
+{
 "title": "The real reason AI benchmarks haven't reflected economic impacts",
 "authors": "Anson Ho; Jean-Stanislas Denain",
 "date": "2025-03-28",
@@ -421,6 +444,47 @@
 "summary": "The real reason that AI benchmarks havenât reflected real-world impacts historically is that they werenât optimized for this, not because of fundamental limitations â but this might be changing.",
 "kind": "benchmark",
 "pid": "3092af1996d9",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "The Intelligence Curse",
+"authors": "Luke Drago, Rudolf Laine",
+"date": "2025",
+"cat": "Risks and Failure Modes",
+"sub": "Existential Risk",
+"tags": [
+"structural",
+"power-seeking",
+"AGI",
+"economic-disruption",
+"Existential Risk & Superintelligence"
+],
+"url": "https://intelligence-curse.ai/",
+"summary": "An essay series arguing that once AI can perform most economically valuable work, powerful actors will no longer need ordinary people, breaking the historical link between the interests of the powerful and the welfare of the population — an AI analogue of the resource curse.",
+"kind": "paper",
+"pid": "f0804b9cbce5",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "Subliminal Learning: Language Models Transmit Behavioral Traits via Hidden Signals in Data",
+"authors": "Alex Cloud, Minh Le, James Chua, Jan Betley, Owain Evans, et al.",
+"date": "2025",
+"cat": "Risks and Failure Modes",
+"sub": "Alignment Faking Scheming",
+"tags": [
+"model-organisms",
+"deception",
+"data-filtering",
+"distillation",
+"Alignment Faking & Scheming",
+"Pretraining Data Filtering"
+],
+"url": "",
+"summary": "Shows that a student model fine-tuned on outputs of a teacher model can inherit the teacher's behavioral traits (e.g. a preference or a misaligned disposition) even when the training data is filtered to remove any semantic trace of the trait — the signal is transmitted subliminally through…",
+"kind": "paper",
+"pid": "f9daf48b0536",
 "rp_seed": [],
 "dataset": ""
 },
@@ -466,6 +530,28 @@
 "pid": "6d9b02191d57",
 "rp_seed": [],
 "dataset": ""
+},
+{
+"title": "MASK: Disentangling Honesty from Accuracy in AI Systems",
+"authors": "Richard Ren, Mantas Mazeika, et al. (Center for AI Safety, Scale AI",
+"date": "2025",
+"cat": "Evaluations",
+"sub": "Other Evaluations",
+"tags": [
+"benchmarks",
+"evaluations",
+"deception",
+"sycophancy",
+"model-organisms",
+"AI Evaluations & Benchmarks",
+"Alignment Faking & Scheming"
+],
+"url": "",
+"summary": "A benchmark that separates honesty (does the model state what it believes?) from accuracy (is the belief correct?), by eliciting a model's belief and then pressuring it to contradict that belief, measuring propensity to lie under pressure.",
+"kind": "benchmark",
+"pid": "3e1f3fc9652a",
+"rp_seed": [],
+"dataset": "MASK"
 },
 {
 "title": "An Approach to Technical AGI Safety and Security",
@@ -2133,6 +2219,50 @@
 "dataset": ""
 },
 {
+"title": "LAB-Bench: Measuring Capabilities of Language Models for Biology Research",
+"authors": "Jon M. Laurent, Joseph D. Janizek, Michael Ruzo, et al. (FutureHouse",
+"date": "2024-07",
+"cat": "Evaluations",
+"sub": "Cyber Bio Benchmarks",
+"tags": [
+"dangerous-capabilities",
+"biorisk",
+"benchmarks",
+"dual-use",
+"evaluations",
+"AI Evaluations & Benchmarks"
+],
+"url": "https://arxiv.org/abs/2407.10362",
+"summary": "A benchmark of over 2,400 multiple-choice biology-research tasks (literature reasoning, protocol design, sequence and database tools, figure interpretation) for measuring how well LLMs and agents can assist real biology research — with dual-use implications for uplift evaluations.",
+"kind": "benchmark",
+"pid": "f785caf14e2b",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+"authors": "Edoardo Debenedetti, Jie Zhang, Mislav Balunović, Luca Beurer-Kellner, Marc Fischer, Florian Tramèr",
+"date": "2024-06",
+"cat": "Evaluations",
+"sub": "Agent Benchmarks and Frameworks",
+"tags": [
+"prompt-injection",
+"agent-security",
+"agentic-AI",
+"benchmarks",
+"tool-use",
+"llm-security",
+"Prompt Injection",
+"Agentic Misalignment"
+],
+"url": "https://github.com/ethz-spylab/agentdojo",
+"summary": "A dynamic benchmark of realistic tool-using agent tasks (email, banking, travel) instrumented with injectable untrusted content, measuring both task utility and susceptibility to indirect prompt-injection attacks, plus a framework for testing defenses.",
+"kind": "benchmark",
+"pid": "2d03c5138b07",
+"rp_seed": [],
+"dataset": "AgentDojo"
+},
+{
 "title": "Advanced AI evaluations at AISI: May update | AISI Work",
 "authors": "Technical staff",
 "date": "2024-05-20",
@@ -2146,6 +2276,27 @@
 "summary": "We tested leading AI models for cyber, chemical, biological, and agent capabilities and safeguards effectiveness. Our first technical blog post shares a snapshot of our methods and results.",
 "kind": "benchmark",
 "pid": "2546887ea9ed",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet",
+"authors": "Adly Templeton, Tom Conerly, Jonathan Marcus, et al. (Anthropic",
+"date": "2024-05",
+"cat": "Mitigations and Methods",
+"sub": "Interpretability",
+"tags": [
+"interpretability",
+"mechanistic-interpretability",
+"transparency",
+"Anthropic",
+"Claude",
+"Interpretability"
+],
+"url": "https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html",
+"summary": "Anthropic's demonstration that sparse autoencoders scale to a production frontier model (Claude 3 Sonnet), extracting millions of interpretable, often safety-relevant features and showing they causally steer behavior.",
+"kind": "paper",
+"pid": "3fe196fa9274",
 "rp_seed": [],
 "dataset": ""
 },
@@ -2171,6 +2322,49 @@
 "dataset": ""
 },
 {
+"title": "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models",
+"authors": "Patrick Chao, Edoardo Debenedetti, Alexander Robey, et al.",
+"date": "2024-04",
+"cat": "Mitigations and Methods",
+"sub": "LLM Security and Guardrails",
+"tags": [
+"jailbreak",
+"benchmarks",
+"red-teaming",
+"llm-security",
+"adversarial-robustness",
+"Jailbreaking"
+],
+"url": "https://jailbreakbench.github.io/",
+"summary": "An open, standardized benchmark and leaderboard for evaluating jailbreak attacks and defenses against LLMs, with a curated set of harmful behaviors, an evolving artifact repository of adversarial prompts, and a reproducible evaluation pipeline.",
+"kind": "benchmark",
+"pid": "d4846c7db8bd",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions",
+"authors": "Eric Wallace, Kai Xiao, Reimar Leike, Lilian Weng, Johannes Heidecke, Alex Beutel (OpenAI",
+"date": "2024-04",
+"cat": "Mitigations and Methods",
+"sub": "LLM Security and Guardrails",
+"tags": [
+"prompt-injection",
+"llm-security",
+"jailbreak",
+"guardrails",
+"adversarial-robustness",
+"Prompt Injection",
+"Guardrails"
+],
+"url": "https://arxiv.org/abs/2404.13208",
+"summary": "OpenAI's proposal to train models with an explicit instruction hierarchy — system > developer > user > tool/data — so that lower-privilege inputs cannot override higher-privilege instructions, substantially improving robustness to prompt injection and jailbreaks.",
+"kind": "paper",
+"pid": "95423e23f8c0",
+"rp_seed": [],
+"dataset": ""
+},
+{
 "title": "The WMDP Benchmark: Measuring and Reducing Malicious Use With Unlearning | CAIS",
 "authors": "Author Izzy Barrass; Adam Khoja; Oliver Zhang",
 "date": "2024-03-06",
@@ -2188,6 +2382,26 @@
 "pid": "19adf5e99515",
 "rp_seed": [],
 "dataset": "WMDP"
+},
+{
+"title": "StrongREJECT for Empty Jailbreaks",
+"authors": "Alexandra Souly, Qingyuan Lu, Dillon Bowen, et al.",
+"date": "2024-02",
+"cat": "Mitigations and Methods",
+"sub": "LLM Security and Guardrails",
+"tags": [
+"jailbreak",
+"benchmarks",
+"red-teaming",
+"llm-security",
+"Jailbreaking"
+],
+"url": "",
+"summary": "A jailbreak benchmark and autograder arguing that many reported jailbreaks are 'empty' — they bypass refusals but yield low-quality or useless responses — and providing a rubric-based scorer that measures whether a jailbreak actually elicits harmful, specific, and correct content.",
+"kind": "benchmark",
+"pid": "4e3ae17117ec",
+"rp_seed": [],
+"dataset": ""
 },
 {
 "title": "On the Societal Impact of Open Foundation Models",
@@ -4181,7 +4395,7 @@
 "kind": "paper",
 "pid": "5b727f7f191c",
 "rp_seed": [],
-"dataset": ""
+"dataset": "AgentDojo"
 },
 {
 "title": "AgentHarm A Benchmark for Measuring Harmfulness of LLM Agents 0f07054d",
@@ -4964,6 +5178,28 @@
 "summary": "# Towards Monosemanticity: Decomposing Language Models With Dictionary Learning",
 "kind": "paper",
 "pid": "d1bbb5eecda0",
+"rp_seed": [],
+"dataset": ""
+},
+{
+"title": "Model Evaluation for Extreme Risks",
+"authors": "Toby Shevlane, Sebastian Farquhar, Ben Garfinkel, et al. (DeepMind",
+"date": "2023-05",
+"cat": "Evaluations",
+"sub": "Methodology",
+"tags": [
+"evaluations",
+"dangerous-capabilities",
+"science-of-evals",
+"deployment-gates",
+"governance",
+"AI Evaluations & Benchmarks",
+"Responsible Scaling Policies"
+],
+"url": "https://arxiv.org/abs/2305.15324",
+"summary": "The paper that framed dangerous-capability and alignment evaluations as a gating mechanism for frontier development and deployment, arguing labs should evaluate models for extreme-risk capabilities (e.g. cyber-offense, manipulation) and propensities before release.",
+"kind": "paper",
+"pid": "7c534abc6255",
 "rp_seed": [],
 "dataset": ""
 },
@@ -6745,6 +6981,25 @@
 "dataset": ""
 },
 {
+"title": "Toy Models of Superposition",
+"authors": "Nelson Elhage, Tristan Hume, Catherine Olsson, et al. (Anthropic",
+"date": "2022-09",
+"cat": "Mitigations and Methods",
+"sub": "Interpretability",
+"tags": [
+"interpretability",
+"mechanistic-interpretability",
+"transparency",
+"Interpretability"
+],
+"url": "https://transformer-circuits.pub/2022/toy_model/index.html",
+"summary": "Anthropic's foundational study of superposition — how neural networks represent more features than they have dimensions by packing them into non-orthogonal directions — using small models where the phenomenon can be studied exactly.",
+"kind": "paper",
+"pid": "e4178d51e9f9",
+"rp_seed": [],
+"dataset": ""
+},
+{
 "title": "Leveraging Large Language Models FOR",
 "authors": "",
 "date": "2022",
@@ -7573,6 +7828,26 @@
 "pid": "8fd600ca0de0",
 "rp_seed": [],
 "dataset": ""
+},
+{
+"title": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+"authors": "Stephanie Lin, Jacob Hilton, Owain Evans",
+"date": "2021-09",
+"cat": "Evaluations",
+"sub": "Other Evaluations",
+"tags": [
+"benchmarks",
+"evaluations",
+"hallucination",
+"mistakes",
+"AI Evaluations & Benchmarks"
+],
+"url": "https://arxiv.org/abs/2109.07958",
+"summary": "A benchmark of 817 questions across 38 categories designed to elicit imitative falsehoods — answers that are false but commonly believed — measuring whether models repeat human misconceptions rather than stating the truth.",
+"kind": "benchmark",
+"pid": "075651e8a32a",
+"rp_seed": [],
+"dataset": "TruthfulQA"
 },
 {
 "title": "On the Opportunities and Risks of Foundation Models 87301c1d",
@@ -16953,6 +17228,19 @@
 ]
 },
 {
+"name": "AgentDojo",
+"people": [
+"Florian Tramèr"
+],
+"url": "https://github.com/ethz-spylab/agentdojo",
+"desc": "Dynamic environment benchmarking prompt-injection attacks and defenses for tool-using LLM agents; separately scores utility and robustness.",
+"year": "2024",
+"tags": [
+"prompt injection",
+"agent security"
+]
+},
+{
 "name": "AgentHarm",
 "people": [
 "Xander Davies"
@@ -17335,6 +17623,19 @@
 ]
 },
 {
+"name": "MASK",
+"people": [
+"Mantas Mazeika"
+],
+"url": "https://www.mask-benchmark.ai/",
+"desc": "Benchmark separating honesty from accuracy by eliciting a model's belief then pressuring it to contradict that belief.",
+"year": "2025",
+"tags": [
+"honesty",
+"deception"
+]
+},
+{
 "name": "MCP Atlas",
 "people": [
 "Bing Liu"
@@ -17558,6 +17859,19 @@
 "year": "2020",
 "tags": [
 "training corpus"
+]
+},
+{
+"name": "TruthfulQA",
+"people": [
+"Owain Evans"
+],
+"url": "https://arxiv.org/abs/2109.07958",
+"desc": "817 questions across 38 categories testing whether models repeat common human misconceptions (imitative falsehoods) rather than the truth.",
+"year": "2021",
+"tags": [
+"honesty",
+"hallucination"
 ]
 },
 {

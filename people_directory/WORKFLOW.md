@@ -50,6 +50,21 @@ Derived files that must NEVER be hand-edited: `people.json`,
 page_id appends after connector creates) — it is the Notion mirror, not a place
 to invent data.
 
+**Papers-tab derived fields (2026-07-04).** Three enrichments are computed
+fresh each run, not stored:
+- **year** (`p.date`) comes from the manifest `published` column. PDF years are
+  sourced from `notion_sources.csv` (arXiv id YYMM → year at backfill time;
+  `fetch.py` records the url so new PDFs' years derive on the next rebuild).
+- **author→people links** (`p.rp`): `parse_extra.py` scans each paper's
+  pre-"Abstract" header region (its first RAG chunk in `chunks.jsonl`) for
+  full names (2+ tokens) in the people directory → `rp_seed`; `gen_directory.py`
+  merges that with title/author matches into the "In People directory" links.
+  Requires a current RAG index — run `rebuild_index` before the pipeline if the
+  vault changed. Self-maintaining: no sidecar cache.
+- **dataset flag** (`p.dataset`): set when a tracked dataset's name appears as a
+  whole-token run in the paper title; renders as a "dataset: <name>" badge.
+  Internal fields (`pid`, `rp_seed`) are stripped before HTML embedding.
+
 ## Pipelines and their fixed order
 
 **Directory refresh** (weekly task `refresh-ai-safety-people-directory`, Mon):
