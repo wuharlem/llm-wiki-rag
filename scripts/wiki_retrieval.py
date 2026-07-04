@@ -953,13 +953,40 @@ def invalidate_caches() -> None:
 
 
 def index_stats() -> dict:
-    """Quick summary used by the MCP server's overview tool."""
+    """Quick summary used by the MCP server's overview tool.
+
+    Includes a `degraded` flag: True when the vault contains PDFs but the
+    index has zero PDF-sourced files — the signature of an `md_only=true`
+    rebuild that was never followed by a full rebuild (see the 2026-06-30 /
+    07-01 / 07-02 regressions in `_audit_log/`). Additive fields only; the
+    original four keys are unchanged.
+    """
     chunks = load_all_chunks()
     files = {c.get("file_id") for c in chunks}
     cats = {c.get("category") for c in chunks if c.get("category")}
-    return {
+    pdf_files = {
+        c.get("file_id")
+        for c in chunks
+        if str(c.get("relpath", "")).lower().endswith(".pdf")
+    }
+    n_pdf = len(pdf_files)
+    try:
+        vault_has_pdfs = VAULT_PATH.exists() and next(VAULT_PATH.rglob("*.pdf"), None) is not None
+    except Exception:
+        vault_has_pdfs = False
+    degraded = bool(vault_has_pdfs and n_pdf == 0 and chunks)
+    stats = {
         "n_chunks": len(chunks),
         "n_files": len(files),
+        "n_md_files": len(files) - n_pdf,
+        "n_pdf_files": n_pdf,
         "n_categories": len(cats),
         "total_tokens": sum(c.get("tokens", 0) for c in chunks),
+        "degraded": degraded,
     }
+    if degraded:
+        stats["warning"] = (
+            "Index is PDF-less (md-only build) while the vault contains PDFs — "
+            "run rebuild_index() (full, no md_only) to restore coverage."
+        )
+    return stats

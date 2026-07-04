@@ -642,6 +642,15 @@ class RebuildIndexInput(BaseModel):
         default=False,
         description="Skip writing per-file detail pages into _index/files/. Saves ~1s; only useful for very fast iteration.",
     )
+    # Debounce (2026-07-04): rebuilds are skipped when no indexable source file
+    # changed since the last successful rebuild (fingerprint: relpath+size+mtime
+    # over indexable .md/.pdf, see wiki_lib/source_state.py). `force=True`
+    # bypasses the check — use after CLI-side builds, suspected corruption, or
+    # when index_stats reports degraded=true.
+    force: bool = Field(
+        default=False,
+        description="Rebuild even if no source file changed since the last successful rebuild. Default False (skip redundant rebuilds).",
+    )
 
 
 @mcp.tool(
@@ -676,11 +685,19 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     Always a FULL rebuild (markdown + PDFs). The former `md_only` flag was
     removed 2026-07-03 — it silently dropped every PDF from the index.
 
+    Debounced since 2026-07-04: if no indexable source file changed since the
+    last successful rebuild (relpath+size+mtime fingerprint), the call returns
+    `{"ok": true, "skipped": true, "reason": "sources_unchanged"}` without
+    rebuilding, logging, or touching the mirror. Pass `force=true` to bypass
+    (e.g. after a CLI-side `build_index.py` run, or when `index_stats`
+    reports `degraded: true`).
+
     Args:
-        params (RebuildIndexInput): skip_detail_md flag.
+        params (RebuildIndexInput): skip_detail_md, force flags.
 
     Returns:
-        str: JSON with build summary (n_files, n_chunks, elapsed_s, errors).
+        str: JSON with build summary (n_files, n_chunks, elapsed_s, errors),
+        or the skip payload described above.
         On failure, returns the canonical error envelope:
             {"ok": false, "error": "<code>", "detail": "<msg>"}
         Codes: `rebuild_timeout` (15 min subprocess timeout),
@@ -688,6 +705,41 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     """
     import subprocess
     import time
+
+    from wiki_lib.source_state import (
+        compute_source_state,
+        read_saved_state,
+        write_saved_state,
+    )
+
+    state_path = Path(__file__).resolve().parent.parent / "01_data" / "index" / "source_state.json"
+
+    # Debounce: skip the rebuild when nothing indexable changed. Guarded on a
+    # loadable, non-empty index so a missing/corrupt index always rebuilds.
+    pre_build_digest: str | None = None
+    try:
+        pre_build_digest = compute_source_state(wr.VAULT_PATH)
+    except Exception:  # noqa: BLE001 — fingerprint failure must never block a rebuild
+        pre_build_digest = None
+    if not params.force and pre_build_digest is not None:
+        saved = read_saved_state(state_path)
+        if saved == pre_build_digest:
+            try:
+                stats_now = wr.index_stats()
+            except Exception:
+                stats_now = {}
+            if stats_now.get("n_chunks") and not stats_now.get("degraded"):
+                return json.dumps(
+                    {
+                        "ok": True,
+                        "skipped": True,
+                        "reason": "sources_unchanged",
+                        "detail": "No indexable source file changed since the last successful rebuild. Pass force=true to rebuild anyway.",
+                        "stats": stats_now,
+                    },
+                    indent=2,
+                    ensure_ascii=False,
+                )
 
     script = Path(__file__).resolve().parent / "build_index.py"
     cmd = [sys.executable, str(script)]
@@ -753,6 +805,13 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     # no longer be reachable via this tool since md_only was removed, but the
     # CLI's --md-only flag can still produce it — keep surfacing it loudly.
     degraded = bool(stats.get("degraded"))
+    if proc.returncode == 0 and pre_build_digest is not None:
+        # Record the PRE-build fingerprint: if files changed mid-build, the
+        # next call sees a different digest and rebuilds — no missed updates.
+        try:
+            write_saved_state(state_path, pre_build_digest)
+        except Exception:  # noqa: BLE001 — state write must never fail the rebuild
+            pass
     if proc.returncode == 0:
         try:
             wr.append_log_entry(
