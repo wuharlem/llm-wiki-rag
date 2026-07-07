@@ -532,6 +532,15 @@ class SaveQueryInput(BaseModel):
     notes: str = Field(
         default="", description="Optional free-text notes to embed at the top of the saved file.", max_length=4000
     )
+    answer: str = Field(
+        default="",
+        description=(
+            "The full synthesized answer as delivered in chat (markdown). "
+            "STRONGLY RECOMMENDED — without it the saved query keeps only chunk excerpts and the synthesis is lost to chat history. "
+            "Written under an '## Answer' heading, indexed and searchable after the next rebuild."
+        ),
+        max_length=20000,
+    )
     category: Optional[str] = Field(default=None)
     concept: Optional[str] = Field(default=None)
     tag: Optional[str] = Field(default=None)
@@ -584,6 +593,7 @@ def save_query(params: SaveQueryInput) -> str:
         results=results,
         slug=params.slug,
         notes=params.notes,
+        answer=params.answer,
     )
     return json.dumps(
         {

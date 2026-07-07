@@ -755,10 +755,17 @@ def save_query_result(
     slug: str,
     *,
     notes: str = "",
+    answer: str = "",
 ) -> Path:
     """Write a query + its top results back into the wiki under
     `_index/saved_queries/<slug>.md`. Useful for "filing" interesting answers
     so the next conversation has them in context.
+
+    `answer` (added 2026-07-04) is the full synthesized answer as delivered
+    in chat. Before it existed, saved queries stored only chunk excerpts +
+    1-3 sentence notes — the actual synthesis was lost to chat history,
+    which made saving feel low-value and save-discipline suffered. With the
+    answer embedded, a saved query is a knowledge page, not a search snapshot.
 
     Returns the path written.
     """
@@ -788,6 +795,8 @@ def save_query_result(
     ]
     if notes:
         lines += [notes, ""]
+    if answer:
+        lines += ["## Answer", "", answer.strip(), ""]
     if len(queries) > 1:
         lines += ["**Paraphrases used:** " + ", ".join(f"`{q}`" for q in queries), ""]
     lines += ["## Top results", ""]

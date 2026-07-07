@@ -15,8 +15,11 @@ def test_wiki_concepts_nonempty():
 def test_tag_triggers_nonempty():
     from wiki_lib.vocab import TAG_TRIGGERS
 
+    # A few curatorial / discoverability tags intentionally carry no body
+    # triggers (applied by hand, not keyword-matched) — see vocab.py.
+    curatorial = {"background-reading", "audit", "vault-health"}
     assert isinstance(TAG_TRIGGERS, dict) and TAG_TRIGGERS
-    assert all(v for v in TAG_TRIGGERS.values())
+    assert all(v for k, v in TAG_TRIGGERS.items() if k not in curatorial)
 
 
 def test_risk_triggers_nonempty():
