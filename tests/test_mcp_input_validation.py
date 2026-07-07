@@ -63,3 +63,19 @@ def test_file_detail_input_requires_file_id():
     """`FileDetailInput` requires `file_id`."""
     with pytest.raises(ValidationError):
         ws.FileDetailInput()  # missing file_id
+
+
+def test_mcp_server_name_derived_from_schema():
+    """The registered MCP server name must be derived from `schema.wiki.slug`.
+
+    Formula: `<slug-with-hyphens-replaced-by-underscores>_wiki_mcp`. Locks the
+    contract that swapping wiki_schema.yml changes the server name (and, for
+    the shipping AI-safety schema, produces the historical literal
+    `ai_safety_wiki_mcp` byte-for-byte so existing MCP configs keep working).
+    """
+    from wiki_lib.schema import _reset_schema_cache, get_schema
+
+    _reset_schema_cache()
+    expected = get_schema().wiki.slug.replace("-", "_") + "_wiki_mcp"
+    assert ws.MCP_SERVER_NAME == expected
+    assert ws.mcp.name == expected
