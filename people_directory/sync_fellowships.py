@@ -121,8 +121,9 @@ def main():
         "source_type: reference",
         "risk_category: structural",
         "tags: [fellowships, funding, field-building, careers]",
-        "wiki_concepts:",
-        "- AI Safety Field-Building",
+        # No wiki_concepts: this is a reference roster, not analytical content.
+        # 'AI Safety Field-Building' was an invalid vocab value (not one of the
+        # 15 concepts) — removed 2026-07-04. The field-building tag covers it.
         f"published: {snap.get('fetched', date.today().isoformat())}",
         "author: Notion AI Safety Fellowships DB (mirror)",
         "---",

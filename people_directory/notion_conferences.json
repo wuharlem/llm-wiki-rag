@@ -1,2850 +1,2873 @@
 {
-"fetched": "2026-07-04",
-"count": 137,
-"conferences": [
-{
-"Name": "RSA Conference 2025",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "San Francisco",
-"Participants": [
-"Dawn Song",
-"Hyrum Anderson",
-"Jade Leung",
-"Michael Bargury",
-"Ram Shankar Siva Kumar",
-"Steve Wilson"
-],
-"Recommendation": "Enterprise security scale; AI risk track",
-"Roster participants": "6",
-"Series": "RSA Conference",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.rsaconference.com/usa",
-"notion_url": "https://www.notion.so/392a23d9216581e78339f8dc23f6045b"
-},
-{
-"Name": "RSA Conference 2024",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "San Francisco",
-"Participants": [
-"Ads Dawson",
-"Dan Hendrycks",
-"Hyrum Anderson",
-"Ken Huang",
-"Ram Shankar Siva Kumar",
-"Steve Wilson"
-],
-"Recommendation": "Enterprise security scale; AI risk track",
-"Roster participants": "6",
-"Series": "RSA Conference",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://genai.owasp.org/event/rsa-conference-2024/",
-"notion_url": "https://www.notion.so/392a23d92165813aa20bea0d582bd56f"
-},
-{
-"Name": "Alignment Conference 2025",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Notes": "Weak sourcing (search snippet + X profile) — re-verify if load-bearing; 2026-07-04 web re-check: event existence still unverified (only X-post evidence for a Geoffrey Irving keynote Oct 28, 2025); re-verify before relying on this row.",
-"Participants": [
-"Geoffrey Irving"
-],
-"Recommendation": "Technical alignment gathering",
-"Roster participants": "1",
-"Series": "Alignment Conference",
-"Type": "community",
-"Year": "2025",
-"URL": "https://x.com/geoffreyirving",
-"notion_url": "https://www.notion.so/392a23d92165818ca355f98a4b614d1c"
-},
-{
-"Name": "PLA Conference 2024 (Columbus, OH)",
-"Focus area": [
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Columbus OH",
-"Participants": [
-"Joy Buolamwini"
-],
-"Recommendation": "Library association event",
-"Roster participants": "1",
-"Series": "PLA Conference (Columbus OH)",
-"Type": "community",
-"Year": "2024",
-"URL": "https://www.placonference.org/",
-"notion_url": "https://www.notion.so/392a23d9216581bd9fbbd2ca99b3f340"
-},
-{
-"Name": "BAAI Conference (Beijing) 2023",
-"Focus area": [
-"ML research",
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Beijing",
-"Participants": [
-"Victoria Krakovna"
-],
-"Recommendation": "Regional; window into China safety scene",
-"Roster participants": "1",
-"Series": "BAAI Conference (Beijing)",
-"Type": "governance",
-"Year": "2023",
-"URL": "https://vkrakovna.wordpress.com/talks/",
-"notion_url": "https://www.notion.so/392a23d9216581fda20ade2be0082c4b"
-},
-{
-"Name": "AI Engineer conference 2025",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "San Francisco",
-"Participants": [
-"Sander Schulhoff"
-],
-"Recommendation": "Practitioner LLM-security content",
-"Roster participants": "1",
-"Series": "AI Engineer conference",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.youtube.com/watch?v=_BRhRh7mOX0",
-"notion_url": "https://www.notion.so/392a23d92165811588c1ff967980bb32"
-},
-{
-"Name": "AI4 Conference 2025",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Las Vegas",
-"Participants": [
-"Matt Fredrikson"
-],
-"Recommendation": "General industry AI",
-"Roster participants": "1",
-"Series": "AI4 Conference",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://ai4.grayswan.ai/",
-"notion_url": "https://www.notion.so/392a23d9216581b0ab1edd0ad9c9abb7"
-},
-{
-"Name": "World AI Conference, Shanghai 2025",
-"Focus area": [
-"Industry & enterprise",
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Shanghai",
-"Participants": [
-"Stuart Russell"
-],
-"Recommendation": "Regional flagship; easy access from Taipei",
-"Roster participants": "1",
-"Series": "World AI Conference (Shanghai)",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://aisafetychina.substack.com/p/special-edition-world-ai-conference",
-"notion_url": "https://www.notion.so/392a23d9216581ee847fe9c0a8033d4b"
-},
-{
-"Name": "Australian Cyber Conference 2024",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Melbourne",
-"Participants": [
-"Christina Liaghati"
-],
-"Recommendation": "General cyber conference",
-"Roster participants": "1",
-"Series": "Australian Cyber Conference",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://melbourne2024.cyberconference.com.au/speakers/christina-liaghati-sxk7w",
-"notion_url": "https://www.notion.so/392a23d9216581f09c88fcf575a83990"
-},
-{
-"Name": "Singapore Conference on AI (SCAI) 2025",
-"Focus area": [
-"Governance & policy",
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Singapore",
-"Participants": [
-"Adam Gleave",
-"Akiko Murakami",
-"Besmira Nushi",
-"Buck Shlegeris",
-"Dan Hendrycks",
-"Dawn Song",
-"Fazl Barez",
-"Jeffrey Ladish",
-"Johannes Heidecke",
-"Lee Wan Sie",
-"Max Tegmark",
-"Minlie Huang",
-"Robert Trager",
-"Rumman Chowdhury",
-"Seán Ó hÉigeartaigh",
-"Siméon Campos",
-"Stuart Russell",
-"Yoshua Bengio"
-],
-"Recommendation": "Regional flagship safe-AI conference (Singapore)",
-"Roster participants": "18",
-"Series": "SCAI",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://arxiv.org/abs/2506.20702",
-"notion_url": "https://www.notion.so/392a23d9216581958385e562cd629666"
-},
-{
-"Name": "TAIS — Technical AI Safety Conference Tokyo",
-"Focus": "Technical alignment, interpretability",
-"Focus area": [
-"Alignment",
-"Interpretability"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Tokyo (Apr)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Technical safety in your region (Tokyo)",
-"Roster participants": "0",
-"Series": "TAIS — Technical AI Safety Conference Tokyo",
-"Type": "community",
-"Year": "2025",
-"URL": "https://www.tais2025.cc/",
-"notion_url": "https://www.notion.so/392a23d9216581a4a3b1f921f3181ddd"
-},
-{
-"Name": "UNIDIR Global Conference on AI, Security and Ethics",
-"Focus": "AI in international peace & security",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Geneva (Spring)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Diplomatic forum",
-"Roster participants": "0",
-"Series": "UNIDIR Global Conference on AI Security and Ethics",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://unidir.org/",
-"notion_url": "https://www.notion.so/392a23d92165819594f9f7ab0388fcc4"
-},
-{
-"Name": "NeurIPS 2024 (SoLaR workshop)",
-"Focus area": [
-"Ethics & society",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Vancouver",
-"Participants": [
-"Alan Chan",
-"Been Kim",
-"David Krueger",
-"Margaret Mitchell",
-"Peter Henderson",
-"Robert Kirk",
-"Usman Anwar",
-"Yoshua Bengio",
-"Zico Kolter"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "9",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://solar-neurips.github.io/organisers",
-"notion_url": "https://www.notion.so/392a23d92165818084f0fc1f2d3c74e5"
-},
-{
-"Name": "AI Red and Blue Teaming Summit 2026",
-"Focus": "Practitioner AI red/blue teaming; prompt-injection defense, LLM abuse detection",
-"Focus area": [
-"Red teaming",
-"AI security"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Virtual",
-"Recommendation": "Two-day virtual practitioner event; zero travel cost",
-"Series": "AI Red and Blue Teaming Summit",
-"Type": "industry",
-"Year": "2026",
-"URL": "https://infosec-conferences.com/event/ai-red-and-blue-teaming-summit",
-"notion_url": "https://www.notion.so/393a23d92165814aa847ea041979ff8e"
-},
-{
-"Name": "Black Hat USA 2024",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Amanda Minnich",
-"Leon Derczynski",
-"Michael Bargury",
-"Rich Harang"
-],
-"Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
-"Roster participants": "4",
-"Series": "Black Hat",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://tldrsec.com/p/2024-bsideslv-blackhat-ai-talks",
-"notion_url": "https://www.notion.so/392a23d9216581469042c25c04302fa6"
-},
-{
-"Name": "OWASP GenAI Security Summit @ RSAC 2026",
-"Focus": "Guardrails & GenAI security frameworks; LLM Top 10; agentic AI risk",
-"Focus area": [
-"AI security",
-"Red teaming",
-"Cybersecurity"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "San Francisco",
-"Recommendation": "Guardrails-standards home (OWASP LLM Top 10 / GenAI Red Teaming Initiative); co-located with RSAC",
-"Series": "OWASP GenAI Security Summit",
-"Type": "industry",
-"Year": "2026",
-"URL": "https://genai.owasp.org/event/rsac-conference-2026-owasp-ai-security-summit-safeguarding-genai-agents-autonomous-ai-risk-2026/",
-"notion_url": "https://www.notion.so/393a23d9216581329bf1de9851eb9841"
-},
-{
-"Name": "ICLR 2025",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Singapore",
-"Participants": [
-"Dawn Song",
-"Stella Biderman",
-"Zico Kolter"
-],
-"Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
-"Roster participants": "3",
-"Series": "ICLR",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://blog.iclr.cc/2025/04/11/announcing-the-iclr-2025-keynote-speakers/",
-"notion_url": "https://www.notion.so/392a23d921658129922af690be683324"
-},
-{
-"Name": "NeurIPS 2025",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "San Diego",
-"Participants": [
-"Geoffrey Hinton",
-"Yarin Gal"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "2",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://neurips.cc/Conferences/2025",
-"notion_url": "https://www.notion.so/392a23d9216581f0ad6dda58cdabafbb"
-},
-{
-"Name": "IASEAI'25 (Feb 2025, Paris)",
-"Focus area": [
-"Governance & policy",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Paris",
-"Participants": [
-"Alondra Nelson",
-"Aza Raskin",
-"Geoffrey Hinton",
-"Margaret Mitchell",
-"Max Tegmark",
-"Stuart Russell",
-"Yoshua Bengio"
-],
-"Recommendation": "Open academic safe & ethical AI conference (Paris)",
-"Roster participants": "7",
-"Series": "IASEAI",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://www.iaseai.org/",
-"notion_url": "https://www.notion.so/392a23d9216581e494edccf74fcbe4fa"
-},
-{
-"Name": "ICML 2024",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Ethan Perez",
-"Rishi Bommasani",
-"Ryan Greenblatt"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "3",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://ethanperez.net/",
-"notion_url": "https://www.notion.so/392a23d9216581cca981f3e9249df6a2"
-},
-{
-"Name": "CAMLIS 2024",
-"Focus area": [
-"AI security",
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Arlington VA",
-"Participants": [
-"Amanda Minnich",
-"Hyrum Anderson",
-"Lisa Einstein",
-"Richard Lundeen",
-"Subho Majumdar"
-],
-"Recommendation": "Tight ML + infosec research community",
-"Roster participants": "5",
-"Series": "CAMLIS",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://www.camlis.org/",
-"notion_url": "https://www.notion.so/392a23d9216581afbf4ef19f7b5b8578"
-},
-{
-"Name": "NeurIPS 2024 (Red Teaming GenAI workshop)",
-"Focus area": [
-"Red teaming",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Vancouver",
-"Notes": "Participant 'Andy Zou' is likely James Zou (in official organizer list) — verify.",
-"Participants": [
-"Andy Zou",
-"Bo Li"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "2",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://redteaming-gen-ai.github.io/",
-"notion_url": "https://www.notion.so/392a23d921658158b89df25ebb83d028"
-},
-{
-"Name": "NeurIPS 2025 (Workshop on Algorithmic Collective Action)",
-"Focus area": [
-"ML research",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "San Diego",
-"Participants": [
-"Florian Tramèr"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "1",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://neurips.cc/virtual/2025/129862",
-"notion_url": "https://www.notion.so/392a23d9216581ec9b98ddda22cd9d90"
-},
-{
-"Name": "EA Global New York City 2026",
-"Focus": "AI-safety talent/funder pipeline networking",
-"Focus area": [
-"Governance & policy",
-"X-risk & futures",
-"Alignment"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "New York",
-"Notes": "Oct 16–18, 2026, Sheraton Times Square, NYC",
-"Recommendation": "Only upcoming EAG left in 2026 (London and SF editions passed); application deadline Sep 27, 2026",
-"Series": "EA Global",
-"Type": "community",
-"Year": "2026",
-"URL": "https://www.effectivealtruism.org/ea-global/events/ea-global-new-york-city-2026",
-"notion_url": "https://www.notion.so/393a23d9216581f88874ca26ababd777"
-},
-{
-"Name": "SANS AI Cybersecurity Summit 2026",
-"Focus": "AI red teaming, guardrails, offensive AI tooling & training; hybrid with live online option",
-"Focus area": [
-"Red teaming",
-"AI security",
-"Cybersecurity"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Arlington VA",
-"Recommendation": "Dedicated red-team + guardrails summit; hybrid, attendable from Taipei",
-"Series": "SANS AI Cybersecurity Summit",
-"Type": "industry",
-"Year": "2026",
-"URL": "https://www.sans.org/ai-cybersecurity-summit-2026",
-"notion_url": "https://www.notion.so/393a23d92165814098d4dcfdd76ed064"
-},
-{
-"Name": "SafeAI Workshop @ AAAI",
-"Focus": "AI safety engineering, verification",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "With AAAI each Jan/Feb",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Safety engineering workshop",
-"Roster participants": "0",
-"Series": "SafeAI Workshop @ AAAI",
-"Type": "academic",
-"URL": "https://safeai.webs.upv.es/",
-"notion_url": "https://www.notion.so/392a23d9216581c485b0ef803a8985db"
-},
-{
-"Name": "Simons Institute workshop 2025",
-"Focus area": [
-"ML research",
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Berkeley",
-"Participants": [
-"Ethan Perez"
-],
-"Recommendation": "Deep academic program (Berkeley)",
-"Roster participants": "1",
-"Series": "Simons Institute workshop",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://simons.berkeley.edu/talks/ethan-perez-anthropic-2025-04-14",
-"notion_url": "https://www.notion.so/392a23d9216581f39ce4ff00afcbf390"
-},
-{
-"Name": "ICML 2024 (workshop)",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Stella Biderman"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "1",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://icml.cc/virtual/2024/35659",
-"notion_url": "https://www.notion.so/392a23d92165810b98e9e3609bed3aec"
-},
-{
-"Name": "NeurIPS 2025 (MechInterp workshop)",
-"Focus area": [
-"Interpretability",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "San Diego",
-"Participants": [
-"Andy Arditi",
-"Been Kim",
-"Chris Olah",
-"Fazl Barez",
-"Lawrence Chan",
-"Neel Nanda",
-"Stefan Heimersheim"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "7",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://mechinterpworkshop.com/neurips2025/",
-"notion_url": "https://www.notion.so/392a23d92165819dbff0d94245dbc02b"
-},
-{
-"Name": "ACM AISec Workshop (@ CCS)",
-"Focus": "Adversarial ML + security/privacy (19 yrs)",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "The Hague (Nov 2026)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Longest-running adversarial-ML security workshop",
-"Roster participants": "0",
-"Series": "ACM AISec Workshop (@ CCS)",
-"Type": "academic",
-"URL": "https://aisec.cc/",
-"notion_url": "https://www.notion.so/392a23d92165819cb457e4e2481ae896"
-},
-{
-"Name": "ICML 2024 (NextGenAISafety workshop)",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Aleksander Madry",
-"Bernhard Schölkopf",
-"Beyza Ermiş",
-"Christopher Choquette-Choo",
-"Lilian Weng",
-"Martin Vechev",
-"Prateek Mittal",
-"Tatsunori Hashimoto"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "8",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://icml-nextgenaisafety.github.io/",
-"notion_url": "https://www.notion.so/392a23d9216581d3bc89fa8e39d179df"
-},
-{
-"Name": "NeurIPS 2024 (SafeGenAI workshop)",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Vancouver",
-"Participants": [
-"Dawn Song",
-"Max Tegmark",
-"Yoshua Bengio"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "3",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://safegenaiworkshop.github.io/",
-"notion_url": "https://www.notion.so/392a23d921658107b377c4b99774b593"
-},
-{
-"Name": "NeurIPS 2023 (SoLaR workshop)",
-"Focus area": [
-"Ethics & society",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "New Orleans",
-"Participants": [
-"Adriano Koshiyama",
-"Alan Chan",
-"Alexander Meinke",
-"Andy Zou",
-"Charlie Griffin",
-"Christopher Choquette-Choo",
-"David Krueger",
-"Dylan Hadfield-Menell",
-"Florian Tramèr",
-"Jan Kulveit",
-"Jesse Clifton",
-"Joe Benton",
-"Joe O'Brien",
-"Jonas Schuett",
-"José Hernández-Orallo",
-"Lewis Hammond",
-"Markus Anderljung",
-"Owain Evans",
-"Robert Kirk",
-"Robert Trager",
-"Rumman Chowdhury",
-"Sam Bowman",
-"Siméon Campos",
-"Tomek Korbak",
-"Usman Anwar"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "25",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2023",
-"URL": "https://neurips.cc/virtual/2023/workshop/66526",
-"notion_url": "https://www.notion.so/392a23d92165818cb26ddf32bca04658"
-},
-{
-"Name": "ICML 2024 (MI workshop)",
-"Focus area": [
-"Interpretability",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Chris Olah",
-"Fazl Barez",
-"Lawrence Chan",
-"Max Tegmark",
-"Neel Nanda",
-"Stella Biderman"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "6",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://icml2024mi.pages.dev/",
-"notion_url": "https://www.notion.so/392a23d921658104bf3ddde5f3a7199c"
-},
-{
-"Name": "ICLR 2024 (AGI workshop)",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Dawn Song",
-"Yoshua Bengio"
-],
-"Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
-"Roster participants": "2",
-"Series": "ICLR",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://agiworkshop.github.io/2024/schedule/",
-"notion_url": "https://www.notion.so/392a23d9216581de9043f6445c10ba8a"
-},
-{
-"Name": "London Alignment Workshop 2026",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "London",
-"Participants": [
-"Marius Hobbhahn"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "1",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2026",
-"URL": "https://www.far.ai/events/event-list/london-alignment-workshop-2026",
-"notion_url": "https://www.notion.so/392a23d92165815e8933dd21d7d30317"
-},
-{
-"Name": "NeurIPS 2024 (SATA workshop)",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Vancouver",
-"Participants": [
-"Been Kim",
-"Bo Li",
-"Daniel Kang",
-"David Krueger",
-"Dawn Song"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "5",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://www.mlsafety.org/events/neurips/2024",
-"notion_url": "https://www.notion.so/392a23d9216581e8b85de5d179182d79"
-},
-{
-"Name": "Foresight Intelligent Cooperation Workshop 2023",
-"Focus area": [
-"X-risk & futures",
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "San Francisco",
-"Participants": [
-"Jan Leike"
-],
-"Recommendation": "Niche futurist workshop",
-"Roster participants": "1",
-"Series": "Foresight Intelligent Cooperation Workshop",
-"Type": "community",
-"Year": "2023",
-"URL": "https://foresight.org/summary/jan-leike-super-intelligent-alignment-intelligent-cooperation-workshop/",
-"notion_url": "https://www.notion.so/392a23d92165814dbfbcda77a24da1de"
-},
-{
-"Name": "ICLR 2024 (SeT-LLM workshop)",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Bo Li",
-"Minlie Huang",
-"Neel Nanda",
-"Peter Henderson",
-"Prateek Mittal",
-"Tatsunori Hashimoto",
-"Zico Kolter"
-],
-"Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
-"Roster participants": "7",
-"Series": "ICLR",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://set-llm.github.io/",
-"notion_url": "https://www.notion.so/392a23d92165816c8148d920d957b257"
-},
-{
-"Name": "ICML 2025 (Technical AI Governance workshop)",
-"Focus area": [
-"Governance & policy",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vancouver",
-"Participants": [
-"Fazl Barez",
-"Robert Trager"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "2",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://icml.cc/virtual/2025/events/workshop",
-"notion_url": "https://www.notion.so/392a23d921658138be7eed67cdb28493"
-},
-{
-"Name": "ICML 2025 (Actionable Interpretability workshop)",
-"Focus area": [
-"Interpretability",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vancouver",
-"Participants": [
-"Been Kim",
-"David Krueger",
-"Fazl Barez",
-"Ian Tenney",
-"Samuel Marks"
-],
-"Recommendation": "Top ML venue; interpretability & safety workshops",
-"Roster participants": "5",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://actionable-interpretability.github.io/2025/",
-"notion_url": "https://www.notion.so/392a23d921658129b406f5d93ea66a45"
-},
-{
-"Name": "Bay Area Alignment Workshop 2024 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Bay Area CA",
-"Notes": "Venue: Chaminade, Santa Cruz. Marius Hobbhahn not on FAR.AI speaker list for this event (evidence video is from London AW 2026) — verify participant.",
-"Participants": [
-"Adam Gleave",
-"Alex Turner",
-"Andy Zou",
-"Beth Barnes",
-"Buck Shlegeris",
-"David Duvenaud",
-"Dawn Song",
-"Dylan Hadfield-Menell",
-"Evan Hubinger",
-"Jacob Hilton",
-"Mantas Mazeika",
-"Marius Hobbhahn",
-"Micah Carroll",
-"Robert Trager",
-"Sheila McIlraith"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "15",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2024",
-"URL": "https://www.far.ai/events/event-list/bayarea-aw-24",
-"notion_url": "https://www.notion.so/392a23d9216581d8b772ca873713528c"
-},
-{
-"Name": "San Diego Alignment Workshop 2025 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "San Diego",
-"Participants": [
-"Adam Gleave",
-"Andy Zou",
-"Ben Buchanan",
-"Bo Li",
-"Cozmin Ududec",
-"Daniel Kang",
-"Dawn Song",
-"Divya Siddarth",
-"Johannes Heidecke",
-"Marius Hobbhahn",
-"Max Tegmark",
-"Neel Nanda",
-"Roger Grosse",
-"Sam Bowman",
-"Tomek Korbak",
-"Xander Davies",
-"Yoshua Bengio"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "17",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2025",
-"URL": "https://www.far.ai/events/event-list/san-diego-alignment-workshop",
-"notion_url": "https://www.notion.so/392a23d92165813eaf83fe525375a20d"
-},
-{
-"Name": "Singapore Alignment Workshop 2025 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Singapore",
-"Participants": [
-"Adam Gleave",
-"Alan Chan",
-"Daniel Kang",
-"Dylan Hadfield-Menell",
-"Owain Evans",
-"Pin-Yu Chen",
-"Yinpeng Dong",
-"Yoshua Bengio",
-"Zico Kolter"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "9",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2025",
-"URL": "https://www.far.ai/events/event-list/singapore-aw-25",
-"notion_url": "https://www.notion.so/392a23d9216581c7a1ccfb8c28fd86f7"
-},
-{
-"Name": "Alignment Workshop New Orleans 2023 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "New Orleans",
-"Participants": [
-"Adam Gleave",
-"Aleksander Madry",
-"Been Kim",
-"Boaz Barak",
-"David Krueger",
-"Dawn Song",
-"Dylan Hadfield-Menell",
-"Lewis Hammond",
-"Max Tegmark",
-"Owain Evans",
-"Roger Grosse",
-"Sam Bowman",
-"Sanjeev Arora",
-"Sheila McIlraith",
-"Yoshua Bengio",
-"Zico Kolter"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "16",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2023",
-"URL": "https://www.far.ai/events/event-list/nola-aw-23",
-"notion_url": "https://www.notion.so/392a23d9216581c1ac07c6186e2c3c5c"
-},
-{
-"Name": "Alignment Workshop SF 2023 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "San Francisco",
-"Participants": [
-"Ajeya Cotra",
-"Chris Olah",
-"Dan Hendrycks",
-"Jacob Steinhardt",
-"Jan Leike"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "5",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2023",
-"URL": "https://www.far.ai/events/event-list/sf-aw-23",
-"notion_url": "https://www.notion.so/392a23d921658174b32cda61797194ff"
-},
-{
-"Name": "Vienna Alignment Workshop 2024 (FAR.AI)",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Adam Gleave",
-"Helen Toner",
-"Jan Leike",
-"Neel Nanda",
-"Nicholas Carlini",
-"Nitarshan Rajkumar",
-"Robert Trager",
-"Stuart Russell"
-],
-"Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
-"Roster participants": "8",
-"Series": "FAR.AI Alignment Workshop",
-"Type": "community",
-"Year": "2024",
-"URL": "https://far.ai/events/event-list/vienna-aw-24",
-"notion_url": "https://www.notion.so/392a23d921658115999ed0dfa3818602"
-},
-{
-"Name": "Paris AI Action Summit 2025",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Paris",
-"Participants": [
-"Amba Kak",
-"Divya Siddarth",
-"Max Tegmark",
-"Niki Iliadis",
-"Sarah Myers West",
-"Sean McGregor",
-"Sriram Krishnan",
-"Yoshua Bengio"
-],
-"Recommendation": "Gov/invite; the fringe events are the value",
-"Roster participants": "8",
-"Series": "Paris AI Action Summit",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://en.wikipedia.org/wiki/AI_Action_Summit",
-"notion_url": "https://www.notion.so/392a23d92165812cba2afa45d8833930"
-},
-{
-"Name": "AI for Good Global Summit 2024",
-"Focus area": [
-"Governance & policy",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Geneva",
-"Participants": [
-"Aleksander Madry",
-"Lennart Heim",
-"Rumman Chowdhury",
-"Sean McGregor",
-"Stuart Russell",
-"Yarin Gal"
-],
-"Recommendation": "UN showcase; low research density",
-"Roster participants": "6",
-"Series": "AI for Good",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://aiforgood.itu.int/",
-"notion_url": "https://www.notion.so/392a23d92165815bba0cc36d197cf2d1"
-},
-{
-"Name": "Paris Cyber Summit",
-"Focus": "European cyber policy; autonomous AI threats",
-"Focus area": [
-"Cybersecurity",
-"Governance & policy"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Paris (Spring)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Cyber policy forum",
-"Roster participants": "0",
-"Series": "Paris Cyber Summit",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.paris-cyber-summit.com/",
-"notion_url": "https://www.notion.so/392a23d9216581ed8509caf32f4c2245"
-},
-{
-"Name": "GPAI Summit New Delhi 2023",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "New Delhi",
-"Participants": [
-"Inma Martinez",
-"Marko Grobelnik"
-],
-"Recommendation": "Ministerial forum",
-"Roster participants": "2",
-"Series": "GPAI",
-"Type": "governance",
-"Year": "2023",
-"URL": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1986475",
-"notion_url": "https://www.notion.so/392a23d92165810c9903ddd124f7145f"
-},
-{
-"Name": "India AI Impact Summit 2026 (New Delhi)",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "New Delhi",
-"Notes": "Held Feb 16–21, 2026, Bharat Mandapam, New Delhi.",
-"Participants": [
-"Elham Tabassi",
-"Michael Kratsios",
-"Niki Iliadis",
-"Sriram Krishnan",
-"Yoshua Bengio"
-],
-"Recommendation": "Gov summit",
-"Roster participants": "5",
-"Series": "India AI Impact Summit (New Delhi)",
-"Type": "governance",
-"Year": "2026",
-"URL": "https://indiaai.gov.in/",
-"notion_url": "https://www.notion.so/392a23d9216581a486a2e21a3b23cbdf"
-},
-{
-"Name": "The AI Summit London",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "London",
-"Participants": [
-"Jade Leung"
-],
-"Recommendation": "Trade show",
-"Roster participants": "1",
-"Series": "The AI Summit London",
-"Type": "industry",
-"URL": "https://london.theaisummit.com/",
-"notion_url": "https://www.notion.so/392a23d9216581b5bf89f7ab0069f807"
-},
-{
-"Name": "AI Safety Summit (Bletchley) 2023",
-"Focus area": [
-"Governance & policy",
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Bletchley Park UK",
-"Participants": [
-"Max Tegmark",
-"Stuart Russell",
-"Yoshua Bengio"
-],
-"Recommendation": "Gov delegates only; track outcomes remotely",
-"Roster participants": "3",
-"Series": "AI Safety Summit (Bletchley)",
-"Type": "governance",
-"Year": "2023",
-"URL": "https://futureoflife.org/project/ai-safety-summits/",
-"notion_url": "https://www.notion.so/392a23d9216581a5a28dcbdd463493ce"
-},
-{
-"Name": "AI Risk Summit (SecurityWeek)",
-"Focus": "Enterprise AI risk for CISOs",
-"Focus area": [
-"AI security",
-"Industry & enterprise"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Half Moon Bay CA (Aug)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "CISO-oriented; marketing-heavy",
-"Roster participants": "0",
-"Series": "AI Risk Summit (SecurityWeek)",
-"Type": "industry",
-"URL": "https://www.airisksummit.com/",
-"notion_url": "https://www.notion.so/392a23d9216581d7824fd5547cf5b502"
-},
-{
-"Name": "Global AI Summit on Africa",
-"Focus": "African AI governance (WEF C4IR Rwanda)",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "No",
-"Join priority": "Skip",
-"Location": "Kigali (Apr 2025)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Regional gov summit",
-"Roster participants": "0",
-"Series": "Global AI Summit on Africa",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://c4ir.rw/global-ai-summit-on-africa",
-"notion_url": "https://www.notion.so/392a23d9216581f991aafefe7c54053f"
-},
-{
-"Name": "Concordia Annual Summit 2024",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "New York",
-"Participants": [
-"Rumman Chowdhury"
-],
-"Recommendation": "Diplomatic gala",
-"Roster participants": "1",
-"Series": "Concordia Annual Summit",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://www.concordialive.com/2024AnnualSummit/speaker/1392644/rumman-chowdhury",
-"notion_url": "https://www.notion.so/392a23d9216581d79ef0cd6793b386c1"
-},
-{
-"Name": "AI Seoul Summit 2024",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Seoul",
-"Participants": [
-"Yoshua Bengio"
-],
-"Recommendation": "Gov delegates only",
-"Roster participants": "1",
-"Series": "AI Seoul Summit",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://yoshuabengio.org/2024/06/19/the-international-scientific-report-on-the-safety-of-advanced-ai/",
-"notion_url": "https://www.notion.so/392a23d92165819090d5c125239916c5"
-},
-{
-"Name": "Web Summit Lisbon 2024",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Lisbon",
-"Participants": [
-"Max Tegmark"
-],
-"Recommendation": "Giant tech expo",
-"Roster participants": "1",
-"Series": "Web Summit Lisbon",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://websummit.com/attendees/lis24/57a1f84f-3062-4555-a5ec-790699ed5152/max-tegmark/",
-"notion_url": "https://www.notion.so/392a23d9216581ec9677f9b6249d94a8"
-},
-{
-"Name": "AI4People Summit 2025",
-"Focus area": [
-"Ethics & society",
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Virtual",
-"Participants": [
-"Rishi Bommasani"
-],
-"Recommendation": "EU ethics forum",
-"Roster participants": "1",
-"Series": "AI4People Summit",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://ai4people.org/meet-the-speakers-rishi-bommasani/",
-"notion_url": "https://www.notion.so/392a23d921658115982ff18407ec957b"
-},
-{
-"Name": "Credo AI Responsible AI Summit 2024",
-"Focus area": [
-"Ethics & society",
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "San Francisco",
-"Participants": [
-"Elham Tabassi"
-],
-"Recommendation": "Vendor governance summit",
-"Roster participants": "1",
-"Series": "Credo AI Responsible AI Summit",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://www.credo.ai/summit-2024-speakers/aisummit2024-elham-tabassi",
-"notion_url": "https://www.notion.so/392a23d921658129b93cd233d4db889a"
-},
-{
-"Name": "AI for Good Global Summit 2025",
-"Focus area": [
-"Governance & policy",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Geneva",
-"Participants": [
-"Geoffrey Hinton",
-"Yoshua Bengio"
-],
-"Recommendation": "UN showcase; low research density",
-"Roster participants": "2",
-"Series": "AI for Good",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://aiforgood.itu.int/geoffrey-hinton-at-ai-for-good-summit-balancing-ais-transformative-potential-with-ethical-concerns/",
-"notion_url": "https://www.notion.so/392a23d9216581b8b0c1fb4b803c887b"
-},
-{
-"Name": "AI for Good Global Summit 2023",
-"Focus area": [
-"Governance & policy",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Geneva",
-"Participants": [
-"Tristan Harris"
-],
-"Recommendation": "UN showcase; low research density",
-"Roster participants": "1",
-"Series": "AI for Good",
-"Type": "governance",
-"Year": "2023",
-"URL": "https://aiforgood.itu.int/tristan-harris-at-the-ai-for-good-global-summit-the-ai-dilemma/",
-"notion_url": "https://www.notion.so/392a23d921658190bf12ce315c6881cb"
-},
-{
-"Name": "AI Safety Summit Talks (Existential Risk Observatory, remote, Seoul Summit fringe) 2024",
-"Focus area": [
-"X-risk & futures",
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Virtual",
-"Participants": [
-"Yoshua Bengio"
-],
-"Recommendation": "Online talks; watch recordings",
-"Roster participants": "1",
-"Series": "AI Safety Summit Talks (Existential Risk Observatory)",
-"Type": "community",
-"Year": "2024",
-"URL": "https://www.existentialriskobservatory.org/",
-"notion_url": "https://www.notion.so/392a23d9216581c0951ed74e383afe27"
-},
-{
-"Name": "OWASP Agentic AI Security Summit Europe 2025",
-"Focus": "Security, safety & governance of agentic AI systems",
-"Focus area": [
-"AI security",
-"Cybersecurity"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "London",
-"Recommendation": "Focused one-day agentic-AI security gathering",
-"Series": "OWASP Agentic AI Security Summit",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://genai.owasp.org/event/genai-security-project-agentic-ai-summit-europe/",
-"notion_url": "https://www.notion.so/393a23d9216581eea19bd4b8cb2f0984"
-},
-{
-"Name": "Fundraising.AI Global Summit 2025",
-"Focus area": [
-"Ethics & society",
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Virtual",
-"Participants": [
-"Rumman Chowdhury"
-],
-"Recommendation": "Nonprofit-sector specific",
-"Roster participants": "1",
-"Series": "Fundraising.AI Global Summit",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://fundraising.ai/summit/",
-"notion_url": "https://www.notion.so/392a23d921658173b7bddf10ffa03c5b"
-},
-{
-"Name": "AI Security Summit city series (Snyk × AI Engineer)",
-"Focus": "Invite-only CISO/CTO AI-security series",
-"Focus area": [
-"AI security",
-"Industry & enterprise"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Rolling (London/SF/Paris)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "CISO-oriented AI-security series",
-"Roster participants": "0",
-"Series": "AI Security Summit city series (Snyk × AI Engineer)",
-"Type": "industry",
-"URL": "https://aisecuritysummit.com",
-"notion_url": "https://www.notion.so/392a23d92165815db06cc84a40fbfab4"
-},
-{
-"Name": "AI Safety Connect (Paris AI Action Summit side event) 2025",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Paris",
-"Participants": [
-"Max Tegmark"
-],
-"Recommendation": "Summit fringe networking",
-"Roster participants": "1",
-"Series": "AI Safety Connect (Paris AI Action Summit side event)",
-"Type": "community",
-"Year": "2025",
-"URL": "https://danfaggella.com/tegmark1/",
-"notion_url": "https://www.notion.so/392a23d92165819899aee67376b4389b"
-},
-{
-"Name": "Black Hat USA 2026",
-"Focus": "Enterprise security; dedicated AI Summit track",
-"Focus area": [
-"Cybersecurity",
-"AI security",
-"Industry & enterprise"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Las Vegas",
-"Notes": "Aug 1–6, 2026 (Briefings Aug 5–6), Mandalay Bay",
-"Recommendation": "Continues tracked 2023–25 series; anchors the same Vegas week as DEF CON 34 and Vegas AI Security Forum",
-"Series": "Black Hat",
-"Type": "industry",
-"Year": "2026",
-"URL": "https://blackhat.com/us-26/",
-"notion_url": "https://www.notion.so/393a23d921658184878ae20eaed40d87"
-},
-{
-"Name": "Purdue PQAIS Symposium",
-"Focus area": [
-"ML research",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "West Lafayette IN",
-"Notes": "Quantum AI (PQAI) symposium, NSF-sponsored — not alignment-focused; previous URL was dead.",
-"Participants": [
-"Pin-Yu Chen"
-],
-"Recommendation": "Niche academic symposium",
-"Roster participants": "1",
-"Series": "Purdue PQAIS Symposium",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://engineering.purdue.edu/IE/PurdueQuantumAIWorkshop2025",
-"notion_url": "https://www.notion.so/392a23d92165811aba6dc3f82d37848f"
-},
-{
-"Name": "IEEE Symposium on Security and Privacy 2026–2027",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "San Francisco",
-"Participants": [
-"Nicolas Papernot"
-],
-"Recommendation": "Top-4 security venue; growing AI-security track",
-"Roster participants": "1",
-"Series": "IEEE Symposium on Security and Privacy",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://www.ieee-security.org/TC/SP-Index.html",
-"notion_url": "https://www.notion.so/392a23d9216581e885b2e67b756e15d6"
-},
-{
-"Name": "One-U Responsible AI Inaugural Symposium (Univ. of Utah) 2024",
-"Focus area": [
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Salt Lake City",
-"Participants": [
-"Elham Tabassi"
-],
-"Recommendation": "Local university symposium",
-"Roster participants": "1",
-"Series": "One-U Responsible AI Inaugural Symposium (Univ. of Utah)",
-"Type": "mixed",
-"Year": "2024",
-"URL": "https://attheu.utah.edu/announcements/national-ai-leader-elham-tabassi-to-deliver-keynote-at-one-u-rai-inaugural-symposium/",
-"notion_url": "https://www.notion.so/392a23d9216581568be0e9748a3d634a"
-},
-{
-"Name": "CAMLIS 2026",
-"Focus": "Applied ML for information security",
-"Focus area": [
-"AI security",
-"Cybersecurity",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Arlington VA",
-"Notes": "Oct 21–23, 2026, Arlington VA; now three days",
-"Recommendation": "The applied ML-for-infosec community's home conference; DB only had 2024",
-"Series": "CAMLIS",
-"Type": "mixed",
-"Year": "2026",
-"URL": "https://www.camlis.org/",
-"notion_url": "https://www.notion.so/393a23d921658160b4a8c148239b13a4"
-},
-{
-"Name": "NeurIPS 2026",
-"Focus": "Main venue for safety/interpretability/eval workshops",
-"Focus area": [
-"ML research",
-"Alignment",
-"Interpretability"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Sydney",
-"Notes": "Dec 6–12, 2026, ICC Sydney, Australia",
-"Recommendation": "Workshop list lands ~Aug 2026 — re-scan then; note venue change to Sydney",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://neurips.cc/Conferences/2026",
-"notion_url": "https://www.notion.so/393a23d921658118b13cd7fe8127a867"
-},
-{
-"Name": "The Curve 2026",
-"Focus": "Big-picture AI futures; researchers, lab leaders, policymakers (invite-only)",
-"Focus area": [
-"X-risk & futures",
-"Alignment",
-"Governance & policy"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Berkeley",
-"Notes": "Oct 2–4, 2026, Lighthaven, Berkeley",
-"Recommendation": "DB tracks 2024–25 editions, both roster-dense; hosted by Golden Gate Institute at Lighthaven",
-"Series": "The Curve",
-"Type": "community",
-"Year": "2026",
-"URL": "https://thecurve.goldengateinstitute.org/",
-"notion_url": "https://www.notion.so/393a23d921658165b5e2ed32ffe49f5d"
-},
-{
-"Name": "ICML 2026",
-"Focus": "Backfill for series continuity; workshops Jul 10–11",
-"Focus area": [
-"ML research",
-"Alignment",
-"Interpretability"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Seoul",
-"Notes": "Jul 6–11, 2026, COEX, Seoul",
-"Recommendation": "Keeps ICML series continuous for participant tracking; starts Jul 6, 2026 (impractical to attend)",
-"Series": "ICML",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://icml.cc/",
-"notion_url": "https://www.notion.so/393a23d9216581e8ba34ee3fc9c3ec4d"
-},
-{
-"Name": "ACM CCS 2026",
-"Focus": "Top-tier security conference; hosts the AISec workshop already tracked",
-"Focus area": [
-"Cybersecurity",
-"AI security",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "The Hague (Nov 2026)",
-"Notes": "Nov 15–19, 2026, The Hague, Netherlands",
-"Recommendation": "Makes the undated ACM AISec gap-venue row actionable",
-"Series": "ACM CCS",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://www.sigsac.org/ccs/CCS2026/",
-"notion_url": "https://www.notion.so/393a23d92165811699c4d1ff1ddfd4aa"
-},
-{
-"Name": "ICLR 2026",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Rio de Janeiro",
-"Participants": [
-"Percy Liang"
-],
-"Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
-"Roster participants": "1",
-"Series": "ICLR",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://blog.iclr.cc/2026/04/17/announcing-the-iclr-2026-keynotes/",
-"notion_url": "https://www.notion.so/392a23d9216581ce8860c3db4291d5f6"
-},
-{
-"Name": "IEEE SaTML 2026",
-"Focus": "Backfill: 2026 edition (already past) to close the 2023–27 series gap",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Munich",
-"Notes": "Mar 23–25, 2026, Technical University of Munich",
-"Recommendation": "Backfill only — held Mar 23–25, 2026 at TU Munich",
-"Series": "IEEE SaTML",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://satml.org/",
-"notion_url": "https://www.notion.so/393a23d9216581579135e8679cd5192f"
-},
-{
-"Name": "USENIX Security 2026",
-"Focus": "Top-4 security venue; much of the strongest peer-reviewed LLM security / prompt injection / model extraction work",
-"Focus area": [
-"Cybersecurity",
-"AI security",
-"Red teaming"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Baltimore",
-"Notes": "Aug 12–14, 2026, Baltimore Marriott Waterfront",
-"Recommendation": "Gap in coverage given DB tracks IEEE S&P and CCS-adjacent workshops",
-"Series": "USENIX Security",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://www.usenix.org/conference/usenixsecurity26",
-"notion_url": "https://www.notion.so/393a23d921658169b189fce4a4296912"
-},
-{
-"Name": "WEF Annual Meeting Davos 2026",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Davos",
-"Participants": [
-"Cathy Li"
-],
-"Recommendation": "Invite-only elite forum",
-"Roster participants": "1",
-"Series": "WEF",
-"Type": "governance",
-"Year": "2026",
-"URL": "https://www.euronews.com/next/2026/01/24/ai-sovereignty-requires-partnerships-not-isolation-says-world-economic-forums-ai-chief",
-"notion_url": "https://www.notion.so/392a23d92165814ab854d72b366c7569"
-},
-{
-"Name": "DEF CON 34 AI Village 2026",
-"Focus": "Hands-on AI red teaming; adversarial attacks on agents/agentic systems poster track",
-"Focus area": [
-"AI security",
-"Red teaming",
-"Cybersecurity"
-],
-"In roster findings": "No",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Notes": "Aug 6–9, 2026, Las Vegas Convention Center",
-"Recommendation": "Flagship hands-on AI red-teaming venue; continues tracked 2023–25 series",
-"Series": "DEF CON AI Village",
-"Type": "community",
-"Year": "2026",
-"URL": "https://aivillage.org/events/defcon-34/",
-"notion_url": "https://www.notion.so/393a23d9216581fc98c8e53308914e7f"
-},
-{
-"Name": "IASEAI'26 (Feb 2026, UNESCO House Paris)",
-"Focus area": [
-"Governance & policy",
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Paris",
-"Participants": [
-"Geoffrey Hinton",
-"Stuart Russell",
-"Yoshua Bengio"
-],
-"Recommendation": "Open academic safe & ethical AI conference (Paris)",
-"Roster participants": "3",
-"Series": "IASEAI",
-"Type": "mixed",
-"Year": "2026",
-"URL": "https://www.iaseai.org/iaseai26",
-"notion_url": "https://www.notion.so/392a23d921658132bc94ff02784ed7ff"
-},
-{
-"Name": "Vegas AI Security Forum 2026",
-"Focus": "Frontier AI security: model-weight security, cyber evals, adversarial ML, AI insider risk (~200 attendees, application-based)",
-"Focus area": [
-"AI security",
-"Cybersecurity",
-"Governance & policy"
-],
-"In roster findings": "No",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Notes": "Aug 6, 2026, Las Vegas; application-based",
-"Recommendation": "Highest-density room for frontier AI security; stacks with DEF CON 34 / Black Hat week",
-"Series": "AI Security Forum",
-"Type": "mixed",
-"Year": "2026",
-"URL": "https://aisecurity.forum/events/vegas-ai-security-forum-26/",
-"notion_url": "https://www.notion.so/393a23d9216581f4821fc1098bfee1b1"
-},
-{
-"Name": "ControlConf (Redwood/FAR.AI/UK AISI)",
-"Focus": "First dedicated AI-control conference",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "London (Mar 2025) + Berkeley (Apr 2026)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet; ControlConf 2026 was Apr 18–19, 2026 in Berkeley, not London.",
-"Recommendation": "First dedicated AI-control conference",
-"Roster participants": "0",
-"Series": "ControlConf (Redwood/FAR.AI/UK AISI)",
-"Type": "community",
-"URL": "https://www.far.ai/events/event-list/london-controlconf-25",
-"notion_url": "https://www.notion.so/392a23d9216581c69cc7d644046f0779"
-},
-{
-"Name": "DEF CON 32 AI Village 2024",
-"Focus area": [
-"Red teaming",
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Christina Liaghati",
-"Dan McInerney",
-"Erick Galinkin",
-"Ivan Evtimov",
-"Kasimir Schulz",
-"Leon Derczynski",
-"Sean McGregor",
-"Subho Majumdar",
-"Tom Bonner"
-],
-"Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
-"Roster participants": "9",
-"Series": "DEF CON AI Village",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://tldrsec.com/p/2024-defcon-ai-talks",
-"notion_url": "https://www.notion.so/392a23d92165817697f1eaef04b45874"
-},
-{
-"Name": "Black Hat USA 2025",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Kasimir Schulz",
-"Tamir Ishay Sharbat"
-],
-"Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
-"Roster participants": "2",
-"Series": "Black Hat",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://hiddenlayer.com/blackhat2025/",
-"notion_url": "https://www.notion.so/392a23d92165814ea773db46afc5d8d4"
-},
-{
-"Name": "Black Hat USA 2023",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Fred Heiding",
-"Michael Bargury"
-],
-"Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
-"Roster participants": "2",
-"Series": "Black Hat",
-"Type": "industry",
-"Year": "2023",
-"URL": "https://www.blackhat.com/us-23/",
-"notion_url": "https://www.notion.so/392a23d9216581bd8b85c204ca4a514c"
-},
-{
-"Name": "DEF CON 33 AI Village 2025",
-"Focus area": [
-"Red teaming",
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Michael Bargury"
-],
-"Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
-"Roster participants": "1",
-"Series": "DEF CON AI Village",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://idpro.org/blackhat-and-def-con-2025-thoughts/",
-"notion_url": "https://www.notion.so/392a23d9216581299e10f0c8ee07ae4a"
-},
-{
-"Name": "DEF CON 31 AI Village 2023",
-"Focus area": [
-"Red teaming",
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "Las Vegas",
-"Participants": [
-"Rumman Chowdhury"
-],
-"Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
-"Roster participants": "1",
-"Series": "DEF CON AI Village",
-"Type": "industry",
-"Year": "2023",
-"URL": "https://aivillage.org/",
-"notion_url": "https://www.notion.so/392a23d9216581f4b864c9b29b3e7c96"
-},
-{
-"Name": "AI Security Forum",
-"Focus": "Frontier model-weight security, invite-only",
-"Focus area": [
-"AI security"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Feb Paris + Aug Vegas",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Frontier model security; invite-only - high value if invited",
-"Roster participants": "0",
-"Series": "AI Security Forum",
-"Type": "industry",
-"URL": "https://aisecurity.forum/",
-"notion_url": "https://www.notion.so/392a23d92165819da810c745b6d24440"
-},
-{
-"Name": "FAR.AI session @ Paris AI Security Forum 2025 (Impact of Frontier AI on Cyber Security)",
-"Focus area": [
-"AI security",
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Paris",
-"Notes": "Dawn Song session at Paris AI Security Forum (Feb 2025), not a standalone event — consider merging into AI Security Forum row.",
-"Participants": [
-"Dawn Song"
-],
-"Recommendation": "AI x cybersecurity intersection - your exact beat",
-"Roster participants": "1",
-"Series": "FAR.AI event (Impact of Frontier AI on Cyber Security)",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.far.ai/events/sessions/dawn-song-impact-of-frontier-ai-in-the-landscape-of-cyber-security",
-"notion_url": "https://www.notion.so/392a23d9216581489644ca8b90e5221e"
-},
-{
-"Name": "Hack In The Box Bangkok (OOTB) 2025",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Bangkok",
-"Participants": [
-"Johann Rehberger"
-],
-"Recommendation": "Regional offensive-security venue (Bangkok)",
-"Roster participants": "1",
-"Series": "Hack In The Box Bangkok (OOTB)",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.youtube.com/watch?v=-HL0dDhCahk",
-"notion_url": "https://www.notion.so/392a23d92165811192dce075c41065fc"
-},
-{
-"Name": "Technical Innovations for AI Policy 2025",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Washington DC",
-"Participants": [
-"Adam Gleave"
-],
-"Recommendation": "Niche policy-technical bridge",
-"Roster participants": "1",
-"Series": "Technical Innovations for AI Policy",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://www.far.ai/events",
-"notion_url": "https://www.notion.so/392a23d92165815db264d94358223fab"
-},
-{
-"Name": "WEF Annual Meeting Davos 2025",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Davos",
-"Participants": [
-"Yoshua Bengio"
-],
-"Recommendation": "Invite-only elite forum",
-"Roster participants": "1",
-"Series": "WEF",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://www.weforum.org/",
-"notion_url": "https://www.notion.so/392a23d9216581bf84defc7307193b47"
-},
-{
-"Name": "OECD AI WIPS 2024",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Paris",
-"Participants": [
-"Elham Tabassi",
-"Sean McGregor"
-],
-"Recommendation": "Policy working sessions",
-"Roster participants": "2",
-"Series": "OECD AI WIPS",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://www.oecd-events.org/ai-wips2024/speaker/2d647dee-4fab-ef11-88cf-6045bd903ca2/elham-tabassi",
-"notion_url": "https://www.notion.so/392a23d9216581869dddd3c847e3e274"
-},
-{
-"Name": "NeurIPS 2023",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Must attend",
-"Location": "New Orleans",
-"Participants": [
-"Percy Liang"
-],
-"Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
-"Roster participants": "1",
-"Series": "NeurIPS",
-"Type": "academic",
-"Year": "2023",
-"URL": "https://blog.neurips.cc/2023/12/10/announcing-neurips-2023-invited-talks/",
-"notion_url": "https://www.notion.so/392a23d92165813ba2fdccb76ed81840"
-},
-{
-"Name": "LABScon 2023",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Scottsdale AZ",
-"Participants": [
-"Eoin Wickens"
-],
-"Recommendation": "Invite-only threat-intel",
-"Roster participants": "1",
-"Series": "LABScon",
-"Type": "industry",
-"Year": "2023",
-"URL": "https://www.labscon.io/",
-"notion_url": "https://www.notion.so/392a23d9216581fd9e81d7bb6b10b1d7"
-},
-{
-"Name": "EMNLP 2023",
-"Focus area": [
-"ML research",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Singapore",
-"Participants": [
-"Sander Schulhoff"
-],
-"Recommendation": "NLP venue; prompt-injection papers appear",
-"Roster participants": "1",
-"Series": "EMNLP",
-"Type": "academic",
-"Year": "2023",
-"URL": "https://sanderschulhoff.com/",
-"notion_url": "https://www.notion.so/392a23d9216581fa89e6e0df9f01c3d9"
-},
-{
-"Name": "BSides Berlin 2023",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Berlin",
-"Participants": [
-"Bar Lanyado"
-],
-"Recommendation": "Cheap community venue; good place to give first talks",
-"Roster participants": "1",
-"Series": "BSides",
-"Type": "industry",
-"Year": "2023",
-"URL": "https://www.youtube.com/watch?v=8tlU3APgHBE",
-"notion_url": "https://www.notion.so/392a23d9216581f48329e4d3b5176583"
-},
-{
-"Name": "EAG London 2023",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "London",
-"Participants": [
-"Victoria Krakovna"
-],
-"Recommendation": "Safety networking pipeline",
-"Roster participants": "1",
-"Series": "EA Global",
-"Type": "community",
-"Year": "2023",
-"URL": "https://vkrakovna.wordpress.com/talks/",
-"notion_url": "https://www.notion.so/392a23d921658195818cf5c01c553fa4"
-},
-{
-"Name": "ACM FAccT 2023",
-"Focus area": [
-"Ethics & society",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Chicago",
-"Participants": [
-"Alondra Nelson"
-],
-"Recommendation": "Top ethics venue; tangential to your focus",
-"Roster participants": "1",
-"Series": "ACM FAccT",
-"Type": "academic",
-"Year": "2023",
-"URL": "https://facctconference.org/2023/keynotes",
-"notion_url": "https://www.notion.so/392a23d9216581b0a3dad8b016dad144"
-},
-{
-"Name": "TED2023 (Vancouver)",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Vancouver",
-"Participants": [
-"Eliezer Yudkowsky"
-],
-"Recommendation": "Watch the talks online",
-"Roster participants": "1",
-"Series": "TED",
-"Type": "mixed",
-"Year": "2023",
-"URL": "https://www.ted.com/talks/eliezer_yudkowsky_will_superintelligent_ai_end_the_world",
-"notion_url": "https://www.notion.so/392a23d92165812e9f25e159b37bd92f"
-},
-{
-"Name": "IEEE SaTML 2023",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Raleigh NC",
-"Participants": [
-"Nicolas Papernot"
-],
-"Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
-"Roster participants": "1",
-"Series": "IEEE SaTML",
-"Type": "academic",
-"Year": "2023",
-"URL": "https://www.papernot.fr/",
-"notion_url": "https://www.notion.so/392a23d9216581e68fdadde838bd8134"
-},
-{
-"Name": "IEEE SaTML 2027",
-"Focus": "Premier academic venue for secure & trustworthy ML",
-"Focus area": [
-"AI security",
-"ML research",
-"Red teaming"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Reykjavik",
-"Notes": "May 8–10, 2027, Reykjavik, Iceland",
-"Recommendation": "Continues tracked 2023–25 series; early flag for paper deadlines",
-"Roster participants": "0",
-"Series": "IEEE SaTML",
-"Type": "academic",
-"Year": "2027",
-"URL": "https://satml.org/",
-"notion_url": "https://www.notion.so/393a23d921658145bb98eb71cd0112e9"
-},
-{
-"Name": "AAAI AI Alignment Special Track",
-"Focus": "Alignment/oversight/safety evals track since AAAI-25 (Philadelphia, 2025); continues at AAAI-26",
-"Focus area": [
-"Alignment",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Singapore (Jan 2026)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Publishing target for alignment work",
-"Roster participants": "0",
-"Series": "AAAI AI Alignment Special Track",
-"Type": "academic",
-"URL": "https://aaai.org/conference/aaai/aaai-26/",
-"notion_url": "https://www.notion.so/392a23d92165810ebc39f0b2092add00"
-},
-{
-"Name": "International Cyber Expo 2025",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "London",
-"Participants": [
-"Peter Garraghan"
-],
-"Recommendation": "Trade expo",
-"Roster participants": "1",
-"Series": "International Cyber Expo",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://www.internationalcyberexpo.com/",
-"notion_url": "https://www.notion.so/392a23d9216581c9a493d41272770842"
-},
-{
-"Name": "39C3 (Chaos Communication Congress) 2025",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Hamburg",
-"Participants": [
-"Johann Rehberger"
-],
-"Recommendation": "European hacker venue; prompt-injection talks",
-"Roster participants": "1",
-"Series": "Chaos Communication Congress",
-"Type": "community",
-"Year": "2025",
-"URL": "https://media.ccc.de/v/39c3-agentic-probllms-exploiting-ai-computer-use-and-coding-agents",
-"notion_url": "https://www.notion.so/392a23d9216581818737d46cc30f8970"
-},
-{
-"Name": "Generative AI Week",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Georgetown TX (Austin)",
-"Notes": "Series rebranded to Agentic AI Week USA.",
-"Participants": [
-"Sander Schulhoff"
-],
-"Recommendation": "Expo",
-"Roster participants": "1",
-"Series": "Generative AI Week",
-"Type": "mixed",
-"Year": "2025",
-"URL": "https://www.aidataanalytics.network/events-generative-ai-week",
-"notion_url": "https://www.notion.so/392a23d9216581d8bb54cb0afa1ae791"
-},
-{
-"Name": "SCSP AI Expo for National Competitiveness 2024",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Washington DC",
-"Participants": [
-"Elham Tabassi"
-],
-"Recommendation": "US natsec expo",
-"Roster participants": "1",
-"Series": "SCSP AI Expo for National Competitiveness",
-"Type": "governance",
-"Year": "2024",
-"URL": "https://washingtonainetwork.com/2024/05/28/nists-chief-ai-advisor-elham-tabassi-discusses-the-u-s-governments-ai-efforts-at-scsp-ai-expo/",
-"notion_url": "https://www.notion.so/392a23d9216581c5a040de1269fc217f"
-},
-{
-"Name": "GenAI Week Silicon Valley 2025",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Santa Clara CA",
-"Participants": [
-"Bo Li"
-],
-"Recommendation": "Expo; low research value",
-"Roster participants": "1",
-"Series": "GenAI Week Silicon Valley",
-"Type": "industry",
-"Year": "2025",
-"URL": "https://genaisummit.ai/speaker/154",
-"notion_url": "https://www.notion.so/392a23d9216581abaf50dd9b8f7f7570"
-},
-{
-"Name": "SXSW 2024",
-"Focus area": [
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Austin TX",
-"Participants": [
-"Joy Buolamwini"
-],
-"Recommendation": "Entertainment festival",
-"Roster participants": "1",
-"Series": "SXSW",
-"Type": "mixed",
-"Year": "2024",
-"URL": "https://sxsw.com/interactive/2024/keynote-a-conversation-with-dr-joy-buolamwini-sxsw-2024/",
-"notion_url": "https://www.notion.so/392a23d921658155931acf9ccd405e0f"
-},
-{
-"Name": "BSidesLV 2024",
-"Focus area": [
-"Cybersecurity"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Las Vegas",
-"Participants": [
-"Fred Heiding"
-],
-"Recommendation": "Cheap community venue; good place to give first talks",
-"Roster participants": "1",
-"Series": "BSides",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://tldrsec.com/p/2024-bsideslv-blackhat-ai-talks",
-"notion_url": "https://www.notion.so/392a23d9216581b4b3fade08c52fe460"
-},
-{
-"Name": "AAAI 2024",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Vancouver",
-"Participants": [
-"Pin-Yu Chen"
-],
-"Recommendation": "Major AI venue; new alignment track",
-"Roster participants": "1",
-"Series": "AAAI",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://sites.google.com/site/pinyuchenpage/home",
-"notion_url": "https://www.notion.so/392a23d9216581698aabcae9358e9865"
-},
-{
-"Name": "EMNLP 2024",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Miami",
-"Participants": [
-"Percy Liang"
-],
-"Recommendation": "NLP venue; prompt-injection papers appear",
-"Roster participants": "1",
-"Series": "EMNLP",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://2024.emnlp.org/program/keynotes/",
-"notion_url": "https://www.notion.so/392a23d92165810ea40fd942663eff1b"
-},
-{
-"Name": "IEEE SaTML 2024",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Toronto",
-"Participants": [
-"Florian Tramèr",
-"Nicolas Papernot"
-],
-"Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
-"Roster participants": "2",
-"Series": "IEEE SaTML",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://satml.org/",
-"notion_url": "https://www.notion.so/392a23d92165815b8d23faf037ef990a"
-},
-{
-"Name": "ICLR 2024",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Vienna",
-"Participants": [
-"Been Kim"
-],
-"Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
-"Roster participants": "1",
-"Series": "ICLR",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://iclr.cc/virtual/2024/organizers",
-"notion_url": "https://www.notion.so/392a23d92165813ba006c485dda6484a"
-},
-{
-"Name": "The Curve 2024",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Berkeley",
-"Participants": [
-"Daniel Kokotajlo"
-],
-"Recommendation": "AI-futures discourse; strong safety crowd",
-"Roster participants": "1",
-"Series": "The Curve",
-"Type": "community",
-"Year": "2024",
-"URL": "https://www.bloodinthemachine.com/p/ai-disagreements",
-"notion_url": "https://www.notion.so/392a23d9216581a79c59c1ac08f2c05e"
-},
-{
-"Name": "Gray Swan Jailbreaking Championship (CMU) 2024",
-"Focus area": [
-"Red teaming",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Pittsburgh",
-"Participants": [
-"Andy Zou"
-],
-"Recommendation": "Competitive jailbreaking - direct skills match",
-"Roster participants": "1",
-"Series": "Gray Swan Jailbreaking Championship (CMU)",
-"Type": "community",
-"Year": "2024",
-"URL": "https://www.cs.cmu.edu/calendar/177324405",
-"notion_url": "https://www.notion.so/392a23d9216581f5a41cf8cce6342542"
-},
-{
-"Name": "Microsoft BlueHat 2024",
-"Focus area": [
-"Cybersecurity",
-"AI security"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Redmond WA",
-"Participants": [
-"Richard Lundeen"
-],
-"Recommendation": "MS security community; AI red-team talks",
-"Roster participants": "1",
-"Series": "Microsoft BlueHat",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://www.youtube.com/watch?v=RFnOIYMOEeE",
-"notion_url": "https://www.notion.so/392a23d9216581b2948cd4722104fca5"
-},
-{
-"Name": "TED2024 (Vancouver)",
-"Focus area": [
-"Governance & policy"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Vancouver",
-"Participants": [
-"Helen Toner"
-],
-"Recommendation": "Watch the talks online",
-"Roster participants": "1",
-"Series": "TED",
-"Type": "mixed",
-"Year": "2024",
-"URL": "https://cset.georgetown.edu/article/helen-toner-at-ted-2024-how-to-govern-ai-even-if-its-hard-to-predict/",
-"notion_url": "https://www.notion.so/392a23d9216581b593f6ffdfc1b6df27"
-},
-{
-"Name": "Computational Humanities Research 2024",
-"Focus area": [
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Aarhus",
-"Participants": [
-"Leon Derczynski"
-],
-"Recommendation": "Tangential field",
-"Roster participants": "1",
-"Series": "Computational Humanities Research",
-"Type": "academic",
-"Year": "2024",
-"URL": "https://2024.computational-humanities-research.org/announcements/leon-derczynski/",
-"notion_url": "https://www.notion.so/392a23d92165813fa83bdab48c4aae64"
-},
-{
-"Name": "Info-Tech LIVE 2024 (Las Vegas)",
-"Focus area": [
-"Industry & enterprise"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Las Vegas",
-"Participants": [
-"Timnit Gebru"
-],
-"Recommendation": "IT trade show",
-"Roster participants": "1",
-"Series": "Info-Tech LIVE (Las Vegas)",
-"Type": "industry",
-"Year": "2024",
-"URL": "https://www.prnewswire.co.uk/news-releases/info-tech-research-group-reveals-dr-timnit-gebru-and-meredith-whittaker-to-be-keynote-speakers-at-live-2024-it-conference-302153583.html",
-"notion_url": "https://www.notion.so/392a23d9216581f7be1ffab5f920d192"
-},
-{
-"Name": "The Curve 2025",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Berkeley",
-"Participants": [
-"Daniel Kokotajlo"
-],
-"Recommendation": "AI-futures discourse; strong safety crowd",
-"Roster participants": "1",
-"Series": "The Curve",
-"Type": "community",
-"Year": "2025",
-"URL": "https://secondthoughts.ai/p/the-curve-2025-the-premier-big-picture",
-"notion_url": "https://www.notion.so/392a23d92165815e91e9f1b3cf702e4f"
-},
-{
-"Name": "CoLM 2025",
-"Focus area": [
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "Medium",
-"Location": "Montreal",
-"Participants": [
-"Nicholas Carlini"
-],
-"Recommendation": "LM-focused academic venue",
-"Roster participants": "1",
-"Series": "CoLM",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://nicholas.carlini.com/writing/2025/are-llms-worth-it.html",
-"notion_url": "https://www.notion.so/392a23d9216581b8bd9af117c6e8f779"
-},
-{
-"Name": "NISO Plus Baltimore 2025",
-"Focus area": [
-"Ethics & society"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Baltimore",
-"Participants": [
-"Timnit Gebru"
-],
-"Recommendation": "Library/publishing standards",
-"Roster participants": "1",
-"Series": "NISO Plus Baltimore",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://www.niso.org/niso-io/2025/01/timnit-gebru-our-2025-miles-conrad-awardee",
-"notion_url": "https://www.notion.so/392a23d92165816fac69c0e6fe68829f"
-},
-{
-"Name": "Nobel Prize Dialogue Madrid 2025",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Skip",
-"Location": "Madrid",
-"Participants": [
-"Geoffrey Hinton"
-],
-"Recommendation": "Ceremonial; watch online",
-"Roster participants": "1",
-"Series": "Nobel Prize events",
-"Type": "governance",
-"Year": "2025",
-"URL": "https://www.nobelprize.org/events/nobel-prize-dialogue/madrid-2025/panellists/geoffrey-hinton/",
-"notion_url": "https://www.notion.so/392a23d9216581eaaa83c63d509b8f30"
-},
-{
-"Name": "IEEE SaTML 2025",
-"Focus area": [
-"AI security",
-"ML research"
-],
-"In roster findings": "Yes",
-"Join priority": "High",
-"Location": "Copenhagen",
-"Participants": [
-"Been Kim",
-"Bo Li",
-"Kunal Talwar",
-"Nicolas Papernot",
-"Zico Kolter"
-],
-"Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
-"Roster participants": "5",
-"Series": "IEEE SaTML",
-"Type": "academic",
-"Year": "2025",
-"URL": "https://satml.org/2025/organization",
-"notion_url": "https://www.notion.so/392a23d9216581229a66cb64734a3c17"
-},
-{
-"Name": "AAAI/ACM AIES",
-"Focus": "AI ethics & society",
-"Focus area": [
-"Ethics & society",
-"ML research"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Malmö Sweden (Oct 2026)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Ethics venue; tangential to your focus",
-"Roster participants": "0",
-"Series": "AAAI/ACM AIES",
-"Type": "academic",
-"URL": "https://www.aies-conference.com/",
-"notion_url": "https://www.notion.so/392a23d92165816691b0d39b1928f418"
-},
-{
-"Name": "LessOnline",
-"Focus": "Rationalist/LW festival, safety-heavy crowd",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Lighthaven Berkeley (Jun)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Rationalist festival; safety-heavy crowd",
-"Roster participants": "0",
-"Series": "LessOnline",
-"Type": "community",
-"URL": "https://less.online/",
-"notion_url": "https://www.notion.so/392a23d921658161b74bd6552dfa854d"
-},
-{
-"Name": "Manifest",
-"Focus": "Forecasting festival, AI-futures programming",
-"Focus area": [
-"X-risk & futures"
-],
-"In roster findings": "No",
-"Join priority": "Low",
-"Location": "Lighthaven Berkeley (Jun)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Forecasting festival; tangential",
-"Roster participants": "0",
-"Series": "Manifest",
-"Type": "community",
-"URL": "https://manifest.is/",
-"notion_url": "https://www.notion.so/392a23d92165816786aeef9033913a13"
-},
-{
-"Name": "Princeton PLI \"AI Preparedness\" 2024",
-"Focus area": [
-"Governance & policy",
-"X-risk & futures"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Princeton NJ",
-"Participants": [
-"Aleksander Madry"
-],
-"Recommendation": "Watch talks online",
-"Roster participants": "1",
-"Series": "Princeton PLI events",
-"Type": "mixed",
-"Year": "2024",
-"URL": "https://pli.princeton.edu/events/2024/ai-preparedness",
-"notion_url": "https://www.notion.so/392a23d9216581269ee9e79b47343758"
-},
-{
-"Name": "AI Safety Camp",
-"Focus": "3-month virtual safety research program",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Virtual (Jan–Apr)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Remote research program",
-"Roster participants": "0",
-"Series": "AI Safety Camp",
-"Type": "community",
-"URL": "https://www.aisafety.camp/",
-"notion_url": "https://www.notion.so/392a23d9216581ae93d4d4cf11af9e28"
-},
-{
-"Name": "Princeton Language and Intelligence (PLI/PASS) event 2024",
-"Focus area": [
-"ML research",
-"Alignment"
-],
-"In roster findings": "Yes",
-"Join priority": "Low",
-"Location": "Virtual",
-"Participants": [
-"David Krueger"
-],
-"Recommendation": "Watch talks online",
-"Roster participants": "1",
-"Series": "Princeton PLI events",
-"Type": "mixed",
-"Year": "2024",
-"URL": "https://pli.princeton.edu/events/2024/professor-david-krueger",
-"notion_url": "https://www.notion.so/392a23d9216581dfab40e9c7a7d6472a"
-},
-{
-"Name": "Apart Research Sprints (Alignment Jams)",
-"Focus": "Weekend safety research hackathons",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Global hubs (monthly)",
-"Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
-"Recommendation": "Remote sprints; low-cost entry to safety research",
-"Roster participants": "0",
-"Series": "Apart Research Sprints (Alignment Jams)",
-"Type": "community",
-"URL": "https://apartresearch.com/sprints",
-"notion_url": "https://www.notion.so/392a23d921658196bb89f7d9d8947c2a"
-},
-{
-"Name": "CHAI Annual Workshop 2026",
-"Focus area": [
-"Alignment"
-],
-"In roster findings": "No",
-"Join priority": "High",
-"Location": "Asilomar",
-"Participants": [],
-"Recommendation": "CHAI's annual invite workshop (Asilomar); core academic alignment community. Added 2026-07-04 gap pass.",
-"Roster participants": "0",
-"Series": "CHAI Annual Workshop",
-"Type": "academic",
-"Year": "2026",
-"URL": "https://humancompatible.ai/",
-"notion_url": "https://app.notion.com/p/393a23d9216581aeacc0cca7193114b1"
-},
-{
-"Name": "EA Global: Bay Area 2026",
-"Focus area": [
-"Community & careers"
-],
-"In roster findings": "No",
-"Join priority": "Medium",
-"Location": "Bay Area",
-"Participants": [],
-"Recommendation": "EA Global flagship; major AI-safety career + community hub. Added 2026-07-04 gap pass.",
-"Roster participants": "0",
-"Series": "EA Global",
-"Type": "community",
-"Year": "2026",
-"URL": "https://www.eaglobal.org/",
-"notion_url": "https://app.notion.com/p/393a23d92165818bb280fb058a00246b"
-}
-]
+ "fetched": "2026-07-04",
+ "count": 138,
+ "conferences": [
+  {
+   "Name": "RSA Conference 2025",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "San Francisco",
+   "Participants": [
+    "Dawn Song",
+    "Hyrum Anderson",
+    "Jade Leung",
+    "Michael Bargury",
+    "Ram Shankar Siva Kumar",
+    "Steve Wilson"
+   ],
+   "Recommendation": "Enterprise security scale; AI risk track",
+   "Roster participants": "6",
+   "Series": "RSA Conference",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.rsaconference.com/usa",
+   "notion_url": "https://www.notion.so/392a23d9216581e78339f8dc23f6045b"
+  },
+  {
+   "Name": "RSA Conference 2024",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "San Francisco",
+   "Participants": [
+    "Ads Dawson",
+    "Dan Hendrycks",
+    "Hyrum Anderson",
+    "Ken Huang",
+    "Ram Shankar Siva Kumar",
+    "Steve Wilson"
+   ],
+   "Recommendation": "Enterprise security scale; AI risk track",
+   "Roster participants": "6",
+   "Series": "RSA Conference",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://genai.owasp.org/event/rsa-conference-2024/",
+   "notion_url": "https://www.notion.so/392a23d92165813aa20bea0d582bd56f"
+  },
+  {
+   "Name": "Alignment Conference 2025",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Notes": "Weak sourcing (search snippet + X profile) — re-verify if load-bearing; 2026-07-04 web re-check: event existence still unverified (only X-post evidence for a Geoffrey Irving keynote Oct 28, 2025); re-verify before relying on this row.",
+   "Participants": [
+    "Geoffrey Irving"
+   ],
+   "Recommendation": "Technical alignment gathering",
+   "Roster participants": "1",
+   "Series": "Alignment Conference",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://x.com/geoffreyirving",
+   "notion_url": "https://www.notion.so/392a23d92165818ca355f98a4b614d1c"
+  },
+  {
+   "Name": "PLA Conference 2024 (Columbus, OH)",
+   "Focus area": [
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Columbus OH",
+   "Participants": [
+    "Joy Buolamwini"
+   ],
+   "Recommendation": "Library association event",
+   "Roster participants": "1",
+   "Series": "PLA Conference (Columbus OH)",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://www.placonference.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581bd9fbbd2ca99b3f340"
+  },
+  {
+   "Name": "BAAI Conference (Beijing) 2023",
+   "Focus area": [
+    "ML research",
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Beijing",
+   "Participants": [
+    "Victoria Krakovna"
+   ],
+   "Recommendation": "Regional; window into China safety scene",
+   "Roster participants": "1",
+   "Series": "BAAI Conference (Beijing)",
+   "Type": "governance",
+   "Year": "2023",
+   "URL": "https://vkrakovna.wordpress.com/talks/",
+   "notion_url": "https://www.notion.so/392a23d9216581fda20ade2be0082c4b"
+  },
+  {
+   "Name": "AI Engineer conference 2025",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "San Francisco",
+   "Participants": [
+    "Sander Schulhoff"
+   ],
+   "Recommendation": "Practitioner LLM-security content",
+   "Roster participants": "1",
+   "Series": "AI Engineer conference",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.youtube.com/watch?v=_BRhRh7mOX0",
+   "notion_url": "https://www.notion.so/392a23d92165811588c1ff967980bb32"
+  },
+  {
+   "Name": "AI4 Conference 2025",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Matt Fredrikson"
+   ],
+   "Recommendation": "General industry AI",
+   "Roster participants": "1",
+   "Series": "AI4 Conference",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://ai4.grayswan.ai/",
+   "notion_url": "https://www.notion.so/392a23d9216581b0ab1edd0ad9c9abb7"
+  },
+  {
+   "Name": "World AI Conference, Shanghai 2025",
+   "Focus area": [
+    "Industry & enterprise",
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Shanghai",
+   "Participants": [
+    "Stuart Russell"
+   ],
+   "Recommendation": "Regional flagship; easy access from Taipei",
+   "Roster participants": "1",
+   "Series": "World AI Conference (Shanghai)",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://aisafetychina.substack.com/p/special-edition-world-ai-conference",
+   "notion_url": "https://www.notion.so/392a23d9216581ee847fe9c0a8033d4b"
+  },
+  {
+   "Name": "Australian Cyber Conference 2024",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Melbourne",
+   "Participants": [
+    "Christina Liaghati"
+   ],
+   "Recommendation": "General cyber conference",
+   "Roster participants": "1",
+   "Series": "Australian Cyber Conference",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://melbourne2024.cyberconference.com.au/speakers/christina-liaghati-sxk7w",
+   "notion_url": "https://www.notion.so/392a23d9216581f09c88fcf575a83990"
+  },
+  {
+   "Name": "Singapore Conference on AI (SCAI) 2025",
+   "Focus area": [
+    "Governance & policy",
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Singapore",
+   "Participants": [
+    "Adam Gleave",
+    "Akiko Murakami",
+    "Besmira Nushi",
+    "Buck Shlegeris",
+    "Dan Hendrycks",
+    "Dawn Song",
+    "Fazl Barez",
+    "Jeffrey Ladish",
+    "Johannes Heidecke",
+    "Lee Wan Sie",
+    "Max Tegmark",
+    "Minlie Huang",
+    "Robert Trager",
+    "Rumman Chowdhury",
+    "Seán Ó hÉigeartaigh",
+    "Siméon Campos",
+    "Stuart Russell",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Regional flagship safe-AI conference (Singapore)",
+   "Roster participants": "18",
+   "Series": "SCAI",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://arxiv.org/abs/2506.20702",
+   "notion_url": "https://www.notion.so/392a23d9216581958385e562cd629666"
+  },
+  {
+   "Name": "TAIS — Technical AI Safety Conference Tokyo",
+   "Focus": "Technical alignment, interpretability",
+   "Focus area": [
+    "Alignment",
+    "Interpretability"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Tokyo (Apr)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Technical safety in your region (Tokyo)",
+   "Roster participants": "0",
+   "Series": "TAIS — Technical AI Safety Conference Tokyo",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://www.tais2025.cc/",
+   "notion_url": "https://www.notion.so/392a23d9216581a4a3b1f921f3181ddd"
+  },
+  {
+   "Name": "UNIDIR Global Conference on AI, Security and Ethics",
+   "Focus": "AI in international peace & security",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Geneva (Spring)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Diplomatic forum",
+   "Roster participants": "0",
+   "Series": "UNIDIR Global Conference on AI Security and Ethics",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://unidir.org/",
+   "notion_url": "https://www.notion.so/392a23d92165819594f9f7ab0388fcc4"
+  },
+  {
+   "Name": "NeurIPS 2024 (SoLaR workshop)",
+   "Focus area": [
+    "Ethics & society",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Vancouver",
+   "Participants": [
+    "Alan Chan",
+    "Been Kim",
+    "David Krueger",
+    "Margaret Mitchell",
+    "Peter Henderson",
+    "Robert Kirk",
+    "Usman Anwar",
+    "Yoshua Bengio",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "9",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://solar-neurips.github.io/organisers",
+   "notion_url": "https://www.notion.so/392a23d92165818084f0fc1f2d3c74e5"
+  },
+  {
+   "Name": "AI Red and Blue Teaming Summit 2026",
+   "Focus": "Practitioner AI red/blue teaming; prompt-injection defense, LLM abuse detection",
+   "Focus area": [
+    "Red teaming",
+    "AI security"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Virtual",
+   "Recommendation": "Two-day virtual practitioner event; zero travel cost",
+   "Series": "AI Red and Blue Teaming Summit",
+   "Type": "industry",
+   "Year": "2026",
+   "URL": "https://infosec-conferences.com/event/ai-red-and-blue-teaming-summit",
+   "notion_url": "https://www.notion.so/393a23d92165814aa847ea041979ff8e"
+  },
+  {
+   "Name": "Black Hat USA 2024",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Amanda Minnich",
+    "Leon Derczynski",
+    "Michael Bargury",
+    "Rich Harang"
+   ],
+   "Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
+   "Roster participants": "4",
+   "Series": "Black Hat",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://tldrsec.com/p/2024-bsideslv-blackhat-ai-talks",
+   "notion_url": "https://www.notion.so/392a23d9216581469042c25c04302fa6"
+  },
+  {
+   "Name": "OWASP GenAI Security Summit @ RSAC 2026",
+   "Focus": "Guardrails & GenAI security frameworks; LLM Top 10; agentic AI risk",
+   "Focus area": [
+    "AI security",
+    "Red teaming",
+    "Cybersecurity"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "San Francisco",
+   "Recommendation": "Guardrails-standards home (OWASP LLM Top 10 / GenAI Red Teaming Initiative); co-located with RSAC",
+   "Series": "OWASP GenAI Security Summit",
+   "Type": "industry",
+   "Year": "2026",
+   "URL": "https://genai.owasp.org/event/rsac-conference-2026-owasp-ai-security-summit-safeguarding-genai-agents-autonomous-ai-risk-2026/",
+   "notion_url": "https://www.notion.so/393a23d9216581329bf1de9851eb9841"
+  },
+  {
+   "Name": "ICLR 2025",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Singapore",
+   "Participants": [
+    "Dawn Song",
+    "Stella Biderman",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
+   "Roster participants": "3",
+   "Series": "ICLR",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://blog.iclr.cc/2025/04/11/announcing-the-iclr-2025-keynote-speakers/",
+   "notion_url": "https://www.notion.so/392a23d921658129922af690be683324"
+  },
+  {
+   "Name": "NeurIPS 2025",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "San Diego",
+   "Participants": [
+    "Geoffrey Hinton",
+    "Yarin Gal"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "2",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://neurips.cc/Conferences/2025",
+   "notion_url": "https://www.notion.so/392a23d9216581f0ad6dda58cdabafbb"
+  },
+  {
+   "Name": "IASEAI'25 (Feb 2025, Paris)",
+   "Focus area": [
+    "Governance & policy",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Paris",
+   "Participants": [
+    "Alondra Nelson",
+    "Aza Raskin",
+    "Geoffrey Hinton",
+    "Margaret Mitchell",
+    "Max Tegmark",
+    "Stuart Russell",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Open academic safe & ethical AI conference (Paris)",
+   "Roster participants": "7",
+   "Series": "IASEAI",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://www.iaseai.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581e494edccf74fcbe4fa"
+  },
+  {
+   "Name": "ICML 2024",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Ethan Perez",
+    "Rishi Bommasani",
+    "Ryan Greenblatt"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "3",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://ethanperez.net/",
+   "notion_url": "https://www.notion.so/392a23d9216581cca981f3e9249df6a2"
+  },
+  {
+   "Name": "CAMLIS 2024",
+   "Focus area": [
+    "AI security",
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Arlington VA",
+   "Participants": [
+    "Amanda Minnich",
+    "Hyrum Anderson",
+    "Lisa Einstein",
+    "Richard Lundeen",
+    "Subho Majumdar"
+   ],
+   "Recommendation": "Tight ML + infosec research community",
+   "Roster participants": "5",
+   "Series": "CAMLIS",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://www.camlis.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581afbf4ef19f7b5b8578"
+  },
+  {
+   "Name": "NeurIPS 2024 (Red Teaming GenAI workshop)",
+   "Focus area": [
+    "Red teaming",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Vancouver",
+   "Notes": "Participant 'Andy Zou' is likely James Zou (in official organizer list) — verify.",
+   "Participants": [
+    "Andy Zou",
+    "Bo Li"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "2",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://redteaming-gen-ai.github.io/",
+   "notion_url": "https://www.notion.so/392a23d921658158b89df25ebb83d028"
+  },
+  {
+   "Name": "NeurIPS 2025 (Workshop on Algorithmic Collective Action)",
+   "Focus area": [
+    "ML research",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "San Diego",
+   "Participants": [
+    "Florian Tramèr"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "1",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://neurips.cc/virtual/2025/129862",
+   "notion_url": "https://www.notion.so/392a23d9216581ec9b98ddda22cd9d90"
+  },
+  {
+   "Name": "EA Global New York City 2026",
+   "Focus": "AI-safety talent/funder pipeline networking",
+   "Focus area": [
+    "Governance & policy",
+    "X-risk & futures",
+    "Alignment"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "New York",
+   "Notes": "Oct 16–18, 2026, Sheraton Times Square, NYC",
+   "Recommendation": "Only upcoming EAG left in 2026 (London and SF editions passed); application deadline Sep 27, 2026",
+   "Series": "EA Global",
+   "Type": "community",
+   "Year": "2026",
+   "URL": "https://www.effectivealtruism.org/ea-global/events/ea-global-new-york-city-2026",
+   "notion_url": "https://www.notion.so/393a23d9216581f88874ca26ababd777"
+  },
+  {
+   "Name": "SANS AI Cybersecurity Summit 2026",
+   "Focus": "AI red teaming, guardrails, offensive AI tooling & training; hybrid with live online option",
+   "Focus area": [
+    "Red teaming",
+    "AI security",
+    "Cybersecurity"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Arlington VA",
+   "Recommendation": "Dedicated red-team + guardrails summit; hybrid, attendable from Taipei",
+   "Series": "SANS AI Cybersecurity Summit",
+   "Type": "industry",
+   "Year": "2026",
+   "URL": "https://www.sans.org/ai-cybersecurity-summit-2026",
+   "notion_url": "https://www.notion.so/393a23d92165814098d4dcfdd76ed064"
+  },
+  {
+   "Name": "SafeAI Workshop @ AAAI",
+   "Focus": "AI safety engineering, verification",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "With AAAI each Jan/Feb",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Safety engineering workshop",
+   "Roster participants": "0",
+   "Series": "SafeAI Workshop @ AAAI",
+   "Type": "academic",
+   "URL": "https://safeai.webs.upv.es/",
+   "notion_url": "https://www.notion.so/392a23d9216581c485b0ef803a8985db"
+  },
+  {
+   "Name": "Simons Institute workshop 2025",
+   "Focus area": [
+    "ML research",
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Berkeley",
+   "Participants": [
+    "Ethan Perez"
+   ],
+   "Recommendation": "Deep academic program (Berkeley)",
+   "Roster participants": "1",
+   "Series": "Simons Institute workshop",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://simons.berkeley.edu/talks/ethan-perez-anthropic-2025-04-14",
+   "notion_url": "https://www.notion.so/392a23d9216581f39ce4ff00afcbf390"
+  },
+  {
+   "Name": "ICML 2024 (workshop)",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Stella Biderman"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "1",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://icml.cc/virtual/2024/35659",
+   "notion_url": "https://www.notion.so/392a23d92165810b98e9e3609bed3aec"
+  },
+  {
+   "Name": "NeurIPS 2025 (MechInterp workshop)",
+   "Focus area": [
+    "Interpretability",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "San Diego",
+   "Participants": [
+    "Andy Arditi",
+    "Been Kim",
+    "Chris Olah",
+    "Fazl Barez",
+    "Lawrence Chan",
+    "Neel Nanda",
+    "Stefan Heimersheim"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "7",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://mechinterpworkshop.com/neurips2025/",
+   "notion_url": "https://www.notion.so/392a23d92165819dbff0d94245dbc02b"
+  },
+  {
+   "Name": "ACM AISec Workshop (@ CCS)",
+   "Focus": "Adversarial ML + security/privacy (19 yrs)",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "The Hague (Nov 2026)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Longest-running adversarial-ML security workshop",
+   "Roster participants": "0",
+   "Series": "ACM AISec Workshop (@ CCS)",
+   "Type": "academic",
+   "URL": "https://aisec.cc/",
+   "notion_url": "https://www.notion.so/392a23d92165819cb457e4e2481ae896"
+  },
+  {
+   "Name": "ICML 2024 (NextGenAISafety workshop)",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Aleksander Madry",
+    "Bernhard Schölkopf",
+    "Beyza Ermiş",
+    "Christopher Choquette-Choo",
+    "Lilian Weng",
+    "Martin Vechev",
+    "Prateek Mittal",
+    "Tatsunori Hashimoto"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "8",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://icml-nextgenaisafety.github.io/",
+   "notion_url": "https://www.notion.so/392a23d9216581d3bc89fa8e39d179df"
+  },
+  {
+   "Name": "NeurIPS 2024 (SafeGenAI workshop)",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Vancouver",
+   "Participants": [
+    "Dawn Song",
+    "Max Tegmark",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "3",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://safegenaiworkshop.github.io/",
+   "notion_url": "https://www.notion.so/392a23d921658107b377c4b99774b593"
+  },
+  {
+   "Name": "NeurIPS 2023 (SoLaR workshop)",
+   "Focus area": [
+    "Ethics & society",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "New Orleans",
+   "Participants": [
+    "Adriano Koshiyama",
+    "Alan Chan",
+    "Alexander Meinke",
+    "Andy Zou",
+    "Charlie Griffin",
+    "Christopher Choquette-Choo",
+    "David Krueger",
+    "Dylan Hadfield-Menell",
+    "Florian Tramèr",
+    "Jan Kulveit",
+    "Jesse Clifton",
+    "Joe Benton",
+    "Joe O'Brien",
+    "Jonas Schuett",
+    "José Hernández-Orallo",
+    "Lewis Hammond",
+    "Markus Anderljung",
+    "Owain Evans",
+    "Robert Kirk",
+    "Robert Trager",
+    "Rumman Chowdhury",
+    "Sam Bowman",
+    "Siméon Campos",
+    "Tomek Korbak",
+    "Usman Anwar"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "25",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2023",
+   "URL": "https://neurips.cc/virtual/2023/workshop/66526",
+   "notion_url": "https://www.notion.so/392a23d92165818cb26ddf32bca04658"
+  },
+  {
+   "Name": "ICML 2024 (MI workshop)",
+   "Focus area": [
+    "Interpretability",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Chris Olah",
+    "Fazl Barez",
+    "Lawrence Chan",
+    "Max Tegmark",
+    "Neel Nanda",
+    "Stella Biderman"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "6",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://icml2024mi.pages.dev/",
+   "notion_url": "https://www.notion.so/392a23d921658104bf3ddde5f3a7199c"
+  },
+  {
+   "Name": "ICLR 2024 (AGI workshop)",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Dawn Song",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
+   "Roster participants": "2",
+   "Series": "ICLR",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://agiworkshop.github.io/2024/schedule/",
+   "notion_url": "https://www.notion.so/392a23d9216581de9043f6445c10ba8a"
+  },
+  {
+   "Name": "London Alignment Workshop 2026",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "London",
+   "Participants": [
+    "Marius Hobbhahn"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "1",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2026",
+   "URL": "https://www.far.ai/events/event-list/london-alignment-workshop-2026",
+   "notion_url": "https://www.notion.so/392a23d92165815e8933dd21d7d30317"
+  },
+  {
+   "Name": "NeurIPS 2024 (SATA workshop)",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Vancouver",
+   "Participants": [
+    "Been Kim",
+    "Bo Li",
+    "Daniel Kang",
+    "David Krueger",
+    "Dawn Song"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "5",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://www.mlsafety.org/events/neurips/2024",
+   "notion_url": "https://www.notion.so/392a23d9216581e8b85de5d179182d79"
+  },
+  {
+   "Name": "Foresight Intelligent Cooperation Workshop 2023",
+   "Focus area": [
+    "X-risk & futures",
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "San Francisco",
+   "Participants": [
+    "Jan Leike"
+   ],
+   "Recommendation": "Niche futurist workshop",
+   "Roster participants": "1",
+   "Series": "Foresight Intelligent Cooperation Workshop",
+   "Type": "community",
+   "Year": "2023",
+   "URL": "https://foresight.org/summary/jan-leike-super-intelligent-alignment-intelligent-cooperation-workshop/",
+   "notion_url": "https://www.notion.so/392a23d92165814dbfbcda77a24da1de"
+  },
+  {
+   "Name": "ICLR 2024 (SeT-LLM workshop)",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Bo Li",
+    "Minlie Huang",
+    "Neel Nanda",
+    "Peter Henderson",
+    "Prateek Mittal",
+    "Tatsunori Hashimoto",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
+   "Roster participants": "7",
+   "Series": "ICLR",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://set-llm.github.io/",
+   "notion_url": "https://www.notion.so/392a23d92165816c8148d920d957b257"
+  },
+  {
+   "Name": "ICML 2025 (Technical AI Governance workshop)",
+   "Focus area": [
+    "Governance & policy",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vancouver",
+   "Participants": [
+    "Fazl Barez",
+    "Robert Trager"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "2",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://icml.cc/virtual/2025/events/workshop",
+   "notion_url": "https://www.notion.so/392a23d921658138be7eed67cdb28493"
+  },
+  {
+   "Name": "ICML 2025 (Actionable Interpretability workshop)",
+   "Focus area": [
+    "Interpretability",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vancouver",
+   "Participants": [
+    "Been Kim",
+    "David Krueger",
+    "Fazl Barez",
+    "Ian Tenney",
+    "Samuel Marks"
+   ],
+   "Recommendation": "Top ML venue; interpretability & safety workshops",
+   "Roster participants": "5",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://actionable-interpretability.github.io/2025/",
+   "notion_url": "https://www.notion.so/392a23d921658129b406f5d93ea66a45"
+  },
+  {
+   "Name": "Bay Area Alignment Workshop 2024 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Bay Area CA",
+   "Notes": "Venue: Chaminade, Santa Cruz. Marius Hobbhahn not on FAR.AI speaker list for this event (evidence video is from London AW 2026) — verify participant.",
+   "Participants": [
+    "Adam Gleave",
+    "Alex Turner",
+    "Andy Zou",
+    "Beth Barnes",
+    "Buck Shlegeris",
+    "David Duvenaud",
+    "Dawn Song",
+    "Dylan Hadfield-Menell",
+    "Evan Hubinger",
+    "Jacob Hilton",
+    "Mantas Mazeika",
+    "Marius Hobbhahn",
+    "Micah Carroll",
+    "Robert Trager",
+    "Sheila McIlraith"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "15",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://www.far.ai/events/event-list/bayarea-aw-24",
+   "notion_url": "https://www.notion.so/392a23d9216581d8b772ca873713528c"
+  },
+  {
+   "Name": "San Diego Alignment Workshop 2025 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "San Diego",
+   "Participants": [
+    "Adam Gleave",
+    "Andy Zou",
+    "Ben Buchanan",
+    "Bo Li",
+    "Cozmin Ududec",
+    "Daniel Kang",
+    "Dawn Song",
+    "Divya Siddarth",
+    "Johannes Heidecke",
+    "Marius Hobbhahn",
+    "Max Tegmark",
+    "Neel Nanda",
+    "Roger Grosse",
+    "Sam Bowman",
+    "Tomek Korbak",
+    "Xander Davies",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "17",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://www.far.ai/events/event-list/san-diego-alignment-workshop",
+   "notion_url": "https://www.notion.so/392a23d92165813eaf83fe525375a20d"
+  },
+  {
+   "Name": "Singapore Alignment Workshop 2025 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Singapore",
+   "Participants": [
+    "Adam Gleave",
+    "Alan Chan",
+    "Daniel Kang",
+    "Dylan Hadfield-Menell",
+    "Owain Evans",
+    "Pin-Yu Chen",
+    "Yinpeng Dong",
+    "Yoshua Bengio",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "9",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://www.far.ai/events/event-list/singapore-aw-25",
+   "notion_url": "https://www.notion.so/392a23d9216581c7a1ccfb8c28fd86f7"
+  },
+  {
+   "Name": "Alignment Workshop New Orleans 2023 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "New Orleans",
+   "Participants": [
+    "Adam Gleave",
+    "Aleksander Madry",
+    "Been Kim",
+    "Boaz Barak",
+    "David Krueger",
+    "Dawn Song",
+    "Dylan Hadfield-Menell",
+    "Lewis Hammond",
+    "Max Tegmark",
+    "Owain Evans",
+    "Roger Grosse",
+    "Sam Bowman",
+    "Sanjeev Arora",
+    "Sheila McIlraith",
+    "Yoshua Bengio",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "16",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2023",
+   "URL": "https://www.far.ai/events/event-list/nola-aw-23",
+   "notion_url": "https://www.notion.so/392a23d9216581c1ac07c6186e2c3c5c"
+  },
+  {
+   "Name": "Alignment Workshop SF 2023 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "San Francisco",
+   "Participants": [
+    "Ajeya Cotra",
+    "Chris Olah",
+    "Dan Hendrycks",
+    "Jacob Steinhardt",
+    "Jan Leike"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "5",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2023",
+   "URL": "https://www.far.ai/events/event-list/sf-aw-23",
+   "notion_url": "https://www.notion.so/392a23d921658174b32cda61797194ff"
+  },
+  {
+   "Name": "Vienna Alignment Workshop 2024 (FAR.AI)",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Adam Gleave",
+    "Helen Toner",
+    "Jan Leike",
+    "Neel Nanda",
+    "Nicholas Carlini",
+    "Nitarshan Rajkumar",
+    "Robert Trager",
+    "Stuart Russell"
+   ],
+   "Recommendation": "Unmatched alignment speaker density; invite-only - pursue an invite",
+   "Roster participants": "8",
+   "Series": "FAR.AI Alignment Workshop",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://far.ai/events/event-list/vienna-aw-24",
+   "notion_url": "https://www.notion.so/392a23d921658115999ed0dfa3818602"
+  },
+  {
+   "Name": "Paris AI Action Summit 2025",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Paris",
+   "Participants": [
+    "Amba Kak",
+    "Divya Siddarth",
+    "Max Tegmark",
+    "Niki Iliadis",
+    "Sarah Myers West",
+    "Sean McGregor",
+    "Sriram Krishnan",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Gov/invite; the fringe events are the value",
+   "Roster participants": "8",
+   "Series": "Paris AI Action Summit",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://en.wikipedia.org/wiki/AI_Action_Summit",
+   "notion_url": "https://www.notion.so/392a23d92165812cba2afa45d8833930"
+  },
+  {
+   "Name": "AI for Good Global Summit 2024",
+   "Focus area": [
+    "Governance & policy",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Geneva",
+   "Participants": [
+    "Aleksander Madry",
+    "Lennart Heim",
+    "Rumman Chowdhury",
+    "Sean McGregor",
+    "Stuart Russell",
+    "Yarin Gal"
+   ],
+   "Recommendation": "UN showcase; low research density",
+   "Roster participants": "6",
+   "Series": "AI for Good",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://aiforgood.itu.int/",
+   "notion_url": "https://www.notion.so/392a23d92165815bba0cc36d197cf2d1"
+  },
+  {
+   "Name": "Paris Cyber Summit",
+   "Focus": "European cyber policy; autonomous AI threats",
+   "Focus area": [
+    "Cybersecurity",
+    "Governance & policy"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Paris (Spring)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Cyber policy forum",
+   "Roster participants": "0",
+   "Series": "Paris Cyber Summit",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.paris-cyber-summit.com/",
+   "notion_url": "https://www.notion.so/392a23d9216581ed8509caf32f4c2245"
+  },
+  {
+   "Name": "GPAI Summit New Delhi 2023",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "New Delhi",
+   "Participants": [
+    "Inma Martinez",
+    "Marko Grobelnik"
+   ],
+   "Recommendation": "Ministerial forum",
+   "Roster participants": "2",
+   "Series": "GPAI",
+   "Type": "governance",
+   "Year": "2023",
+   "URL": "https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=1986475",
+   "notion_url": "https://www.notion.so/392a23d92165810c9903ddd124f7145f"
+  },
+  {
+   "Name": "India AI Impact Summit 2026 (New Delhi)",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "New Delhi",
+   "Notes": "Held Feb 16–21, 2026, Bharat Mandapam, New Delhi.",
+   "Participants": [
+    "Elham Tabassi",
+    "Michael Kratsios",
+    "Niki Iliadis",
+    "Sriram Krishnan",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Gov summit",
+   "Roster participants": "5",
+   "Series": "India AI Impact Summit (New Delhi)",
+   "Type": "governance",
+   "Year": "2026",
+   "URL": "https://indiaai.gov.in/",
+   "notion_url": "https://www.notion.so/392a23d9216581a486a2e21a3b23cbdf"
+  },
+  {
+   "Name": "The AI Summit London",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "London",
+   "Participants": [
+    "Jade Leung"
+   ],
+   "Recommendation": "Trade show",
+   "Roster participants": "1",
+   "Series": "The AI Summit London",
+   "Type": "industry",
+   "URL": "https://london.theaisummit.com/",
+   "notion_url": "https://www.notion.so/392a23d9216581b5bf89f7ab0069f807"
+  },
+  {
+   "Name": "AI Safety Summit (Bletchley) 2023",
+   "Focus area": [
+    "Governance & policy",
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Bletchley Park UK",
+   "Participants": [
+    "Max Tegmark",
+    "Stuart Russell",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Gov delegates only; track outcomes remotely",
+   "Roster participants": "3",
+   "Series": "AI Safety Summit (Bletchley)",
+   "Type": "governance",
+   "Year": "2023",
+   "URL": "https://futureoflife.org/project/ai-safety-summits/",
+   "notion_url": "https://www.notion.so/392a23d9216581a5a28dcbdd463493ce"
+  },
+  {
+   "Name": "AI Risk Summit (SecurityWeek)",
+   "Focus": "Enterprise AI risk for CISOs",
+   "Focus area": [
+    "AI security",
+    "Industry & enterprise"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Half Moon Bay CA (Aug)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "CISO-oriented; marketing-heavy",
+   "Roster participants": "0",
+   "Series": "AI Risk Summit (SecurityWeek)",
+   "Type": "industry",
+   "URL": "https://www.airisksummit.com/",
+   "notion_url": "https://www.notion.so/392a23d9216581d7824fd5547cf5b502"
+  },
+  {
+   "Name": "Global AI Summit on Africa",
+   "Focus": "African AI governance (WEF C4IR Rwanda)",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Skip",
+   "Location": "Kigali (Apr 2025)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Regional gov summit",
+   "Roster participants": "0",
+   "Series": "Global AI Summit on Africa",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://c4ir.rw/global-ai-summit-on-africa",
+   "notion_url": "https://www.notion.so/392a23d9216581f991aafefe7c54053f"
+  },
+  {
+   "Name": "Concordia Annual Summit 2024",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "New York",
+   "Participants": [
+    "Rumman Chowdhury"
+   ],
+   "Recommendation": "Diplomatic gala",
+   "Roster participants": "1",
+   "Series": "Concordia Annual Summit",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://www.concordialive.com/2024AnnualSummit/speaker/1392644/rumman-chowdhury",
+   "notion_url": "https://www.notion.so/392a23d9216581d79ef0cd6793b386c1"
+  },
+  {
+   "Name": "AI Seoul Summit 2024",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Seoul",
+   "Participants": [
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Gov delegates only",
+   "Roster participants": "1",
+   "Series": "AI Seoul Summit",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://yoshuabengio.org/2024/06/19/the-international-scientific-report-on-the-safety-of-advanced-ai/",
+   "notion_url": "https://www.notion.so/392a23d92165819090d5c125239916c5"
+  },
+  {
+   "Name": "Web Summit Lisbon 2024",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Lisbon",
+   "Participants": [
+    "Max Tegmark"
+   ],
+   "Recommendation": "Giant tech expo",
+   "Roster participants": "1",
+   "Series": "Web Summit Lisbon",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://websummit.com/attendees/lis24/57a1f84f-3062-4555-a5ec-790699ed5152/max-tegmark/",
+   "notion_url": "https://www.notion.so/392a23d9216581ec9677f9b6249d94a8"
+  },
+  {
+   "Name": "AI4People Summit 2025",
+   "Focus area": [
+    "Ethics & society",
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Virtual",
+   "Participants": [
+    "Rishi Bommasani"
+   ],
+   "Recommendation": "EU ethics forum",
+   "Roster participants": "1",
+   "Series": "AI4People Summit",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://ai4people.org/meet-the-speakers-rishi-bommasani/",
+   "notion_url": "https://www.notion.so/392a23d921658115982ff18407ec957b"
+  },
+  {
+   "Name": "Credo AI Responsible AI Summit 2024",
+   "Focus area": [
+    "Ethics & society",
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "San Francisco",
+   "Participants": [
+    "Elham Tabassi"
+   ],
+   "Recommendation": "Vendor governance summit",
+   "Roster participants": "1",
+   "Series": "Credo AI Responsible AI Summit",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://www.credo.ai/summit-2024-speakers/aisummit2024-elham-tabassi",
+   "notion_url": "https://www.notion.so/392a23d921658129b93cd233d4db889a"
+  },
+  {
+   "Name": "AI for Good Global Summit 2025",
+   "Focus area": [
+    "Governance & policy",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Geneva",
+   "Participants": [
+    "Geoffrey Hinton",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "UN showcase; low research density",
+   "Roster participants": "2",
+   "Series": "AI for Good",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://aiforgood.itu.int/geoffrey-hinton-at-ai-for-good-summit-balancing-ais-transformative-potential-with-ethical-concerns/",
+   "notion_url": "https://www.notion.so/392a23d9216581b8b0c1fb4b803c887b"
+  },
+  {
+   "Name": "AI for Good Global Summit 2023",
+   "Focus area": [
+    "Governance & policy",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Geneva",
+   "Participants": [
+    "Tristan Harris"
+   ],
+   "Recommendation": "UN showcase; low research density",
+   "Roster participants": "1",
+   "Series": "AI for Good",
+   "Type": "governance",
+   "Year": "2023",
+   "URL": "https://aiforgood.itu.int/tristan-harris-at-the-ai-for-good-global-summit-the-ai-dilemma/",
+   "notion_url": "https://www.notion.so/392a23d921658190bf12ce315c6881cb"
+  },
+  {
+   "Name": "AI Safety Summit Talks (Existential Risk Observatory, remote, Seoul Summit fringe) 2024",
+   "Focus area": [
+    "X-risk & futures",
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Virtual",
+   "Participants": [
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Online talks; watch recordings",
+   "Roster participants": "1",
+   "Series": "AI Safety Summit Talks (Existential Risk Observatory)",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://www.existentialriskobservatory.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581c0951ed74e383afe27"
+  },
+  {
+   "Name": "OWASP Agentic AI Security Summit Europe 2025",
+   "Focus": "Security, safety & governance of agentic AI systems",
+   "Focus area": [
+    "AI security",
+    "Cybersecurity"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "London",
+   "Recommendation": "Focused one-day agentic-AI security gathering",
+   "Series": "OWASP Agentic AI Security Summit",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://genai.owasp.org/event/genai-security-project-agentic-ai-summit-europe/",
+   "notion_url": "https://www.notion.so/393a23d9216581eea19bd4b8cb2f0984"
+  },
+  {
+   "Name": "Fundraising.AI Global Summit 2025",
+   "Focus area": [
+    "Ethics & society",
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Virtual",
+   "Participants": [
+    "Rumman Chowdhury"
+   ],
+   "Recommendation": "Nonprofit-sector specific",
+   "Roster participants": "1",
+   "Series": "Fundraising.AI Global Summit",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://fundraising.ai/summit/",
+   "notion_url": "https://www.notion.so/392a23d921658173b7bddf10ffa03c5b"
+  },
+  {
+   "Name": "AI Security Summit city series (Snyk × AI Engineer)",
+   "Focus": "Invite-only CISO/CTO AI-security series",
+   "Focus area": [
+    "AI security",
+    "Industry & enterprise"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Rolling (London/SF/Paris)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "CISO-oriented AI-security series",
+   "Roster participants": "0",
+   "Series": "AI Security Summit city series (Snyk × AI Engineer)",
+   "Type": "industry",
+   "URL": "https://aisecuritysummit.com",
+   "notion_url": "https://www.notion.so/392a23d92165815db06cc84a40fbfab4"
+  },
+  {
+   "Name": "AI Safety Connect (Paris AI Action Summit side event) 2025",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Paris",
+   "Participants": [
+    "Max Tegmark"
+   ],
+   "Recommendation": "Summit fringe networking",
+   "Roster participants": "1",
+   "Series": "AI Safety Connect (Paris AI Action Summit side event)",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://danfaggella.com/tegmark1/",
+   "notion_url": "https://www.notion.so/392a23d92165819899aee67376b4389b"
+  },
+  {
+   "Name": "Black Hat USA 2026",
+   "Focus": "Enterprise security; dedicated AI Summit track",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security",
+    "Industry & enterprise"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Las Vegas",
+   "Notes": "Aug 1–6, 2026 (Briefings Aug 5–6), Mandalay Bay",
+   "Recommendation": "Continues tracked 2023–25 series; anchors the same Vegas week as DEF CON 34 and Vegas AI Security Forum",
+   "Series": "Black Hat",
+   "Type": "industry",
+   "Year": "2026",
+   "URL": "https://blackhat.com/us-26/",
+   "notion_url": "https://www.notion.so/393a23d921658184878ae20eaed40d87"
+  },
+  {
+   "Name": "Purdue PQAIS Symposium",
+   "Focus area": [
+    "ML research",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "West Lafayette IN",
+   "Notes": "Quantum AI (PQAI) symposium, NSF-sponsored — not alignment-focused; previous URL was dead.",
+   "Participants": [
+    "Pin-Yu Chen"
+   ],
+   "Recommendation": "Niche academic symposium",
+   "Roster participants": "1",
+   "Series": "Purdue PQAIS Symposium",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://engineering.purdue.edu/IE/PurdueQuantumAIWorkshop2025",
+   "notion_url": "https://www.notion.so/392a23d92165811aba6dc3f82d37848f"
+  },
+  {
+   "Name": "IEEE Symposium on Security and Privacy 2026–2027",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "San Francisco",
+   "Participants": [
+    "Nicolas Papernot"
+   ],
+   "Recommendation": "Top-4 security venue; growing AI-security track",
+   "Roster participants": "1",
+   "Series": "IEEE Symposium on Security and Privacy",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://www.ieee-security.org/TC/SP-Index.html",
+   "notion_url": "https://www.notion.so/392a23d9216581e885b2e67b756e15d6"
+  },
+  {
+   "Name": "One-U Responsible AI Inaugural Symposium (Univ. of Utah) 2024",
+   "Focus area": [
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Salt Lake City",
+   "Participants": [
+    "Elham Tabassi"
+   ],
+   "Recommendation": "Local university symposium",
+   "Roster participants": "1",
+   "Series": "One-U Responsible AI Inaugural Symposium (Univ. of Utah)",
+   "Type": "mixed",
+   "Year": "2024",
+   "URL": "https://attheu.utah.edu/announcements/national-ai-leader-elham-tabassi-to-deliver-keynote-at-one-u-rai-inaugural-symposium/",
+   "notion_url": "https://www.notion.so/392a23d9216581568be0e9748a3d634a"
+  },
+  {
+   "Name": "CAMLIS 2026",
+   "Focus": "Applied ML for information security",
+   "Focus area": [
+    "AI security",
+    "Cybersecurity",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Arlington VA",
+   "Notes": "Oct 21–23, 2026, Arlington VA; now three days",
+   "Recommendation": "The applied ML-for-infosec community's home conference; DB only had 2024",
+   "Series": "CAMLIS",
+   "Type": "mixed",
+   "Year": "2026",
+   "URL": "https://www.camlis.org/",
+   "notion_url": "https://www.notion.so/393a23d921658160b4a8c148239b13a4"
+  },
+  {
+   "Name": "NeurIPS 2026",
+   "Focus": "Main venue for safety/interpretability/eval workshops",
+   "Focus area": [
+    "ML research",
+    "Alignment",
+    "Interpretability"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Sydney",
+   "Notes": "Dec 6–12, 2026, ICC Sydney, Australia",
+   "Recommendation": "Workshop list lands ~Aug 2026 — re-scan then; note venue change to Sydney",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://neurips.cc/Conferences/2026",
+   "notion_url": "https://www.notion.so/393a23d921658118b13cd7fe8127a867"
+  },
+  {
+   "Name": "The Curve 2026",
+   "Focus": "Big-picture AI futures; researchers, lab leaders, policymakers (invite-only)",
+   "Focus area": [
+    "X-risk & futures",
+    "Alignment",
+    "Governance & policy"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Berkeley",
+   "Notes": "Oct 2–4, 2026, Lighthaven, Berkeley",
+   "Recommendation": "DB tracks 2024–25 editions, both roster-dense; hosted by Golden Gate Institute at Lighthaven",
+   "Series": "The Curve",
+   "Type": "community",
+   "Year": "2026",
+   "URL": "https://thecurve.goldengateinstitute.org/",
+   "notion_url": "https://www.notion.so/393a23d921658165b5e2ed32ffe49f5d"
+  },
+  {
+   "Name": "ICML 2026",
+   "Focus": "Backfill for series continuity; workshops Jul 10–11",
+   "Focus area": [
+    "ML research",
+    "Alignment",
+    "Interpretability"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Seoul",
+   "Notes": "Jul 6–11, 2026, COEX, Seoul",
+   "Recommendation": "Keeps ICML series continuous for participant tracking; starts Jul 6, 2026 (impractical to attend)",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://icml.cc/",
+   "notion_url": "https://www.notion.so/393a23d9216581e8ba34ee3fc9c3ec4d"
+  },
+  {
+   "Name": "ACM CCS 2026",
+   "Focus": "Top-tier security conference; hosts the AISec workshop already tracked",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "The Hague (Nov 2026)",
+   "Notes": "Nov 15–19, 2026, The Hague, Netherlands",
+   "Recommendation": "Makes the undated ACM AISec gap-venue row actionable",
+   "Series": "ACM CCS",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://www.sigsac.org/ccs/CCS2026/",
+   "notion_url": "https://www.notion.so/393a23d92165811699c4d1ff1ddfd4aa"
+  },
+  {
+   "Name": "ICLR 2026",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Rio de Janeiro",
+   "Participants": [
+    "Percy Liang"
+   ],
+   "Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
+   "Roster participants": "1",
+   "Series": "ICLR",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://blog.iclr.cc/2026/04/17/announcing-the-iclr-2026-keynotes/",
+   "notion_url": "https://www.notion.so/392a23d9216581ce8860c3db4291d5f6"
+  },
+  {
+   "Name": "IEEE SaTML 2026",
+   "Focus": "Backfill: 2026 edition (already past) to close the 2023–27 series gap",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Munich",
+   "Notes": "Mar 23–25, 2026, Technical University of Munich",
+   "Recommendation": "Backfill only — held Mar 23–25, 2026 at TU Munich",
+   "Series": "IEEE SaTML",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://satml.org/",
+   "notion_url": "https://www.notion.so/393a23d9216581579135e8679cd5192f"
+  },
+  {
+   "Name": "USENIX Security 2026",
+   "Focus": "Top-4 security venue; much of the strongest peer-reviewed LLM security / prompt injection / model extraction work",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security",
+    "Red teaming"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Baltimore",
+   "Notes": "Aug 12–14, 2026, Baltimore Marriott Waterfront",
+   "Recommendation": "Gap in coverage given DB tracks IEEE S&P and CCS-adjacent workshops",
+   "Series": "USENIX Security",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://www.usenix.org/conference/usenixsecurity26",
+   "notion_url": "https://www.notion.so/393a23d921658169b189fce4a4296912"
+  },
+  {
+   "Name": "WEF Annual Meeting Davos 2026",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Davos",
+   "Participants": [
+    "Cathy Li"
+   ],
+   "Recommendation": "Invite-only elite forum",
+   "Roster participants": "1",
+   "Series": "WEF",
+   "Type": "governance",
+   "Year": "2026",
+   "URL": "https://www.euronews.com/next/2026/01/24/ai-sovereignty-requires-partnerships-not-isolation-says-world-economic-forums-ai-chief",
+   "notion_url": "https://www.notion.so/392a23d92165814ab854d72b366c7569"
+  },
+  {
+   "Name": "DEF CON 34 AI Village 2026",
+   "Focus": "Hands-on AI red teaming; adversarial attacks on agents/agentic systems poster track",
+   "Focus area": [
+    "AI security",
+    "Red teaming",
+    "Cybersecurity"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Notes": "Aug 6–9, 2026, Las Vegas Convention Center",
+   "Recommendation": "Flagship hands-on AI red-teaming venue; continues tracked 2023–25 series",
+   "Series": "DEF CON AI Village",
+   "Type": "community",
+   "Year": "2026",
+   "URL": "https://aivillage.org/events/defcon-34/",
+   "notion_url": "https://www.notion.so/393a23d9216581fc98c8e53308914e7f"
+  },
+  {
+   "Name": "IASEAI'26 (Feb 2026, UNESCO House Paris)",
+   "Focus area": [
+    "Governance & policy",
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Paris",
+   "Participants": [
+    "Geoffrey Hinton",
+    "Stuart Russell",
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Open academic safe & ethical AI conference (Paris)",
+   "Roster participants": "3",
+   "Series": "IASEAI",
+   "Type": "mixed",
+   "Year": "2026",
+   "URL": "https://www.iaseai.org/iaseai26",
+   "notion_url": "https://www.notion.so/392a23d921658132bc94ff02784ed7ff"
+  },
+  {
+   "Name": "Vegas AI Security Forum 2026",
+   "Focus": "Frontier AI security: model-weight security, cyber evals, adversarial ML, AI insider risk (~200 attendees, application-based)",
+   "Focus area": [
+    "AI security",
+    "Cybersecurity",
+    "Governance & policy"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Notes": "Aug 6, 2026, Las Vegas; application-based",
+   "Recommendation": "Highest-density room for frontier AI security; stacks with DEF CON 34 / Black Hat week",
+   "Series": "AI Security Forum",
+   "Type": "mixed",
+   "Year": "2026",
+   "URL": "https://aisecurity.forum/events/vegas-ai-security-forum-26/",
+   "notion_url": "https://www.notion.so/393a23d9216581f4821fc1098bfee1b1"
+  },
+  {
+   "Name": "ControlConf (Redwood/FAR.AI/UK AISI)",
+   "Focus": "First dedicated AI-control conference",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "London (Mar 2025) + Berkeley (Apr 2026)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet; ControlConf 2026 was Apr 18–19, 2026 in Berkeley, not London.",
+   "Recommendation": "First dedicated AI-control conference",
+   "Roster participants": "0",
+   "Series": "ControlConf (Redwood/FAR.AI/UK AISI)",
+   "Type": "community",
+   "URL": "https://www.far.ai/events/event-list/london-controlconf-25",
+   "notion_url": "https://www.notion.so/392a23d9216581c69cc7d644046f0779"
+  },
+  {
+   "Name": "DEF CON 32 AI Village 2024",
+   "Focus area": [
+    "Red teaming",
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Christina Liaghati",
+    "Dan McInerney",
+    "Erick Galinkin",
+    "Ivan Evtimov",
+    "Kasimir Schulz",
+    "Leon Derczynski",
+    "Sean McGregor",
+    "Subho Majumdar",
+    "Tom Bonner"
+   ],
+   "Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
+   "Roster participants": "9",
+   "Series": "DEF CON AI Village",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://tldrsec.com/p/2024-defcon-ai-talks",
+   "notion_url": "https://www.notion.so/392a23d92165817697f1eaef04b45874"
+  },
+  {
+   "Name": "Black Hat USA 2025",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Kasimir Schulz",
+    "Tamir Ishay Sharbat"
+   ],
+   "Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
+   "Roster participants": "2",
+   "Series": "Black Hat",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://hiddenlayer.com/blackhat2025/",
+   "notion_url": "https://www.notion.so/392a23d92165814ea773db46afc5d8d4"
+  },
+  {
+   "Name": "Black Hat USA 2023",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Fred Heiding",
+    "Michael Bargury"
+   ],
+   "Recommendation": "Industry AI-security research debuts here; pair with DEF CON week",
+   "Roster participants": "2",
+   "Series": "Black Hat",
+   "Type": "industry",
+   "Year": "2023",
+   "URL": "https://www.blackhat.com/us-23/",
+   "notion_url": "https://www.notion.so/392a23d9216581bd8b85c204ca4a514c"
+  },
+  {
+   "Name": "DEF CON 33 AI Village 2025",
+   "Focus area": [
+    "Red teaming",
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Michael Bargury"
+   ],
+   "Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
+   "Roster participants": "1",
+   "Series": "DEF CON AI Village",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://idpro.org/blackhat-and-def-con-2025-thoughts/",
+   "notion_url": "https://www.notion.so/392a23d9216581299e10f0c8ee07ae4a"
+  },
+  {
+   "Name": "DEF CON 31 AI Village 2023",
+   "Focus area": [
+    "Red teaming",
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Rumman Chowdhury"
+   ],
+   "Recommendation": "Best live AI red-teaming venue; matches your prompt-injection focus",
+   "Roster participants": "1",
+   "Series": "DEF CON AI Village",
+   "Type": "industry",
+   "Year": "2023",
+   "URL": "https://aivillage.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581f4b864c9b29b3e7c96"
+  },
+  {
+   "Name": "AI Security Forum",
+   "Focus": "Frontier model-weight security, invite-only",
+   "Focus area": [
+    "AI security"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Feb Paris + Aug Vegas",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Frontier model security; invite-only - high value if invited",
+   "Roster participants": "0",
+   "Series": "AI Security Forum",
+   "Type": "industry",
+   "URL": "https://aisecurity.forum/",
+   "notion_url": "https://www.notion.so/392a23d92165819da810c745b6d24440"
+  },
+  {
+   "Name": "FAR.AI session @ Paris AI Security Forum 2025 (Impact of Frontier AI on Cyber Security)",
+   "Focus area": [
+    "AI security",
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Paris",
+   "Notes": "Dawn Song session at Paris AI Security Forum (Feb 2025), not a standalone event — consider merging into AI Security Forum row.",
+   "Participants": [
+    "Dawn Song"
+   ],
+   "Recommendation": "AI x cybersecurity intersection - your exact beat",
+   "Roster participants": "1",
+   "Series": "FAR.AI event (Impact of Frontier AI on Cyber Security)",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.far.ai/events/sessions/dawn-song-impact-of-frontier-ai-in-the-landscape-of-cyber-security",
+   "notion_url": "https://www.notion.so/392a23d9216581489644ca8b90e5221e"
+  },
+  {
+   "Name": "Hack In The Box Bangkok (OOTB) 2025",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Bangkok",
+   "Participants": [
+    "Johann Rehberger"
+   ],
+   "Recommendation": "Regional offensive-security venue (Bangkok)",
+   "Roster participants": "1",
+   "Series": "Hack In The Box Bangkok (OOTB)",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.youtube.com/watch?v=-HL0dDhCahk",
+   "notion_url": "https://www.notion.so/392a23d92165811192dce075c41065fc"
+  },
+  {
+   "Name": "Technical Innovations for AI Policy 2025",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Washington DC",
+   "Participants": [
+    "Adam Gleave"
+   ],
+   "Recommendation": "Niche policy-technical bridge",
+   "Roster participants": "1",
+   "Series": "Technical Innovations for AI Policy",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://www.far.ai/events",
+   "notion_url": "https://www.notion.so/392a23d92165815db264d94358223fab"
+  },
+  {
+   "Name": "WEF Annual Meeting Davos 2025",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Davos",
+   "Participants": [
+    "Yoshua Bengio"
+   ],
+   "Recommendation": "Invite-only elite forum",
+   "Roster participants": "1",
+   "Series": "WEF",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://www.weforum.org/",
+   "notion_url": "https://www.notion.so/392a23d9216581bf84defc7307193b47"
+  },
+  {
+   "Name": "OECD AI WIPS 2024",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Paris",
+   "Participants": [
+    "Elham Tabassi",
+    "Sean McGregor"
+   ],
+   "Recommendation": "Policy working sessions",
+   "Roster participants": "2",
+   "Series": "OECD AI WIPS",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://www.oecd-events.org/ai-wips2024/speaker/2d647dee-4fab-ef11-88cf-6045bd903ca2/elham-tabassi",
+   "notion_url": "https://www.notion.so/392a23d9216581869dddd3c847e3e274"
+  },
+  {
+   "Name": "NeurIPS 2023",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Must attend",
+   "Location": "New Orleans",
+   "Participants": [
+    "Percy Liang"
+   ],
+   "Recommendation": "Most famous ML venue; dense safety workshops - anchor conference",
+   "Roster participants": "1",
+   "Series": "NeurIPS",
+   "Type": "academic",
+   "Year": "2023",
+   "URL": "https://blog.neurips.cc/2023/12/10/announcing-neurips-2023-invited-talks/",
+   "notion_url": "https://www.notion.so/392a23d92165813ba2fdccb76ed81840"
+  },
+  {
+   "Name": "LABScon 2023",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Scottsdale AZ",
+   "Participants": [
+    "Eoin Wickens"
+   ],
+   "Recommendation": "Invite-only threat-intel",
+   "Roster participants": "1",
+   "Series": "LABScon",
+   "Type": "industry",
+   "Year": "2023",
+   "URL": "https://www.labscon.io/",
+   "notion_url": "https://www.notion.so/392a23d9216581fd9e81d7bb6b10b1d7"
+  },
+  {
+   "Name": "EMNLP 2023",
+   "Focus area": [
+    "ML research",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Singapore",
+   "Participants": [
+    "Sander Schulhoff"
+   ],
+   "Recommendation": "NLP venue; prompt-injection papers appear",
+   "Roster participants": "1",
+   "Series": "EMNLP",
+   "Type": "academic",
+   "Year": "2023",
+   "URL": "https://sanderschulhoff.com/",
+   "notion_url": "https://www.notion.so/392a23d9216581fa89e6e0df9f01c3d9"
+  },
+  {
+   "Name": "BSides Berlin 2023",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Berlin",
+   "Participants": [
+    "Bar Lanyado"
+   ],
+   "Recommendation": "Cheap community venue; good place to give first talks",
+   "Roster participants": "1",
+   "Series": "BSides",
+   "Type": "industry",
+   "Year": "2023",
+   "URL": "https://www.youtube.com/watch?v=8tlU3APgHBE",
+   "notion_url": "https://www.notion.so/392a23d9216581f48329e4d3b5176583"
+  },
+  {
+   "Name": "EAG London 2023",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "London",
+   "Participants": [
+    "Victoria Krakovna"
+   ],
+   "Recommendation": "Safety networking pipeline",
+   "Roster participants": "1",
+   "Series": "EA Global",
+   "Type": "community",
+   "Year": "2023",
+   "URL": "https://vkrakovna.wordpress.com/talks/",
+   "notion_url": "https://www.notion.so/392a23d921658195818cf5c01c553fa4"
+  },
+  {
+   "Name": "ACM FAccT 2023",
+   "Focus area": [
+    "Ethics & society",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Chicago",
+   "Participants": [
+    "Alondra Nelson"
+   ],
+   "Recommendation": "Top ethics venue; tangential to your focus",
+   "Roster participants": "1",
+   "Series": "ACM FAccT",
+   "Type": "academic",
+   "Year": "2023",
+   "URL": "https://facctconference.org/2023/keynotes",
+   "notion_url": "https://www.notion.so/392a23d9216581b0a3dad8b016dad144"
+  },
+  {
+   "Name": "TED2023 (Vancouver)",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Vancouver",
+   "Participants": [
+    "Eliezer Yudkowsky"
+   ],
+   "Recommendation": "Watch the talks online",
+   "Roster participants": "1",
+   "Series": "TED",
+   "Type": "mixed",
+   "Year": "2023",
+   "URL": "https://www.ted.com/talks/eliezer_yudkowsky_will_superintelligent_ai_end_the_world",
+   "notion_url": "https://www.notion.so/392a23d92165812e9f25e159b37bd92f"
+  },
+  {
+   "Name": "IEEE SaTML 2023",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Raleigh NC",
+   "Participants": [
+    "Nicolas Papernot"
+   ],
+   "Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
+   "Roster participants": "1",
+   "Series": "IEEE SaTML",
+   "Type": "academic",
+   "Year": "2023",
+   "URL": "https://www.papernot.fr/",
+   "notion_url": "https://www.notion.so/392a23d9216581e68fdadde838bd8134"
+  },
+  {
+   "Name": "IEEE SaTML 2027",
+   "Focus": "Premier academic venue for secure & trustworthy ML",
+   "Focus area": [
+    "AI security",
+    "ML research",
+    "Red teaming"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Reykjavik",
+   "Notes": "May 8–10, 2027, Reykjavik, Iceland",
+   "Recommendation": "Continues tracked 2023–25 series; early flag for paper deadlines",
+   "Roster participants": "0",
+   "Series": "IEEE SaTML",
+   "Type": "academic",
+   "Year": "2027",
+   "URL": "https://satml.org/",
+   "notion_url": "https://www.notion.so/393a23d921658145bb98eb71cd0112e9"
+  },
+  {
+   "Name": "AAAI AI Alignment Special Track",
+   "Focus": "Alignment/oversight/safety evals track since AAAI-25 (Philadelphia, 2025); continues at AAAI-26",
+   "Focus area": [
+    "Alignment",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Singapore (Jan 2026)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Publishing target for alignment work",
+   "Roster participants": "0",
+   "Series": "AAAI AI Alignment Special Track",
+   "Type": "academic",
+   "URL": "https://aaai.org/conference/aaai/aaai-26/",
+   "notion_url": "https://www.notion.so/392a23d92165810ebc39f0b2092add00"
+  },
+  {
+   "Name": "International Cyber Expo 2025",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "London",
+   "Participants": [
+    "Peter Garraghan"
+   ],
+   "Recommendation": "Trade expo",
+   "Roster participants": "1",
+   "Series": "International Cyber Expo",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://www.internationalcyberexpo.com/",
+   "notion_url": "https://www.notion.so/392a23d9216581c9a493d41272770842"
+  },
+  {
+   "Name": "39C3 (Chaos Communication Congress) 2025",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Hamburg",
+   "Participants": [
+    "Johann Rehberger"
+   ],
+   "Recommendation": "European hacker venue; prompt-injection talks",
+   "Roster participants": "1",
+   "Series": "Chaos Communication Congress",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://media.ccc.de/v/39c3-agentic-probllms-exploiting-ai-computer-use-and-coding-agents",
+   "notion_url": "https://www.notion.so/392a23d9216581818737d46cc30f8970"
+  },
+  {
+   "Name": "Generative AI Week",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Georgetown TX (Austin)",
+   "Notes": "Series rebranded to Agentic AI Week USA.",
+   "Participants": [
+    "Sander Schulhoff"
+   ],
+   "Recommendation": "Expo",
+   "Roster participants": "1",
+   "Series": "Generative AI Week",
+   "Type": "mixed",
+   "Year": "2025",
+   "URL": "https://www.aidataanalytics.network/events-generative-ai-week",
+   "notion_url": "https://www.notion.so/392a23d9216581d8bb54cb0afa1ae791"
+  },
+  {
+   "Name": "SCSP AI Expo for National Competitiveness 2024",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Washington DC",
+   "Participants": [
+    "Elham Tabassi"
+   ],
+   "Recommendation": "US natsec expo",
+   "Roster participants": "1",
+   "Series": "SCSP AI Expo for National Competitiveness",
+   "Type": "governance",
+   "Year": "2024",
+   "URL": "https://washingtonainetwork.com/2024/05/28/nists-chief-ai-advisor-elham-tabassi-discusses-the-u-s-governments-ai-efforts-at-scsp-ai-expo/",
+   "notion_url": "https://www.notion.so/392a23d9216581c5a040de1269fc217f"
+  },
+  {
+   "Name": "GenAI Week Silicon Valley 2025",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Santa Clara CA",
+   "Participants": [
+    "Bo Li"
+   ],
+   "Recommendation": "Expo; low research value",
+   "Roster participants": "1",
+   "Series": "GenAI Week Silicon Valley",
+   "Type": "industry",
+   "Year": "2025",
+   "URL": "https://genaisummit.ai/speaker/154",
+   "notion_url": "https://www.notion.so/392a23d9216581abaf50dd9b8f7f7570"
+  },
+  {
+   "Name": "SXSW 2024",
+   "Focus area": [
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Austin TX",
+   "Participants": [
+    "Joy Buolamwini"
+   ],
+   "Recommendation": "Entertainment festival",
+   "Roster participants": "1",
+   "Series": "SXSW",
+   "Type": "mixed",
+   "Year": "2024",
+   "URL": "https://sxsw.com/interactive/2024/keynote-a-conversation-with-dr-joy-buolamwini-sxsw-2024/",
+   "notion_url": "https://www.notion.so/392a23d921658155931acf9ccd405e0f"
+  },
+  {
+   "Name": "BSidesLV 2024",
+   "Focus area": [
+    "Cybersecurity"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Fred Heiding"
+   ],
+   "Recommendation": "Cheap community venue; good place to give first talks",
+   "Roster participants": "1",
+   "Series": "BSides",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://tldrsec.com/p/2024-bsideslv-blackhat-ai-talks",
+   "notion_url": "https://www.notion.so/392a23d9216581b4b3fade08c52fe460"
+  },
+  {
+   "Name": "AAAI 2024",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Vancouver",
+   "Participants": [
+    "Pin-Yu Chen"
+   ],
+   "Recommendation": "Major AI venue; new alignment track",
+   "Roster participants": "1",
+   "Series": "AAAI",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://sites.google.com/site/pinyuchenpage/home",
+   "notion_url": "https://www.notion.so/392a23d9216581698aabcae9358e9865"
+  },
+  {
+   "Name": "EMNLP 2024",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Miami",
+   "Participants": [
+    "Percy Liang"
+   ],
+   "Recommendation": "NLP venue; prompt-injection papers appear",
+   "Roster participants": "1",
+   "Series": "EMNLP",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://2024.emnlp.org/program/keynotes/",
+   "notion_url": "https://www.notion.so/392a23d92165810ea40fd942663eff1b"
+  },
+  {
+   "Name": "IEEE SaTML 2024",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Toronto",
+   "Participants": [
+    "Florian Tramèr",
+    "Nicolas Papernot"
+   ],
+   "Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
+   "Roster participants": "2",
+   "Series": "IEEE SaTML",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://satml.org/",
+   "notion_url": "https://www.notion.so/392a23d92165815b8d23faf037ef990a"
+  },
+  {
+   "Name": "ICLR 2024",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Vienna",
+   "Participants": [
+    "Been Kim"
+   ],
+   "Recommendation": "Top ML venue; LLM-security workshops (SeT-LLM)",
+   "Roster participants": "1",
+   "Series": "ICLR",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://iclr.cc/virtual/2024/organizers",
+   "notion_url": "https://www.notion.so/392a23d92165813ba006c485dda6484a"
+  },
+  {
+   "Name": "The Curve 2024",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Berkeley",
+   "Participants": [
+    "Daniel Kokotajlo"
+   ],
+   "Recommendation": "AI-futures discourse; strong safety crowd",
+   "Roster participants": "1",
+   "Series": "The Curve",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://www.bloodinthemachine.com/p/ai-disagreements",
+   "notion_url": "https://www.notion.so/392a23d9216581a79c59c1ac08f2c05e"
+  },
+  {
+   "Name": "Gray Swan Jailbreaking Championship (CMU) 2024",
+   "Focus area": [
+    "Red teaming",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Pittsburgh",
+   "Participants": [
+    "Andy Zou"
+   ],
+   "Recommendation": "Competitive jailbreaking - direct skills match",
+   "Roster participants": "1",
+   "Series": "Gray Swan Jailbreaking Championship (CMU)",
+   "Type": "community",
+   "Year": "2024",
+   "URL": "https://www.cs.cmu.edu/calendar/177324405",
+   "notion_url": "https://www.notion.so/392a23d9216581f5a41cf8cce6342542"
+  },
+  {
+   "Name": "Microsoft BlueHat 2024",
+   "Focus area": [
+    "Cybersecurity",
+    "AI security"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Redmond WA",
+   "Participants": [
+    "Richard Lundeen"
+   ],
+   "Recommendation": "MS security community; AI red-team talks",
+   "Roster participants": "1",
+   "Series": "Microsoft BlueHat",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://www.youtube.com/watch?v=RFnOIYMOEeE",
+   "notion_url": "https://www.notion.so/392a23d9216581b2948cd4722104fca5"
+  },
+  {
+   "Name": "TED2024 (Vancouver)",
+   "Focus area": [
+    "Governance & policy"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Vancouver",
+   "Participants": [
+    "Helen Toner"
+   ],
+   "Recommendation": "Watch the talks online",
+   "Roster participants": "1",
+   "Series": "TED",
+   "Type": "mixed",
+   "Year": "2024",
+   "URL": "https://cset.georgetown.edu/article/helen-toner-at-ted-2024-how-to-govern-ai-even-if-its-hard-to-predict/",
+   "notion_url": "https://www.notion.so/392a23d9216581b593f6ffdfc1b6df27"
+  },
+  {
+   "Name": "Computational Humanities Research 2024",
+   "Focus area": [
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Aarhus",
+   "Participants": [
+    "Leon Derczynski"
+   ],
+   "Recommendation": "Tangential field",
+   "Roster participants": "1",
+   "Series": "Computational Humanities Research",
+   "Type": "academic",
+   "Year": "2024",
+   "URL": "https://2024.computational-humanities-research.org/announcements/leon-derczynski/",
+   "notion_url": "https://www.notion.so/392a23d92165813fa83bdab48c4aae64"
+  },
+  {
+   "Name": "Info-Tech LIVE 2024 (Las Vegas)",
+   "Focus area": [
+    "Industry & enterprise"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Las Vegas",
+   "Participants": [
+    "Timnit Gebru"
+   ],
+   "Recommendation": "IT trade show",
+   "Roster participants": "1",
+   "Series": "Info-Tech LIVE (Las Vegas)",
+   "Type": "industry",
+   "Year": "2024",
+   "URL": "https://www.prnewswire.co.uk/news-releases/info-tech-research-group-reveals-dr-timnit-gebru-and-meredith-whittaker-to-be-keynote-speakers-at-live-2024-it-conference-302153583.html",
+   "notion_url": "https://www.notion.so/392a23d9216581f7be1ffab5f920d192"
+  },
+  {
+   "Name": "The Curve 2025",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Berkeley",
+   "Participants": [
+    "Daniel Kokotajlo"
+   ],
+   "Recommendation": "AI-futures discourse; strong safety crowd",
+   "Roster participants": "1",
+   "Series": "The Curve",
+   "Type": "community",
+   "Year": "2025",
+   "URL": "https://secondthoughts.ai/p/the-curve-2025-the-premier-big-picture",
+   "notion_url": "https://www.notion.so/392a23d92165815e91e9f1b3cf702e4f"
+  },
+  {
+   "Name": "CoLM 2025",
+   "Focus area": [
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Medium",
+   "Location": "Montreal",
+   "Participants": [
+    "Nicholas Carlini"
+   ],
+   "Recommendation": "LM-focused academic venue",
+   "Roster participants": "1",
+   "Series": "CoLM",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://nicholas.carlini.com/writing/2025/are-llms-worth-it.html",
+   "notion_url": "https://www.notion.so/392a23d9216581b8bd9af117c6e8f779"
+  },
+  {
+   "Name": "NISO Plus Baltimore 2025",
+   "Focus area": [
+    "Ethics & society"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Baltimore",
+   "Participants": [
+    "Timnit Gebru"
+   ],
+   "Recommendation": "Library/publishing standards",
+   "Roster participants": "1",
+   "Series": "NISO Plus Baltimore",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://www.niso.org/niso-io/2025/01/timnit-gebru-our-2025-miles-conrad-awardee",
+   "notion_url": "https://www.notion.so/392a23d92165816fac69c0e6fe68829f"
+  },
+  {
+   "Name": "Nobel Prize Dialogue Madrid 2025",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Skip",
+   "Location": "Madrid",
+   "Participants": [
+    "Geoffrey Hinton"
+   ],
+   "Recommendation": "Ceremonial; watch online",
+   "Roster participants": "1",
+   "Series": "Nobel Prize events",
+   "Type": "governance",
+   "Year": "2025",
+   "URL": "https://www.nobelprize.org/events/nobel-prize-dialogue/madrid-2025/panellists/geoffrey-hinton/",
+   "notion_url": "https://www.notion.so/392a23d9216581eaaa83c63d509b8f30"
+  },
+  {
+   "Name": "IEEE SaTML 2025",
+   "Focus area": [
+    "AI security",
+    "ML research"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "High",
+   "Location": "Copenhagen",
+   "Participants": [
+    "Been Kim",
+    "Bo Li",
+    "Kunal Talwar",
+    "Nicolas Papernot",
+    "Zico Kolter"
+   ],
+   "Recommendation": "Top dedicated academic venue for secure & trustworthy ML",
+   "Roster participants": "5",
+   "Series": "IEEE SaTML",
+   "Type": "academic",
+   "Year": "2025",
+   "URL": "https://satml.org/2025/organization",
+   "notion_url": "https://www.notion.so/392a23d9216581229a66cb64734a3c17"
+  },
+  {
+   "Name": "AAAI/ACM AIES",
+   "Focus": "AI ethics & society",
+   "Focus area": [
+    "Ethics & society",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Malmö Sweden (Oct 2026)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Ethics venue; tangential to your focus",
+   "Roster participants": "0",
+   "Series": "AAAI/ACM AIES",
+   "Type": "academic",
+   "URL": "https://www.aies-conference.com/",
+   "notion_url": "https://www.notion.so/392a23d92165816691b0d39b1928f418"
+  },
+  {
+   "Name": "LessOnline",
+   "Focus": "Rationalist/LW festival, safety-heavy crowd",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Lighthaven Berkeley (Jun)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Rationalist festival; safety-heavy crowd",
+   "Roster participants": "0",
+   "Series": "LessOnline",
+   "Type": "community",
+   "URL": "https://less.online/",
+   "notion_url": "https://www.notion.so/392a23d921658161b74bd6552dfa854d"
+  },
+  {
+   "Name": "Manifest",
+   "Focus": "Forecasting festival, AI-futures programming",
+   "Focus area": [
+    "X-risk & futures"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Low",
+   "Location": "Lighthaven Berkeley (Jun)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Forecasting festival; tangential",
+   "Roster participants": "0",
+   "Series": "Manifest",
+   "Type": "community",
+   "URL": "https://manifest.is/",
+   "notion_url": "https://www.notion.so/392a23d92165816786aeef9033913a13"
+  },
+  {
+   "Name": "Princeton PLI \"AI Preparedness\" 2024",
+   "Focus area": [
+    "Governance & policy",
+    "X-risk & futures"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Princeton NJ",
+   "Participants": [
+    "Aleksander Madry"
+   ],
+   "Recommendation": "Watch talks online",
+   "Roster participants": "1",
+   "Series": "Princeton PLI events",
+   "Type": "mixed",
+   "Year": "2024",
+   "URL": "https://pli.princeton.edu/events/2024/ai-preparedness",
+   "notion_url": "https://www.notion.so/392a23d9216581269ee9e79b47343758"
+  },
+  {
+   "Name": "AI Safety Camp",
+   "Focus": "3-month virtual safety research program",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Virtual (Jan–Apr)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Remote research program",
+   "Roster participants": "0",
+   "Series": "AI Safety Camp",
+   "Type": "community",
+   "URL": "https://www.aisafety.camp/",
+   "notion_url": "https://www.notion.so/392a23d9216581ae93d4d4cf11af9e28"
+  },
+  {
+   "Name": "Princeton Language and Intelligence (PLI/PASS) event 2024",
+   "Focus area": [
+    "ML research",
+    "Alignment"
+   ],
+   "In roster findings": "Yes",
+   "Join priority": "Low",
+   "Location": "Virtual",
+   "Participants": [
+    "David Krueger"
+   ],
+   "Recommendation": "Watch talks online",
+   "Roster participants": "1",
+   "Series": "Princeton PLI events",
+   "Type": "mixed",
+   "Year": "2024",
+   "URL": "https://pli.princeton.edu/events/2024/professor-david-krueger",
+   "notion_url": "https://www.notion.so/392a23d9216581dfab40e9c7a7d6472a"
+  },
+  {
+   "Name": "Apart Research Sprints (Alignment Jams)",
+   "Focus": "Weekend safety research hackathons",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Global hubs (monthly)",
+   "Notes": "Gap venue: AI-safety-relevant, no roster member appearance verified yet",
+   "Recommendation": "Remote sprints; low-cost entry to safety research",
+   "Roster participants": "0",
+   "Series": "Apart Research Sprints (Alignment Jams)",
+   "Type": "community",
+   "URL": "https://apartresearch.com/sprints",
+   "notion_url": "https://www.notion.so/392a23d921658196bb89f7d9d8947c2a"
+  },
+  {
+   "Name": "CHAI Annual Workshop 2026",
+   "Focus area": [
+    "Alignment"
+   ],
+   "In roster findings": "No",
+   "Join priority": "High",
+   "Location": "Asilomar",
+   "Participants": [],
+   "Recommendation": "CHAI's annual invite workshop (Asilomar); core academic alignment community. Added 2026-07-04 gap pass.",
+   "Roster participants": "0",
+   "Series": "CHAI Annual Workshop",
+   "Type": "academic",
+   "Year": "2026",
+   "URL": "https://humancompatible.ai/",
+   "notion_url": "https://app.notion.com/p/393a23d9216581aeacc0cca7193114b1"
+  },
+  {
+   "Name": "EA Global: Bay Area 2026",
+   "Focus area": [
+    "Community & careers"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Medium",
+   "Location": "Bay Area",
+   "Participants": [],
+   "Recommendation": "EA Global flagship; major AI-safety career + community hub. Added 2026-07-04 gap pass.",
+   "Roster participants": "0",
+   "Series": "EA Global",
+   "Type": "community",
+   "Year": "2026",
+   "URL": "https://www.eaglobal.org/",
+   "notion_url": "https://app.notion.com/p/393a23d92165818bb280fb058a00246b"
+  },
+  {
+   "Name": "ICML 2026 (MechInterp workshop)",
+   "Focus area": [
+    "Interpretability",
+    "ML research"
+   ],
+   "In roster findings": "No",
+   "Join priority": "Must attend",
+   "Location": "Seoul",
+   "Participants": [
+    "Andy Arditi",
+    "Neel Nanda",
+    "Stefan Heimersheim"
+   ],
+   "Recommendation": "Mechanistic interpretability workshop at ICML; core interpretability venue",
+   "Roster participants": "3",
+   "Series": "ICML",
+   "Type": "academic",
+   "Year": "2026",
+   "Notes": "Jul 10, 2026, COEX Seoul; 3rd edition (after ICML 2024, NeurIPS 2025).",
+   "URL": "https://mechinterpworkshop.com/",
+   "notion_url": "https://www.notion.so/395a23d9216581f6a03ce4e3559891ea"
+  }
+ ]
 }
