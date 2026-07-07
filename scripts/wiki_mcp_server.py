@@ -824,11 +824,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
                     f"Trigger: rebuild_index MCP tool (full). "
                     f"Elapsed: {elapsed:.1f}s. "
                     f"Mirror: {'refreshed' if mirror.get('ok') else 'REFRESH FAILED — run build_wiki_index.py by hand'}."
-                    + (
-                        " WARNING: index contains 0 PDF files — follow with a full rebuild_index()."
-                        if degraded
-                        else ""
-                    )
+                    + (" WARNING: index contains 0 PDF files — follow with a full rebuild_index()." if degraded else "")
                 ),
             )
         except Exception:

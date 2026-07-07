@@ -964,11 +964,7 @@ def index_stats() -> dict:
     chunks = load_all_chunks()
     files = {c.get("file_id") for c in chunks}
     cats = {c.get("category") for c in chunks if c.get("category")}
-    pdf_files = {
-        c.get("file_id")
-        for c in chunks
-        if str(c.get("relpath", "")).lower().endswith(".pdf")
-    }
+    pdf_files = {c.get("file_id") for c in chunks if str(c.get("relpath", "")).lower().endswith(".pdf")}
     n_pdf = len(pdf_files)
     try:
         vault_has_pdfs = VAULT_PATH.exists() and next(VAULT_PATH.rglob("*.pdf"), None) is not None

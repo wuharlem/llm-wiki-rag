@@ -71,7 +71,10 @@ def write_saved_state(state_path: Path, digest: str) -> None:
     """Record `digest` (pre-build fingerprint) after a successful rebuild."""
     state_path.parent.mkdir(parents=True, exist_ok=True)
     state_path.write_text(
-        json.dumps({"digest": digest, "note": "written by rebuild_index after a successful build; pre-build fingerprint"}, indent=2)
+        json.dumps(
+            {"digest": digest, "note": "written by rebuild_index after a successful build; pre-build fingerprint"},
+            indent=2,
+        )
         + "\n",
         encoding="utf-8",
     )
