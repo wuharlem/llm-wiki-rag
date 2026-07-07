@@ -93,12 +93,14 @@ zzz_top
 02_logs/
 03_notion_drafts/
 
-# Intermediate URL-list artifacts in 00_inputs/. Only urls_dedup.csv is
-# consumed by the pipeline (fetch.py, build_manifest.py); the others are
-# one-time outputs from manual URL curation. Listing each file explicitly
-# so a future input file under 00_inputs/ isn't accidentally ignored.
+# URL-list artifacts in 00_inputs/. urls_dedup.csv is consumed by the pipeline
+# (fetch.py, build_manifest.py) but stays out of the public repo — it lives in
+# the separate data repo alongside the 01_data/ CSVs. The others are one-time
+# outputs from manual URL curation. Listing each file explicitly so a future
+# input file under 00_inputs/ isn't accidentally ignored.
 00_inputs/urls.csv
 00_inputs/urls_already_in_folder.csv
+00_inputs/urls_dedup.csv
 00_inputs/urls_filtered.csv
 00_inputs/urls_not_in_folder.csv
 00_inputs/urls_removed.csv
