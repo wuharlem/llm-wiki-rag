@@ -1,19 +1,20 @@
 # ---------------------------------------------------------------------------
 # people_directory scratch & derived artifacts — never inputs to the pipeline.
 #
-# Tracked (kept in the public repo):
-#   * Machinery: parse_raw.py, parse_extra.py, gen_directory.py, sync_vault.py,
-#     sync_fellowships.py, qc_directory.py, regen_guard.py, WORKFLOW.md.
-#   * Non-regeneratable sources: arxiv_titles.json (cache extended by hand;
-#     WORKFLOW.md L34), notion_conferences.json (static Notion snapshot;
-#     cloners can't scrape Notion; WORKFLOW.md L31).
-#   * Trend log: qc_metrics.csv (append-only history; invariant 10 depends on
-#     cross-run continuity).
+# Tracked (kept in the public repo): machinery only —
+#   parse_raw.py, parse_extra.py, gen_directory.py, sync_vault.py,
+#   sync_fellowships.py, qc_directory.py, regen_guard.py, WORKFLOW.md,
+#   qc_metrics.csv (append-only trend log; invariant 10 needs cross-run
+#   continuity).
 #
-# Untracked (regenerated locally by the pipeline from vault + Notion, ahead of
-# this repo going public — same rationale as extra_data.json + 01_data/ CSVs):
+# Untracked (all data lives in the private data repo, ahead of this repo
+# going public — same rationale as extra_data.json + 01_data/ CSVs):
 #   * Derived products: people.json, org_categories.json, notion_fellowships.json,
 #     fellowships_to_create.json, dataset_info.json, missing_papers.json.
+#   * Static Notion snapshot: notion_conferences.json (WORKFLOW.md L31; cloner
+#     must repopulate from the data repo or re-scrape Notion).
+#   * arxiv id→title cache: arxiv_titles.json (WORKFLOW.md L34; degrades
+#     gracefully — missing ids fall back to a Scholar-search link).
 #   * Dated one-off analyses: GAP_ANALYSIS_<date>.md (parallel to QC_REPORT_*.md).
 #
 # See WORKFLOW.md (sources-of-truth) + repo-root CLAUDE.md §7.
@@ -49,9 +50,11 @@ ai-safety-people-directory.html
 people.json
 org_categories.json
 notion_fellowships.json
+notion_conferences.json
 fellowships_to_create.json
 dataset_info.json
 missing_papers.json
+arxiv_titles.json
 
 # Dated gap/analysis reports (parallel to QC_REPORT_*.md above).
 GAP_ANALYSIS_*.md
