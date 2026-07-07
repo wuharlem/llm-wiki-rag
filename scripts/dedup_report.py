@@ -14,7 +14,7 @@ Canonicalization:
 
 For each duplicate group, picks a "richness winner" by counting populated
 frontmatter fields (title, author, published, description, tags,
-wiki_concepts, risk_category, source_type, +1 if URL is canonical/short).
+concepts, risk_category, source_type, +1 if URL is canonical/short).
 
 Report-only: writes a CSV at 02_logs/dedup_report.csv. Does NOT delete anything;
 the user reviews and decides which copies to merge or trash.
@@ -57,11 +57,15 @@ def parse_frontmatter(text: str) -> dict | None:
         "published",
         "description",
         "tags",
-        "wiki_concepts",
+        "concepts",
         "risk_category",
         "source_type",
     ):
         out[k] = get_field(fm, k)
+    # Compat: pre-migration vault files still use `wiki_concepts:`. Read the
+    # legacy key when the new one is absent so the richness score stays honest.
+    if not out["concepts"]:
+        out["concepts"] = get_field(fm, "wiki_concepts")
     return out
 
 
@@ -106,7 +110,7 @@ def richness(meta: dict) -> int:
         if v and v not in ("null", "~", "", "[]"):
             score += 1
     # List-valued fields: count if non-empty
-    for k in ("tags", "wiki_concepts", "risk_category"):
+    for k in ("tags", "concepts", "risk_category"):
         v = meta.get(k, "")
         if v and v not in ("null", "~", "", "[]") and v != "[ ]":
             # naive: longer == richer

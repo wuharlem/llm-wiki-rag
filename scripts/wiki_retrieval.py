@@ -16,7 +16,7 @@ Index layout (produced by scripts/build_index.py):
 
 The chunk schema (chunks.jsonl):
   file_id, chunk_id, relpath, title, category, subcategory,
-  tags[], wiki_concepts[], heading_path, tokens, text
+  tags[], concepts[], heading_path, tokens, text
 """
 
 from __future__ import annotations
@@ -78,14 +78,14 @@ class Filters:
     'no restriction'."""
 
     category: Optional[str] = None  # e.g. "04_Governance-and-Policy"
-    concept: Optional[str] = None  # match against chunk["wiki_concepts"]
+    concept: Optional[str] = None  # match against chunk["concepts"]
     tag: Optional[str] = None  # match against chunk["tags"]
     file_type: Optional[str] = None  # "md" | "pdf"
 
     def matches(self, c: dict) -> bool:
         if self.category and c.get("category") != self.category:
             return False
-        if self.concept and self.concept not in (c.get("wiki_concepts") or []):
+        if self.concept and self.concept not in (c.get("concepts") or c.get("wiki_concepts") or []):
             return False
         if self.tag and self.tag not in (c.get("tags") or []):
             return False
@@ -473,7 +473,7 @@ def search(
           "category": str,
           "subcategory": str,
           "tags": [str],
-          "wiki_concepts": [str],
+          "concepts": [str],
           "text": str,         # full chunk text
         },
         ...
@@ -526,7 +526,7 @@ def search(
             "category": c.get("category"),
             "subcategory": c.get("subcategory"),
             "tags": c.get("tags") or [],
-            "wiki_concepts": c.get("wiki_concepts") or [],
+            "concepts": c.get("concepts") or c.get("wiki_concepts") or [],
             "text": c.get("text", ""),
         }
         if explain and "_explain" in c:
@@ -623,8 +623,8 @@ def _count_files_by_field(field: str, output_key: str, min_files: int = 1) -> li
 
 
 def list_concepts(min_files: int = 1) -> list[dict]:
-    """Distinct wiki_concepts with file counts."""
-    return _count_files_by_field("wiki_concepts", "concept", min_files=min_files)
+    """Distinct concepts with file counts."""
+    return _count_files_by_field("concepts", "concept", min_files=min_files)
 
 
 def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
@@ -649,7 +649,7 @@ def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
         title = c.get("title") or ""
         if title and fid not in file_titles:
             file_titles[fid] = title
-        for k in c.get("wiki_concepts") or []:
+        for k in c.get("concepts") or c.get("wiki_concepts") or []:
             files_per_concept.setdefault(k, set()).add(fid)
 
     base = files_per_concept.get(concept)
@@ -800,7 +800,7 @@ def save_query_result(
             f"### {i}. [{r.get('title', '(untitled)')}](../files/{r.get('file_id')}__{Path(r.get('relpath', '')).stem}.md)  ·  score {r.get('score', 0):.3f}",
             f"- file_id: `{r.get('file_id', '')}`",
             f"- path: `{r.get('relpath', '')}`",
-            f"- category: {r.get('category', '')}  ·  concepts: {', '.join(r.get('wiki_concepts') or []) or '—'}",
+            f"- category: {r.get('category', '')}  ·  concepts: {', '.join(r.get('concepts') or []) or '—'}",
             "",
             "> " + (r.get("text", "")[:1200].replace("\n", "\n> ") or "(no text)"),
             "",

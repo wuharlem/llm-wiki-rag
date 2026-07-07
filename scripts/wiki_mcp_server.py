@@ -251,7 +251,7 @@ def search_wiki(params: SearchInput) -> str:
                   "category": str,
                   "subcategory": str,
                   "tags": [str],
-                  "wiki_concepts": [str],
+                  "concepts": [str],
                   "text": str                # full chunk text, or omitted if include_text=False
                 },
                 ...
@@ -327,7 +327,7 @@ def get_file_detail(params: FileDetailInput) -> str:
               "category": str,
               "subcategory": str,
               "tags": [str],
-              "wiki_concepts": [str],
+              "concepts": [str],
               "summary": str,           # if available in index.json
               "chunks": [               # only when include_chunks=True
                 {"chunk_id": str, "heading_path": str, "tokens": int, "text": str},
@@ -391,7 +391,7 @@ def list_categories(params: ListInput) -> str:
 )
 @_wrap_errors
 def list_concepts(params: ListInput) -> str:
-    """List all wiki_concepts (cross-cutting research topics) with file counts,
+    """List all concepts (cross-cutting research topics) with file counts,
     sorted by descending count. Use to discover valid `concept` values for
     search_wiki.
 

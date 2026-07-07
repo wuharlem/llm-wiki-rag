@@ -113,7 +113,7 @@ class FileEntry:
     description: str
     summary: str  # description if good, else derived
     tags: list[str] = field(default_factory=list)
-    wiki_concepts: list[str] = field(default_factory=list)
+    concepts: list[str] = field(default_factory=list)
     risk_category: list[str] = field(default_factory=list)
     source_type: str = ""
     author: str = ""
@@ -167,6 +167,20 @@ def ensure_list(v: Any) -> list[str]:
         parts = re.split(r"[,|]", v)
         return [p.strip() for p in parts if p.strip()]
     return [str(v)]
+
+
+def _read_concepts(meta: dict) -> list:
+    """Read the concepts field, tolerating the legacy `wiki_concepts` key.
+
+    2026-07-07 rename: `wiki_concepts` -> `concepts`. The one-shot vault
+    migration (scripts/_oneshot_rename_wiki_concepts_2026-07-07.py) writes
+    the new key everywhere; this compat shim lets pre-migration files still
+    parse. Remove the fallback once every vault file is migrated.
+    """
+    val = meta.get("concepts")
+    if val is None:
+        val = meta.get("wiki_concepts")
+    return ensure_list(val)
 
 
 # ---------------------------------------------------------------------------
@@ -415,7 +429,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         "source",
         "source_type",
         "tags",
-        "wiki_concepts",
+        "concepts",
         "risk_category",
     ):
         csv_key = "url" if k == "source" else k
@@ -440,7 +454,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         description=desc,
         summary=summary,
         tags=ensure_list(meta.get("tags")),
-        wiki_concepts=ensure_list(meta.get("wiki_concepts")),
+        concepts=_read_concepts(meta),
         risk_category=ensure_list(meta.get("risk_category")),
         source_type=str(meta.get("source_type") or "").strip(),
         author=str(meta.get("author") or "").strip(),
@@ -482,7 +496,7 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
         description=info.get("description") or "",
         summary=summary,
         tags=ensure_list(info.get("tags")),
-        wiki_concepts=ensure_list(info.get("wiki_concepts")),
+        concepts=ensure_list(info.get("concepts") or info.get("wiki_concepts")),
         risk_category=ensure_list(info.get("risk_category")),
         source_type=info.get("source_type") or "research_paper",
         author=info.get("author") or "",
@@ -548,8 +562,8 @@ def write_detail_md(entry: FileEntry) -> Path:
     if entry.n_pages:
         lines.append(f"**Pages:** {entry.n_pages}  ")
     lines.append("")
-    if entry.wiki_concepts:
-        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in entry.wiki_concepts))
+    if entry.concepts:
+        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in entry.concepts))
     if entry.risk_category:
         lines.append("**Risk categories:** " + ", ".join(entry.risk_category))
     lines.append("")
@@ -586,7 +600,7 @@ def _emit_chunks_jsonl(entries: list[FileEntry], path: Path) -> None:
                         "category": e.category,
                         "subcategory": e.subcategory,
                         "tags": e.tags,
-                        "wiki_concepts": e.wiki_concepts,
+                        "concepts": e.concepts,
                         "heading_path": c.heading_path,
                         "tokens": c.tokens,
                         "text": c.text,
@@ -633,7 +647,7 @@ def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
             "n_tokens",
             "n_pages",
             "tags",
-            "wiki_concepts",
+            "concepts",
             "risk_category",
             "source_type",
             "author",
@@ -661,7 +675,7 @@ def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
             e.n_tokens,
             e.n_pages,
             "|".join(str(t) for t in e.tags),
-            "|".join(str(t) for t in e.wiki_concepts),
+            "|".join(str(t) for t in e.concepts),
             "|".join(str(t) for t in e.risk_category),
             cell(e.source_type),
             cell(e.author),

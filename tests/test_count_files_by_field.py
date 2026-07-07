@@ -15,16 +15,16 @@ import pytest
 def fake_chunks():
     """Synthetic chunks where field values overlap and file_ids repeat."""
     return [
-        {"file_id": "f1", "wiki_concepts": ["A", "B"], "tags": ["x"]},
-        {"file_id": "f1", "wiki_concepts": ["A"], "tags": ["x", "y"]},  # f1 repeats
-        {"file_id": "f2", "wiki_concepts": ["A"], "tags": ["y"]},
-        {"file_id": "f3", "wiki_concepts": ["B", "C"], "tags": []},
+        {"file_id": "f1", "concepts": ["A", "B"], "tags": ["x"]},
+        {"file_id": "f1", "concepts": ["A"], "tags": ["x", "y"]},  # f1 repeats
+        {"file_id": "f2", "concepts": ["A"], "tags": ["y"]},
+        {"file_id": "f3", "concepts": ["B", "C"], "tags": []},
     ]
 
 
 def test_count_files_by_field_aggregates_correctly(monkeypatch, fresh_wr, fake_chunks):
     monkeypatch.setattr(fresh_wr, "load_all_chunks", lambda: fake_chunks)
-    out = fresh_wr._count_files_by_field("wiki_concepts", "concept")
+    out = fresh_wr._count_files_by_field("concepts", "concept")
     counts = {d["concept"]: d["n_files"] for d in out}
     # "A" appears in f1 (twice — deduped) and f2 → 2 distinct files
     assert counts["A"] == 2
@@ -34,7 +34,7 @@ def test_count_files_by_field_aggregates_correctly(monkeypatch, fresh_wr, fake_c
 
 def test_count_files_by_field_min_files_filter(monkeypatch, fresh_wr, fake_chunks):
     monkeypatch.setattr(fresh_wr, "load_all_chunks", lambda: fake_chunks)
-    out = fresh_wr._count_files_by_field("wiki_concepts", "concept", min_files=2)
+    out = fresh_wr._count_files_by_field("concepts", "concept", min_files=2)
     concepts = {d["concept"] for d in out}
     assert concepts == {"A", "B"}  # "C" with n_files=1 is dropped
 
@@ -56,7 +56,7 @@ def test_count_files_by_field_descending_sort(monkeypatch, fresh_wr):
 
 @pytest.mark.parametrize(
     "field,output_key",
-    [("wiki_concepts", "concept"), ("tags", "tag")],
+    [("concepts", "concept"), ("tags", "tag")],
 )
 def test_count_files_by_field_uses_field_arg(monkeypatch, fresh_wr, fake_chunks, field, output_key):
     monkeypatch.setattr(fresh_wr, "load_all_chunks", lambda: fake_chunks)

@@ -22,7 +22,7 @@ CANONICAL_HEADER = [
     "n_tokens",
     "n_pages",
     "tags",
-    "wiki_concepts",
+    "concepts",
     "risk_category",
     "source_type",
     "author",
@@ -46,7 +46,7 @@ def _make_entry(**overrides) -> bi.FileEntry:
         description="",
         summary="",
         tags=[],
-        wiki_concepts=[],
+        concepts=[],
         risk_category=[],
         source_type="",
         author="",
@@ -81,12 +81,12 @@ def test_emit_manifest_csv_handles_special_chars_in_title(tmp_path):
 
 def test_emit_manifest_csv_pipe_joins_list_fields(tmp_path):
     out = tmp_path / "m.csv"
-    entry = _make_entry(tags=["a", "b"], wiki_concepts=["c", "d"], risk_category=["e"])
+    entry = _make_entry(tags=["a", "b"], concepts=["c", "d"], risk_category=["e"])
     bi._emit_manifest_csv([entry], out)
     rows = list(csv.reader(out.read_text(encoding="utf-8").splitlines()))
     row = rows[1]
     assert row[CANONICAL_HEADER.index("tags")] == "a|b"
-    assert row[CANONICAL_HEADER.index("wiki_concepts")] == "c|d"
+    assert row[CANONICAL_HEADER.index("concepts")] == "c|d"
     assert row[CANONICAL_HEADER.index("risk_category")] == "e"
 
 

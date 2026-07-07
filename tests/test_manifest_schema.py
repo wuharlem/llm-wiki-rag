@@ -23,7 +23,7 @@ EXPECTED_COLUMNS: tuple[str, ...] = (
     "n_tokens",
     "n_pages",
     "tags",
-    "wiki_concepts",
+    "concepts",
     "risk_category",
     "source_type",
     "author",
@@ -68,7 +68,7 @@ def test_live_manifest_columns(real_index_dir):
 def test_synthetic_build_manifest_row_types(mini_build_env, monkeypatch):
     """Per-column data-type contracts for a non-empty manifest row.
 
-    The list-typed columns (`tags`, `wiki_concepts`, `risk_category`) are
+    The list-typed columns (`tags`, `concepts`, `risk_category`) are
     serialized as pipe-separated strings (e.g. `"a|b|c"`), not JSON. Empty
     lists are written as the empty string. This test locks that format.
     """
@@ -95,7 +95,7 @@ def test_synthetic_build_manifest_row_types(mini_build_env, monkeypatch):
 
     # Pipe-separated list encoding: empty string means [], "a" means ["a"],
     # "a|b|c" means ["a", "b", "c"]. Assert this for each list column.
-    for field in ("tags", "wiki_concepts", "risk_category"):
+    for field in ("tags", "concepts", "risk_category"):
         value = target[field]
         assert isinstance(value, str), f"{field} is not a string: {value!r}"
         if value:

@@ -93,7 +93,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 
 - [[00_master_index]] — every file, one line each, grouped by category
 - `by_category/` — per-category index pages (folder structure of the vault)
-- `by_concept/` — index by `wiki_concepts` frontmatter (now includes a Related concepts table per page)
+- `by_concept/` — index by `concepts` frontmatter (now includes a Related concepts table per page)
 - `by_tag/` — index by top tags
 - `derived/` — synthesis artifacts (capability matrices, disputed-claims tracker)
 - `saved_queries/` — Q&A filed back via the `save_query` MCP tool; searchable corpus material
@@ -179,7 +179,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     # ---- by_concept ----
     by_concept: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
-        for c in (r["wiki_concepts"] or "").split("|"):
+        for c in (r.get("concepts") or r.get("wiki_concepts") or "").split("|"):
             c = c.strip()
             if c:
                 by_concept[c].append(r)
