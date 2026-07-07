@@ -278,10 +278,7 @@ def record_pdf_sources(results: list[dict]) -> int:
     URL. Markdown fetches already carry the URL in their frontmatter.
     Never overwrites existing rows. Added 2026-07-04 after the URL/tag
     backfill — without this, every new PDF regresses to url-less."""
-    new = [
-        r for r in results
-        if r["status"] == "ok" and r["filename"].endswith(".pdf")
-    ]
+    new = [r for r in results if r["status"] == "ok" and r["filename"].endswith(".pdf")]
     if not new or not SOURCES_CSV.exists():
         return 0
     with SOURCES_CSV.open(newline="") as f:

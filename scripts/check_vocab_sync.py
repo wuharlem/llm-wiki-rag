@@ -34,9 +34,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from wiki_lib.vocab import RISK_TRIGGERS, TAG_TRIGGERS, WIKI_CONCEPTS  # noqa: E402
 
-VAULT_PATH = Path(
-    os.environ.get("AI_SAFETY_VAULT", str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"))
-)
+VAULT_PATH = Path(os.environ.get("AI_SAFETY_VAULT", str(Path.home() / "Desktop" / "AI Safety" / "AI Safety")))
 DOC = VAULT_PATH / "PROCESS_NEW_FILE.md"
 
 
@@ -132,7 +130,11 @@ def main() -> int:
                 print(f"    doc-only  (missing from vocab.py): {item}")
             for item in r["code_only"]:
                 print(f"    code-only (missing from PROCESS_NEW_FILE.md): {item}")
-        print("\nIn sync." if not drift else "\nDrift found — sync per PROCESS_HEALTH_CHECK.md Bundle B (user owns the vocab; don't auto-fix).")
+        print(
+            "\nIn sync."
+            if not drift
+            else "\nDrift found — sync per PROCESS_HEALTH_CHECK.md Bundle B (user owns the vocab; don't auto-fix)."
+        )
 
     return 1 if drift else 0
 
