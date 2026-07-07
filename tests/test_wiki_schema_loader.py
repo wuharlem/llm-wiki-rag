@@ -83,3 +83,18 @@ def test_missing_file(tmp_path, monkeypatch):
     monkeypatch.setattr(schema_mod, "SCHEMA_PATH", tmp_path / "nope.yml")
     with pytest.raises(FileNotFoundError):
         schema_mod.get_schema()
+
+
+def test_repo_wiki_schema_loads():
+    """The wiki_schema.yml shipped with the repo must validate cleanly."""
+    from wiki_lib.schema import _reset_schema_cache, get_schema
+
+    _reset_schema_cache()
+    s = get_schema()
+    assert s.wiki.slug == "ai-safety"
+    field_names = [f.name for f in s.frontmatter.fields]
+    assert "concepts" in field_names
+    assert "risk_category" in field_names
+    assert "tags" in field_names
+    # Vocabulary sanity: the concepts vocab has the historical entries
+    assert "RLHF & Its Limitations" in s.vocabulary.concepts
