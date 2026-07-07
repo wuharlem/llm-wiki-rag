@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# people_directory scratch & derived artifacts — never inputs to the pipeline.
+#
+# Tracked machinery: parse_raw.py, parse_extra.py, gen_directory.py,
+# sync_vault.py, sync_fellowships.py, qc_directory.py, regen_guard.py, plus the
+# source/derived JSON products and WORKFLOW.md. Everything below is regenerated
+# by those (or by the underscore-prefixed analysis oneshots) and stays out of
+# git. See WORKFLOW.md (sources-of-truth) + repo-root CLAUDE.md §7.
+# ---------------------------------------------------------------------------
+
+# Underscore-prefixed analysis oneshots and their binary/JSON/HTML outputs
+# (_louvain.py, _cluster_report.py, _X.npy, _graph.pkl, _communities.json,
+# _REDESIGN_PREVIEW.html, …). CLAUDE.md §7: scratch scripts are never tracked.
+# No tracked script or data file starts with an underscore, so this can't
+# shadow a real file.
+_*
+
+# Regen-guard fingerprint cache — local debounce state, mirrors
+# 01_data/index/source_state.json.
+.regen_state.json
+
+# Point-in-time weekly-QC reports — regenerated each run. The durable trend
+# signal lives in qc_metrics.csv (tracked), cf. 02_logs/ run history ignored.
+QC_REPORT_*.md
+
+# Dated cluster/analysis dumps emitted by the _*.py oneshots (they hardcode a
+# baked-in date; kept locally, out of git).
+directory_analysis_*.html
+people_*_20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].html
+people_*_20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].csv
+
+# Derived products that embed third-party PII (researcher emails). Regenerated
+# by the pipeline (gen_directory.py / parse_extra.py) from vault sources, so a
+# cloner rebuilds them locally; kept out of git to avoid publishing PII. The
+# contract-bound RAG manifests under 01_data/ stay tracked (CLAUDE.md §3).
+extra_data.json
+ai-safety-people-directory.html
+
+__pycache__/
+.DS_Store
