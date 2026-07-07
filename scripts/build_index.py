@@ -169,20 +169,6 @@ def ensure_list(v: Any) -> list[str]:
     return [str(v)]
 
 
-def _read_concepts(meta: dict) -> list:
-    """Read the concepts field, tolerating the legacy `wiki_concepts` key.
-
-    2026-07-07 rename: `wiki_concepts` -> `concepts`. The one-shot vault
-    migration (scripts/_oneshot_rename_wiki_concepts_2026-07-07.py) writes
-    the new key everywhere; this compat shim lets pre-migration files still
-    parse. Remove the fallback once every vault file is migrated.
-    """
-    val = meta.get("concepts")
-    if val is None:
-        val = meta.get("wiki_concepts")
-    return ensure_list(val)
-
-
 # ---------------------------------------------------------------------------
 # Chunking
 # ---------------------------------------------------------------------------
@@ -454,7 +440,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         description=desc,
         summary=summary,
         tags=ensure_list(meta.get("tags")),
-        concepts=_read_concepts(meta),
+        concepts=ensure_list(meta.get("concepts")),
         risk_category=ensure_list(meta.get("risk_category")),
         source_type=str(meta.get("source_type") or "").strip(),
         author=str(meta.get("author") or "").strip(),
@@ -496,7 +482,7 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
         description=info.get("description") or "",
         summary=summary,
         tags=ensure_list(info.get("tags")),
-        concepts=ensure_list(info.get("concepts") or info.get("wiki_concepts")),
+        concepts=ensure_list(info.get("concepts")),
         risk_category=ensure_list(info.get("risk_category")),
         source_type=info.get("source_type") or "research_paper",
         author=info.get("author") or "",

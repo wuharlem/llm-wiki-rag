@@ -119,7 +119,7 @@ def md_row(path: Path) -> dict | None:
         "url": parse_scalar_field(get_field(fm, "source")),
         "source_type": parse_scalar_field(get_field(fm, "source_type")),
         "risk_category": parse_list_field(get_field(fm, "risk_category")),
-        "concepts": parse_list_field(get_field(fm, "concepts") or get_field(fm, "wiki_concepts")),
+        "concepts": parse_list_field(get_field(fm, "concepts")),
         "tags": parse_list_field(get_field(fm, "tags")),
         "author": parse_scalar_field(get_field(fm, "author")),
         "published": parse_scalar_field(get_field(fm, "published")),
@@ -142,7 +142,7 @@ def pdf_row(path: Path, classifications_idx: dict[str, dict]) -> dict:
         "url": "",
         "source_type": fm_extra.get("source_type", "research_paper"),  # most PDFs are papers
         "risk_category": fm_extra.get("risk_category", ""),
-        "concepts": fm_extra.get("concepts") or fm_extra.get("wiki_concepts", ""),
+        "concepts": fm_extra.get("concepts", ""),
         "tags": fm_extra.get("tags", ""),
         "author": "",
         "published": "",

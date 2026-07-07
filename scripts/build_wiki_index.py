@@ -179,7 +179,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     # ---- by_concept ----
     by_concept: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
-        for c in (r.get("concepts") or r.get("wiki_concepts") or "").split("|"):
+        for c in (r.get("concepts") or "").split("|"):
             c = c.strip()
             if c:
                 by_concept[c].append(r)

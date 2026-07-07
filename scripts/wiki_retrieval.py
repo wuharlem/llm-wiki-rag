@@ -85,7 +85,7 @@ class Filters:
     def matches(self, c: dict) -> bool:
         if self.category and c.get("category") != self.category:
             return False
-        if self.concept and self.concept not in (c.get("concepts") or c.get("wiki_concepts") or []):
+        if self.concept and self.concept not in (c.get("concepts") or []):
             return False
         if self.tag and self.tag not in (c.get("tags") or []):
             return False
@@ -526,7 +526,7 @@ def search(
             "category": c.get("category"),
             "subcategory": c.get("subcategory"),
             "tags": c.get("tags") or [],
-            "concepts": c.get("concepts") or c.get("wiki_concepts") or [],
+            "concepts": c.get("concepts") or [],
             "text": c.get("text", ""),
         }
         if explain and "_explain" in c:
@@ -649,7 +649,7 @@ def find_related_concepts(concept: str, top_k: int = 5) -> list[dict]:
         title = c.get("title") or ""
         if title and fid not in file_titles:
             file_titles[fid] = title
-        for k in c.get("concepts") or c.get("wiki_concepts") or []:
+        for k in c.get("concepts") or []:
             files_per_concept.setdefault(k, set()).add(fid)
 
     base = files_per_concept.get(concept)

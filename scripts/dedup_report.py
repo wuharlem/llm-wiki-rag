@@ -62,10 +62,6 @@ def parse_frontmatter(text: str) -> dict | None:
         "source_type",
     ):
         out[k] = get_field(fm, k)
-    # Compat: pre-migration vault files still use `wiki_concepts:`. Read the
-    # legacy key when the new one is absent so the richness score stays honest.
-    if not out["concepts"]:
-        out["concepts"] = get_field(fm, "wiki_concepts")
     return out
 
 
