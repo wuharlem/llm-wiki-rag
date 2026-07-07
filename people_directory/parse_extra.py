@@ -382,10 +382,88 @@ for pap in papers:
             n_paper_datasets += 1
             break
 
+# ---------- policies / frontier safety frameworks (manifest, source_type=policy) ----------
+# The Policy tab (METR FSP-style index) groups published safety policies by
+# developer. Source of truth is the RAG manifest, same as papers; a doc appears
+# here iff its vault frontmatter / csv row has source_type=policy.
+# Order matters: first match wins. Distinctive org tokens (METR/FMF by author,
+# then org names) are checked before generic framework phrases that several labs
+# share — e.g. "frontier safety framework" is used by DeepMind AND G42, so G42's
+# own name must be checked first and DeepMind's generic phrase kept last.
+POLICY_ORG_RULES = [
+    ("METR", ["metr"]),
+    ("Frontier Model Forum", ["frontier model forum"]),
+    ("Anthropic", ["anthropic", "responsible scaling", "long-term benefit trust",
+                   "long term benefit trust", "activating ai safety"]),
+    ("OpenAI", ["openai", "preparedness framework"]),
+    ("Meta", ["meta advanced ai scaling", "advanced ai scaling framework",
+              "meta frontier ai framework"]),
+    ("Microsoft", ["microsoft"]),
+    ("Amazon", ["amazon"]),
+    ("xAI", ["xai", "grok"]),
+    ("NVIDIA", ["nvidia"]),
+    ("Magic", ["magic agi", "agi readiness"]),
+    ("NAVER", ["naver"]),
+    ("G42", ["g42"]),
+    ("Cohere", ["cohere"]),
+    ("Google DeepMind", ["deepmind", "google", "frontier safety framework"]),
+]
+FRAMEWORK_RE = re.compile(
+    r"responsible scaling policy|preparedness framework|frontier safety framework|"
+    r"frontier ai framework|advanced ai scaling framework|frontier governance framework|"
+    r"frontier ai risk assessment|risk management framework|agi readiness policy|"
+    r"frontier model safety framework|secure ai frontier model framework|"
+    r"\bai safety framework\b|frontier compliance framework", re.I)
+# Titles that are commentary/announcements about policies, not the policy itself —
+# forced to kind=commentary even when they contain a framework phrase.
+COMMENTARY_RE = re.compile(
+    r"^(announcing|activating|introducing|updating|our approach|why |managing |"
+    r"key components|common elements|evaluating |ai models can be|"
+    r"responsible scaling policies|the long-term benefit trust)", re.I)
+
+def infer_policy_org(title_hay, tag_hay):
+    # Title/author/path is the reliable org signal. Tags are only a fallback:
+    # many framework PDFs carry comparison tags naming *other* labs (a DeepMind
+    # FSF tagged both "DeepMind" and "Anthropic"), so tag-based org attribution
+    # must never override a title match.
+    for org, kws in POLICY_ORG_RULES:
+        if any(kw in title_hay for kw in kws):
+            return org
+    for org, kws in POLICY_ORG_RULES:
+        if any(kw in tag_hay for kw in kws):
+            return org
+    return "Other / cross-org"
+
+policies = []
+for r in csv.DictReader(open(MANIFEST, encoding="utf-8")):
+    if r["source_type"] != "policy":
+        continue
+    title = clean(r["title"])
+    title_hay = (" " + title + " " + clean_author(r["author"])
+                 + " " + clean(r.get("relpath", "")) + " ").lower()
+    tag_hay = " " + clean(r["tags"]).lower() + " "
+    summary = clean(r["summary"])
+    if len(summary) > 320:
+        summary = summary[:317].rsplit(" ", 1)[0] + "…"
+    policies.append({
+        "title": title,
+        "org": infer_policy_org(title_hay, tag_hay),
+        "date": clean(r["published"]),
+        "url": clean(r["source_url"]),
+        "summary": summary,
+        "kind": "commentary" if COMMENTARY_RE.search(title)
+                else ("framework" if FRAMEWORK_RE.search(title) else "commentary"),
+        "sub": re.sub(r"^\d+[a-z]?_", "", r["subcategory"]).replace("-", " "),
+    })
+# newest first, then stable-group by org with frameworks ahead of commentary
+policies.sort(key=lambda p: p["date"] or "0000", reverse=True)
+policies.sort(key=lambda p: (p["org"].lower(), 0 if p["kind"] == "framework" else 1))
+
 extra = {
     "generated": datetime.date.today().isoformat(),
     "papers": papers, "orgGroups": org_groups, "orgs": orgs,
     "conferences": conferences, "fellowships": fellowships, "datasets": datasets,
+    "policies": policies,
     "notionFetched": notion.get("fetched", ""),
 }
 json.dump(extra, open(os.path.join(SELF_DIR, "extra_data.json"), "w", encoding="utf-8"),
@@ -402,3 +480,6 @@ print(f"fellowships: {len(fellowships)} programs ({n_fellow_merged} role-variant
       f"notion-enriched: {sum(1 for f in fellowships if f.get('program_full'))}")
 print(f"datasets: {len(datasets)} | with url: {sum(1 for d in ds_map.values() if d['url'])} | "
       f"info-enriched: {n_ds_enriched}")
+_pf = sum(1 for p in policies if p["kind"] == "framework")
+print(f"policies: {len(policies)} ({_pf} frameworks) across "
+      f"{len({p['org'] for p in policies})} developers")
