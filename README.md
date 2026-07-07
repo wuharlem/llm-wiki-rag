@@ -2,6 +2,18 @@
 
 This is the working directory for the AI Safety knowledge-base pipeline. The vault itself lives at `~/Desktop/AI Safety/AI Safety/`. This folder holds the pipeline tooling, intermediate state, and Notion-sync drafts.
 
+## Reproducibility (read this first)
+
+**This repo is not self-contained.** It publishes the pipeline machinery, not the wiki. Cloning it will not reproduce the AI Safety wiki. Specifically, a fresh clone is missing:
+
+- **The vault itself** (`~/Desktop/AI Safety/AI Safety/`) — Markdown pages, PDFs, frontmatter, `_index/`, saved queries. The vault is the product; this repo is the toolchain that maintains it.
+- **The URL seed list** (`00_inputs/urls_dedup.csv` and siblings) — gitignored ahead of going public. Stage 1 (`fetch.py`) reads this file; without it there is nothing to fetch. The intent is for these inputs to live in a separate data repo pulled in at runtime, but that split is not wired up yet.
+- **All build artifacts** (`01_data/index/*`, `notion_sources.csv`, `classifications.csv`, `by_concept/`, `02_logs/`, `03_notion_drafts/`) — regeneratable *given* the vault and seed above, but not otherwise.
+
+What you *can* do with a clone: read the scripts, run the unit tests (integration tests marked `needs_index` are skipped without a real index), and — if you provide your own vault via `VAULT_PATH` and your own URL list — run the pipeline against your own corpus. You will reproduce *a* wiki, not *this* one.
+
+If public reproducibility ever becomes a goal, the two missing pieces are the URL seed and a snapshot of the vault (or the fetched sources it points at).
+
 ## Folder layout
 
 ```
