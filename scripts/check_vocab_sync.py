@@ -26,15 +26,15 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from wiki_lib.locations import vault_path  # noqa: E402
 from wiki_lib.vocab import RISK_TRIGGERS, TAG_TRIGGERS, WIKI_CONCEPTS  # noqa: E402
 
-VAULT_PATH = Path(os.environ.get("AI_SAFETY_VAULT", str(Path.home() / "Desktop" / "AI Safety" / "AI Safety")))
+VAULT_PATH = vault_path()
 DOC = VAULT_PATH / "PROCESS_NEW_FILE.md"
 
 

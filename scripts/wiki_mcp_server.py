@@ -17,7 +17,7 @@ Register in Claude Desktop (~/Library/Application Support/Claude/claude_desktop_
           "command": "uv",
           "args": [
             "run", "--directory",
-            "/Users/harlem/Documents/Claude/Projects/AI Safety",
+            "/path/to/AI Safety",
             "python", "scripts/wiki_mcp_server.py"
           ]
         }

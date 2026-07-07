@@ -14,14 +14,14 @@ Filenames are `<slugified-title>_<8-char-hash>.{pdf,md}`. The hash suffix preven
 ## Setup (one time)
 
 ```bash
-cd "/Users/harlem/Documents/Claude/Projects/AI Safety"
+cd /path/to/AI\ Safety
 pip3 install requests trafilatura
 ```
 
 ## Run it
 
 ```bash
-cd "/Users/harlem/Documents/Claude/Projects/AI Safety"
+cd /path/to/AI\ Safety
 
 # Validation pass first — 3 of each handler (~9 files, <30s)
 python3 scripts/fetch.py --sample 3

@@ -29,25 +29,21 @@ Two modes:
 """
 
 import argparse
-import glob
 import hashlib
-import os
 import re
 import sys
 from datetime import date
 from pathlib import Path
 
+from wiki_lib.locations import vault_path
+
 
 def find_vault() -> Path:
-    cands = [
-        os.environ.get("VAULT"),
-        "/Users/harlem/Desktop/AI Safety/AI Safety",
-    ]
-    cands += glob.glob("/sessions/*/mnt/AI Safety--AI Safety")
-    for c in cands:
-        if c and Path(c).is_dir():
-            return Path(c)
-    sys.exit("stage_candidate: vault not found (set VAULT env var)")
+    # Resolver never raises on a missing vault; keep the fail-fast here.
+    v = vault_path()
+    if not v.is_dir():
+        sys.exit("stage_candidate: vault not found (set VAULT / AI_SAFETY_VAULT)")
+    return v
 
 
 def slugify(s: str, maxlen: int = 120) -> str:
