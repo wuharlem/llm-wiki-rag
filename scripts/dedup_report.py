@@ -21,16 +21,16 @@ the user reviews and decides which copies to merge or trash.
 """
 
 import csv
-import os
 import re
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from wiki_lib.config import get_config
+from wiki_lib.locations import vault_path, work_path
 
-VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
-WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
+VAULT = vault_path()
+WORK = work_path()
 LOG = WORK / "02_logs" / "dedup_report.csv"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)

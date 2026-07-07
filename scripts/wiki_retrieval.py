@@ -31,6 +31,7 @@ from typing import Optional
 
 from wiki_lib.cache import RetrievalContext
 from wiki_lib.config import get_config
+from wiki_lib.locations import vault_path
 from wiki_lib.paths import is_indexable_path
 
 _CFG_RETRIEVAL = get_config().retrieval
@@ -48,17 +49,11 @@ EMB_NPY_PATH = DATA_DIR / "embeddings.npy"
 EMB_IDS_PATH = DATA_DIR / "embeddings_ids.json"
 EMB_META_PATH = DATA_DIR / "embeddings_meta.json"
 
-# The user's Obsidian vault lives separately from the working dir. save_query
-# writes back into the vault so saved Q&A shows up alongside other notes.
-# Override with AI_SAFETY_VAULT env var if the vault moves.
-import os as _os
-
-VAULT_PATH = Path(
-    _os.environ.get(
-        "AI_SAFETY_VAULT",
-        str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"),
-    )
-)
+# The user's Obsidian vault lives separately from the working dir; save_query
+# writes back into it. Resolution (env / sandbox mount / home default) lives in
+# wiki_lib.locations. VAULT_PATH stays a settable module attribute for the MCP
+# vault_not_found envelope and test_save_query's monkeypatch.
+VAULT_PATH = vault_path()
 
 # ---------------------------------------------------------------------------
 # Tokenization (kept identical to the original query_index.py so scoring

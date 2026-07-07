@@ -18,13 +18,13 @@ Logs every touched file to 02_logs/cleanup_metadata_log.csv.
 
 import argparse
 import csv
-import os
 import re
 from datetime import datetime
-from pathlib import Path
 
-VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
-WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
+from wiki_lib.locations import vault_path, work_path
+
+VAULT = vault_path()
+WORK = work_path()
 LOG = WORK / "02_logs" / "cleanup_metadata_log.csv"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)

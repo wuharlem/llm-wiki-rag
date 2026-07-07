@@ -22,16 +22,13 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
+from wiki_lib.locations import vault_path
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 WORKDIR = SCRIPT_DIR.parent
 
-VAULT_CANDIDATES = [
-    Path("/Users/harlem/Desktop/AI Safety/AI Safety"),
-]
-import glob as _glob
-
-for _p in _glob.glob("/sessions/*/mnt/AI Safety--AI Safety"):
-    VAULT_CANDIDATES.append(Path(_p))
+# Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
+VAULT_CANDIDATES = [vault_path()]
 
 
 def _safe_exists(p):

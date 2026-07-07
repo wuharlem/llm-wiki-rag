@@ -24,19 +24,14 @@ import json, os, re, sys
 from datetime import date
 from pathlib import Path
 
+# people_directory/ runs with its own dir on sys.path (not scripts/); add the
+# repo's scripts/ so the shared vault resolver is importable.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from wiki_lib.locations import vault_path
+
 BASE = Path(os.path.dirname(os.path.abspath(__file__)))
 
-
-def _vault():
-    if os.environ.get("VAULT"):
-        return Path(os.environ["VAULT"])
-    for p in Path("/sessions").glob("*/mnt/AI Safety--AI Safety") if Path("/sessions").exists() else []:
-        if p.is_dir():
-            return p
-    return Path("/Users/harlem/Desktop/AI Safety/AI Safety")
-
-
-VAULT = _vault()
+VAULT = vault_path()
 EDU = VAULT / "05_Resources" / "05a_Educational"
 
 STOP = {"fellowship", "fellowships", "fellow", "fellows", "program", "programme",

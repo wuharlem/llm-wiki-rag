@@ -44,6 +44,7 @@ from wiki_lib.config import get_config
 from wiki_lib.frontmatter import (
     split as split_frontmatter,
 )
+from wiki_lib.locations import vault_path
 from wiki_lib.paths import is_indexable_path
 
 
@@ -60,18 +61,8 @@ def _import_pypdf():
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
 WORKDIR = SCRIPT_DIR.parent  # /AI Safety/
-# Vault location may differ between the user's Mac and the sandbox mount.
-# Try both.
-VAULT_CANDIDATES = [
-    Path("/Users/harlem/Desktop/AI Safety/AI Safety"),
-]
-# Fall back to any sandbox session mount (path differs each session).
-# Use glob to discover live mounts; old/stale session paths can raise
-# PermissionError on .exists() if the parent dir is no longer accessible.
-import glob as _glob
-
-for _p in _glob.glob("/sessions/*/mnt/AI Safety--AI Safety"):
-    VAULT_CANDIDATES.append(Path(_p))
+# Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
+VAULT_CANDIDATES = [vault_path()]
 
 
 def _safe_exists(p):

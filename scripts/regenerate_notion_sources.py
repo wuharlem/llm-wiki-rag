@@ -19,14 +19,15 @@ Skips: .obsidian/, _inbox/, _trash_*/, _dupes_*/, _audit_*.md, _health_check_*.m
 """
 
 import csv
-import os
 import re
 import shutil
 from datetime import datetime
 from pathlib import Path
 
-VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
-WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
+from wiki_lib.locations import vault_path, work_path
+
+VAULT = vault_path()
+WORK = work_path()
 OUT = WORK / "01_data" / "notion_sources.csv"
 CLASSIFICATIONS = WORK / "01_data" / "classifications.csv"
 

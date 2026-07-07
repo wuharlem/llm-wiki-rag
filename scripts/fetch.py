@@ -14,9 +14,6 @@ Outputs a fetch_log.csv with status per URL.
 import argparse
 import csv
 import hashlib
-
-# Default paths (Mac). Override via env vars or CLI args.
-import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -28,9 +25,10 @@ import requests
 import trafilatura
 from wiki_lib.config import get_config
 from wiki_lib.frontmatter import dump as fm_dump
+from wiki_lib.locations import vault_path, work_path
 
-VAULT = Path(os.environ.get("VAULT", "/Users/harlem/Desktop/AI Safety/AI Safety"))
-WORK = Path(os.environ.get("WORK", "/Users/harlem/Documents/Claude/Projects/AI Safety"))
+VAULT = vault_path()
+WORK = work_path()
 INBOX = VAULT / "Sources" / "_inbox"
 DEDUP_CSV = WORK / "00_inputs" / "urls_dedup.csv"
 LOG_CSV = WORK / "02_logs" / "fetch_log.csv"
