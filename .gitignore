@@ -125,18 +125,6 @@ skills/
 _index/
 
 # ---------------------------------------------------------------------------
-# Repo-root dumps from the people_directory analysis oneshots. Those scripts
-# write to ../ (repo root), so ignore the patterns here too, not just in
-# people_directory/.gitignore. The canonical home for these is
-# people_directory/; see people_directory/WORKFLOW.md + CLAUDE.md §7.
-# ---------------------------------------------------------------------------
-# Date-anchored so new prefixes (clustering / clusters / network / hybrid /
-# communities …) are all caught, but people.json / people_directory/ are not.
-directory_analysis_*.html
-people_*_20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].html
-people_*_20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].csv
-
-# ---------------------------------------------------------------------------
 # Local pipeline state & backups (regeneratable / disposable).
 # ---------------------------------------------------------------------------
 01_data/index/source_state.json
