@@ -89,13 +89,17 @@ def test_process_docs_call_only_the_facade():
     fine — only runnable `python -m scripts.<phase>` commands are banned."""
     vault = vault_path()
     offenders = []
+    missing = []
     for doc in PROCESS_DOCS:
         path = vault / doc
         if not path.exists():
-            pytest.skip(f"{doc} not present in vault")
+            missing.append(doc)
+            continue
         for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             if _RAW_PHASE_CMD.search(line):
                 offenders.append(f"{doc}:{lineno}: {line.strip()}")
     assert not offenders, (
         "PROCESS docs must call `python -m scripts.cli <command>`, not phase modules directly:\n" + "\n".join(offenders)
     )
+    if missing:
+        pytest.fail(f"PROCESS docs missing from vault: {missing}")
