@@ -39,3 +39,33 @@ def test_frontmatter_example_covers_every_schema_field():
     assert example.endswith("```")
     for field in schema.frontmatter.fields:
         assert f"{field.name}:" in example, f"missing field {field.name}"
+
+
+KNOWN_PLACEHOLDERS = {
+    "WIKI_NAME",
+    "WIKI_SLUG",
+    "MCP_SERVER_NAME",
+    "VAULT_PATH",
+    "FRONTMATTER_EXAMPLE",
+    "GENERATED_VOCAB_BLOCK",
+}
+
+
+def test_templates_exist_and_use_only_known_placeholders():
+    import re as _re
+
+    templates = sorted(vi.TEMPLATES_DIR.glob("*.md"))
+    names = {t.name for t in templates}
+    assert {
+        "PROCESS_NEW_FILE.md",
+        "PROCESS_QUERY.md",
+        "PROCESS_HEALTH_CHECK.md",
+        "_PROCESS_MAP.md",
+    } <= names, f"missing templates; found {names}"
+    pat = _re.compile(r"\{\{([A-Z_]+)\}\}")
+    for template in templates:
+        unknown = set(pat.findall(template.read_text(encoding="utf-8"))) - KNOWN_PLACEHOLDERS
+        assert not unknown, f"{template.name}: unknown placeholders {unknown}"
+    new_file = (vi.TEMPLATES_DIR / "PROCESS_NEW_FILE.md").read_text(encoding="utf-8")
+    assert "{{GENERATED_VOCAB_BLOCK}}" in new_file
+    assert "{{FRONTMATTER_EXAMPLE}}" in new_file
