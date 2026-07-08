@@ -1,0 +1,83 @@
+# Starter domain schema for a new wiki. To use:
+#   cp wiki_schema.sample.yml wiki_schema.yml
+# then fill in your domain. Loaded by scripts/wiki_lib/schema.py::get_schema()
+# with strict validation (Pydantic extra="forbid") — typos and unknown keys
+# fail loudly at startup. tests/wiki_lib/test_schema_sample.py keeps this file
+# valid as the schema model evolves.
+#
+# The shipped wiki_schema.yml is a complete filled-in example — read it
+# alongside this skeleton.
+
+wiki:
+  # Human-readable name and kebab-case slug. The slug derives the MCP server
+  # name: slug "my-wiki" registers as `my_wiki_wiki_mcp`. Keep the slug stable
+  # once agents are configured against the server.
+  name: "My Wiki"
+  slug: "my-wiki"
+
+# Frontmatter fields, in the order they appear as manifest.csv columns (after
+# the 8 fixed build-stat columns, before relpath). Rename/reorder freely — the
+# manifest header follows this list automatically. Field types:
+#   tag_list / concept_list / categorical_list — draw from `vocabulary` below
+#   enum   — closed scalar set (specify values:)
+#   string / date_string / url — free-form scalars with light shape validation
+frontmatter:
+  fields:
+    - {name: tags,          type: tag_list,         vocab_key: tags}
+    - {name: concepts,      type: concept_list,     vocab_key: concepts}
+    - {name: risk_category, type: categorical_list, vocab_key: risk_category}
+    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, other]}
+    - {name: author,        type: string}
+    - {name: published,     type: date_string}
+    - {name: source_url,    type: url}
+    - {name: summary,       type: string}
+
+vocabulary:
+  # Canonical concept name -> trigger phrases for the heuristic classifier.
+  # Triggers are matched as lowercase substrings of the document text.
+  concepts:
+    "Example Concept":
+      - example trigger
+      - another trigger phrase
+
+  # Tag -> trigger phrases. Tags with no triggers ([]) are curatorial-only:
+  # never auto-assigned, applied by hand or by audit passes.
+  tags:
+    example-tag: ["example phrase"]
+    another-tag: ["another phrase", "a synonym"]
+    curatorial-tag: []
+
+  # Named categorical axes; each value lists its trigger phrases. The axis
+  # name is referenced by a frontmatter field's vocab_key above.
+  categorical_axes:
+    risk_category:
+      values:
+        category-a:
+          - trigger phrase one
+        category-b:
+          - trigger phrase two
+
+  # Acronyms / mixed-case words to preserve verbatim in generated titles
+  # (everything else gets title-cased).
+  keep_upper_acronyms:
+    - AI
+    - API
+    - PDF
+    - URL
+
+vault:
+  # Vault-root files that must never be indexed as source content — the
+  # wiki's own process docs, logs, and synthesis pages (CLAUDE.md §2).
+  meta_doc_basenames:
+    - README.md
+    - log.md
+    - open_questions.md
+
+  # Default vault location, joined onto Path.home(). Overridden by the
+  # WIKI_VAULT env var.
+  default_relpath:
+    - Documents
+    - "My Wiki"
+
+  # Cowork sandbox mount pattern for the vault (derived from its folder name).
+  sandbox_mount_glob: "/sessions/*/mnt/My Wiki--My Wiki"
