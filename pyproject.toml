@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# build_index.py needs pypdf for PDF text extraction. Optional so the MCP
+# scripts/build/index.py needs pypdf for PDF text extraction. Optional so the MCP
 # server install path stays minimal — users who already built their index don't
 # need to reinstall pypdf every time they run the server.
 indexing = [
@@ -40,16 +40,21 @@ test = [
 ]
 
 [project.scripts]
-wiki-mcp = "wiki_mcp_server:main"
+wiki-mcp = "scripts.serve.mcp_server:main"
 
 [tool.uv]
 package = false  # treat this as a workspace, not a published package
 
 [tool.pytest.ini_options]
-# Make scripts/ importable so tests can `import wiki_retrieval` etc.
-# Also make the tests/ directory itself importable for shared helpers.
-pythonpath = ["scripts", "tests"]
+# Repo root on sys.path so tests import the `scripts` package
+# (e.g. `from scripts.serve import retrieval`). tests/ stays importable
+# for shared helpers. Do NOT re-add "scripts" here — that would make every
+# module importable under two names and duplicate the schema/config
+# singleton caches.
+pythonpath = [".", "tests"]
 testpaths = ["tests"]
+# pytest's default norecursedirs contains the literal `build`, which would silently skip tests/build/.
+norecursedirs = [".*", "__pycache__", "node_modules"]
 # Quiet warnings that come from optional deps, not from our code.
 filterwarnings = [
     "ignore::DeprecationWarning:pypdf",
@@ -86,8 +91,8 @@ select = ["E", "F", "W", "I"]
 ignore = ["E501", "E741"]
 
 [tool.ruff.lint.per-file-ignores]
-# Standalone CLI scripts often mutate sys.path before importing siblings.
-"scripts/*.py" = ["E402"]
+# CLI entrypoints keep argparse/main blocks after module docstrings.
+"scripts/**/*.py" = ["E402"]
 
 [tool.ruff.format]
 # Defaults: double quotes, trailing commas where allowed.

@@ -1,8 +1,8 @@
 """Canonical indexable-path predicate and meta-doc basename set.
 
 Single source of truth for "is this vault path part of the indexable corpus?"
-Used by both the build pipeline (`scripts/build_index.py`) and the retrieval
-layer (`scripts/wiki_retrieval.py`). Replaces the previously-duplicated
+Used by both the build pipeline (`scripts.build.index`) and the retrieval
+layer (`scripts.serve.retrieval`). Replaces the previously-duplicated
 `META_NAMES` / `_META_DOC_BASENAMES` constants and the `is_source` /
 `_is_meta_doc` predicates.
 
@@ -24,7 +24,7 @@ import fnmatch
 import os
 from pathlib import Path
 
-from wiki_lib.schema import get_schema
+from scripts.wiki_lib.schema import get_schema
 
 # Vault-root meta-doc basenames. These describe the wiki, not source
 # material. Canonical home: `wiki_schema.yml` → `vault.meta_doc_basenames`.

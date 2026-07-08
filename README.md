@@ -30,7 +30,7 @@ The pipeline is topic-agnostic. All AI-safety-specific choices live in one file:
    - `string`, `date_string`, `url` — free-form scalars with light shape validation
 4. **Fill vocabulary.** For each vocab section (`concepts`, `tags`, `categorical_axes.<axis>`), keys are the canonical names, values are lists of trigger phrases used by the heuristic classifier.
 5. **Set the vault path.** Either export `WIKI_VAULT=/path/to/your/vault` or edit `vault.default_relpath` (joined onto `Path.home()`).
-6. **Run the pipeline.** `uv run python scripts/build_index.py`, then `uv run python scripts/wiki_mcp_server.py`.
+6. **Run the pipeline.** `uv run python -m scripts.build.index`, then `uv run python -m scripts.serve.mcp_server`.
 
 The schema loader validates strictly (Pydantic `extra="forbid"`, `strict=True`) — typos, unknown keys, and coerced types fail loudly at startup rather than corrupting the index.
 
@@ -43,7 +43,12 @@ To add a **new field type** beyond the seven built-in literals, edit `scripts/wi
 01_data/                 # canonical data products consumed downstream
 02_logs/                 # pipeline logs (one CSV per pass)
 03_notion_drafts/        # generated Notion content (per-folder + compact variants)
-scripts/                 # all pipeline tooling (Python)
+scripts/                 # all pipeline tooling (Python), split into phase packages:
+  ingest/                 #   fetch, dedup_report, stage_candidate
+  build/                  #   index, embeddings, wiki_mirror
+  serve/                  #   retrieval, query_cli, mcp_app, mcp_server, mcp_tools/
+  maintenance/            #   check_vocab_sync, cleanup_metadata, regenerate_notion_sources
+  wiki_lib/               #   shared helpers (schema, config, paths, locations, ...)
 README.md                # this file
 ```
 
@@ -52,7 +57,7 @@ README.md                # this file
 ### Stage 1 — Fetch (network-bound; runs on user's Mac)
 
 ```bash
-uv run python scripts/fetch.py [--sample 3] [--handlers arxiv,pdf,web]
+uv run python -m scripts.ingest.fetch [--sample 3] [--handlers arxiv,pdf,web]
 ```
 
 Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_inbox/` (arxiv → PDF, web → markdown via trafilatura). Writes `02_logs/fetch_log.csv`. See [scripts/README.md](scripts/README.md) for full setup.
@@ -60,8 +65,8 @@ Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_
 ### Stage 2 — Index and embed
 
 ```bash
-uv run python scripts/build_index.py
-uv run --extra all python scripts/build_embeddings.py
+uv run python -m scripts.build.index
+uv run --extra all python -m scripts.build.embeddings
 ```
 
 Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
@@ -69,23 +74,23 @@ Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embedd
 ### Stage 3 — Query
 
 ```bash
-uv run python scripts/query_index.py "RLHF"           # CLI
-uv run python scripts/wiki_mcp_server.py              # MCP server
+uv run python -m scripts.serve.query_cli "RLHF"       # CLI
+uv run python -m scripts.serve.mcp_server             # MCP server
 ```
 
-`query_index.py` is the local CLI; `wiki_mcp_server.py` exposes the same retrieval to MCP-compatible clients (Claude Desktop, Claude Code via the MCP config).
+`query_cli.py` is the local CLI; `mcp_server.py` exposes the same retrieval to MCP-compatible clients (Claude Desktop, Claude Code via the MCP config).
 
 ### Stage 4 — Wiki overview rebuild (occasional)
 
 ```bash
-uv run python scripts/build_wiki_index.py
+uv run python -m scripts.build.wiki_mirror
 ```
 
 Regenerates the `_index/` overview pages (one MD per concept). Run after large vault changes.
 
 ### Stage 5 — Maintenance tools
 
-The `scripts/cleanup_metadata.py`, `scripts/dedup_report.py`, and `scripts/regenerate_notion_sources.py` tools are dry-run-by-default; pass `--apply` to mutate. See each script's `--help` for details.
+The `scripts/maintenance/cleanup_metadata.py`, `scripts/ingest/dedup_report.py`, and `scripts/maintenance/regenerate_notion_sources.py` tools are dry-run-by-default; pass `--apply` to mutate. See each script's `--help` for details.
 
 ## Historical pipeline (one-shot, April 2026)
 
