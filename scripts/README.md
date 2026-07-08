@@ -50,7 +50,7 @@ Re-running is safe: each fetch overwrites its own filename. To retry only failur
 
 ## What's NOT done by this script
 
-The fetched files have empty `tags`, `wiki_concepts`, `risk_category`, `source_type` in their frontmatter — they're raw, not yet classified. To run the PROCESS_NEW_FILE.md workflow on them (place into the right subfolder, fill taxonomy, update Notion), hand the contents of `Sources/_inbox/` back to me in batches and I'll process them.
+The fetched files have empty `tags`, `concepts`, `risk_category`, `source_type` in their frontmatter — they're raw, not yet classified. To run the PROCESS_NEW_FILE.md workflow on them (place into the right subfolder, fill taxonomy, update Notion), hand the contents of `Sources/_inbox/` back to me in batches and I'll process them.
 
 ## Time + space estimate
 

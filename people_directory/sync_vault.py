@@ -68,7 +68,7 @@ description: Full snapshot of the {n}-row Notion conference database (fetched {f
 tags:
 - llm-security
 - background-reading
-wiki_concepts: []
+concepts: []
 risk_category:
 - misuse
 - misalignment

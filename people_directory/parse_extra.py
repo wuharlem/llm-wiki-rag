@@ -74,7 +74,7 @@ for r in csv.DictReader(open(MANIFEST, encoding="utf-8")):
     # tags = frontmatter tags UNION wiki_concepts (2026-07-04: concepts feed the
     # Papers-tab tag chips; tags alone covered only 54/448 papers)
     tags = [t for t in clean(r["tags"]).split("|") if t]
-    for cpt in [t.strip() for t in clean(r.get("wiki_concepts", "")).split("|") if t.strip()]:
+    for cpt in [t.strip() for t in clean(r.get("concepts", "")).split("|") if t.strip()]:
         if cpt not in tags:
             tags.append(cpt)
     papers.append({
