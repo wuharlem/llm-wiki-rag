@@ -6,7 +6,7 @@ home path and re-implemented sandbox-mount discovery inconsistently.
 
 Vault precedence (first match wins):
   1. env WIKI_VAULT (canonical); else legacy AI_SAFETY_VAULT; else legacy VAULT
-  2. sandbox session mount: /sessions/*/mnt/AI Safety--AI Safety (first that is a dir)
+  2. sandbox session mount: first dir matching schema.vault.sandbox_mount_glob
   3. Path.home() joined with schema.vault.default_relpath (no hardcoded username)
 
 Work precedence (first match wins):
@@ -35,8 +35,9 @@ from pathlib import Path
 
 _VAULT_ENV_VARS = ("WIKI_VAULT", "AI_SAFETY_VAULT", "VAULT")  # canonical first, legacy after
 _WORK_ENV_VARS = ("WIKI_WORK", "AI_SAFETY_WORK", "WORK")
-_SANDBOX_VAULT_GLOB = "/sessions/*/mnt/AI Safety--AI Safety"
-# _DEFAULT_VAULT removed — sourced from wiki_lib.schema.get_schema().vault.default_relpath
+# _SANDBOX_VAULT_GLOB and _DEFAULT_VAULT removed — both are domain config,
+# sourced from wiki_lib.schema.get_schema().vault (sandbox_mount_glob /
+# default_relpath)
 _REPO_ROOT = Path(__file__).resolve().parents[2]  # locations.py -> wiki_lib -> scripts -> repo
 
 
@@ -58,8 +59,11 @@ def _safe_is_dir(p: Path) -> bool:
 
 
 def _sandbox_vault() -> Path | None:
-    """First existing ``/sessions/*/mnt/...`` vault mount, or None."""
-    for match in sorted(glob.glob(_SANDBOX_VAULT_GLOB)):
+    """First existing sandbox vault mount (schema.vault.sandbox_mount_glob), or None."""
+    # Function-local import for the same import-ordering reason as vault_path().
+    from scripts.wiki_lib.schema import get_schema
+
+    for match in sorted(glob.glob(get_schema().vault.sandbox_mount_glob)):
         candidate = Path(match)
         if _safe_is_dir(candidate):
             return candidate

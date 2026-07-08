@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-scripts/build/index.py — Build a RAG-style index over the AI Safety wiki.
+scripts/build/index.py — Build a RAG-style index over the wiki vault.
 
 Scans every .md and .pdf under VAULT, extracts text, chunks it on heading/paragraph
 boundaries, generates a per-file summary (frontmatter `description` preferred),
@@ -10,7 +10,7 @@ and emits:
   01_data/index/chunks.jsonl     — one chunk per line, for streaming retrieval
   01_data/index/manifest.csv     — flat file-level table for quick scanning
   01_data/index/build.log        — pass log
-  AI Safety/_index/files/*.md    — per-file detail pages (browseable in Obsidian)
+  <vault>/_index/files/*.md     — per-file detail pages (browseable in Obsidian)
 
 Re-runnable: caches extracted text by content hash so PDFs don't re-extract on every run.
 

@@ -31,6 +31,7 @@ _FULL_VALID_YAML = textwrap.dedent(
     vault:
       meta_doc_basenames: [README.md, log.md]
       default_relpath: [Desktop, TestWiki]
+      sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"
     """
 ).strip()
 

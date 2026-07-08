@@ -59,6 +59,7 @@ class VaultSchema(BaseModel):
     model_config = _MODEL_CONFIG
     meta_doc_basenames: list[str]
     default_relpath: list[str]
+    sandbox_mount_glob: str
 
 
 class WikiSchema(BaseModel):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bulk fetcher for AI Safety vault.
+Bulk fetcher for the wiki vault.
 
 Reads urls_dedup.csv and fetches each URL into Sources/_inbox/:
   - arxiv     -> PDF (canonical pdf URL)
