@@ -18,10 +18,13 @@ pins that round-trip.
 
 from __future__ import annotations
 
+import argparse
 import re
+import sys
 from pathlib import Path
 
-from scripts.wiki_lib.schema import WikiSchema
+from scripts.wiki_lib.locations import vault_path
+from scripts.wiki_lib.schema import WikiSchema, get_schema, mcp_server_name
 
 # Templates ship with the code, so resolve them file-relative (like
 # schema.SCHEMA_PATH), not via work_path() — WIKI_WORK may point elsewhere.
@@ -98,3 +101,79 @@ def render_frontmatter_example(schema: WikiSchema) -> str:
             lines.append(f"{field.name}: <free text>")
     lines += ["---", "```"]
     return "\n".join(lines)
+
+
+def _placeholders(schema: WikiSchema) -> dict[str, str]:
+    return {
+        "{{WIKI_NAME}}": schema.wiki.name,
+        "{{WIKI_SLUG}}": schema.wiki.slug,
+        "{{MCP_SERVER_NAME}}": mcp_server_name(schema),
+        "{{VAULT_PATH}}": str(vault_path()),
+        "{{FRONTMATTER_EXAMPLE}}": render_frontmatter_example(schema),
+        "{{GENERATED_VOCAB_BLOCK}}": render_vocab_block(schema),
+    }
+
+
+def render_template(template_path: Path, schema: WikiSchema) -> str:
+    text = template_path.read_text(encoding="utf-8")
+    for key, value in _placeholders(schema).items():
+        text = text.replace(key, value)
+    return text
+
+
+def _refresh_vocab(schema: WikiSchema, vault: Path) -> int:
+    target = vault / "PROCESS_NEW_FILE.md"
+    if not target.exists():
+        print(f"FAIL: {target} not found (set WIKI_VAULT?)", file=sys.stderr)
+        return 1
+    text = target.read_text(encoding="utf-8")
+    if not _BLOCK_RE.search(text):
+        print(
+            f"FAIL: no GENERATED VOCAB markers in {target} — cannot refresh. "
+            "Re-render with `vault-init --force`, or paste the block markers in first.",
+            file=sys.stderr,
+        )
+        return 1
+    # Lambda replacement: the block may contain backslashes; keep re.sub literal.
+    target.write_text(_BLOCK_RE.sub(lambda _m: render_vocab_block(schema), text), encoding="utf-8")
+    print(f"refreshed vocab block in {target}")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Render templates/vault/ PROCESS-doc skeletons into the vault (WIKI_VAULT)."
+    )
+    parser.add_argument("--force", action="store_true", help="overwrite existing vault files")
+    parser.add_argument(
+        "--refresh-vocab",
+        action="store_true",
+        help="only regenerate the GENERATED VOCAB block inside the vault's existing PROCESS_NEW_FILE.md",
+    )
+    args = parser.parse_args(argv)
+
+    schema = get_schema()
+    vault = vault_path()
+
+    if args.refresh_vocab:
+        return _refresh_vocab(schema, vault)
+
+    vault.mkdir(parents=True, exist_ok=True)
+    excluded = set(schema.vault.meta_doc_basenames)
+    for template in sorted(TEMPLATES_DIR.glob("*.md")):
+        target = vault / template.name
+        if target.exists() and not args.force:
+            print(f"skipped {target} (exists; use --force to overwrite)")
+            continue
+        target.write_text(render_template(template, schema), encoding="utf-8")
+        print(f"wrote {target}")
+        if not template.name.startswith("_") and template.name not in excluded:
+            print(
+                f"WARNING: {template.name} is not in wiki_schema.yml vault.meta_doc_basenames — "
+                "it will be indexed as source content; add it and rebuild."
+            )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -4,6 +4,8 @@ must cover every schema field, and (Task 4) the CLI must be idempotent."""
 
 from __future__ import annotations
 
+import pytest
+
 from scripts.maintenance import check_vocab_sync as cvs
 from scripts.maintenance import vault_init as vi
 from scripts.wiki_lib.schema import get_schema
@@ -69,3 +71,59 @@ def test_templates_exist_and_use_only_known_placeholders():
     new_file = (vi.TEMPLATES_DIR / "PROCESS_NEW_FILE.md").read_text(encoding="utf-8")
     assert "{{GENERATED_VOCAB_BLOCK}}" in new_file
     assert "{{FRONTMATTER_EXAMPLE}}" in new_file
+
+
+@pytest.fixture
+def tmp_vault(tmp_path, monkeypatch):
+    vault = tmp_path / "vault"
+    monkeypatch.setenv("WIKI_VAULT", str(vault))
+    return vault
+
+
+def test_fresh_init_writes_all_templates_fully_substituted(tmp_vault):
+    assert vi.main([]) == 0
+    for template in vi.TEMPLATES_DIR.glob("*.md"):
+        rendered = (tmp_vault / template.name).read_text(encoding="utf-8")
+        assert "{{" not in rendered, f"{template.name}: unsubstituted placeholder"
+    new_file = (tmp_vault / "PROCESS_NEW_FILE.md").read_text(encoding="utf-8")
+    schema = get_schema()
+    assert schema.wiki.name in new_file
+    assert cvs._table_first_column(cvs._section(new_file, "Wiki Concepts")) == set(schema.vocabulary.concepts)
+
+
+def test_second_run_skips_existing(tmp_vault, capsys):
+    vi.main([])
+    (tmp_vault / "PROCESS_QUERY.md").write_text("customized by the user", encoding="utf-8")
+    assert vi.main([]) == 0
+    assert "skipped" in capsys.readouterr().out
+    assert (tmp_vault / "PROCESS_QUERY.md").read_text(encoding="utf-8") == "customized by the user"
+
+
+def test_force_overwrites(tmp_vault):
+    vi.main([])
+    (tmp_vault / "PROCESS_QUERY.md").write_text("customized by the user", encoding="utf-8")
+    assert vi.main(["--force"]) == 0
+    assert "customized" not in (tmp_vault / "PROCESS_QUERY.md").read_text(encoding="utf-8")
+
+
+def test_refresh_vocab_replaces_only_the_block(tmp_vault):
+    vi.main([])
+    target = tmp_vault / "PROCESS_NEW_FILE.md"
+    stale = "<!-- BEGIN GENERATED VOCAB stale -->\nstale\n<!-- END GENERATED VOCAB -->"
+    vandalized = vi._BLOCK_RE.sub(lambda _m: stale, target.read_text(encoding="utf-8"))
+    target.write_text(vandalized + "\n## My local section\nkeep me\n", encoding="utf-8")
+    assert vi.main(["--refresh-vocab"]) == 0
+    refreshed = target.read_text(encoding="utf-8")
+    assert "stale" not in refreshed
+    assert "keep me" in refreshed
+    assert "### Wiki Concepts" in refreshed
+
+
+def test_refresh_vocab_without_markers_fails(tmp_vault):
+    tmp_vault.mkdir(parents=True)
+    (tmp_vault / "PROCESS_NEW_FILE.md").write_text("no markers here", encoding="utf-8")
+    assert vi.main(["--refresh-vocab"]) == 1
+
+
+def test_refresh_vocab_missing_file_fails(tmp_vault):
+    assert vi.main(["--refresh-vocab"]) == 1
