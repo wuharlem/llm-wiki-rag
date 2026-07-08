@@ -1,5 +1,5 @@
 """
-Shared pytest fixtures for the AI Safety wiki test suite.
+Shared pytest fixtures for the wiki pipeline test suite.
 
 Two big choices to be aware of:
 
@@ -383,7 +383,7 @@ def synthetic_chunks() -> list[dict]:
             "concepts": [],
             "heading_path": "Intro",
             "tokens": 60,
-            "text": "governance and policy approaches to AI safety.",
+            "text": "governance and policy approaches to safe model deployment.",
         },
         {
             "file_id": "f005",

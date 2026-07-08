@@ -63,10 +63,9 @@ def _wrap_errors(fn: Callable[..., str]) -> Callable[..., str]:
 # ---------------------------------------------------------------------------
 
 # Derive the registered MCP server name from `schema.wiki.slug` so a schema
-# swap (different wiki_schema.yml) changes the server name automatically. For
-# the shipping AI-safety schema (slug: `ai-safety`), this evaluates to
-# `ai_safety_wiki_mcp` — byte-identical to the previous hardcoded literal, so
-# existing MCP registrations keep working.
+# swap (different wiki_schema.yml) changes the server name automatically.
+# The derived name is part of the MCP contract (CLAUDE.md §4): keep the slug
+# stable once agents are registered against the server.
 MCP_SERVER_NAME = f"{get_schema().wiki.slug.replace('-', '_')}_wiki_mcp"
 
 mcp = FastMCP(MCP_SERVER_NAME)

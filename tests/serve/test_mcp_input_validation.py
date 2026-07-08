@@ -70,9 +70,9 @@ def test_mcp_server_name_derived_from_schema():
     """The registered MCP server name must be derived from `schema.wiki.slug`.
 
     Formula: `<slug-with-hyphens-replaced-by-underscores>_wiki_mcp`. Locks the
-    contract that swapping wiki_schema.yml changes the server name (and, for
-    the shipping AI-safety schema, produces the historical literal
-    `ai_safety_wiki_mcp` byte-for-byte so existing MCP configs keep working).
+    contract that the name is derived, not hardcoded — swapping wiki_schema.yml
+    renames the server, and a stable slug keeps existing MCP registrations
+    working.
     """
     from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 

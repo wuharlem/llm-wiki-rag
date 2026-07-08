@@ -148,7 +148,7 @@ def _clean_date(raw: str, today: str) -> str:
       - equals today (the page-load timestamp leaking in as 'published')
       - YYYY-01-01 (typical year-only fallback that gets coerced to Jan 1)
       - in the future (impossible)
-      - before 2010 (very unlikely for an AI safety source; usually a copyright/founded year)
+      - before 2010 (usually a copyright/founded year leaking in, not a real publication date)
 
     Otherwise returns the cleaned ISO date. Note: at fetch time, today == created,
     so the matches-today check covers the matches-created case the cleanup script

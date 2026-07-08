@@ -12,7 +12,6 @@ from __future__ import annotations
 import csv
 import inspect
 import sys
-from pathlib import Path
 
 import pytest
 from pydantic import BaseModel
@@ -108,9 +107,10 @@ def _parse_wiki_concepts_table(text: str) -> list[str]:
 @pytest.mark.needs_vault
 def test_vocab_runtime_concepts_match_documented_set():
     """CLAUDE.md §1 — runtime WIKI_CONCEPTS keys must match PROCESS_NEW_FILE.md."""
+    from scripts.wiki_lib.locations import vault_path
     from scripts.wiki_lib.vocab import WIKI_CONCEPTS
 
-    process_doc = Path.home() / "Desktop" / "AI Safety" / "AI Safety" / "PROCESS_NEW_FILE.md"
+    process_doc = vault_path() / "PROCESS_NEW_FILE.md"
     text = process_doc.read_text(encoding="utf-8")
     documented = set(_parse_wiki_concepts_table(text))
     runtime = set(WIKI_CONCEPTS.keys())
