@@ -16,7 +16,8 @@ import json
 from pathlib import Path
 
 import pytest
-import wiki_mcp_server as ws
+
+from scripts.serve import mcp_server as ws
 
 
 def _assert_error_envelope(response, expected_code: str | None = None) -> dict:

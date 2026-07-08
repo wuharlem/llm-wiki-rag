@@ -47,7 +47,7 @@ def test_short_md_still_produces_at_least_one_chunk(mini_build_env):
 
 def test_atomic_write_helper_no_leftover_tmp(tmp_path):
     """`_atomic_write_text` should leave no `.tmp` file behind on success."""
-    import build_index as bi
+    from scripts.build import index as bi
 
     target = tmp_path / "out.json"
     bi._atomic_write_text(target, '{"x": 1}')
@@ -60,7 +60,7 @@ def test_atomic_write_helper_no_leftover_tmp(tmp_path):
 def test_atomic_write_works_for_jsonl(tmp_path):
     """The `chunks.jsonl` path uses .jsonl — make sure the helper handles
     multi-line content."""
-    import build_index as bi
+    from scripts.build import index as bi
 
     target = tmp_path / "chunks.jsonl"
     payload = '{"a": 1}\n{"b": 2}\n{"c": 3}\n'

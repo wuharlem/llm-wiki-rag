@@ -26,8 +26,8 @@ from collections import defaultdict
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
-from wiki_lib.config import get_config
-from wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.locations import vault_path, work_path
 
 VAULT = vault_path()
 WORK = work_path()

@@ -8,7 +8,8 @@ CLAUDE.md §8.
 from __future__ import annotations
 
 import yaml
-from wiki_lib.frontmatter import dump, split
+
+from scripts.wiki_lib.frontmatter import dump, split
 
 # ---------------------------------------------------------------------------
 # split

@@ -9,7 +9,7 @@ Locks in the invariants the build pipeline relies on:
 
 from __future__ import annotations
 
-import build_index as bi
+from scripts.build import index as bi
 
 
 def test_chunk_body_produces_multiple_chunks_for_long_input():

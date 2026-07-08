@@ -1,15 +1,15 @@
 """
-wiki_retrieval.py — reusable retrieval library over the AI Safety wiki index.
+retrieval.py — reusable retrieval library over the AI Safety wiki index.
 
 This module is the shared core used by both:
-  - scripts/query_index.py  (command-line interface)
-  - scripts/wiki_mcp_server.py  (MCP server for Cowork / Claude Desktop)
+  - scripts.serve.query_cli  (command-line interface)
+  - scripts.serve.mcp_server  (MCP server for Cowork / Claude Desktop)
 
 It provides BM25 lexical retrieval today, and is structured so a semantic
 (dense embedding) layer + cross-encoder reranker can be plugged in alongside
 without touching call sites. See `search()` for the high-level entry point.
 
-Index layout (produced by scripts/build_index.py):
+Index layout (produced by scripts.build.index):
   01_data/index/chunks.jsonl   one JSON object per chunk, ~500 tokens each
   01_data/index/index.json     per-file metadata (no chunk text)
   01_data/index/manifest.csv   flat per-file table for quick scans
@@ -29,10 +29,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from wiki_lib.cache import RetrievalContext
-from wiki_lib.config import get_config
-from wiki_lib.locations import vault_path
-from wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.cache import RetrievalContext
+from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.paths import is_indexable_path
 
 _CFG_RETRIEVAL = get_config().retrieval
 
@@ -40,8 +40,7 @@ _CFG_RETRIEVAL = get_config().retrieval
 # Paths
 # ---------------------------------------------------------------------------
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-WORKDIR = SCRIPT_DIR.parent
+WORKDIR = work_path()
 DATA_DIR = WORKDIR / "01_data" / "index"
 CHUNKS_PATH = DATA_DIR / "chunks.jsonl"
 INDEX_JSON_PATH = DATA_DIR / "index.json"
@@ -120,7 +119,7 @@ def load_all_chunks(force: bool = False) -> list[dict]:
     if _ctx.chunks is not None and not force:
         return _ctx.chunks
     if not CHUNKS_PATH.exists():
-        raise FileNotFoundError(f"missing {CHUNKS_PATH}; run `python3 scripts/build_index.py` first")
+        raise FileNotFoundError(f"missing {CHUNKS_PATH}; run `python3 -m scripts.build.index` first")
     out: list[dict] = []
     by_file: dict[str, list[dict]] = {}
     with open(CHUNKS_PATH) as f:
@@ -275,14 +274,14 @@ def _load_embeddings():
         ) from e
     if not (EMB_NPY_PATH.exists() and EMB_IDS_PATH.exists()):
         raise FileNotFoundError(
-            f"missing {EMB_NPY_PATH}; run `uv run --extra semantic python scripts/build_embeddings.py`"
+            f"missing {EMB_NPY_PATH}; run `uv run --extra semantic python -m scripts.build.embeddings`"
         )
     if EMB_META_PATH.exists():
         meta_check = json.loads(EMB_META_PATH.read_text())
         if meta_check.get("model") == "__SYNTHETIC_TEST__":
             raise FileNotFoundError(
                 f"embeddings at {EMB_NPY_PATH} are synthetic test vectors; "
-                "run `uv run --extra semantic python scripts/build_embeddings.py` to build real ones"
+                "run `uv run --extra semantic python -m scripts.build.embeddings` to build real ones"
             )
     import numpy as np
 
@@ -544,7 +543,7 @@ def _load_index() -> dict:
     if _ctx.index is not None:
         return _ctx.index
     if not INDEX_JSON_PATH.exists():
-        raise FileNotFoundError(f"missing {INDEX_JSON_PATH}; run `python3 scripts/build_index.py` first")
+        raise FileNotFoundError(f"missing {INDEX_JSON_PATH}; run `python3 -m scripts.build.index` first")
     with open(INDEX_JSON_PATH) as f:
         _ctx.index = json.load(f)
     return _ctx.index

@@ -10,8 +10,9 @@ that flipping the audit-recommended fix turns into a passing test.
 from __future__ import annotations
 
 import pytest
-import wiki_mcp_server as ws
 from pydantic import ValidationError
+
+from scripts.serve import mcp_server as ws
 
 
 def test_search_input_rejects_invalid_mode():
@@ -73,7 +74,7 @@ def test_mcp_server_name_derived_from_schema():
     the shipping AI-safety schema, produces the historical literal
     `ai_safety_wiki_mcp` byte-for-byte so existing MCP configs keep working).
     """
-    from wiki_lib.schema import _reset_schema_cache, get_schema
+    from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 
     _reset_schema_cache()
     expected = get_schema().wiki.slug.replace("-", "_") + "_wiki_mcp"

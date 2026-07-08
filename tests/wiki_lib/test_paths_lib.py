@@ -9,7 +9,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from wiki_lib.paths import META_DOC_BASENAMES, is_indexable_path
+
+from scripts.wiki_lib.paths import META_DOC_BASENAMES, is_indexable_path
 
 
 @pytest.mark.parametrize("basename", sorted(META_DOC_BASENAMES))

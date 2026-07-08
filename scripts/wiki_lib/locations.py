@@ -71,7 +71,7 @@ def vault_path() -> Path:
     # Function-local import: locations.py is imported at module-load time by other
     # modules, so pulling schema in at module scope could create import-ordering
     # issues. Deferring to first call avoids that.
-    from wiki_lib.schema import get_schema
+    from scripts.wiki_lib.schema import get_schema
 
     if p := _env(_VAULT_ENV_VARS):
         return p

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-wiki_mcp_server.py — MCP server exposing the AI Safety wiki RAG index.
+mcp_server.py — MCP server exposing the AI Safety wiki RAG index.
 
 This is a stdio MCP server intended to be registered in Claude Desktop / Cowork.
-It wraps the retrieval library at scripts/wiki_retrieval.py so an LLM agent can
+It wraps the retrieval library at scripts.serve.retrieval so an LLM agent can
 search the wiki, fetch full file detail, and browse the taxonomy without having
 to shell out to the CLI.
 
 Run locally:
-    uv run python scripts/wiki_mcp_server.py
+    uv run python -m scripts.serve.mcp_server
 
 Register in Claude Desktop (~/Library/Application Support/Claude/claude_desktop_config.json):
     {
@@ -18,7 +18,7 @@ Register in Claude Desktop (~/Library/Application Support/Claude/claude_desktop_
           "args": [
             "run", "--directory",
             "/path/to/AI Safety",
-            "python", "scripts/wiki_mcp_server.py"
+            "python", "-m", "scripts.serve.mcp_server"
           ]
         }
       }
@@ -30,16 +30,14 @@ from __future__ import annotations
 import functools
 import json
 import sys
-from pathlib import Path
 from typing import Callable, Optional
 
-# Make sibling scripts importable when run as a script.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-
-import wiki_retrieval as wr
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-from wiki_lib.schema import get_schema
+
+from scripts.serve import retrieval as wr
+from scripts.wiki_lib.locations import work_path
+from scripts.wiki_lib.schema import get_schema
 
 # ---------------------------------------------------------------------------
 # Canonical error envelope
@@ -573,7 +571,7 @@ def save_query(params: SaveQueryInput) -> str:
     can build on what you discovered. The saved file follows the wiki's own
     conventions (frontmatter + headings + chunk excerpts) so it's also
     discoverable through plain Obsidian search and through the index itself
-    once you next run build_index.py.
+    once you next run scripts.build.index.
 
     Args:
         params (SaveQueryInput): question + queries + slug + retrieval knobs.
@@ -653,7 +651,7 @@ class RebuildIndexInput(BaseModel):
     # unsearchable until the next full rebuild. Full rebuilds take ~3s on a warm
     # cache, so the flag saved nothing. `extra="forbid"` means any caller still
     # passing md_only=true now fails loudly at validation instead of silently
-    # degrading the index. The CLI flag `build_index.py --md-only` still exists
+    # degrading the index. The CLI flag `scripts.build.index --md-only` still exists
     # for cold-build debugging only.
     model_config = ConfigDict(extra="forbid")
     skip_detail_md: bool = Field(
@@ -689,7 +687,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     cached by content hash; the first cold build takes 5-10 minutes.
 
     On success, also refreshes the Obsidian-side `_index/` mirror
-    (build_wiki_index.py: master/category/concept/tag pages + prune of
+    (scripts.build.wiki_mirror: master/category/concept/tag pages + prune of
     manifest-orphaned pages) — no separate mirror step needed since
     2026-07-04. Mirror status is returned in the payload's "mirror" block;
     a mirror failure never fails the rebuild.
@@ -707,7 +705,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     last successful rebuild (relpath+size+mtime fingerprint), the call returns
     `{"ok": true, "skipped": true, "reason": "sources_unchanged"}` without
     rebuilding, logging, or touching the mirror. Pass `force=true` to bypass
-    (e.g. after a CLI-side `build_index.py` run, or when `index_stats`
+    (e.g. after a CLI-side `scripts.build.index` run, or when `index_stats`
     reports `degraded: true`).
 
     Args:
@@ -724,13 +722,13 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     import subprocess
     import time
 
-    from wiki_lib.source_state import (
+    from scripts.wiki_lib.source_state import (
         compute_source_state,
         read_saved_state,
         write_saved_state,
     )
 
-    state_path = Path(__file__).resolve().parent.parent / "01_data" / "index" / "source_state.json"
+    state_path = work_path() / "01_data" / "index" / "source_state.json"
 
     # Debounce: skip the rebuild when nothing indexable changed. Guarded on a
     # loadable, non-empty index so a missing/corrupt index always rebuilds.
@@ -759,8 +757,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
                     ensure_ascii=False,
                 )
 
-    script = Path(__file__).resolve().parent / "build_index.py"
-    cmd = [sys.executable, str(script)]
+    cmd = [sys.executable, "-m", "scripts.build.index"]
     if params.skip_detail_md:
         cmd.append("--no-detail-md")
 
@@ -771,6 +768,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
             capture_output=True,
             text=True,
             timeout=900,  # 15 min cap; cold PDF builds can hit this
+            cwd=str(work_path()),
         )
     except subprocess.TimeoutExpired:
         return _error_envelope("rebuild_timeout", "rebuild_index timed out after 15 min")
@@ -787,17 +785,17 @@ def rebuild_index(params: RebuildIndexInput) -> str:
 
     # Refresh the Obsidian-side `_index/` mirror (master/category/concept/tag
     # pages + prune of manifest-orphaned pages). Added 2026-07-04: rebuilds
-    # used to leave the mirror stale until build_wiki_index.py was run by
+    # used to leave the mirror stale until scripts.build.wiki_mirror was run by
     # hand — the 07-04 audit caught 5 orphan detail pages left behind by a
     # rebuild that wasn't followed by a mirror refresh (_audit_2026-07-04.md
     # §3). A mirror failure never fails the rebuild — it is reported in the
     # payload["mirror"] block and the log line instead.
     mirror: dict = {}
     if proc.returncode == 0:
-        mirror_script = Path(__file__).resolve().parent / "build_wiki_index.py"
         try:
             mproc = subprocess.run(
-                [sys.executable, str(mirror_script)],
+                [sys.executable, "-m", "scripts.build.wiki_mirror"],
+                cwd=str(work_path()),
                 capture_output=True,
                 text=True,
                 timeout=300,  # 5 min cap; typical run is ~5s
@@ -811,7 +809,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
             mirror = {
                 "ok": False,
                 "error": "mirror_timeout",
-                "detail": "build_wiki_index.py timed out after 5 min",
+                "detail": "scripts.build.wiki_mirror timed out after 5 min",
             }
         except Exception as exc:  # noqa: BLE001 — mirror must never sink the rebuild
             mirror = {"ok": False, "error": type(exc).__name__, "detail": str(exc)}
@@ -841,7 +839,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
                 body=(
                     f"Trigger: rebuild_index MCP tool (full). "
                     f"Elapsed: {elapsed:.1f}s. "
-                    f"Mirror: {'refreshed' if mirror.get('ok') else 'REFRESH FAILED — run build_wiki_index.py by hand'}."
+                    f"Mirror: {'refreshed' if mirror.get('ok') else 'REFRESH FAILED — run scripts.build.wiki_mirror by hand'}."
                     + (" WARNING: index contains 0 PDF files — follow with a full rebuild_index()." if degraded else "")
                 ),
             )

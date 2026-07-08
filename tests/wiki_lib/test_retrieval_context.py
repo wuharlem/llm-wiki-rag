@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from wiki_lib.cache import RetrievalContext
+from scripts.wiki_lib.cache import RetrievalContext
 
 CANONICAL_FIELDS = {
     "chunks",

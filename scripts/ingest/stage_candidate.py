@@ -11,10 +11,10 @@ it surfaces, so candidates are fetched and queued instead of dying in chat.
   (both are index-excluded via `is_indexable_path`, so no rebuild needed)
 
 Filenames keep the `{slug}_{8-hex-sha1-of-url}` suffix convention from
-scripts/fetch.py (cross-folder contract §5 — do not strip).
+scripts.ingest.fetch (cross-folder contract §5 — do not strip).
 
 Usage:
-  python3 stage_candidate.py URL [--title T] [--note N] [--author A]
+  python3 -m scripts.ingest.stage_candidate URL [--title T] [--note N] [--author A]
                                  [--published YYYY-MM-DD]
                                  [--content-file PATH] [--dry-run]
 
@@ -35,7 +35,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-from wiki_lib.locations import vault_path
+from scripts.wiki_lib.locations import vault_path
 
 
 def find_vault() -> Path:
@@ -74,7 +74,7 @@ def append_pending(staging: Path, title: str, url: str, fname: str, note: str) -
     if not pending.exists():
         pending.write_text(
             "# Pending ingest candidates\n\n"
-            "Appended by `scripts/stage_candidate.py` (daily digest task). "
+            "Appended by `scripts.ingest.stage_candidate` (daily digest task). "
             "Review, then either run PROCESS_NEW_FILE ingest on the staged file "
             "and tick the box, or delete line + file to reject.\n\n",
             encoding="utf-8",

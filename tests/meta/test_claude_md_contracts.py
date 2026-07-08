@@ -20,7 +20,7 @@ from pydantic import BaseModel
 
 def _expected_meta_docs() -> frozenset[str]:
     """Schema-derived canonical set. Sourced from wiki_schema.yml (CLAUDE.md §2)."""
-    from wiki_lib.schema import _reset_schema_cache, get_schema
+    from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 
     _reset_schema_cache()
     return frozenset(get_schema().vault.meta_doc_basenames)
@@ -28,7 +28,7 @@ def _expected_meta_docs() -> frozenset[str]:
 
 def test_meta_doc_basenames_set():
     """CLAUDE.md §2 — the canonical meta-doc basenames (schema-sourced)."""
-    from wiki_lib.paths import META_DOC_BASENAMES
+    from scripts.wiki_lib.paths import META_DOC_BASENAMES
 
     expected = _expected_meta_docs()
     assert META_DOC_BASENAMES == expected, (
@@ -40,7 +40,7 @@ def test_meta_doc_basenames_set():
 
 def test_mcp_input_models_forbid_extra():
     """CLAUDE.md §4 — every MCP input model must use ConfigDict(extra='forbid')."""
-    import wiki_mcp_server
+    import scripts.serve.mcp_server as wiki_mcp_server
 
     offenders: list[str] = []
     for name, cls in inspect.getmembers(wiki_mcp_server, inspect.isclass):
@@ -48,8 +48,8 @@ def test_mcp_input_models_forbid_extra():
             continue
         if not issubclass(cls, BaseModel):
             continue
-        # Filter to classes defined IN wiki_mcp_server (not re-imports).
-        if cls.__module__ != "wiki_mcp_server":
+        # Filter to classes defined in the serve package (not re-imports).
+        if not cls.__module__.startswith("scripts.serve"):
             continue
         config = getattr(cls, "model_config", None) or {}
         if config.get("extra") != "forbid":
@@ -111,7 +111,7 @@ def _parse_wiki_concepts_table(text: str) -> list[str]:
 @pytest.mark.needs_vault
 def test_vocab_runtime_concepts_match_documented_set():
     """CLAUDE.md §1 — runtime WIKI_CONCEPTS keys must match PROCESS_NEW_FILE.md."""
-    from wiki_lib.vocab import WIKI_CONCEPTS
+    from scripts.wiki_lib.vocab import WIKI_CONCEPTS
 
     process_doc = Path.home() / "Desktop" / "AI Safety" / "AI Safety" / "PROCESS_NEW_FILE.md"
     text = process_doc.read_text(encoding="utf-8")
@@ -127,7 +127,7 @@ def test_vocab_runtime_concepts_match_documented_set():
 
 def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_path):
     """CLAUDE.md §8 — both inline-flow AND block-list `tags:` must round-trip."""
-    import build_index as bi
+    from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
     data_dir.mkdir(parents=True, exist_ok=True)

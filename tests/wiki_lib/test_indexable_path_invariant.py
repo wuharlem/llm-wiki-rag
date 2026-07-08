@@ -12,7 +12,8 @@ import sys
 from pathlib import Path
 
 import pytest
-from wiki_lib.paths import is_indexable_path
+
+from scripts.wiki_lib.paths import is_indexable_path
 
 
 def _first_failing_chunk(chunks_path: Path, vault: Path) -> tuple[int, str] | None:
@@ -49,7 +50,7 @@ def test_synthetic_build_chunks_are_all_indexable(mini_build_env, monkeypatch):
 @pytest.mark.needs_index
 def test_live_index_chunks_are_all_indexable(real_index_dir):
     """Every chunk in the live index must satisfy the predicate."""
-    import wiki_retrieval
+    from scripts.serve import retrieval as wiki_retrieval
 
     failing = _first_failing_chunk(real_index_dir / "chunks.jsonl", wiki_retrieval.VAULT_PATH)
     assert failing is None, (

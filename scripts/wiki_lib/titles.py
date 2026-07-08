@@ -20,7 +20,7 @@ Lifted verbatim. The only signature change:
 import re
 from urllib.parse import unquote, urlparse
 
-from wiki_lib.vocab import KEEP_UPPER_ACRONYMS
+from scripts.wiki_lib.vocab import KEEP_UPPER_ACRONYMS
 
 # Title fixes: regex pattern → replacement (apostrophe recovery, etc.)
 # IMPORTANT: include leading space in pattern when replacing " S " patterns to avoid double-space artifacts.

@@ -10,8 +10,9 @@ import subprocess
 from pathlib import Path
 
 import pytest
-from wiki_lib import locations
-from wiki_lib.locations import vault_path, work_path
+
+from scripts.wiki_lib import locations
+from scripts.wiki_lib.locations import vault_path, work_path
 
 _ALL_ENV = ("WIKI_VAULT", "AI_SAFETY_VAULT", "VAULT", "WIKI_WORK", "AI_SAFETY_WORK", "WORK")
 
@@ -139,7 +140,7 @@ def test_resolver_is_side_effect_free(clean_env, monkeypatch, tmp_path):
 def test_wiki_vault_env_wins(monkeypatch, tmp_path):
     monkeypatch.setenv("WIKI_VAULT", str(tmp_path))
     monkeypatch.setenv("AI_SAFETY_VAULT", "/should/not/be/used")
-    from wiki_lib.locations import vault_path
+    from scripts.wiki_lib.locations import vault_path
 
     assert vault_path() == tmp_path
 
@@ -147,7 +148,7 @@ def test_wiki_vault_env_wins(monkeypatch, tmp_path):
 def test_legacy_ai_safety_vault_still_works(monkeypatch, tmp_path):
     monkeypatch.delenv("WIKI_VAULT", raising=False)
     monkeypatch.setenv("AI_SAFETY_VAULT", str(tmp_path))
-    from wiki_lib.locations import vault_path
+    from scripts.wiki_lib.locations import vault_path
 
     assert vault_path() == tmp_path
 
@@ -156,8 +157,8 @@ def test_default_from_schema(monkeypatch):
     monkeypatch.delenv("WIKI_VAULT", raising=False)
     monkeypatch.delenv("AI_SAFETY_VAULT", raising=False)
     monkeypatch.delenv("VAULT", raising=False)
-    from wiki_lib.locations import _sandbox_vault, vault_path
-    from wiki_lib.schema import _reset_schema_cache, get_schema
+    from scripts.wiki_lib.locations import _sandbox_vault, vault_path
+    from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 
     _reset_schema_cache()
     expected = Path.home().joinpath(*get_schema().vault.default_relpath)

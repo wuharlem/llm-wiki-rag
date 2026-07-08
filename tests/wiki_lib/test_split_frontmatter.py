@@ -8,7 +8,7 @@ because every ingest pipeline sits on top of them.
 
 from __future__ import annotations
 
-from wiki_lib import frontmatter as bi
+from scripts.wiki_lib import frontmatter as bi
 
 
 def test_pyyaml_path_extracts_dict():

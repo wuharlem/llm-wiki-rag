@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-query_index.py — retrieval CLI over the AI Safety wiki index.
+query_cli.py — retrieval CLI over the AI Safety wiki index.
 
-Thin wrapper around scripts/wiki_retrieval.py. Same flags and JSON output as
-before — the BM25 logic was factored out into a library module so the new MCP
-server (scripts/wiki_mcp_server.py) and this CLI share one code path.
+Thin wrapper around scripts.serve.retrieval. Same flags and JSON output as
+before — the BM25 logic was factored out into a library module so the MCP
+server (scripts.serve.mcp_server) and this CLI share one code path.
 
-    python3 scripts/query_index.py "scheming and alignment faking" --k 8
+    python3 -m scripts.serve.query_cli "scheming and alignment faking" --k 8
 
 Outputs JSON to stdout. Flags:
   --k N             top N chunks (default 8)
@@ -24,7 +24,7 @@ import argparse
 import json
 import sys
 
-from wiki_retrieval import Filters, search
+from scripts.serve.retrieval import Filters, search
 
 
 def main() -> None:

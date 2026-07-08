@@ -13,8 +13,8 @@ It reports drift; it never fixes anything — the user owns the vocab
 
 Run during every health check (Bundle B step 0):
 
-    python3 scripts/check_vocab_sync.py          # human-readable report
-    python3 scripts/check_vocab_sync.py --json   # machine-readable
+    python3 -m scripts.maintenance.check_vocab_sync          # human-readable report
+    python3 -m scripts.maintenance.check_vocab_sync --json   # machine-readable
 
 Exit code 0 = in sync, 1 = drift found, 2 = doc not parseable (treat as
 failure — a silent parse regression is exactly the drift this guards against).
@@ -28,11 +28,9 @@ import argparse
 import json
 import re
 import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from wiki_lib.locations import vault_path  # noqa: E402
-from wiki_lib.vocab import RISK_TRIGGERS, TAG_TRIGGERS, WIKI_CONCEPTS  # noqa: E402
+from scripts.wiki_lib.locations import vault_path
+from scripts.wiki_lib.vocab import RISK_TRIGGERS, TAG_TRIGGERS, WIKI_CONCEPTS
 
 VAULT_PATH = vault_path()
 DOC = VAULT_PATH / "PROCESS_NEW_FILE.md"

@@ -15,10 +15,10 @@ and emits:
 Re-runnable: caches extracted text by content hash so PDFs don't re-extract on every run.
 
 Usage:
-  python3 scripts/build_index.py                  # full build
-  python3 scripts/build_index.py --md-only        # skip PDFs (faster)
-  python3 scripts/build_index.py --no-detail-md   # skip per-file wiki pages
-  python3 scripts/build_index.py --limit 20       # build first N for testing
+  python3 -m scripts.build.index                  # full build
+  python3 -m scripts.build.index --md-only        # skip PDFs (faster)
+  python3 -m scripts.build.index --no-detail-md   # skip per-file wiki pages
+  python3 -m scripts.build.index --limit 20       # build first N for testing
 """
 
 from __future__ import annotations
@@ -40,12 +40,12 @@ from typing import Any
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-from wiki_lib.config import get_config
-from wiki_lib.frontmatter import (
+from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.frontmatter import (
     split as split_frontmatter,
 )
-from wiki_lib.locations import vault_path
-from wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.paths import is_indexable_path
 
 
 # pypdf is only needed for PDF extraction. Defer the import so md-only
@@ -59,8 +59,7 @@ def _import_pypdf():
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-SCRIPT_DIR = Path(__file__).resolve().parent
-WORKDIR = SCRIPT_DIR.parent  # /AI Safety/
+WORKDIR = work_path()
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
 VAULT_CANDIDATES = [vault_path()]
 
@@ -633,7 +632,7 @@ _FIXED_TAIL: tuple[str, ...] = ("relpath",)
 
 def _manifest_columns() -> tuple[str, ...]:
     """Canonical manifest columns: fixed lead + schema.frontmatter.fields + fixed tail."""
-    from wiki_lib.schema import get_schema
+    from scripts.wiki_lib.schema import get_schema
 
     schema_cols = tuple(f.name for f in get_schema().frontmatter.fields)
     return _FIXED_LEAD + schema_cols + _FIXED_TAIL
@@ -671,7 +670,7 @@ def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
     Column order: fixed build-stat lead + schema fields (in declared order) +
     `relpath`. See CLAUDE.md §3 for the cross-folder contract.
     """
-    from wiki_lib.schema import get_schema
+    from scripts.wiki_lib.schema import get_schema
 
     cols = _manifest_columns()
     field_delims = {f.name: f.list_delim for f in get_schema().frontmatter.fields}

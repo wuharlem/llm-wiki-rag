@@ -73,7 +73,7 @@ def real_embeddings_paths(real_index_dir: Path) -> dict[str, Path]:
 @pytest.fixture
 def fresh_wr():
     """Yield wiki_retrieval with all caches reset (uses the module's public invalidator)."""
-    import wiki_retrieval as wr
+    from scripts.serve import retrieval as wr
 
     wr.invalidate_caches()
     yield wr
@@ -207,7 +207,7 @@ def mini_build_env(monkeypatch, mini_vault: Path, tmp_path: Path):
     """
     import types
 
-    import build_index as bi
+    from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
     files_dir = mini_vault / "_index" / "files"

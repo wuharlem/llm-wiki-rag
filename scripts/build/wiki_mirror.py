@@ -22,10 +22,9 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
-from wiki_lib.locations import vault_path
+from scripts.wiki_lib.locations import vault_path, work_path
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-WORKDIR = SCRIPT_DIR.parent
+WORKDIR = work_path()
 
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
 VAULT_CANDIDATES = [vault_path()]
@@ -79,9 +78,9 @@ def main():
     readme.write_text(f"""# Wiki Index
 
 A RAG-style index over every source file in this vault. Built and maintained by
-`scripts/build_index.py` + `scripts/build_wiki_index.py` in the working directory
+`scripts.build.index` + `scripts.build.wiki_mirror` in the working directory
 (`~/Documents/Claude/Projects/AI Safety/`), exposed to LLM agents via the
-`ai-safety-wiki` MCP server (`scripts/wiki_mcp_server.py`).
+`ai-safety-wiki` MCP server (`scripts.serve.mcp_server`).
 
 ## What's indexed
 
@@ -117,7 +116,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 
 See `PROCESS_QUERY.md` for the policy on when to call `save_query`.
 
-**Fallback (CLI):** `scripts/query_index.py "your question"` for shell use, but
+**Fallback (CLI):** `python -m scripts.serve.query_cli "your question"` for shell use, but
 the MCP is the canonical interface.
 
 ## Machine-readable artifacts
@@ -135,8 +134,8 @@ The chunked index lives in `01_data/index/` of the working directory:
 
 ```bash
 cd ~/Documents/Claude/Projects/AI\\ Safety
-python3 scripts/build_index.py        # extract + chunk all sources
-python3 scripts/build_wiki_index.py   # rebuild this _index/ folder
+python3 -m scripts.build.index        # extract + chunk all sources
+python3 -m scripts.build.wiki_mirror  # rebuild this _index/ folder
 ```
 
 Or via MCP: call `rebuild_index(skip_detail_md=true)` for a fast md-only rebuild.

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import csv
 
-import build_index as bi
+from scripts.build import index as bi
 
 CANONICAL_HEADER = [
     "file_id",

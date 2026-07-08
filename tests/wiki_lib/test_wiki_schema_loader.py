@@ -7,7 +7,8 @@ from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
-from wiki_lib import schema as schema_mod
+
+from scripts.wiki_lib import schema as schema_mod
 
 _FULL_VALID_YAML = textwrap.dedent(
     """
@@ -87,7 +88,7 @@ def test_missing_file(tmp_path, monkeypatch):
 
 def test_repo_wiki_schema_loads():
     """The wiki_schema.yml shipped with the repo must validate cleanly."""
-    from wiki_lib.schema import _reset_schema_cache, get_schema
+    from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 
     _reset_schema_cache()
     s = get_schema()

@@ -6,7 +6,7 @@ __pycache__/
 *$py.class
 *.egg-info/
 .eggs/
-build/
+/build/
 dist/
 .tox/
 

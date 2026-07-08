@@ -10,10 +10,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-import wiki_lib.config as config_module
 import yaml
 from pydantic import ValidationError
-from wiki_lib.config import Config, _reset_config_cache, get_config
+
+import scripts.wiki_lib.config as config_module
+from scripts.wiki_lib.config import Config, _reset_config_cache, get_config
 
 
 @pytest.fixture(autouse=True)

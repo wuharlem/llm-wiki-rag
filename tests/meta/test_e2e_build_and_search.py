@@ -22,7 +22,7 @@ def _build_and_load(mini_vault_e2e: Path, monkeypatch, tmp_path: Path, fresh_wr)
     `load_all_chunks()` is called — `fresh_wr` resets in-memory caches
     but not the module-level path constant.
     """
-    import build_index as bi
+    from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
     data_dir.mkdir(parents=True, exist_ok=True)

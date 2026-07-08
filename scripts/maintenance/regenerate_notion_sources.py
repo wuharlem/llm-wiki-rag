@@ -24,7 +24,7 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-from wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.locations import vault_path, work_path
 
 VAULT = vault_path()
 WORK = work_path()
@@ -86,7 +86,7 @@ def should_skip(path: Path) -> bool:
     # wiki_retrieval.py (CLAUDE.md contract §2). Excludes _index/, _trash/,
     # _audit_log/, _add_by_me/, dotpaths, vault-root meta-docs, _audit_*.md.
     try:
-        from wiki_lib.paths import is_indexable_path
+        from scripts.wiki_lib.paths import is_indexable_path
 
         if not is_indexable_path(path, VAULT):
             return True

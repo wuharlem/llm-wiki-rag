@@ -3,12 +3,12 @@
 Historically these were hand-coded literals in this file. As of 2026-07-07
 they are loaded lazily from wiki_schema.yml via `wiki_lib.schema.get_schema()`.
 The module-level constant *names* are retained so downstream callers
-(scripts/check_vocab_sync.py, scripts/wiki_lib/titles.py) do not break.
+(scripts.maintenance.check_vocab_sync, scripts.wiki_lib.titles) do not break.
 """
 
 from __future__ import annotations
 
-from wiki_lib.schema import get_schema
+from scripts.wiki_lib.schema import get_schema
 
 
 def _concepts() -> dict[str, list[str]]:

@@ -18,9 +18,9 @@ On 19K chunks at ~50 chunks/sec: ~6-7 minutes for first build, seconds on
 re-runs (skipped if up to date).
 
 Usage:
-    uv run --extra semantic python scripts/build_embeddings.py
-    uv run --extra semantic python scripts/build_embeddings.py --force   # rebuild even if up to date
-    uv run --extra semantic python scripts/build_embeddings.py --batch-size 64
+    uv run --extra semantic python -m scripts.build.embeddings
+    uv run --extra semantic python -m scripts.build.embeddings --force   # rebuild even if up to date
+    uv run --extra semantic python -m scripts.build.embeddings --batch-size 64
 """
 
 from __future__ import annotations
@@ -30,13 +30,9 @@ import json
 import os
 import sys
 import time
-from pathlib import Path
 
-# Make sibling scripts importable when run as a script.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-
-import wiki_retrieval as wr
-from wiki_lib.config import get_config
+from scripts.serve import retrieval as wr
+from scripts.wiki_lib.config import get_config
 
 DEFAULT_MODEL = get_config().retrieval.embedding_model
 
