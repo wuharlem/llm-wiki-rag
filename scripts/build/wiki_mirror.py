@@ -116,7 +116,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 
 See `PROCESS_QUERY.md` for the policy on when to call `save_query`.
 
-**Fallback (CLI):** `python -m scripts.serve.query_cli "your question"` for shell use, but
+**Fallback (CLI):** `python -m scripts.cli query "your question"` for shell use, but
 the MCP is the canonical interface.
 
 ## Machine-readable artifacts
@@ -134,8 +134,8 @@ The chunked index lives in `01_data/index/` of the working directory:
 
 ```bash
 cd ~/Documents/Claude/Projects/AI\\ Safety
-python3 -m scripts.build.index        # extract + chunk all sources
-python3 -m scripts.build.wiki_mirror  # rebuild this _index/ folder
+python3 -m scripts.cli build          # extract + chunk all sources
+python3 -m scripts.cli mirror         # rebuild this _index/ folder
 ```
 
 Or via MCP: call `rebuild_index(skip_detail_md=true)` for a fast md-only rebuild.

@@ -14,7 +14,7 @@ Filenames keep the `{slug}_{8-hex-sha1-of-url}` suffix convention from
 scripts.ingest.fetch (cross-folder contract §5 — do not strip).
 
 Usage:
-  python3 -m scripts.ingest.stage_candidate URL [--title T] [--note N] [--author A]
+  python3 -m scripts.cli stage URL [--title T] [--note N] [--author A]
                                  [--published YYYY-MM-DD]
                                  [--content-file PATH] [--dry-run]
 

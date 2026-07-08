@@ -24,15 +24,15 @@ pip3 install requests trafilatura
 cd /path/to/AI\ Safety
 
 # Validation pass first — 3 of each handler (~9 files, <30s)
-python3 -m scripts.ingest.fetch --sample 3
+python3 -m scripts.cli fetch --sample 3
 
 # Inspect Sources/_inbox/ in Obsidian. If output looks good, run the full batch:
-python3 -m scripts.ingest.fetch
+python3 -m scripts.cli fetch
 
 # Or run handlers separately to control pacing:
-python3 -m scripts.ingest.fetch --handlers arxiv          # 248 PDFs
-python3 -m scripts.ingest.fetch --handlers pdf            # 29 PDFs
-python3 -m scripts.ingest.fetch --handlers web --workers 8  # 529 web pages
+python3 -m scripts.cli fetch --handlers arxiv          # 248 PDFs
+python3 -m scripts.cli fetch --handlers pdf            # 29 PDFs
+python3 -m scripts.cli fetch --handlers web --workers 8  # 529 web pages
 ```
 
 Other flags:
