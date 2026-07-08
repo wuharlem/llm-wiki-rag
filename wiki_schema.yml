@@ -440,3 +440,8 @@ vault:
     - Desktop
     - "AI Safety"
     - "AI Safety"
+
+  # Cowork sandbox mount pattern for this vault (was a literal in
+  # locations.py). Derived from the vault folder name, so a different-topic
+  # wiki swaps it here along with default_relpath.
+  sandbox_mount_glob: "/sessions/*/mnt/AI Safety--AI Safety"

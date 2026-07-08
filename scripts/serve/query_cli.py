@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-query_cli.py — retrieval CLI over the AI Safety wiki index.
+query_cli.py — retrieval CLI over the wiki index.
 
 Thin wrapper around scripts.serve.retrieval. Same flags and JSON output as
 before — the BM25 logic was factored out into a library module so the MCP

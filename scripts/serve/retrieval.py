@@ -1,5 +1,5 @@
 """
-retrieval.py — reusable retrieval library over the AI Safety wiki index.
+retrieval.py — reusable retrieval library over the wiki index.
 
 This module is the shared core used by both:
   - scripts.serve.query_cli  (command-line interface)

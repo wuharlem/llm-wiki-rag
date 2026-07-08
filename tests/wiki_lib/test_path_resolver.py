@@ -198,3 +198,23 @@ def test_no_hardcoded_username_in_tracked_py():
         if needle in text:
             offenders.append(rel)
     assert not offenders, f"hardcoded home path found in: {offenders}"
+
+
+# --- vault: sandbox glob comes from the schema --------------------------------
+
+
+def test_sandbox_glob_sourced_from_schema(clean_env, monkeypatch, tmp_path):
+    """The mount pattern is domain config (wiki_schema.yml vault section), not
+    a code literal — a schema swap must relocate sandbox discovery too."""
+    from scripts.wiki_lib.schema import get_schema
+
+    seen = []
+
+    def capture(pattern):
+        seen.append(pattern)
+        return []
+
+    monkeypatch.setattr(locations.glob, "glob", capture)
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    vault_path()
+    assert seen == [get_schema().vault.sandbox_mount_glob]
