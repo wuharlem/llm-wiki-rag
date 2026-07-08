@@ -14,7 +14,7 @@ import pytest
 from scripts.wiki_lib import locations
 from scripts.wiki_lib.locations import vault_path, work_path
 
-_ALL_ENV = ("WIKI_VAULT", "AI_SAFETY_VAULT", "VAULT", "WIKI_WORK", "AI_SAFETY_WORK", "WORK")
+_ALL_ENV = ("WIKI_VAULT", "WIKI_WORK")
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def _no_sandbox(monkeypatch):
 
 
 def test_vault_env_var_wins(clean_env, monkeypatch):
-    clean_env.setenv("AI_SAFETY_VAULT", "/tmp/v")
+    clean_env.setenv("WIKI_VAULT", "/tmp/v")
 
     def _boom(pattern):
         raise AssertionError("sandbox glob must not be consulted when env is set")
@@ -41,35 +41,26 @@ def test_vault_env_var_wins(clean_env, monkeypatch):
     assert vault_path() == Path("/tmp/v")
 
 
-def test_vault_legacy_name_honored(clean_env, monkeypatch):
-    _no_sandbox(monkeypatch)
-    clean_env.setenv("VAULT", "/tmp/leg")
-    assert vault_path() == Path("/tmp/leg")
-
-
-def test_vault_canonical_beats_legacy(clean_env, monkeypatch):
-    _no_sandbox(monkeypatch)
-    clean_env.setenv("AI_SAFETY_VAULT", "/tmp/canon")
-    clean_env.setenv("VAULT", "/tmp/leg")
-    assert vault_path() == Path("/tmp/canon")
-
-
 def test_vault_empty_env_is_unset(clean_env, monkeypatch, tmp_path):
+    from scripts.wiki_lib.schema import get_schema
+
     _no_sandbox(monkeypatch)
-    clean_env.setenv("VAULT", "")  # empty string counts as unset
+    clean_env.setenv("WIKI_VAULT", "")  # empty string counts as unset
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
-    assert vault_path() == tmp_path / "Desktop" / "AI Safety" / "AI Safety"
+    assert vault_path() == tmp_path.joinpath(*get_schema().vault.default_relpath)
 
 
 # --- vault: default (home-relative) tier -------------------------------------
 
 
 def test_vault_default_is_home_relative(clean_env, monkeypatch, tmp_path):
+    from scripts.wiki_lib.schema import get_schema
+
     _no_sandbox(monkeypatch)
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
-    # Home-relative: the result is built entirely from the (stubbed) home dir,
-    # so no user identifier is hardcoded in the resolver.
-    assert vault_path() == tmp_path / "Desktop" / "AI Safety" / "AI Safety"
+    # Home-relative and schema-driven: built entirely from the (stubbed) home
+    # dir plus wiki_schema.yml's default_relpath — no domain literal here.
+    assert vault_path() == tmp_path.joinpath(*get_schema().vault.default_relpath)
 
 
 # --- vault: sandbox-mount tier -----------------------------------------------
@@ -103,14 +94,8 @@ def test_vault_stale_sandbox_path_skipped(clean_env, monkeypatch, tmp_path):
 
 
 def test_work_env_var_wins(clean_env):
-    clean_env.setenv("WORK", "/tmp/w")
+    clean_env.setenv("WIKI_WORK", "/tmp/w")
     assert work_path() == Path("/tmp/w")
-
-
-def test_work_canonical_beats_legacy(clean_env):
-    clean_env.setenv("AI_SAFETY_WORK", "/tmp/cw")
-    clean_env.setenv("WORK", "/tmp/w")
-    assert work_path() == Path("/tmp/cw")
 
 
 def test_work_default_is_repo_root(clean_env):
@@ -137,26 +122,24 @@ def test_resolver_is_side_effect_free(clean_env, monkeypatch, tmp_path):
 # --- schema-driven env + default --------------------------------------------
 
 
-def test_wiki_vault_env_wins(monkeypatch, tmp_path):
-    monkeypatch.setenv("WIKI_VAULT", str(tmp_path))
-    monkeypatch.setenv("AI_SAFETY_VAULT", "/should/not/be/used")
-    from scripts.wiki_lib.locations import vault_path
+def test_legacy_env_names_ignored(clean_env, monkeypatch, tmp_path):
+    """§10 contract change 2026-07-08: the pre-refactor env names are no
+    longer consulted. Only WIKI_VAULT / WIKI_WORK resolve."""
+    from scripts.wiki_lib.schema import get_schema
 
-    assert vault_path() == tmp_path
-
-
-def test_legacy_ai_safety_vault_still_works(monkeypatch, tmp_path):
-    monkeypatch.delenv("WIKI_VAULT", raising=False)
-    monkeypatch.setenv("AI_SAFETY_VAULT", str(tmp_path))
-    from scripts.wiki_lib.locations import vault_path
-
-    assert vault_path() == tmp_path
+    _no_sandbox(monkeypatch)
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    # Names built from fragments so this file passes the repo-wide
+    # legacy-env grep (same idiom as the hardcoded-username scan below).
+    prefix = "AI_" + "SAFETY_"
+    for legacy in (prefix + "VAULT", "VAULT", prefix + "WORK", "WORK"):
+        monkeypatch.setenv(legacy, "/should/not/be/used")
+    assert vault_path() == tmp_path.joinpath(*get_schema().vault.default_relpath)
+    assert work_path() == Path(locations.__file__).resolve().parents[2]
 
 
 def test_default_from_schema(monkeypatch):
     monkeypatch.delenv("WIKI_VAULT", raising=False)
-    monkeypatch.delenv("AI_SAFETY_VAULT", raising=False)
-    monkeypatch.delenv("VAULT", raising=False)
     from scripts.wiki_lib.locations import _sandbox_vault, vault_path
     from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
 

@@ -189,7 +189,7 @@ def append_log(params: AppendLogInput) -> str:
     if path is None:
         return _error_envelope(
             "vault_not_found",
-            "vault directory not found; set WIKI_VAULT (or the legacy AI_SAFETY_VAULT) env var to a valid vault path",
+            "vault directory not found; set WIKI_VAULT env var to a valid vault path",
         )
     return json.dumps({"ok": True, "log_path": str(path)}, ensure_ascii=False)
 
@@ -221,6 +221,6 @@ def append_open_question(params: AppendOpenQuestionInput) -> str:
     if path is None:
         return _error_envelope(
             "vault_not_found",
-            "vault directory not found; set WIKI_VAULT (or the legacy AI_SAFETY_VAULT) env var to a valid vault path",
+            "vault directory not found; set WIKI_VAULT env var to a valid vault path",
         )
     return json.dumps({"ok": True, "open_questions_path": str(path)}, ensure_ascii=False)

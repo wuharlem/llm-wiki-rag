@@ -42,7 +42,7 @@ def find_vault() -> Path:
     # Resolver never raises on a missing vault; keep the fail-fast here.
     v = vault_path()
     if not v.is_dir():
-        sys.exit("stage_candidate: vault not found (set VAULT / AI_SAFETY_VAULT)")
+        sys.exit("stage_candidate: vault not found (set WIKI_VAULT)")
     return v
 
 

@@ -18,30 +18,26 @@ Two big choices to be aware of:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import pytest
+
+from scripts.wiki_lib.locations import vault_path
 
 # Project root = parent of tests/.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 INDEX_DIR = PROJECT_ROOT / "01_data" / "index"
 
-# Live vault path — used by tests marked `needs_vault`. Override with
-# AI_SAFETY_VAULT env var if the vault moves.
-_VAULT_LIVE_PATH = Path(
-    os.environ.get(
-        "AI_SAFETY_VAULT",
-        str(Path.home() / "Desktop" / "AI Safety" / "AI Safety"),
-    )
-)
+# Live vault path — used by tests marked `needs_vault`. Resolved through the
+# canonical resolver, so the WIKI_VAULT env var overrides it.
+_VAULT_LIVE_PATH = vault_path()
 
 
 @pytest.fixture(autouse=True)
 def _skip_if_no_vault(request):
     """Auto-skip `needs_vault`-marked tests when the live vault is missing."""
     if request.node.get_closest_marker("needs_vault") and not _VAULT_LIVE_PATH.exists():
-        pytest.skip(f"live vault not found at {_VAULT_LIVE_PATH} (set AI_SAFETY_VAULT)")
+        pytest.skip(f"live vault not found at {_VAULT_LIVE_PATH} (set WIKI_VAULT)")
 
 
 # ---------------------------------------------------------------------------
