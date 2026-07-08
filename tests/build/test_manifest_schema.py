@@ -1,7 +1,7 @@
 """Regression: `manifest.csv` must keep the documented 17-column schema.
 
 CLAUDE.md cross-folder contract §3 documents the column set + order.
-Downstream readers (audit workflow, build_wiki_index.py, MCP filters)
+Downstream readers (audit workflow, scripts/build/wiki_mirror.py, MCP filters)
 break silently on rename/reorder — this test fails fast instead.
 """
 
@@ -42,7 +42,7 @@ def _read_header(manifest_path: Path) -> tuple[str, ...]:
 
 def test_synthetic_build_manifest_columns(mini_build_env, monkeypatch):
     """Synthetic build's manifest header must match the documented schema."""
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     mini_build_env.bi.main()
 
     manifest_path = mini_build_env.data_dir / "manifest.csv"
@@ -72,7 +72,7 @@ def test_synthetic_build_manifest_row_types(mini_build_env, monkeypatch):
     serialized as pipe-separated strings (e.g. `"a|b|c"`), not JSON. Empty
     lists are written as the empty string. This test locks that format.
     """
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     mini_build_env.bi.main()
 
     manifest_path = mini_build_env.data_dir / "manifest.csv"

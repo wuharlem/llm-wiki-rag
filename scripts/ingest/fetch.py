@@ -273,7 +273,7 @@ def fetch_one(row: dict) -> dict:
 
 def record_pdf_sources(results: list[dict]) -> int:
     """Append a notion_sources.csv row (filename + url) for each successfully
-    fetched PDF, so build_index.py's enrichment lookup can attach the source
+    fetched PDF, so scripts/build/index.py's enrichment lookup can attach the source
     URL. Markdown fetches already carry the URL in their frontmatter.
     Never overwrites existing rows. Added 2026-07-04 after the URL/tag
     backfill — without this, every new PDF regresses to url-less."""

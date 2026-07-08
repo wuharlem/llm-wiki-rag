@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_embeddings.py — embed every chunk in chunks.jsonl into a dense vector.
+scripts/build/embeddings.py — embed every chunk in chunks.jsonl into a dense vector.
 
 Output:
   01_data/index/embeddings.npy   (n_chunks x dim) float32 numpy array
@@ -8,7 +8,7 @@ Output:
   01_data/index/embeddings_meta.json model name, dim, build time, n_chunks
 
 Why this file exists:
-  query_index.py / wiki_retrieval.py do BM25 (lexical). BM25 misses paraphrases
+  scripts/serve/query_cli.py / scripts/serve/retrieval.py do BM25 (lexical). BM25 misses paraphrases
   ("scalable oversight" vs "supervising stronger models"). A dense embedding
   layer + RRF fusion catches both. We only embed chunks once and load the
   matrix from disk at query time.

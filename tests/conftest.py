@@ -52,7 +52,7 @@ def real_index_dir() -> Path:
     """Path to the live `01_data/index/`. Tests that need this should also be
     marked `@pytest.mark.needs_index` so they appear in the marker summary."""
     if not (INDEX_DIR / "chunks.jsonl").exists():
-        pytest.skip("01_data/index/chunks.jsonl missing — run build_index.py first")
+        pytest.skip("01_data/index/chunks.jsonl missing — run python -m scripts.build.index first")
     return INDEX_DIR
 
 

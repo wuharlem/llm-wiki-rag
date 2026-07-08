@@ -134,7 +134,7 @@ def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_pat
     monkeypatch.setattr(bi, "CACHE_DIR", data_dir / ".cache")
     monkeypatch.setattr(bi, "WIKI_INDEX_DIR", mini_vault_dual_yaml / "_index")
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", mini_vault_dual_yaml / "_index" / "files")
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     bi.main()
 
     manifest_path = data_dir / "manifest.csv"

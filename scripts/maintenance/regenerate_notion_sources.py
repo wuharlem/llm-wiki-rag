@@ -82,8 +82,8 @@ def parse_scalar_field(raw: str) -> str:
 
 
 def should_skip(path: Path) -> bool:
-    # Canonical filter — single source of truth shared with build_index.py and
-    # wiki_retrieval.py (CLAUDE.md contract §2). Excludes _index/, _trash/,
+    # Canonical filter — single source of truth shared with scripts/build/index.py and
+    # scripts/serve/retrieval.py (CLAUDE.md contract §2). Excludes _index/, _trash/,
     # _audit_log/, _add_by_me/, dotpaths, vault-root meta-docs, _audit_*.md.
     try:
         from scripts.wiki_lib.paths import is_indexable_path

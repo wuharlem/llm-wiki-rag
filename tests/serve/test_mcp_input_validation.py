@@ -56,7 +56,7 @@ def test_search_input_defaults_match_mcp_default():
     we just flipped."""
     m = ws.SearchInput(query="alignment")
     assert m.mode == "hybrid", (
-        f"expected default mode=hybrid, got {m.mode!r} — if this changes, update query_index.py too"
+        f"expected default mode=hybrid, got {m.mode!r} — if this changes, update scripts/serve/query_cli.py too"
     )
 
 

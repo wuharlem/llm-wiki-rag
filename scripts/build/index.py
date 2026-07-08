@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_index.py — Build a RAG-style index over the AI Safety wiki.
+scripts/build/index.py — Build a RAG-style index over the AI Safety wiki.
 
 Scans every .md and .pdf under VAULT, extracts text, chunks it on heading/paragraph
 boundaries, generates a per-file summary (frontmatter `description` preferred),
@@ -699,7 +699,7 @@ def _emit_detail_md(entries: list[FileEntry], files_dir: Path) -> None:
 def _emit_build_log(entries: list[FileEntry], errors: list[tuple[str, str]], path: Path, vault: Path) -> None:
     """Write build.log — non-atomic by design; non-critical artifact."""
     with open(path, "w") as f:
-        f.write(f"# build_index.py log — {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"# scripts/build/index.py log — {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write(f"VAULT: {vault}\n")
         f.write(f"files: {len(entries)} | chunks: {sum(e.n_chunks for e in entries)}\n")
         f.write(f"errors: {len(errors)}\n\n")

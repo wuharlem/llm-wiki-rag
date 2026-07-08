@@ -34,7 +34,7 @@ def _first_failing_chunk(chunks_path: Path, vault: Path) -> tuple[int, str] | No
 
 def test_synthetic_build_chunks_are_all_indexable(mini_build_env, monkeypatch):
     """Every chunk produced by the synthetic build must satisfy the predicate."""
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     mini_build_env.bi.main()
 
     chunks_path = mini_build_env.data_dir / "chunks.jsonl"

@@ -1,9 +1,9 @@
 """Canonical YAML frontmatter reader and writer for the markdown vault.
 
 Single source of truth for parsing and emitting `---` ... `---` blocks at the
-top of vault files. Lifted verbatim from `build_index.py` so the live
-build pipeline and any future writer (fetch, save_query, future tools)
-share identical behavior.
+top of vault files. Lifted verbatim from `build_index.py` (now
+`scripts/build/index.py`) so the live build pipeline and any future writer
+(fetch, save_query, future tools) share identical behavior.
 
 Public surface:
     split(text) -> (meta, body)

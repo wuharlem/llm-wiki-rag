@@ -40,7 +40,7 @@ def test_meta_not_synthetic_marker(real_embeddings_paths):
     placeholder (`__SYNTHETIC_TEST__`) used during early development."""
     meta = json.loads(real_embeddings_paths["meta"].read_text())
     assert meta.get("model") != "__SYNTHETIC_TEST__", (
-        "embeddings still carry the synthetic-test marker — run build_embeddings.py to produce real vectors"
+        "embeddings still carry the synthetic-test marker — run python -m scripts.build.embeddings to produce real vectors"
     )
 
 

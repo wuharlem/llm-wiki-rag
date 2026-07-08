@@ -55,8 +55,9 @@ EMB_META_PATH = DATA_DIR / "embeddings_meta.json"
 VAULT_PATH = vault_path()
 
 # ---------------------------------------------------------------------------
-# Tokenization (kept identical to the original query_index.py so scoring
-# stays comparable across the BM25 -> hybrid migration)
+# Tokenization (kept identical to the original query_index.py (now
+# scripts/serve/query_cli.py) so scoring stays comparable across the
+# BM25 -> hybrid migration)
 # ---------------------------------------------------------------------------
 
 TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_-]+")
@@ -148,7 +149,8 @@ def filter_chunks(filters: Filters) -> list[dict]:
 # BM25 scoring
 # ---------------------------------------------------------------------------
 
-# Standard BM25 hyperparameters; matches the original query_index.py.
+# Standard BM25 hyperparameters; matches the original query_index.py
+# (now scripts/serve/query_cli.py).
 _BM25_K1 = _CFG_RETRIEVAL.bm25_k1
 _BM25_B = _CFG_RETRIEVAL.bm25_b
 # Title/heading boosts give small lift to chunks whose surrounding metadata
@@ -337,7 +339,7 @@ def semantic_search(
         idx = _ctx.emb_chunk_index.get(key)
         if idx is None:
             # Chunk was added after embeddings were built — skip rather than
-            # crash. User should rerun build_embeddings.py.
+            # crash. User should rerun scripts/build/embeddings.py.
             continue
         rows.append(idx)
         kept.append(c)
@@ -451,7 +453,7 @@ def search(
 
     Modes:
       - "bm25":      lexical only (always available, no extra deps)
-      - "semantic":  dense embeddings only (requires build_embeddings.py)
+      - "semantic":  dense embeddings only (requires scripts/build/embeddings.py)
       - "hybrid":    BM25 + dense merged via Reciprocal Rank Fusion (recommended)
 
     If `rerank_results=True`, the retriever is asked for a wider candidate pool
@@ -497,7 +499,7 @@ def search(
         except (FileNotFoundError, RuntimeError):
             # Embeddings not built yet — gracefully degrade to BM25-only so the
             # MCP server never breaks just because the user hasn't run
-            # build_embeddings.py.
+            # scripts/build/embeddings.py.
             sem_hits = []
         hits = _rrf(bm25_hits, sem_hits, k=retrieve_k)
     else:

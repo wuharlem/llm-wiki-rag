@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-build_wiki_index.py — Build the human/Obsidian-readable side of the index.
+scripts/build/wiki_mirror.py — Build the human/Obsidian-readable side of the index.
 
-Reads 01_data/index/manifest.csv (produced by build_index.py) and emits:
+Reads 01_data/index/manifest.csv (produced by scripts/build/index.py) and emits:
 
   AI Safety/_index/README.md
   AI Safety/_index/00_master_index.md
@@ -10,7 +10,7 @@ Reads 01_data/index/manifest.csv (produced by build_index.py) and emits:
   AI Safety/_index/by_concept/<concept>.md
   AI Safety/_index/by_tag/<tag>.md          (top tags only)
 
-The per-file detail pages in _index/files/ are emitted by build_index.py itself.
+The per-file detail pages in _index/files/ are emitted by scripts/build/index.py itself.
 """
 
 from __future__ import annotations
@@ -44,7 +44,7 @@ WIKI_INDEX_DIR = VAULT / "_index"
 
 
 def slugify(s: str, maxlen: int = 80) -> str:
-    # maxlen MUST match build_index.py:slugify (80). A 60/80 mismatch here
+    # maxlen MUST match scripts/build/index.py:slugify (80). A 60/80 mismatch here
     # broke every mirror wiki-link to files with long titles and caused the
     # 2026-07-03 prune to move live detail pages (caught same pass, restored
     # from _trash).
@@ -269,7 +269,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     # accumulate (2026-07-03 audit: 139 orphan detail pages, 8 stale concept
     # stubs, ~50 stale tag pages). Per the vault's deletion philosophy
     # (CLAUDE.md contract §6), stale pages are moved to _trash/, never rm'd.
-    # files/ pages are written by build_index.py; match on the file_id prefix
+    # files/ pages are written by scripts/build/index.py; match on the file_id prefix
     # (the part before "__") rather than the exact slug, so slug-length or
     # slugify drift between the two scripts can never prune a live page.
     live_ids = {r["file_id"] for r in rows}

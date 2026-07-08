@@ -11,12 +11,12 @@ Scope notes:
   `_index/saved_queries/`) changes the fingerprint, and anything the build
   ignores (`_trash/`, `_add_by_me/`, meta-docs) does not.
 - Only `.md` and `.pdf` files are fingerprinted, matching what
-  `build_index.py` extracts.
+  `scripts/build/index.py` extracts.
 - The state file lives next to the index (`01_data/index/source_state.json`)
   and is written by the MCP server AFTER a successful rebuild, using the
   fingerprint taken BEFORE the build started. If files change mid-build, the
   next call sees a different fingerprint and rebuilds — no missed updates.
-- CLI runs of `build_index.py` do not update the state file; the next MCP
+- CLI runs of `scripts/build/index.py` do not update the state file; the next MCP
   rebuild will therefore run once "unnecessarily" and re-sync. This is
   deliberate — the CLI stays side-effect-free.
 

@@ -2,8 +2,8 @@
 
 Loads `config.yml` from the repo root, validates it against a frozen Pydantic
 schema, and exposes the result via `get_config()`. Module-level constants in
-build_index.py / wiki_retrieval.py / build_embeddings.py / fetch.py /
-dedup_report.py alias to fields on the returned `Config` instance.
+scripts/build/index.py / scripts/serve/retrieval.py / scripts/build/embeddings.py /
+scripts/ingest/fetch.py / dedup_report.py alias to fields on the returned `Config` instance.
 
 Loud-failure contract: a missing, empty, malformed, or schema-invalid
 config.yml raises at the first `get_config()` call. There is no fallback to

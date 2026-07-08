@@ -16,7 +16,7 @@ import pytest
 
 
 def _run_build(mini_build_env, monkeypatch):
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     mini_build_env.bi.main()
 
 

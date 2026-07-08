@@ -35,7 +35,7 @@ def _build_and_load(mini_vault_e2e: Path, monkeypatch, tmp_path: Path, fresh_wr)
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", mini_vault_e2e / "_index" / "files")
     monkeypatch.setattr(fresh_wr, "CHUNKS_PATH", chunks_path)
 
-    monkeypatch.setattr(sys, "argv", ["build_index.py", "--md-only"])
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     bi.main()
 
     return fresh_wr.load_all_chunks()
