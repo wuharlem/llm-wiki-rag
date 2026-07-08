@@ -30,7 +30,7 @@ The pipeline is topic-agnostic. All AI-safety-specific choices live in one file:
    - `string`, `date_string`, `url` — free-form scalars with light shape validation
 4. **Fill vocabulary.** For each vocab section (`concepts`, `tags`, `categorical_axes.<axis>`), keys are the canonical names, values are lists of trigger phrases used by the heuristic classifier.
 5. **Set the vault path.** Either export `WIKI_VAULT=/path/to/your/vault` or edit `vault.default_relpath` (joined onto `Path.home()`).
-6. **Run the pipeline.** `uv run python -m scripts.build.index`, then `uv run python -m scripts.serve.mcp_server`.
+6. **Run the pipeline.** `uv run python -m scripts.cli build`, then `uv run python -m scripts.cli serve`.
 
 The schema loader validates strictly (Pydantic `extra="forbid"`, `strict=True`) — typos, unknown keys, and coerced types fail loudly at startup rather than corrupting the index.
 
@@ -54,10 +54,12 @@ README.md                # this file
 
 ## Pipeline stages
 
+All pipeline commands go through `python -m scripts.cli` (run bare for the command list); the phase-module paths below describe where the code lives.
+
 ### Stage 1 — Fetch (network-bound; runs on user's Mac)
 
 ```bash
-uv run python -m scripts.ingest.fetch [--sample 3] [--handlers arxiv,pdf,web]
+uv run python -m scripts.cli fetch [--sample 3] [--handlers arxiv,pdf,web]
 ```
 
 Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_inbox/` (arxiv → PDF, web → markdown via trafilatura). Writes `02_logs/fetch_log.csv`. See [scripts/README.md](scripts/README.md) for full setup.
@@ -65,8 +67,8 @@ Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_
 ### Stage 2 — Index and embed
 
 ```bash
-uv run python -m scripts.build.index
-uv run --extra all python -m scripts.build.embeddings
+uv run python -m scripts.cli build
+uv run --extra all python -m scripts.cli embed
 ```
 
 Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
@@ -74,8 +76,8 @@ Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embedd
 ### Stage 3 — Query
 
 ```bash
-uv run python -m scripts.serve.query_cli "RLHF"       # CLI
-uv run python -m scripts.serve.mcp_server             # MCP server
+uv run python -m scripts.cli query "RLHF"   # CLI
+uv run python -m scripts.cli serve          # MCP server
 ```
 
 `query_cli.py` is the local CLI; `mcp_server.py` exposes the same retrieval to MCP-compatible clients (Claude Desktop, Claude Code via the MCP config).
@@ -83,7 +85,7 @@ uv run python -m scripts.serve.mcp_server             # MCP server
 ### Stage 4 — Wiki overview rebuild (occasional)
 
 ```bash
-uv run python -m scripts.build.wiki_mirror
+uv run python -m scripts.cli mirror
 ```
 
 Regenerates the `_index/` overview pages (one MD per concept). Run after large vault changes.
