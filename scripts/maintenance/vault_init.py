@@ -144,8 +144,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Render templates/vault/ PROCESS-doc skeletons into the vault (WIKI_VAULT)."
     )
-    parser.add_argument("--force", action="store_true", help="overwrite existing vault files")
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--force", action="store_true", help="overwrite existing vault files")
+    group.add_argument(
         "--refresh-vocab",
         action="store_true",
         help="only regenerate the GENERATED VOCAB block inside the vault's existing PROCESS_NEW_FILE.md",
@@ -170,7 +171,8 @@ def main(argv: list[str] | None = None) -> int:
         if not template.name.startswith("_") and template.name not in excluded:
             print(
                 f"WARNING: {template.name} is not in wiki_schema.yml vault.meta_doc_basenames — "
-                "it will be indexed as source content; add it and rebuild."
+                "it will be indexed as source content; add it and rebuild.",
+                file=sys.stderr,
             )
     return 0
 
