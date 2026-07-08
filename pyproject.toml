@@ -1,7 +1,7 @@
 [project]
-name = "ai-safety-wiki-rag"
+name = "llm-wiki-rag"
 version = "0.1.0"
-description = "RAG retrieval over the AI Safety wiki (BM25 + dense + rerank, exposed via MCP)."
+description = "Pipeline for an LLM-maintained wiki: ingest, chunked RAG index (BM25 + dense + rerank), MCP server."
 requires-python = ">=3.10"
 dependencies = [
     # MCP server (FastMCP lives in this package)
@@ -65,7 +65,7 @@ markers = [
     "slow: tests that take >5s (model loading, full build).",
     "needs_index: requires 01_data/index/ to be built.",
     "needs_embeddings: requires embeddings.npy to be built.",
-    "needs_vault: requires the live AI Safety vault directory.",
+    "needs_vault: requires the live vault directory.",
 ]
 
 [tool.ruff]
