@@ -11,7 +11,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# build_index.py needs pypdf for PDF text extraction. Optional so the MCP
+# scripts/build/index.py needs pypdf for PDF text extraction. Optional so the MCP
 # server install path stays minimal — users who already built their index don't
 # need to reinstall pypdf every time they run the server.
 indexing = [

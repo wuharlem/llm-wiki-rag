@@ -132,7 +132,7 @@ def _atomic_write_text(path: Path, text: str, encoding: str = "utf-8") -> None:
     """Write text to a sibling .tmp file then os.replace into place.
 
     Prevents torn files when a build is Ctrl-C'd or times out (e.g. the 15-min
-    subprocess timeout in wiki_mcp_server.rebuild_index). Without this, a half-
+    subprocess timeout in the MCP rebuild_index tool). Without this, a half-
     written chunks.jsonl would silently lose lines via load_all_chunks's
     JSONDecodeError handling, and a half-written embeddings_meta.json would
     leave the loader unable to start.
