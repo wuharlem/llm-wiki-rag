@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import wiki_retrieval as wr
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+from wiki_lib.schema import get_schema
 
 # ---------------------------------------------------------------------------
 # Canonical error envelope
@@ -88,7 +89,14 @@ def _wrap_errors(fn: Callable[..., str]) -> Callable[..., str]:
 # Server
 # ---------------------------------------------------------------------------
 
-mcp = FastMCP("ai_safety_wiki_mcp")
+# Derive the registered MCP server name from `schema.wiki.slug` so a schema
+# swap (different wiki_schema.yml) changes the server name automatically. For
+# the shipping AI-safety schema (slug: `ai-safety`), this evaluates to
+# `ai_safety_wiki_mcp` — byte-identical to the previous hardcoded literal, so
+# existing MCP registrations keep working.
+MCP_SERVER_NAME = f"{get_schema().wiki.slug.replace('-', '_')}_wiki_mcp"
+
+mcp = FastMCP(MCP_SERVER_NAME)
 
 
 # ---------------------------------------------------------------------------
@@ -251,7 +259,7 @@ def search_wiki(params: SearchInput) -> str:
                   "category": str,
                   "subcategory": str,
                   "tags": [str],
-                  "wiki_concepts": [str],
+                  "concepts": [str],
                   "text": str                # full chunk text, or omitted if include_text=False
                 },
                 ...
@@ -327,7 +335,7 @@ def get_file_detail(params: FileDetailInput) -> str:
               "category": str,
               "subcategory": str,
               "tags": [str],
-              "wiki_concepts": [str],
+              "concepts": [str],
               "summary": str,           # if available in index.json
               "chunks": [               # only when include_chunks=True
                 {"chunk_id": str, "heading_path": str, "tokens": int, "text": str},
@@ -391,7 +399,7 @@ def list_categories(params: ListInput) -> str:
 )
 @_wrap_errors
 def list_concepts(params: ListInput) -> str:
-    """List all wiki_concepts (cross-cutting research topics) with file counts,
+    """List all concepts (cross-cutting research topics) with file counts,
     sorted by descending count. Use to discover valid `concept` values for
     search_wiki.
 
@@ -902,7 +910,10 @@ def append_log(params: AppendLogInput) -> str:
     """
     path = wr.append_log_entry(kind=params.kind, title=params.title, body=params.body)
     if path is None:
-        return _error_envelope("vault_not_found", "VAULT_PATH does not exist")
+        return _error_envelope(
+            "vault_not_found",
+            "vault directory not found; set WIKI_VAULT (or the legacy AI_SAFETY_VAULT) env var to a valid vault path",
+        )
     return json.dumps({"ok": True, "log_path": str(path)}, ensure_ascii=False)
 
 
@@ -952,7 +963,10 @@ def append_open_question(params: AppendOpenQuestionInput) -> str:
     """
     path = wr.append_open_question(kind=params.kind, title=params.title, body=params.body)
     if path is None:
-        return _error_envelope("vault_not_found", "VAULT_PATH does not exist")
+        return _error_envelope(
+            "vault_not_found",
+            "vault directory not found; set WIKI_VAULT (or the legacy AI_SAFETY_VAULT) env var to a valid vault path",
+        )
     return json.dumps({"ok": True, "open_questions_path": str(path)}, ensure_ascii=False)
 
 

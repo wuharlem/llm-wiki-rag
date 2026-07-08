@@ -17,28 +17,24 @@ from pathlib import Path
 import pytest
 from pydantic import BaseModel
 
-EXPECTED_META_DOC_BASENAMES: frozenset[str] = frozenset(
-    {
-        "PROCESS_NEW_FILE.md",
-        "PROCESS_HEALTH_CHECK.md",
-        "PROCESS_QUERY.md",
-        "README.md",
-        "log.md",
-        "llm-wiki.md",
-        "open_questions.md",
-        "SYNTHESIS.md",
-    }
-)
+
+def _expected_meta_docs() -> frozenset[str]:
+    """Schema-derived canonical set. Sourced from wiki_schema.yml (CLAUDE.md §2)."""
+    from wiki_lib.schema import _reset_schema_cache, get_schema
+
+    _reset_schema_cache()
+    return frozenset(get_schema().vault.meta_doc_basenames)
 
 
 def test_meta_doc_basenames_set():
-    """CLAUDE.md §2 — the eight canonical meta-doc basenames."""
+    """CLAUDE.md §2 — the canonical meta-doc basenames (schema-sourced)."""
     from wiki_lib.paths import META_DOC_BASENAMES
 
-    assert META_DOC_BASENAMES == EXPECTED_META_DOC_BASENAMES, (
-        f"META_DOC_BASENAMES drifted from CLAUDE.md §2:\n"
-        f"  missing: {EXPECTED_META_DOC_BASENAMES - META_DOC_BASENAMES}\n"
-        f"  extra:   {META_DOC_BASENAMES - EXPECTED_META_DOC_BASENAMES}"
+    expected = _expected_meta_docs()
+    assert META_DOC_BASENAMES == expected, (
+        f"META_DOC_BASENAMES drifted from wiki_schema.yml (CLAUDE.md §2):\n"
+        f"  missing: {expected - META_DOC_BASENAMES}\n"
+        f"  extra:   {META_DOC_BASENAMES - expected}"
     )
 
 

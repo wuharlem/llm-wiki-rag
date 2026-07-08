@@ -113,7 +113,7 @@ class FileEntry:
     description: str
     summary: str  # description if good, else derived
     tags: list[str] = field(default_factory=list)
-    wiki_concepts: list[str] = field(default_factory=list)
+    concepts: list[str] = field(default_factory=list)
     risk_category: list[str] = field(default_factory=list)
     source_type: str = ""
     author: str = ""
@@ -415,7 +415,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         "source",
         "source_type",
         "tags",
-        "wiki_concepts",
+        "concepts",
         "risk_category",
     ):
         csv_key = "url" if k == "source" else k
@@ -440,7 +440,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         description=desc,
         summary=summary,
         tags=ensure_list(meta.get("tags")),
-        wiki_concepts=ensure_list(meta.get("wiki_concepts")),
+        concepts=ensure_list(meta.get("concepts")),
         risk_category=ensure_list(meta.get("risk_category")),
         source_type=str(meta.get("source_type") or "").strip(),
         author=str(meta.get("author") or "").strip(),
@@ -482,7 +482,7 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
         description=info.get("description") or "",
         summary=summary,
         tags=ensure_list(info.get("tags")),
-        wiki_concepts=ensure_list(info.get("wiki_concepts")),
+        concepts=ensure_list(info.get("concepts")),
         risk_category=ensure_list(info.get("risk_category")),
         source_type=info.get("source_type") or "research_paper",
         author=info.get("author") or "",
@@ -548,8 +548,8 @@ def write_detail_md(entry: FileEntry) -> Path:
     if entry.n_pages:
         lines.append(f"**Pages:** {entry.n_pages}  ")
     lines.append("")
-    if entry.wiki_concepts:
-        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in entry.wiki_concepts))
+    if entry.concepts:
+        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in entry.concepts))
     if entry.risk_category:
         lines.append("**Risk categories:** " + ", ".join(entry.risk_category))
     lines.append("")
@@ -586,7 +586,7 @@ def _emit_chunks_jsonl(entries: list[FileEntry], path: Path) -> None:
                         "category": e.category,
                         "subcategory": e.subcategory,
                         "tags": e.tags,
-                        "wiki_concepts": e.wiki_concepts,
+                        "concepts": e.concepts,
                         "heading_path": c.heading_path,
                         "tokens": c.tokens,
                         "text": c.text,
@@ -618,58 +618,70 @@ def _emit_index_json(entries: list[FileEntry], path: Path, vault: Path) -> None:
     _atomic_write_text(path, json.dumps(index_payload, ensure_ascii=False, indent=2))
 
 
+_FIXED_LEAD: tuple[str, ...] = (
+    "file_id",
+    "type",
+    "category",
+    "subcategory",
+    "title",
+    "n_chunks",
+    "n_tokens",
+    "n_pages",
+)
+_FIXED_TAIL: tuple[str, ...] = ("relpath",)
+
+
+def _manifest_columns() -> tuple[str, ...]:
+    """Canonical manifest columns: fixed lead + schema.frontmatter.fields + fixed tail."""
+    from wiki_lib.schema import get_schema
+
+    schema_cols = tuple(f.name for f in get_schema().frontmatter.fields)
+    return _FIXED_LEAD + schema_cols + _FIXED_TAIL
+
+
+def _scrub_str(v: str) -> str:
+    """Strip null bytes, collapse newlines/CR, trim — matches historic cell() behavior."""
+    return v.replace("\x00", "").replace("\n", " ").replace("\r", " ").strip()
+
+
+def _cell_for(entry: "FileEntry", col: str, list_delim: str = "|"):
+    """Extract the CSV cell value for column `col` from `entry`.
+
+    Fixed lead/tail columns are returned as-is from the FileEntry (they're ints
+    or already-safe identifiers; `title` gets scrubbed like a schema string).
+    Schema-driven columns dispatch on runtime type: lists are pipe-joined,
+    strings are scrubbed, other scalars pass through.
+    """
+    if col in _FIXED_LEAD or col in _FIXED_TAIL:
+        v = getattr(entry, col)
+        if col == "title" and isinstance(v, str):
+            return _scrub_str(v)
+        return v
+    val = getattr(entry, col, "")
+    if isinstance(val, list):
+        return list_delim.join(str(t) for t in val)
+    if isinstance(val, str):
+        return _scrub_str(val)
+    return val
+
+
 def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
-    """Write manifest.csv with the canonical 17-column header (CLAUDE.md §3)."""
+    """Write manifest.csv with columns driven by wiki_schema.yml frontmatter.fields.
+
+    Column order: fixed build-stat lead + schema fields (in declared order) +
+    `relpath`. See CLAUDE.md §3 for the cross-folder contract.
+    """
+    from wiki_lib.schema import get_schema
+
+    cols = _manifest_columns()
+    field_delims = {f.name: f.list_delim for f in get_schema().frontmatter.fields}
+
     manifest_buf = io.StringIO()
     w = csv.writer(manifest_buf, quoting=csv.QUOTE_ALL, escapechar="\\", doublequote=True)
-    w.writerow(
-        [
-            "file_id",
-            "type",
-            "category",
-            "subcategory",
-            "title",
-            "n_chunks",
-            "n_tokens",
-            "n_pages",
-            "tags",
-            "wiki_concepts",
-            "risk_category",
-            "source_type",
-            "author",
-            "published",
-            "source_url",
-            "summary",
-            "relpath",
-        ]
-    )
-
-    def cell(v):
-        if isinstance(v, str):
-            v = v.replace("\x00", "").replace("\n", " ").replace("\r", " ")
-            return v.strip()
-        return v
+    w.writerow(list(cols))
 
     for e in entries:
-        row = [
-            e.file_id,
-            e.type,
-            e.category,
-            e.subcategory,
-            cell(e.title),
-            e.n_chunks,
-            e.n_tokens,
-            e.n_pages,
-            "|".join(str(t) for t in e.tags),
-            "|".join(str(t) for t in e.wiki_concepts),
-            "|".join(str(t) for t in e.risk_category),
-            cell(e.source_type),
-            cell(e.author),
-            cell(e.published),
-            cell(e.source_url),
-            cell(e.summary),
-            e.relpath,
-        ]
+        row = [_cell_for(e, c, list_delim=field_delims.get(c, "|")) for c in cols]
         try:
             w.writerow(row)
         except Exception as ex:

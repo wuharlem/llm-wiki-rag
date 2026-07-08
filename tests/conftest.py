@@ -89,7 +89,7 @@ MINI_VAULT_FILES = {
 ---
 title: An Example Alignment Note
 tags: [alignment, RLHF]
-wiki_concepts: [RLHF & Its Limitations]
+concepts: [RLHF & Its Limitations]
 risk_category: [reward-hacking]
 source_type: research-paper
 author: Test Author
@@ -121,7 +121,7 @@ which section it came from.
 ---
 title: Short Note
 tags: [eval]
-wiki_concepts: []
+concepts: []
 risk_category: []
 ---
 
@@ -162,7 +162,7 @@ in case the audit ever gets indexed by mistake (which would be a regression).
 ---
 title: Extra Corpus File
 tags: [alignment]
-wiki_concepts: []
+concepts: []
 risk_category: []
 ---
 
@@ -283,12 +283,12 @@ def mini_vault_e2e(tmp_path: Path) -> Path:
             "---\n"
             'title: "Anthropic: An Update"\n'
             "tags: [alignment]\n"
-            "wiki_concepts: []\n"
+            "concepts: []\n"
             "risk_category: []\n"
             "---\n\n" + seed_body
         ),
         "02_Mitigations-and-Methods/02a_Alignment-Techniques/decoy.md": (
-            "---\ntitle: Decoy\ntags: [alignment]\nwiki_concepts: []\nrisk_category: []\n---\n\n" + decoy_body
+            "---\ntitle: Decoy\ntags: [alignment]\nconcepts: []\nrisk_category: []\n---\n\n" + decoy_body
         ),
         "README.md": "---\ntitle: README\n---\n\n" + readme_body,
     }
@@ -314,8 +314,8 @@ def mini_vault_dual_yaml(tmp_path: Path) -> Path:
         "and evaluations to clear the chunker's minimum-token threshold so the "
         "file produces at least one chunk and lands in the manifest.\n"
     )
-    inline_flow = "---\ntitle: Inline Flow Tags\ntags: [a, b]\nwiki_concepts: []\nrisk_category: []\n---\n\n" + body
-    block_list = "---\ntitle: Block List Tags\ntags:\n- a\n- b\nwiki_concepts: []\nrisk_category: []\n---\n\n" + body
+    inline_flow = "---\ntitle: Inline Flow Tags\ntags: [a, b]\nconcepts: []\nrisk_category: []\n---\n\n" + body
+    block_list = "---\ntitle: Block List Tags\ntags:\n- a\n- b\nconcepts: []\nrisk_category: []\n---\n\n" + body
     for relpath, content in [
         ("01_Risks/inline_flow.md", inline_flow),
         ("01_Risks/block_list.md", block_list),
@@ -345,7 +345,7 @@ def synthetic_chunks() -> list[dict]:
             "category": "01_Risks-and-Failure-Modes",
             "subcategory": "01a",
             "tags": ["alignment"],
-            "wiki_concepts": [],
+            "concepts": [],
             "heading_path": "Intro",
             "tokens": 50,
             "text": "alignment of language models is hard. alignment matters.",
@@ -358,7 +358,7 @@ def synthetic_chunks() -> list[dict]:
             "category": "01_Risks-and-Failure-Modes",
             "subcategory": "01b",
             "tags": ["reward-hacking"],
-            "wiki_concepts": [],
+            "concepts": [],
             "heading_path": "Intro",
             "tokens": 40,
             "text": "reward hacking happens when models exploit reward models.",
@@ -371,7 +371,7 @@ def synthetic_chunks() -> list[dict]:
             "category": "03_Evaluations",
             "subcategory": "03a",
             "tags": ["eval"],
-            "wiki_concepts": [],
+            "concepts": [],
             "heading_path": "Intro",
             "tokens": 30,
             "text": "evaluation methods for safety properties.",
@@ -384,7 +384,7 @@ def synthetic_chunks() -> list[dict]:
             "category": "04_Governance-and-Policy",
             "subcategory": "04a",
             "tags": [],
-            "wiki_concepts": [],
+            "concepts": [],
             "heading_path": "Intro",
             "tokens": 60,
             "text": "governance and policy approaches to AI safety.",
@@ -397,7 +397,7 @@ def synthetic_chunks() -> list[dict]:
             "category": "05_Resources",
             "subcategory": "05a",
             "tags": [],
-            "wiki_concepts": [],
+            "concepts": [],
             "heading_path": "Intro",
             "tokens": 25,
             "text": "useful resources for further reading on alignment.",

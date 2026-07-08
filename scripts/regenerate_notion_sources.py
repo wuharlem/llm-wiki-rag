@@ -5,7 +5,7 @@ authoritative `01_data/notion_sources.csv` from current state. Backs up
 the existing CSV first.
 
 Schema (matches what per_folder/*.md is rendered from):
-  filename, folder, title, url, source_type, risk_category, wiki_concepts,
+  filename, folder, title, url, source_type, risk_category, concepts,
   tags, author, published, description
 
 For PDFs:
@@ -44,7 +44,7 @@ FIELDS = [
     "url",
     "source_type",
     "risk_category",
-    "wiki_concepts",
+    "concepts",
     "tags",
     "author",
     "published",
@@ -119,7 +119,7 @@ def md_row(path: Path) -> dict | None:
         "url": parse_scalar_field(get_field(fm, "source")),
         "source_type": parse_scalar_field(get_field(fm, "source_type")),
         "risk_category": parse_list_field(get_field(fm, "risk_category")),
-        "wiki_concepts": parse_list_field(get_field(fm, "wiki_concepts")),
+        "concepts": parse_list_field(get_field(fm, "concepts")),
         "tags": parse_list_field(get_field(fm, "tags")),
         "author": parse_scalar_field(get_field(fm, "author")),
         "published": parse_scalar_field(get_field(fm, "published")),
@@ -142,7 +142,7 @@ def pdf_row(path: Path, classifications_idx: dict[str, dict]) -> dict:
         "url": "",
         "source_type": fm_extra.get("source_type", "research_paper"),  # most PDFs are papers
         "risk_category": fm_extra.get("risk_category", ""),
-        "wiki_concepts": fm_extra.get("wiki_concepts", ""),
+        "concepts": fm_extra.get("concepts", ""),
         "tags": fm_extra.get("tags", ""),
         "author": "",
         "published": "",

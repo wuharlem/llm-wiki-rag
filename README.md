@@ -2,6 +2,40 @@
 
 This is the working directory for the AI Safety knowledge-base pipeline. The vault itself lives at `~/Desktop/AI Safety/AI Safety/`. This folder holds the pipeline tooling, intermediate state, and Notion-sync drafts.
 
+## Reproducibility (read this first)
+
+**This repo is not self-contained.** It publishes the pipeline machinery, not the wiki. Cloning it will not reproduce the AI Safety wiki. Specifically, a fresh clone is missing:
+
+- **The vault itself** (`~/Desktop/AI Safety/AI Safety/`) — Markdown pages, PDFs, frontmatter, `_index/`, saved queries. The vault is the product; this repo is the toolchain that maintains it.
+- **The URL seed list** (`00_inputs/urls_dedup.csv` and siblings) — gitignored ahead of going public. Stage 1 (`fetch.py`) reads this file; without it there is nothing to fetch. The intent is for these inputs to live in a separate data repo pulled in at runtime, but that split is not wired up yet.
+- **All build artifacts** (`01_data/index/*`, `notion_sources.csv`, `classifications.csv`, `by_concept/`, `02_logs/`, `03_notion_drafts/`) — regeneratable *given* the vault and seed above, but not otherwise.
+
+What you *can* do with a clone: read the scripts, run the unit tests (integration tests marked `needs_index` are skipped without a real index), and — if you provide your own vault via `VAULT_PATH` and your own URL list — run the pipeline against your own corpus. You will reproduce *a* wiki, not *this* one.
+
+Since the July 2026 schema refactor, the pipeline is topic-agnostic. A cloner can point it at their own vault (`WIKI_VAULT=/path/to/vault`) and their own `wiki_schema.yml`, and reproduce *a* wiki on any topic — see "Creating your own wiki on a different topic" below. The three missing pieces above (vault content, URL seed, build artifacts) still apply for reproducing the AI-safety wiki specifically.
+
+If public reproducibility ever becomes a goal, the two missing pieces are the URL seed and a snapshot of the vault (or the fetched sources it points at).
+
+## Creating your own wiki on a different topic
+
+The pipeline is topic-agnostic. All AI-safety-specific choices live in one file: `wiki_schema.yml` at the repo root. To point the same code at a different topic:
+
+1. **Copy the schema.** Back up the AI-safety schema first: `cp wiki_schema.yml wiki_schema.yml.aisafety.bak`. Then edit `wiki_schema.yml` in place.
+2. **Change identity.** Set `wiki.name` (human-readable) and `wiki.slug` (kebab-case). The slug becomes the MCP server name via `{slug.replace('-', '_')}_wiki_mcp`, so `slug: "ml-papers"` registers as `ml_papers_wiki_mcp`.
+3. **Redeclare frontmatter fields.** Under `frontmatter.fields`, list the fields your Markdown will use, in the order they should appear as `manifest.csv` columns. Field types:
+   - `concept_list` — draws from `vocabulary.concepts`
+   - `categorical_list` — draws from `vocabulary.categorical_axes.<axis>` (specify `axis:` on the field)
+   - `tag_list` — draws from `vocabulary.tags`
+   - `enum` — closed set of scalars (specify `values:`)
+   - `string`, `date_string`, `url` — free-form scalars with light shape validation
+4. **Fill vocabulary.** For each vocab section (`concepts`, `tags`, `categorical_axes.<axis>`), keys are the canonical names, values are lists of trigger phrases used by the heuristic classifier.
+5. **Set the vault path.** Either export `WIKI_VAULT=/path/to/your/vault` or edit `vault.default_relpath` (joined onto `Path.home()`).
+6. **Run the pipeline.** `uv run python scripts/build_index.py`, then `uv run python scripts/wiki_mcp_server.py`.
+
+The schema loader validates strictly (Pydantic `extra="forbid"`, `strict=True`) — typos, unknown keys, and coerced types fail loudly at startup rather than corrupting the index.
+
+To add a **new field type** beyond the seven built-in literals, edit `scripts/wiki_lib/schema.py::FieldSpec.type` and wire the classifier/manifest emitters in the same commit.
+
 ## Folder layout
 
 ```

@@ -5,35 +5,37 @@ solely to fail loudly if a lifted constant or helper goes missing or returns the
 """
 
 
-def test_wiki_concepts_nonempty():
+def test_wiki_concepts_matches_schema():
+    from wiki_lib.schema import _reset_schema_cache, get_schema
     from wiki_lib.vocab import WIKI_CONCEPTS
 
-    assert isinstance(WIKI_CONCEPTS, dict) and WIKI_CONCEPTS
-    assert all(v for v in WIKI_CONCEPTS.values())
+    _reset_schema_cache()
+    assert WIKI_CONCEPTS == get_schema().vocabulary.concepts
 
 
-def test_tag_triggers_nonempty():
+def test_tag_triggers_matches_schema():
+    from wiki_lib.schema import _reset_schema_cache, get_schema
     from wiki_lib.vocab import TAG_TRIGGERS
 
-    # A few curatorial / discoverability tags intentionally carry no body
-    # triggers (applied by hand, not keyword-matched) — see vocab.py.
-    curatorial = {"background-reading", "audit", "vault-health"}
-    assert isinstance(TAG_TRIGGERS, dict) and TAG_TRIGGERS
-    assert all(v for k, v in TAG_TRIGGERS.items() if k not in curatorial)
+    _reset_schema_cache()
+    assert TAG_TRIGGERS == get_schema().vocabulary.tags
 
 
-def test_risk_triggers_nonempty():
+def test_risk_triggers_matches_schema():
+    from wiki_lib.schema import _reset_schema_cache, get_schema
     from wiki_lib.vocab import RISK_TRIGGERS
 
-    assert isinstance(RISK_TRIGGERS, dict) and RISK_TRIGGERS
-    assert all(v for v in RISK_TRIGGERS.values())
+    _reset_schema_cache()
+    # RISK_TRIGGERS was a flat dict{value: [phrases]}; schema wraps under an axis.
+    assert RISK_TRIGGERS == get_schema().vocabulary.categorical_axes["risk_category"].values
 
 
-def test_keep_upper_acronyms_nonempty():
+def test_keep_upper_acronyms_matches_schema():
+    from wiki_lib.schema import _reset_schema_cache, get_schema
     from wiki_lib.vocab import KEEP_UPPER_ACRONYMS
 
-    assert isinstance(KEEP_UPPER_ACRONYMS, set) and KEEP_UPPER_ACRONYMS
-    assert "RLHF" in KEEP_UPPER_ACRONYMS
+    _reset_schema_cache()
+    assert KEEP_UPPER_ACRONYMS == set(get_schema().vocabulary.keep_upper_acronyms)
 
 
 def test_fix_title_preserves_known_acronym():

@@ -18,7 +18,7 @@ def _mk_chunk(file_id: str) -> dict:
         "category": "test",
         "subcategory": "",
         "tags": [],
-        "wiki_concepts": [],
+        "concepts": [],
         "heading_path": "",
         "tokens": 10,
     }

@@ -13,11 +13,11 @@ from wiki_lib import frontmatter as bi
 
 def test_pyyaml_path_extracts_dict():
     """A standard well-formed frontmatter block parses to a dict + body."""
-    raw = "---\ntitle: An example\ntags: [a, b]\nwiki_concepts: []\n---\n\n# Body heading\nSome body text here.\n"
+    raw = "---\ntitle: An example\ntags: [a, b]\nconcepts: []\n---\n\n# Body heading\nSome body text here.\n"
     meta, body = bi.split_frontmatter(raw)
     assert meta["title"] == "An example"
     assert meta["tags"] == ["a", "b"]
-    assert meta["wiki_concepts"] == []
+    assert meta["concepts"] == []
     assert body.startswith("# Body heading")
 
 

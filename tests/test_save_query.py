@@ -28,7 +28,7 @@ def test_save_query_roundtrip(tmp_path, monkeypatch, fresh_wr):
             "title": "Reward hacking survey",
             "relpath": "fake/doc.md",
             "category": "01_Risks-and-Failure-Modes",
-            "wiki_concepts": ["Reward Hacking"],
+            "concepts": ["Reward Hacking"],
             "text": "Reward hacking happens when models exploit reward models.",
         },
         {
@@ -38,7 +38,7 @@ def test_save_query_roundtrip(tmp_path, monkeypatch, fresh_wr):
             "title": "Specification gaming examples",
             "relpath": "fake/doc2.md",
             "category": "01_Risks-and-Failure-Modes",
-            "wiki_concepts": [],
+            "concepts": [],
             "text": "Examples of specification gaming.",
         },
     ]

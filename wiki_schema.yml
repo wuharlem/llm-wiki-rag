@@ -1,0 +1,441 @@
+# Domain schema for the AI Safety wiki.
+# Loaded by scripts/wiki_lib/schema.py::get_schema(). Distinct from config.yml,
+# which holds tuning knobs (chunk sizes, BM25 params). This file declares what
+# the wiki is *about*: which frontmatter fields exist, what vocab they use,
+# which meta docs to skip. To build a different-topic wiki, replace this file.
+
+wiki:
+  name: "AI Safety"
+  slug: "ai-safety"
+
+# Frontmatter fields in the order they appear as manifest.csv columns
+# (after file_id/type/category/subcategory/title/n_chunks/n_tokens/n_pages,
+# and before relpath). Order here == manifest column order.
+frontmatter:
+  fields:
+    - {name: tags,          type: tag_list,          vocab_key: tags}
+    - {name: concepts,      type: concept_list,      vocab_key: concepts}
+    - {name: risk_category, type: categorical_list,  vocab_key: risk_category}
+    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, other]}
+    - {name: author,        type: string}
+    - {name: published,     type: date_string}
+    - {name: source_url,    type: url}
+    - {name: summary,       type: string}
+
+vocabulary:
+  # === concepts === (was WIKI_CONCEPTS in vocab.py:10)
+  concepts:
+    "RLHF & Its Limitations":
+      - rlhf
+      - reinforcement learning from human feedback
+      - reward model
+      - reward hacking
+      - preference learning
+      - human feedback
+      - ppo
+      - instructgpt
+      - reward modeling
+    "Constitutional AI (RLAIF)":
+      - constitutional ai
+      - constitutional-ai
+      - rlaif
+      - ai feedback
+      - principle-based
+      - self-critique
+    "Scalable Oversight":
+      - scalable oversight
+      - debate
+      - iterated amplification
+      - ida
+      - recursive reward modeling
+      - factored cognition
+      - weak-to-strong
+    "Alignment Faking & Scheming":
+      - alignment faking
+      - scheming
+      - deceptive alignment
+      - sleeper agent
+      - sandbagging
+      - strategic compliance
+      - deception
+    "Weak-to-Strong Generalization":
+      - weak-to-strong
+      - weak to strong
+      - w2sg
+      - superalignment
+      - eliciting latent knowledge
+      - elk
+    "Agentic Misalignment":
+      - agentic
+      - tool use
+      - tool-using
+      - multi-agent
+      - agent scaffolding
+      - autonomous agent
+      - agent safety
+    "Existential Risk & Superintelligence":
+      - existential risk
+      - x-risk
+      - superintelligence
+      - agi
+      - intelligence explosion
+      - control problem
+      - extinction
+      - transformative ai
+      - rogue ai
+    "Pretraining Data Filtering":
+      - data filtering
+      - pretraining filter
+      - data curation
+      - unlearning
+      - safety filtering
+    "AI Evaluations & Benchmarks":
+      - evaluation
+      - benchmark
+      - eval
+      - red team
+      - red-team
+      - red-teaming
+      - dangerous capabilit
+      - capability elicitation
+      - science of evals
+      - metr
+      - apollo research
+    "Responsible Scaling Policies":
+      - responsible scaling
+      - rsp
+      - asl
+      - deployment gate
+      - capability threshold
+      - model card
+      - scaling policy
+    "AI Lab Safety Scorecards":
+      - lab scorecard
+      - ai lab watch
+      - safety scorecard
+      - lab safety
+    "Interpretability":
+      - interpretab
+      - mechanistic interpret
+      - circuits
+      - sparse autoencoder
+      - "sae "
+      - monosemantic
+      - feature attribution
+      - probing
+      - dictionary learning
+      - feature visualization
+    "Prompt Injection":
+      - prompt injection
+      - prompt-injection
+      - indirect prompt injection
+      - instruction injection
+    "Jailbreaking":
+      - jailbreak
+      - jailbreaking
+      - adversarial prompt
+    "Guardrails":
+      - guardrail
+      - runtime defense
+      - safety filter
+      - llm firewall
+      - content moderation filter
+      - input/output scanning
+
+  # === tags === (was TAG_TRIGGERS in vocab.py:145)
+  tags:
+    # alignment & safety
+    alignment-faking: ["alignment faking", "alignment-faking"]
+    scheming: ["scheming"]
+    deception: ["deception", "deceptive"]
+    deceptive-alignment: ["deceptive alignment"]
+    sleeper-agents: ["sleeper agent", "sleeper-agent"]
+    sandbagging: ["sandbagging"]
+    sycophancy: ["sycophan"]
+    shutdown-resistance: ["shutdown"]
+    corrigibility: ["corrigib"]
+    inner-alignment: ["inner alignment"]
+    outer-alignment: ["outer alignment"]
+    mesa-optimization: ["mesa-optim", "mesa optim"]
+    goal-misgeneralization: ["goal misgeneralization", "goal misgen"]
+    power-seeking: ["power-seeking", "power seeking"]
+    instrumental-convergence: ["instrumental converg"]
+    # training
+    RLHF: ["rlhf"]
+    RLAIF: ["rlaif"]
+    Constitutional-AI: ["constitutional ai", "constitutional-ai"]
+    reward-hacking: ["reward hacking", "reward-hacking"]
+    reward-modeling: ["reward model"]
+    PPO: ["ppo "]
+    DPO: ["dpo "]
+    process-supervision: ["process supervision", "process-supervision"]
+    outcome-supervision: ["outcome supervision"]
+    deliberative-alignment: ["deliberative alignment"]
+    scalable-oversight: ["scalable oversight"]
+    debate: ["debate "]
+    IDA: ["iterated amplification", " ida "]
+    recursive-reward-modeling: ["recursive reward"]
+    W2SG: ["w2sg", "weak-to-strong", "weak to strong"]
+    weak-to-strong: ["weak-to-strong", "weak to strong"]
+    superalignment: ["superalignment"]
+    pretraining-filtering: ["pretraining filter", "data filtering"]
+    data-filtering: ["data filtering"]
+    unlearning: ["unlearning"]
+    # evaluation
+    evaluations: ["evaluation"]
+    benchmarks: ["benchmark"]
+    red-teaming: ["red team", "red-team"]
+    dangerous-capabilities: ["dangerous capabilit"]
+    science-of-evals: ["science of eval"]
+    capability-elicitation: ["capability elicit"]
+    sandbagging-evals: ["sandbagging eval"]
+    CoT-monitoring: ["chain-of-thought monitor", "cot monitor"]
+    chain-of-thought: ["chain-of-thought", "chain of thought"]
+    # risk domains
+    biorisk: ["biorisk", "biological risk", "bioterror"]
+    bioweapons: ["bioweapon", "biological weapon"]
+    cyber-offense: ["cyber offense", "cyberoffense", "cyber-offense", "cybersecur"]
+    CSAM: ["csam", "child sexual"]
+    CBRN: ["cbrn"]
+    disinformation: ["disinformation", "misinformation"]
+    persuasion: ["persuasion"]
+    dual-use: ["dual-use", "dual use"]
+    # governance
+    RSP: ["responsible scaling", "rsp"]
+    responsible-scaling: ["responsible scaling"]
+    ASL: ["asl-", "asl ", "ai safety level"]
+    deployment-gates: ["deployment gate"]
+    model-card: ["model card", "system card"]
+    lab-scorecard: ["lab scorecard", "ai lab watch"]
+    safety-cases: ["safety case"]
+    governance: ["governance"]
+    regulation: ["regulation", "regulatory"]
+    international-coordination: ["international coordination", "international cooperation"]
+    compute-governance: ["compute governance"]
+    # x-risk
+    x-risk: ["x-risk"]
+    existential-risk: ["existential risk"]
+    superintelligence: ["superintelligence"]
+    AGI: [" agi "]
+    intelligence-explosion: ["intelligence explosion"]
+    control-problem: ["control problem"]
+    catastrophic-risk: ["catastrophic risk", "catastrophic"]
+    extinction: ["extinction"]
+    # agents
+    agentic-AI: ["agentic"]
+    multi-agent: ["multi-agent", "multi agent"]
+    tool-use: ["tool use", "tool-use"]
+    agent-scaffolding: ["agent scaffold"]
+    autonomous-systems: ["autonomous"]
+    # orgs
+    Anthropic: ["anthropic"]
+    OpenAI: ["openai"]
+    DeepMind: ["deepmind"]
+    Google: ["google "]
+    Meta: [" meta "]
+    MIRI: ["miri "]
+    ARC: ["arc evals", "alignment research center"]
+    METR: ["metr "]
+    # misc
+    interpretability: ["interpretab"]
+    mechanistic-interpretability: ["mechanistic interpretab"]
+    transparency: ["transparency"]
+    robustness: ["robustness"]
+    adversarial: ["adversarial"]
+    jailbreaking: ["jailbreak"]
+    prompt-injection: ["prompt injection"]
+    watermarking: ["watermark"]
+    open-source: ["open source", "open-source"]
+    open-weight: ["open weight", "open-weight"]
+    # 2026-04-30 sync from PROCESS_NEW_FILE.md (drift fix)
+    # alignment & safety extensions
+    automated-alignment: ["automated alignment"]
+    bootstrapping: ["bootstrap"]
+    self-preservation: ["self-preservation", "self preservation"]
+    situational-awareness: ["situational awareness"]
+    model-organisms: ["model organisms", "model organism of misalignment"]
+    Goodharts-law: ["goodhart"]
+    AI-control: ["ai control", "ai-control", "control protocol"]
+    collusion: ["collusion"]
+    influence-seeking: ["influence-seeking", "influence seeking"]
+    evolution-analogy: ["evolution analogy", "evolution-analogy"]
+    # risk-domain extensions
+    blackmail: ["blackmail"]
+    model-weight-theft: ["model weight theft", "weight theft", "weight exfiltration"]
+    hallucination: ["hallucinat"]
+    algorithmic-bias: ["algorithmic bias"]
+    # governance extensions
+    scaling-pause: ["scaling pause", "pause ai"]
+    arms-race: ["arms race", "arms-race"]
+    safety-culture: ["safety culture"]
+    export-controls: ["export controls", "export-controls"]
+    differential-privacy: ["differential privacy"]
+    federated-learning: ["federated learning"]
+    compute: ["compute "]
+    # models / orgs
+    Claude: ["claude"]
+    GPT-4: ["gpt-4"]
+    Gemini: ["gemini"]
+    InstructGPT: ["instructgpt"]
+    Llama: ["llama"]
+    Llama-Guard: ["llama guard", "llama-guard"]
+    o3: [" o3 ", "o3 model"]
+    # other
+    mistakes: ["mistake-class risk", "high-stakes mistake"]
+    # 2026-07-01 AI-Security cluster promotion (audit 2026-07-01)
+    guardrails: ["guardrail"]
+    jailbreak: ["jailbreak"]
+    llm-security: ["llm security", "llm-security"]
+    detection: ["detection", "detector"]
+    adversarial-robustness: ["adversarial robustness", "adversarial-robustness"]
+    agent-security: ["agent security", "agent-security", "agentic security", "agentic-security"]
+    activation-probes: ["activation probe", "activation-probe"]
+    perplexity: ["perplexity"]
+    real-time: ["real-time", "real time"]
+    # audit / discoverability (no body triggers — these are curatorial tags)
+    background-reading: []
+    audit: []
+    vault-health: []
+
+  # === categorical axes === (was RISK_TRIGGERS in vocab.py:300)
+  categorical_axes:
+    risk_category:
+      values:
+        misuse:
+          - bioweapon
+          - biorisk
+          - biological risk
+          - cbrn
+          - cyber offense
+          - cyber-offense
+          - cyber attack
+          - cybersecur
+          - csam
+          - disinformation
+          - misinformation
+          - persuasion
+          - jailbreak
+          - dual-use
+          - dual use
+          - uplift
+          - weaponiz
+          - malicious use
+        misalignment:
+          - alignment faking
+          - scheming
+          - deceptive alignment
+          - sleeper agent
+          - sandbagging
+          - reward hacking
+          - power-seeking
+          - power seeking
+          - instrumental converg
+          - shutdown resistance
+          - corrigib
+          - deception
+          - mesa-optim
+          - goal misgen
+          - inner alignment
+          - outer alignment
+          - deceptive ai
+          - alignment-faking
+        mistakes:
+          - hallucination
+          - overreliance
+          - distributional shift
+          - high-stakes
+          - high stakes
+        structural:
+          - concentration of power
+          - structural risk
+          - economic disruption
+          - epistemic risk
+          - labor displace
+          - automation risk
+          - geopolitic
+          - concentration
+          - erosion of oversight
+
+  # === acronym exceptions === (was KEEP_UPPER_ACRONYMS in vocab.py:361; sorted alphabetically)
+  keep_upper_acronyms:
+    - AAAI
+    - AGI
+    - AI
+    - AISI
+    - API
+    - ARC
+    - ARCHES
+    - ASL
+    - ATLAS
+    - BBQ
+    - BIG
+    - CAIS
+    - CAI
+    - CBRN
+    - CISA
+    - CSAIL
+    - CSAM
+    - CSIS
+    - DCLM
+    - DeepMind
+    - DPO
+    - ELK
+    - EMNLP
+    - FAQ
+    - FLI
+    - FMF
+    - FSF
+    - GPT-2
+    - GPT-3
+    - GPT-4
+    - GPT-OSS
+    - GPU
+    - IDA
+    - ICLR
+    - ICML
+    - JMLR
+    - LLM
+    - LTBT
+    - MATS
+    - METR
+    - MIRI
+    - ML
+    - MMLU
+    - NCSC
+    - NeurIPS
+    - OOM
+    - OOMs
+    - OpenAI
+    - PDF
+    - PPO
+    - RAND
+    - RLAIF
+    - RLHF
+    - RM
+    - RMs
+    - ROME
+    - RSP
+    - SCIF
+    - TPU
+    - URL
+    - VCT
+    - W2SG
+    - WMDP
+
+vault:
+  # Was META_DOC_BASENAMES in paths.py:30-41.
+  meta_doc_basenames:
+    - PROCESS_NEW_FILE.md
+    - PROCESS_HEALTH_CHECK.md
+    - PROCESS_QUERY.md
+    - README.md
+    - log.md
+    - llm-wiki.md
+    - open_questions.md
+    - SYNTHESIS.md
+
+  # Was _DEFAULT_VAULT in locations.py:38. Joined onto Path.home().
+  default_relpath:
+    - Desktop
+    - "AI Safety"
+    - "AI Safety"

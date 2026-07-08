@@ -24,21 +24,12 @@ import fnmatch
 import os
 from pathlib import Path
 
-# Eight vault-root meta-doc basenames. These describe the wiki, not source
-# material. Any update here is the canonical update — there is no other copy.
+from wiki_lib.schema import get_schema
+
+# Vault-root meta-doc basenames. These describe the wiki, not source
+# material. Canonical home: `wiki_schema.yml` → `vault.meta_doc_basenames`.
 # CLAUDE.md cross-folder contract §2 references this constant.
-META_DOC_BASENAMES: frozenset[str] = frozenset(
-    {
-        "PROCESS_NEW_FILE.md",
-        "PROCESS_HEALTH_CHECK.md",
-        "PROCESS_QUERY.md",
-        "README.md",
-        "log.md",
-        "llm-wiki.md",
-        "open_questions.md",
-        "SYNTHESIS.md",
-    }
-)
+META_DOC_BASENAMES: frozenset[str] = frozenset(get_schema().vault.meta_doc_basenames)
 
 
 def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:

@@ -107,7 +107,7 @@ def main() -> int:
 
     report = {}
     for name, doc_set, code_set in (
-        ("wiki_concepts", doc_concepts, set(WIKI_CONCEPTS)),
+        ("concepts", doc_concepts, set(WIKI_CONCEPTS)),
         ("tags", doc_tags, set(TAG_TRIGGERS)),
         ("risk_categories", doc_risks, set(RISK_TRIGGERS)),
     ):

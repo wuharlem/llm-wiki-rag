@@ -5,16 +5,17 @@ repo root?". Replaces the hand-rolled resolvers that hardcoded a personal
 home path and re-implemented sandbox-mount discovery inconsistently.
 
 Vault precedence (first match wins):
-  1. env AI_SAFETY_VAULT (canonical); else legacy VAULT
+  1. env WIKI_VAULT (canonical); else legacy AI_SAFETY_VAULT; else legacy VAULT
   2. sandbox session mount: /sessions/*/mnt/AI Safety--AI Safety (first that is a dir)
-  3. ~/Desktop/AI Safety/AI Safety   (Path.home() -- no hardcoded username)
+  3. Path.home() joined with schema.vault.default_relpath (no hardcoded username)
 
 Work precedence (first match wins):
-  1. env AI_SAFETY_WORK (canonical); else legacy WORK
+  1. env WIKI_WORK (canonical); else legacy AI_SAFETY_WORK; else legacy WORK
   2. repo root, derived from this file's location (no sandbox tier)
 
-When both the canonical and legacy env var are set, the canonical name wins
-(it is listed first). An env var set to the empty string counts as unset.
+When multiple env vars are set, the canonical name wins (it is listed first);
+legacy names are consulted in order only when the canonical is unset. An env
+var set to the empty string counts as unset.
 
 Neither function raises for a missing target; existence is the caller's
 concern (e.g. the MCP vault_not_found envelope, stage_candidate's sys.exit).
@@ -32,10 +33,10 @@ import glob
 import os
 from pathlib import Path
 
-_VAULT_ENV_VARS = ("AI_SAFETY_VAULT", "VAULT")  # canonical first, legacy second
-_WORK_ENV_VARS = ("AI_SAFETY_WORK", "WORK")
+_VAULT_ENV_VARS = ("WIKI_VAULT", "AI_SAFETY_VAULT", "VAULT")  # canonical first, legacy after
+_WORK_ENV_VARS = ("WIKI_WORK", "AI_SAFETY_WORK", "WORK")
 _SANDBOX_VAULT_GLOB = "/sessions/*/mnt/AI Safety--AI Safety"
-_DEFAULT_VAULT = ("Desktop", "AI Safety", "AI Safety")
+# _DEFAULT_VAULT removed — sourced from wiki_lib.schema.get_schema().vault.default_relpath
 _REPO_ROOT = Path(__file__).resolve().parents[2]  # locations.py -> wiki_lib -> scripts -> repo
 
 
@@ -66,8 +67,17 @@ def _sandbox_vault() -> Path | None:
 
 
 def vault_path() -> Path:
-    """Resolve the Obsidian vault root (env -> sandbox mount -> home default)."""
-    return _env(_VAULT_ENV_VARS) or _sandbox_vault() or Path.home().joinpath(*_DEFAULT_VAULT)
+    """Resolve the Obsidian vault root (env -> sandbox mount -> schema default)."""
+    # Function-local import: locations.py is imported at module-load time by other
+    # modules, so pulling schema in at module scope could create import-ordering
+    # issues. Deferring to first call avoids that.
+    from wiki_lib.schema import get_schema
+
+    if p := _env(_VAULT_ENV_VARS):
+        return p
+    if p := _sandbox_vault():
+        return p
+    return Path.home().joinpath(*get_schema().vault.default_relpath)
 
 
 def work_path() -> Path:

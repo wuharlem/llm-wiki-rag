@@ -25,7 +25,7 @@ def test_process_md_produces_file_entry_with_chunks(mini_build_env):
     assert entry.category == "01_Risks-and-Failure-Modes"
     assert entry.subcategory == "01a_Existential-Risk"
     assert "alignment" in entry.tags
-    assert "RLHF & Its Limitations" in entry.wiki_concepts
+    assert "RLHF & Its Limitations" in entry.concepts
     assert entry.author == "Test Author"
     assert entry.published == "2026-01-15"
     assert entry.source_url == "https://example.com/paper"

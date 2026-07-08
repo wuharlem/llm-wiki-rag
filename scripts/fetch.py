@@ -231,7 +231,7 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     if desc:
         meta["description"] = desc
     meta["tags"] = []
-    meta["wiki_concepts"] = []
+    meta["concepts"] = []
     meta["risk_category"] = []
     meta["source_type"] = None
     body = f"# {title}\n\n{extracted}\n"
