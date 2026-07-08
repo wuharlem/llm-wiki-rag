@@ -51,6 +51,21 @@ for person in people:
             if a and nlc in a and person["name"] not in pap["rp"]:
                 pap["rp"].append(person["name"])
 
+# 2026-07-08: papers with a blank manifest author but matched tracked-people
+# authors (pap["rp"], built above from the header-scan seed + title/author
+# matches) show those names on the Papers-tab author line, and count as
+# "has author" for the Metadata-health pill (see _corpus_stats). This is a
+# DISPLAY + METRIC change only — nothing is written back to source metadata,
+# so it stays self-maintaining: recomputed each run from the freshly rebuilt
+# RAG chunks and the current people set. The names are the tracked-people
+# SUBSET of the author list, not necessarily the full byline.
+_tracked_author_pids = set()
+for pap in papers:
+    if not (pap.get("authors") or "").strip() and pap.get("rp"):
+        pap["authors"] = ", ".join(pap["rp"])
+        if pap.get("pid"):
+            _tracked_author_pids.add(pap["pid"])
+
 _confmap, _fellmap = {}, {}
 for c in extra["conferences"]:
     for pe in c["people"]:
@@ -109,7 +124,7 @@ cats = sorted({p["category"] for p in people})
 # list_categories/concepts/tags) are fetched in-page via the Cowork MCP
 # bridge; these snapshot fields are the fallback and cover what the MCP
 # doesn't expose (years, source types, risk, tokens, log activity, health).
-def _corpus_stats():
+def _corpus_stats(tracked_author_pids=frozenset()):
     import csv as _csv, glob as _glob
     man = os.path.join(BASE, "..", "01_data", "index", "manifest.csv")
     # vault log.md: Mac path when run locally, mount path when run in the
@@ -153,7 +168,12 @@ def _corpus_stats():
         "logByMonth": dict(sorted(log_month.items())),
         "logByKind": dict(log_kind.most_common()),
         "health": {
-            "missing author": sum(1 for r in rows if not r["author"].strip()),
+            # a paper counts as "has author" if the manifest author is set OR
+            # we matched tracked-people authors for it (2026-07-08); the latter
+            # is display-only enrichment, but for health it means we do have an
+            # author signal, so it shouldn't read as a metadata gap.
+            "missing author": sum(1 for r in rows if not r["author"].strip()
+                                  and r.get("file_id") not in tracked_author_pids),
             "missing published date": sum(1 for r in rows if not r["published"].strip()),
             "missing tags": sum(1 for r in rows if not r["tags"].strip()),
             "missing source URL": sum(1 for r in rows if not r["source_url"].strip()),
@@ -176,7 +196,7 @@ data = {
     "datasets": extra["datasets"], "policies": extra["policies"],
     "notionFetched": extra.get("notionFetched", ""),
     "dsNames": [d["name"].lower() for d in extra["datasets"]],
-    "stats": _corpus_stats(),
+    "stats": _corpus_stats(_tracked_author_pids),
 }
 # drop internal-only fields from the embedded payload (rp now holds the merged
 # people links; pid was only needed for the chunk lookup in parse_extra)
@@ -675,3 +695,16 @@ open(out, "w", encoding="utf-8").write(HTML)
 print("wrote", out, len(HTML), "bytes")
 print(f"people {len(people)} | orgs {len(data['orgs'])} | papers {len(data['papers'])} | "
       f"confs {len(data['conferences'])} | fellowships {len(data['fellowships'])} | datasets {len(data['datasets'])}")
+
+# 2026-07-08: emit the Metadata-health snapshot as a standalone JSON so the
+# weekly health-trend task (health_trend.py) can log/diff it without re-parsing
+# the HTML. Mirrors exactly the pills shown on the Stats tab (author-adjusted).
+_st = data.get("stats") or {}
+_snap = {
+    "generated": _st.get("generated") or datetime.date.today().isoformat(),
+    "nSources": _st.get("nSources"),
+    "health": _st.get("health", {}),
+}
+with open(os.path.join(BASE, "health_snapshot.json"), "w", encoding="utf-8") as _hf:
+    json.dump(_snap, _hf, ensure_ascii=False, indent=2)
+print("wrote health_snapshot.json:", _snap["health"])

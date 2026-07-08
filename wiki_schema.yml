@@ -428,6 +428,7 @@ vault:
     - PROCESS_NEW_FILE.md
     - PROCESS_HEALTH_CHECK.md
     - PROCESS_QUERY.md
+    - PROCESS_DIRECTORY.md
     - README.md
     - log.md
     - llm-wiki.md
