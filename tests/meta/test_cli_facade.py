@@ -8,13 +8,14 @@ The command names in scripts.cli.COMMANDS are a frozen contract
 from __future__ import annotations
 
 import importlib.util
+import re
 import subprocess
 import sys
 
 import pytest
 
 from scripts import cli
-from scripts.wiki_lib.locations import work_path
+from scripts.wiki_lib.locations import vault_path, work_path
 
 EXPECTED_COMMANDS = {
     "build",
@@ -29,6 +30,9 @@ EXPECTED_COMMANDS = {
     "vocab-sync",
     "notion-regen",
 }
+
+PROCESS_DOCS = ("PROCESS_HEALTH_CHECK.md", "PROCESS_NEW_FILE.md", "PROCESS_QUERY.md")
+_RAW_PHASE_CMD = re.compile(r"python3? -m scripts\.(build|serve|ingest|maintenance)\b")
 
 
 def test_command_table_is_exactly_the_frozen_contract():
@@ -76,3 +80,22 @@ def test_forwarding_reaches_target_help():
     assert proc.returncode == 0, proc.stderr
     assert "usage" in proc.stdout.lower()
     assert "check_vocab_sync" in proc.stdout or "vocab" in proc.stdout.lower()
+
+
+@pytest.mark.needs_vault
+def test_process_docs_call_only_the_facade():
+    """Vault PROCESS docs must invoke scripts.cli, never phase modules
+    directly (CLAUDE.md §11). Prose paths like scripts/build/index.py are
+    fine — only runnable `python -m scripts.<phase>` commands are banned."""
+    vault = vault_path()
+    offenders = []
+    for doc in PROCESS_DOCS:
+        path = vault / doc
+        if not path.exists():
+            pytest.skip(f"{doc} not present in vault")
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if _RAW_PHASE_CMD.search(line):
+                offenders.append(f"{doc}:{lineno}: {line.strip()}")
+    assert not offenders, (
+        "PROCESS docs must call `python -m scripts.cli <command>`, not phase modules directly:\n" + "\n".join(offenders)
+    )
