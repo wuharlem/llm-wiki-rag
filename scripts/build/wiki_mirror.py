@@ -4,11 +4,11 @@ scripts/build/wiki_mirror.py — Build the human/Obsidian-readable side of the i
 
 Reads 01_data/index/manifest.csv (produced by scripts/build/index.py) and emits:
 
-  AI Safety/_index/README.md
-  AI Safety/_index/00_master_index.md
-  AI Safety/_index/by_category/<category>.md
-  AI Safety/_index/by_concept/<concept>.md
-  AI Safety/_index/by_tag/<tag>.md          (top tags only)
+  <vault>/_index/README.md
+  <vault>/_index/00_master_index.md
+  <vault>/_index/by_category/<category>.md
+  <vault>/_index/by_concept/<concept>.md
+  <vault>/_index/by_tag/<tag>.md          (top tags only)
 
 The per-file detail pages in _index/files/ are emitted by scripts/build/index.py itself.
 """
@@ -23,8 +23,15 @@ from datetime import date
 from pathlib import Path
 
 from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.schema import get_schema
 
 WORKDIR = work_path()
+
+_WIKI = get_schema().wiki
+# MCP server name as registered in agent configs (`<slug>-wiki`, e.g.
+# `ai-safety-wiki`) — distinct from the FastMCP-internal MCP_SERVER_NAME
+# (`<slug>_wiki_mcp`) derived in scripts/serve/mcp_app.py.
+MCP_DISPLAY_NAME = f"{_WIKI.slug}-wiki"
 
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
 VAULT_CANDIDATES = [vault_path()]
@@ -75,12 +82,12 @@ def main():
     n_chunks = sum(int(r["n_chunks"]) for r in rows)
     n_tokens = sum(int(r["n_tokens"]) for r in rows)
 
-    readme.write_text(f"""# Wiki Index
+    readme.write_text(f"""# {_WIKI.name} Wiki Index
 
 A RAG-style index over every source file in this vault. Built and maintained by
 `scripts.build.index` + `scripts.build.wiki_mirror` in the working directory
-(`~/Documents/Claude/Projects/AI Safety/`), exposed to LLM agents via the
-`ai-safety-wiki` MCP server (`scripts.serve.mcp_server`).
+(`{WORKDIR}`), exposed to LLM agents via the
+`{MCP_DISPLAY_NAME}` MCP server (`scripts.serve.mcp_server`).
 
 ## What's indexed
 
@@ -100,7 +107,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 
 ## How to query (LLM agents)
 
-**Preferred:** the `ai-safety-wiki` MCP server. Twelve tools:
+**Preferred:** the `{MCP_DISPLAY_NAME}` MCP server. Twelve tools:
 
 | Tool | Use |
 |---|---|
@@ -133,7 +140,7 @@ The chunked index lives in `01_data/index/` of the working directory:
 ## Rebuilding
 
 ```bash
-cd ~/Documents/Claude/Projects/AI\\ Safety
+cd "{WORKDIR}"
 python3 -m scripts.cli build          # extract + chunk all sources
 python3 -m scripts.cli mirror         # rebuild this _index/ folder
 ```
