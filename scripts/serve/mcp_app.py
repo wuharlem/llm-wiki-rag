@@ -12,7 +12,7 @@ from typing import Callable
 
 from mcp.server.fastmcp import FastMCP
 
-from scripts.wiki_lib.schema import get_schema
+from scripts.wiki_lib.schema import mcp_server_name
 
 # ---------------------------------------------------------------------------
 # Canonical error envelope
@@ -66,6 +66,6 @@ def _wrap_errors(fn: Callable[..., str]) -> Callable[..., str]:
 # swap (different wiki_schema.yml) changes the server name automatically.
 # The derived name is part of the MCP contract (CLAUDE.md §4): keep the slug
 # stable once agents are registered against the server.
-MCP_SERVER_NAME = f"{get_schema().wiki.slug.replace('-', '_')}_wiki_mcp"
+MCP_SERVER_NAME = mcp_server_name()
 
 mcp = FastMCP(MCP_SERVER_NAME)
