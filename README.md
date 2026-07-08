@@ -7,7 +7,8 @@ Build-and-maintenance pipeline for an LLM-maintained wiki: ingest sources into a
 1. Click **Use this template** on GitHub (or clone the repo).
 2. `cp wiki_schema.sample.yml wiki_schema.yml` and fill in your domain — identity, frontmatter fields, vocabulary, vault location. Details in "Creating your own wiki on a different topic" below.
 3. Point the pipeline at your vault: `export WIKI_VAULT=/path/to/your/vault` (or edit `vault.default_relpath` in the schema).
-4. `uv run python -m scripts.cli build`, then `uv run python -m scripts.cli serve`.
+4. `uv run python -m scripts.cli vault-init` — renders the vault's operational PROCESS docs (ingest / query / health-check workflows) from `templates/vault/`, with the vocabulary section generated from your `wiki_schema.yml`.
+5. `uv run python -m scripts.cli build`, then `uv run python -m scripts.cli serve`.
 
 ## Reproducibility (read this first)
 
@@ -37,6 +38,25 @@ The pipeline is topic-agnostic. All domain-specific choices live in one file: `w
 
 The schema loader validates strictly (Pydantic `extra="forbid"`, `strict=True`) — typos, unknown keys, and coerced types fail loudly at startup rather than corrupting the index.
 
+### Bootstrapping your vault's process docs
+
+The pipeline assumes the vault carries three operational docs (`PROCESS_NEW_FILE.md`,
+`PROCESS_QUERY.md`, `PROCESS_HEALTH_CHECK.md`) plus an orientation map (`_PROCESS_MAP.md`) —
+they are the workflow contract agents follow when ingesting, querying, and auditing. Render
+them with:
+
+```bash
+uv run python -m scripts.cli vault-init
+```
+
+- Existing vault files are never overwritten (pass `--force` to re-render).
+- The vocabulary section of `PROCESS_NEW_FILE.md` is a **generated block** sourced from
+  `wiki_schema.yml`. After changing concepts/tags/axes in the schema, resync it with
+  `uv run python -m scripts.cli vault-init --refresh-vocab` — `vocab-sync` lints that the two
+  never drift.
+- Everything outside the generated block is yours: folder taxonomy, audit checks, and
+  house rules accumulate in the vault, not in this repo.
+
 To add a **new field type** beyond the seven built-in literals, edit `scripts/wiki_lib/schema.py::FieldSpec.type` and wire the classifier/manifest emitters in the same commit.
 
 ## Folder layout
@@ -50,8 +70,10 @@ scripts/                 # all pipeline tooling (Python), split into phase packa
   ingest/                 #   fetch, dedup_report, stage_candidate
   build/                  #   index, embeddings, wiki_mirror
   serve/                  #   retrieval, query_cli, mcp_app, mcp_server, mcp_tools/
-  maintenance/            #   check_vocab_sync, cleanup_metadata, regenerate_notion_sources
+  maintenance/            #   check_vocab_sync, cleanup_metadata, regenerate_notion_sources, vault_init
   wiki_lib/               #   shared helpers (schema, config, paths, locations, ...)
+templates/               # vault-init skeletons (rendered into the vault, then owned there)
+  vault/                  #   PROCESS_NEW_FILE / PROCESS_QUERY / PROCESS_HEALTH_CHECK / _PROCESS_MAP
 README.md                # this file
 ```
 
