@@ -2,8 +2,8 @@
 """Stage a single URL into the vault's `_add_by_me/` staging area.
 
 Recurring pipeline entry point (NOT a one-shot — see CLAUDE.md §7): the
-`ai-safety-daily-digest` scheduled task calls this for each ingest candidate
-it surfaces, so candidates are fetched and queued instead of dying in chat.
+daily-digest scheduled ingest task calls this for each candidate it
+surfaces, so candidates are fetched and queued instead of dying in chat.
 
 - arXiv / direct-PDF URLs  -> PDF saved to `_add_by_me/`
 - everything else (web)    -> trafilatura-extracted .md with minimal frontmatter
@@ -42,7 +42,7 @@ def find_vault() -> Path:
     # Resolver never raises on a missing vault; keep the fail-fast here.
     v = vault_path()
     if not v.is_dir():
-        sys.exit("stage_candidate: vault not found (set VAULT / AI_SAFETY_VAULT)")
+        sys.exit("stage_candidate: vault not found (set WIKI_VAULT)")
     return v
 
 
@@ -138,7 +138,7 @@ def main() -> None:
     try:
         import requests
 
-        headers = {"User-Agent": "Mozilla/5.0 (ai-safety-vault stage_candidate)"}
+        headers = {"User-Agent": "Mozilla/5.0 (wiki-pipeline stage_candidate)"}
         if handler in ("arxiv", "pdf"):
             u = arxiv_pdf_url(args.url) if handler == "arxiv" else args.url
             r = requests.get(u, headers=headers, timeout=60)

@@ -7,56 +7,6 @@ resolution-markers = [
 ]
 
 [[package]]
-name = "ai-safety-wiki-rag"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "mcp" },
-    { name = "pydantic" },
-    { name = "pyyaml" },
-]
-
-[package.optional-dependencies]
-all = [
-    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
-    { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "pypdf" },
-    { name = "sentence-transformers" },
-]
-indexing = [
-    { name = "pypdf" },
-]
-rerank = [
-    { name = "sentence-transformers" },
-]
-semantic = [
-    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
-    { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "sentence-transformers" },
-]
-test = [
-    { name = "pytest" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "mcp", specifier = ">=1.2" },
-    { name = "numpy", marker = "extra == 'all'", specifier = ">=1.26" },
-    { name = "numpy", marker = "extra == 'semantic'", specifier = ">=1.26" },
-    { name = "pydantic", specifier = ">=2.6" },
-    { name = "pypdf", marker = "extra == 'all'", specifier = ">=4" },
-    { name = "pypdf", marker = "extra == 'indexing'", specifier = ">=4" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=8" },
-    { name = "pyyaml", specifier = ">=6.0" },
-    { name = "ruff", marker = "extra == 'test'", specifier = ">=0.5,<1.0" },
-    { name = "sentence-transformers", marker = "extra == 'all'", specifier = ">=3.0" },
-    { name = "sentence-transformers", marker = "extra == 'rerank'", specifier = ">=3.0" },
-    { name = "sentence-transformers", marker = "extra == 'semantic'", specifier = ">=3.0" },
-]
-provides-extras = ["indexing", "semantic", "rerank", "all", "test"]
-
-[[package]]
 name = "annotated-doc"
 version = "0.0.4"
 source = { registry = "https://pypi.org/simple" }
@@ -535,6 +485,56 @@ sdist = { url = "https://files.pythonhosted.org/packages/19/74/a633ee74eb36c44aa
 wheels = [
     { url = "https://files.pythonhosted.org/packages/41/45/1a4ed80516f02155c51f51e8cedb3c1902296743db0bbc66608a0db2814f/jsonschema_specifications-2025.9.1-py3-none-any.whl", hash = "sha256:98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe", size = 18437, upload-time = "2025-09-08T01:34:57.871Z" },
 ]
+
+[[package]]
+name = "llm-wiki-rag"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "mcp" },
+    { name = "pydantic" },
+    { name = "pyyaml" },
+]
+
+[package.optional-dependencies]
+all = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pypdf" },
+    { name = "sentence-transformers" },
+]
+indexing = [
+    { name = "pypdf" },
+]
+rerank = [
+    { name = "sentence-transformers" },
+]
+semantic = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "sentence-transformers" },
+]
+test = [
+    { name = "pytest" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "mcp", specifier = ">=1.2" },
+    { name = "numpy", marker = "extra == 'all'", specifier = ">=1.26" },
+    { name = "numpy", marker = "extra == 'semantic'", specifier = ">=1.26" },
+    { name = "pydantic", specifier = ">=2.6" },
+    { name = "pypdf", marker = "extra == 'all'", specifier = ">=4" },
+    { name = "pypdf", marker = "extra == 'indexing'", specifier = ">=4" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=8" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "ruff", marker = "extra == 'test'", specifier = ">=0.5,<1.0" },
+    { name = "sentence-transformers", marker = "extra == 'all'", specifier = ">=3.0" },
+    { name = "sentence-transformers", marker = "extra == 'rerank'", specifier = ">=3.0" },
+    { name = "sentence-transformers", marker = "extra == 'semantic'", specifier = ">=3.0" },
+]
+provides-extras = ["indexing", "semantic", "rerank", "all", "test"]
 
 [[package]]
 name = "markdown-it-py"

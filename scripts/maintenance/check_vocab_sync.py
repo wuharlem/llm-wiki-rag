@@ -82,7 +82,7 @@ def main() -> int:
     args = parser.parse_args()
 
     if not DOC.exists():
-        print(f"FAIL: {DOC} not found (set AI_SAFETY_VAULT?)", file=sys.stderr)
+        print(f"FAIL: {DOC} not found (set WIKI_VAULT?)", file=sys.stderr)
         return 2
 
     text = DOC.read_text(encoding="utf-8")

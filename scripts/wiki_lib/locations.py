@@ -5,17 +5,16 @@ repo root?". Replaces the hand-rolled resolvers that hardcoded a personal
 home path and re-implemented sandbox-mount discovery inconsistently.
 
 Vault precedence (first match wins):
-  1. env WIKI_VAULT (canonical); else legacy AI_SAFETY_VAULT; else legacy VAULT
+  1. env WIKI_VAULT
   2. sandbox session mount: first dir matching schema.vault.sandbox_mount_glob
   3. Path.home() joined with schema.vault.default_relpath (no hardcoded username)
 
 Work precedence (first match wins):
-  1. env WIKI_WORK (canonical); else legacy AI_SAFETY_WORK; else legacy WORK
+  1. env WIKI_WORK
   2. repo root, derived from this file's location (no sandbox tier)
 
-When multiple env vars are set, the canonical name wins (it is listed first);
-legacy names are consulted in order only when the canonical is unset. An env
-var set to the empty string counts as unset.
+An env var set to the empty string counts as unset. (Pre-refactor legacy
+names were dropped 2026-07-08 after a sweep confirmed nothing sets them.)
 
 Neither function raises for a missing target; existence is the caller's
 concern (e.g. the MCP vault_not_found envelope, stage_candidate's sys.exit).
@@ -33,8 +32,8 @@ import glob
 import os
 from pathlib import Path
 
-_VAULT_ENV_VARS = ("WIKI_VAULT", "AI_SAFETY_VAULT", "VAULT")  # canonical first, legacy after
-_WORK_ENV_VARS = ("WIKI_WORK", "AI_SAFETY_WORK", "WORK")
+_VAULT_ENV_VARS = ("WIKI_VAULT",)
+_WORK_ENV_VARS = ("WIKI_WORK",)
 # _SANDBOX_VAULT_GLOB and _DEFAULT_VAULT removed — both are domain config,
 # sourced from wiki_lib.schema.get_schema().vault (sandbox_mount_glob /
 # default_relpath)

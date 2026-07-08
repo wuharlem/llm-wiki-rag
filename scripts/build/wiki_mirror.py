@@ -28,9 +28,9 @@ from scripts.wiki_lib.schema import get_schema
 WORKDIR = work_path()
 
 _WIKI = get_schema().wiki
-# MCP server name as registered in agent configs (`<slug>-wiki`, e.g.
-# `ai-safety-wiki`) — distinct from the FastMCP-internal MCP_SERVER_NAME
-# (`<slug>_wiki_mcp`) derived in scripts/serve/mcp_app.py.
+# MCP server name as registered in agent configs (`<slug>-wiki`) — distinct
+# from the FastMCP-internal MCP_SERVER_NAME (`<slug>_wiki_mcp`) derived in
+# scripts/serve/mcp_app.py.
 MCP_DISPLAY_NAME = f"{_WIKI.slug}-wiki"
 
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).

@@ -1,27 +1,27 @@
-# Bulk URL Fetcher for AI Safety Vault
+# Bulk URL Fetcher
 
-Fetches the 878 unique URLs from `urls_dedup.csv` into `Sources/_inbox/` in your Obsidian vault.
+Fetches the URLs listed in `00_inputs/urls_dedup.csv` into `Sources/_inbox/` in your vault.
 
 ## What it does
 
-- **arxiv** (248 URLs) → downloads PDF (canonicalizes to `arxiv.org/pdf/<ID>.pdf`)
-- **pdf**   (29 URLs) → direct PDF download
-- **web**   (529 URLs) → fetches HTML, extracts article text via `trafilatura`, saves as `.md` with YAML frontmatter (title, source URL, author, published date, created date, empty taxonomy fields ready for PROCESS_NEW_FILE.md)
-- **github / huggingface / youtube** (72 URLs) → skipped, logged for manual handling
+- **arxiv** → downloads PDF (canonicalizes to `arxiv.org/pdf/<ID>.pdf`)
+- **pdf**   → direct PDF download
+- **web**   → fetches HTML, extracts article text via `trafilatura`, saves as `.md` with YAML frontmatter (title, source URL, author, published date, created date, empty taxonomy fields)
+- **github / huggingface / youtube** → skipped, logged for manual handling
 
 Filenames are `<slugified-title>_<8-char-hash>.{pdf,md}`. The hash suffix prevents collisions.
 
 ## Setup (one time)
 
 ```bash
-cd /path/to/AI\ Safety
+cd /path/to/llm-wiki-rag
 pip3 install requests trafilatura
 ```
 
 ## Run it
 
 ```bash
-cd /path/to/AI\ Safety
+cd /path/to/llm-wiki-rag
 
 # Validation pass first — 3 of each handler (~9 files, <30s)
 python3 -m scripts.cli fetch --sample 3
@@ -30,9 +30,9 @@ python3 -m scripts.cli fetch --sample 3
 python3 -m scripts.cli fetch
 
 # Or run handlers separately to control pacing:
-python3 -m scripts.cli fetch --handlers arxiv          # 248 PDFs
-python3 -m scripts.cli fetch --handlers pdf            # 29 PDFs
-python3 -m scripts.cli fetch --handlers web --workers 8  # 529 web pages
+python3 -m scripts.cli fetch --handlers arxiv
+python3 -m scripts.cli fetch --handlers pdf
+python3 -m scripts.cli fetch --handlers web --workers 8
 ```
 
 Other flags:
@@ -43,7 +43,7 @@ Other flags:
 
 ## Output
 
-- **Files** → `~/Desktop/AI Safety/AI Safety/Sources/_inbox/`
+- **Files** → `<vault>/Sources/_inbox/`
 - **Log**   → `fetch_log.csv` in the project folder (appended on each run, with `timestamp,url,handler,status,filename,info`)
 
 Re-running is safe: each fetch overwrites its own filename. To retry only failures, filter `fetch_log.csv` for `status=fail`, write the URLs to a new CSV with the right header, and point the script at it (or just re-run — duplicates get overwritten).

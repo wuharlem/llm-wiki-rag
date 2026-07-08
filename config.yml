@@ -1,4 +1,4 @@
-# Tunable parameters for the AI Safety wiki build/retrieval pipeline.
+# Tunable parameters for the wiki build/retrieval pipeline.
 # Loaded by scripts/wiki_lib/config.py::get_config(). All keys are required
 # (the loader uses Pydantic with extra="forbid" + frozen=True, strict=True).
 
@@ -22,7 +22,7 @@ retrieval:
 
 ingest:
   http_timeout_seconds: 25    # fetch.py request timeout
-  http_user_agent: "Mozilla/5.0 (compatible; AISafetyVaultBot/1.0; personal research archive)"
+  http_user_agent: "Mozilla/5.0 (compatible; WikiVaultBot/1.0; personal research archive)"
   skip_url_handlers:          # URL handlers fetch.py declines to download
     - github
     - huggingface
