@@ -50,6 +50,8 @@ package = false  # treat this as a workspace, not a published package
 # Also make the tests/ directory itself importable for shared helpers.
 pythonpath = ["scripts", "tests"]
 testpaths = ["tests"]
+# pytest's default norecursedirs contains the literal `build`, which would silently skip tests/build/.
+norecursedirs = [".*", "__pycache__", "node_modules"]
 # Quiet warnings that come from optional deps, not from our code.
 filterwarnings = [
     "ignore::DeprecationWarning:pypdf",
