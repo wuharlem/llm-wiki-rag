@@ -142,13 +142,5 @@ people_*_20[0-9][0-9]-[0-9][0-9]-[0-9][0-9].csv
 01_data/index/source_state.json
 *.bak_*
 
-# ---------------------------------------------------------------------------
-# directory-deploy/ — the public Cloudflare deploy of the People Directory is
-# its own repository (github.com/wuharlem/ai-safety-directory), nested here for
-# convenience but versioned independently. The main repo does not track it
-# (also avoids accidentally committing a gitlink to the nested repo).
-# ---------------------------------------------------------------------------
-directory-deploy/
-
 # LLM design/plan scratch docs — local only (2026-07-08)
 docs/superpowers/
