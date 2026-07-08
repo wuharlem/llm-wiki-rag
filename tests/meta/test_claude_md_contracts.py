@@ -40,20 +40,17 @@ def test_meta_doc_basenames_set():
 
 def test_mcp_input_models_forbid_extra():
     """CLAUDE.md §4 — every MCP input model must use ConfigDict(extra='forbid')."""
-    import scripts.serve.mcp_server as wiki_mcp_server
+    from scripts.serve.mcp_tools import admin, browse, search, write
 
-    offenders: list[str] = []
-    for name, cls in inspect.getmembers(wiki_mcp_server, inspect.isclass):
-        if cls is BaseModel:
-            continue
-        if not issubclass(cls, BaseModel):
-            continue
-        # Filter to classes defined in the serve package (not re-imports).
-        if not cls.__module__.startswith("scripts.serve"):
-            continue
-        config = getattr(cls, "model_config", None) or {}
-        if config.get("extra") != "forbid":
-            offenders.append(name)
+    offenders = []
+    for mod in (admin, browse, search, write):
+        for name, cls in inspect.getmembers(mod, inspect.isclass):
+            if not (isinstance(cls, type) and issubclass(cls, BaseModel)) or cls is BaseModel:
+                continue
+            if not cls.__module__.startswith("scripts.serve.mcp_tools"):
+                continue
+            if cls.model_config.get("extra") != "forbid":
+                offenders.append(name)
 
     assert not offenders, (
         f"CLAUDE.md §4 violation — these MCP input models are missing ConfigDict(extra='forbid'): {offenders}"
