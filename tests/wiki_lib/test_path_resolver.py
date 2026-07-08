@@ -1,6 +1,6 @@
 """Unit tests for wiki_lib.locations path resolution — every tier pinned.
 
-Each test isolates a single resolution tier by clearing all four env vars and
+Each test isolates a single resolution tier by clearing both resolver env vars and
 stubbing the lower tiers (sandbox glob, Path.home). No test touches the real
 filesystem/env, and none embeds the literal home path (the repo-wide invariant
 scan in test_no_hardcoded_username_in_tracked_py would flag this file too).
