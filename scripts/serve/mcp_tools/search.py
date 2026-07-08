@@ -9,6 +9,12 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from scripts.serve import retrieval as wr
 from scripts.serve.mcp_app import _error_envelope, _wrap_errors, mcp
+from scripts.wiki_lib.schema import get_schema
+
+# LLM-facing tool prose is templated from the domain schema so a
+# wiki_schema.yml swap (different-topic wiki) relabels the tool surface
+# without code edits. Tool names/kwargs stay frozen (CLAUDE.md §4).
+_WIKI_NAME = get_schema().wiki.name
 
 # ---------------------------------------------------------------------------
 # Pydantic input models
@@ -132,27 +138,22 @@ class MultiQueryInput(BaseModel):
 # Tools
 # ---------------------------------------------------------------------------
 
-
-@mcp.tool(
-    name="search_wiki",
-    annotations={
-        "title": "Search the AI Safety wiki",
-        "readOnlyHint": True,
-        "destructiveHint": False,
-        "idempotentHint": True,
-        "openWorldHint": False,
-    },
-)
-@_wrap_errors
-def search_wiki(params: SearchInput) -> str:
-    """Search the local AI Safety wiki (621+ files, ~19K chunks) for chunks
+# search_wiki's LLM-facing description. Lives here (not in the docstring)
+# because a docstring is a static literal and this text must interpolate the
+# wiki name from the schema. Passed via `description=` on @mcp.tool, which
+# takes precedence over the function docstring. The brace-heavy tail is a
+# plain (non-f) string so the JSON shape examples don't need doubled braces.
+_SEARCH_WIKI_DESCRIPTION = (
+    f"""Search the local {_WIKI_NAME} wiki for chunks
     matching a natural-language query. Returns the top-k chunks ranked by
     BM25 + light title/heading boosts.
 
     Use this as the primary entry point for ANY question about the user's
-    AI safety research. Prefer it over reading raw vault files because it
+    {_WIKI_NAME} research. Prefer it over reading raw vault files because it
     surfaces relevant content from across hundreds of papers/notes at once.
-
+    (Call index_stats for current corpus size.)
+"""
+    + """
     Workflow tips:
       - Start with a broad query, k=8, no filters.
       - If too many off-topic hits, narrow with `concept` or `category`.
@@ -202,6 +203,24 @@ def search_wiki(params: SearchInput) -> str:
     Codes: `index_not_built` (no index built), `<ExceptionClassName>`
     (any other failure).
     """
+)
+
+
+@mcp.tool(
+    name="search_wiki",
+    description=_SEARCH_WIKI_DESCRIPTION,
+    annotations={
+        "title": f"Search the {_WIKI_NAME} wiki",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False,
+    },
+)
+@_wrap_errors
+def search_wiki(params: SearchInput) -> str:
+    """Primary retrieval entry point. The LLM-facing description is
+    _SEARCH_WIKI_DESCRIPTION above (templated from wiki_schema.yml)."""
     results = wr.search(
         params.query,
         k=params.k,
