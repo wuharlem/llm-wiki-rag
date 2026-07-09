@@ -14,7 +14,8 @@ search behavior is unchanged because retrieval was already hiding those
 rows.
 
 Public surface:
-    META_DOC_BASENAMES: frozenset[str]
+    meta_doc_basenames() -> frozenset[str]
+    META_DOC_BASENAMES: frozenset[str]  # compat attribute, via module __getattr__
     is_indexable_path(p, vault) -> bool
 """
 
@@ -24,12 +25,47 @@ import fnmatch
 import os
 from pathlib import Path
 
-from scripts.wiki_lib.schema import get_schema
+from scripts.wiki_lib.schema import get_schema, register_cache_reset_hook
 
 # Vault-root meta-doc basenames. These describe the wiki, not source
 # material. Canonical home: `wiki_schema.yml` → `vault.meta_doc_basenames`.
-# CLAUDE.md cross-folder contract §2 references this constant.
-META_DOC_BASENAMES: frozenset[str] = frozenset(get_schema().vault.meta_doc_basenames)
+# Lazily cached and invalidated via the schema reset hook, so a test that
+# swaps SCHEMA_PATH can never leave a stale snapshot behind (CLAUDE.md §2).
+# `paths.META_DOC_BASENAMES` remains importable via module __getattr__.
+_meta_doc_cache: frozenset[str] | None = None
+
+
+def meta_doc_basenames() -> frozenset[str]:
+    global _meta_doc_cache
+    if _meta_doc_cache is None:
+        _meta_doc_cache = frozenset(get_schema().vault.meta_doc_basenames)
+    return _meta_doc_cache
+
+
+def _invalidate_meta_doc_cache() -> None:
+    global _meta_doc_cache
+    _meta_doc_cache = None
+
+
+register_cache_reset_hook(_invalidate_meta_doc_cache)
+
+
+def __getattr__(name: str):
+    # PEP 562 compat: `paths.META_DOC_BASENAMES` / `from paths import
+    # META_DOC_BASENAMES` keep working, now always fresh.
+    #
+    # Trap: monkeypatching `paths.META_DOC_BASENAMES` directly (e.g.
+    # `monkeypatch.setattr(paths, "META_DOC_BASENAMES", {...})`) materializes
+    # a real module attribute. That permanently shadows this __getattr__ —
+    # module-level attributes are only consulted via __getattr__ when they
+    # don't already exist — so even after monkeypatch's undo removes the
+    # attribute again, any caching/ordering assumptions built on "this always
+    # goes through __getattr__" can silently stop holding for the rest of the
+    # process. Tests must patch `_meta_doc_cache` directly or swap the schema
+    # (e.g. via SCHEMA_PATH) instead; never setattr this name.
+    if name == "META_DOC_BASENAMES":
+        return meta_doc_basenames()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
@@ -43,7 +79,7 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
          curated sources; indexed only after files are curated and moved into
          a category folder — added 2026-07-04).
       5. `_index/` ancestor, EXCEPT `_index/saved_queries/` → False.
-      6. Vault-root file whose basename is in META_DOC_BASENAMES OR starts
+      6. Vault-root file whose basename is in meta_doc_basenames() OR starts
          with `_` (e.g. `_audit_2026_04_29.md`, `_drafts.md`) → False.
       7. `_audit_*.md` glob anywhere → False.
       8. Otherwise → True.
@@ -69,7 +105,7 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
         if "saved_queries" not in parts:
             return False
 
-    if rel.parent == Path(".") and (rel.name in META_DOC_BASENAMES or rel.name.startswith("_")):
+    if rel.parent == Path(".") and (rel.name in meta_doc_basenames() or rel.name.startswith("_")):
         return False
 
     if fnmatch.fnmatch(rel.name, "_audit_*.md"):

@@ -128,3 +128,13 @@ def test_reserved_field_name_requires_derived():
         FrontmatterSchema(fields=[FieldSpec(name="summary", type="string")])
     # derived: true is the sanctioned form
     FrontmatterSchema(fields=[FieldSpec(name="summary", type="string", derived=True)])
+
+
+def test_fixed_manifest_column_names_rejected_even_derived():
+    """derived:true is NOT a sanctioned form for fixed manifest columns —
+    _manifest_columns() would emit a duplicate column either way."""
+    from scripts.wiki_lib.schema import FieldSpec, FrontmatterSchema
+
+    for derived in (False, True):
+        with pytest.raises(ValidationError, match="fixed manifest column"):
+            FrontmatterSchema(fields=[FieldSpec(name="title", type="string", derived=derived)])

@@ -57,11 +57,6 @@ DOC = textwrap.dedent(
 
 @pytest.fixture
 def renamed_schema(tmp_path, monkeypatch):
-    # Force paths.py's module-level META_DOC_BASENAMES snapshot to be captured
-    # under the LIVE schema before we swap SCHEMA_PATH — its first import has
-    # no reset hook, so importing it under the renamed schema would poison it
-    # for the rest of the pytest process (order-dependent pollution).
-    import scripts.wiki_lib.paths  # noqa: F401
     from scripts.wiki_lib import schema as sch
 
     p = tmp_path / "wiki_schema.yml"

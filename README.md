@@ -94,6 +94,8 @@ uv run python -m scripts.cli fetch [--sample 3] [--handlers arxiv,pdf,web]
 
 Reads `00_inputs/urls_dedup.csv`. Downloads each URL into the vault's `Sources/_inbox/` (arxiv → PDF, web → markdown via trafilatura). Writes `02_logs/fetch_log.csv`. See [scripts/README.md](scripts/README.md) for full setup.
 
+Note: `fetch` imports `requests` and `trafilatura`, which are not uv-managed project dependencies — install them into the environment yourself (`uv pip install requests trafilatura`) before the first fetch.
+
 ### Stage 2 — Index and embed
 
 ```bash

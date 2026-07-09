@@ -107,3 +107,32 @@ def test_str_input_normalized(tmp_path: Path):
 def test_canonical_category_path_indexable(tmp_path: Path):
     p = tmp_path / "01_Risks-and-Failure-Modes" / "scaling-laws.md"
     assert is_indexable_path(p, tmp_path) is True
+
+
+def test_meta_doc_basenames_follows_schema_cache_reset(tmp_path, monkeypatch):
+    """The 2026-07-09 acceptance-test poisoning class: swapping SCHEMA_PATH +
+    resetting the schema cache must refresh paths' meta-doc set — in BOTH
+    directions, with no import-order dependence and no per-fixture guards."""
+    import yaml
+
+    from scripts.wiki_lib import paths
+    from scripts.wiki_lib import schema as sch
+
+    live = set(paths.META_DOC_BASENAMES)
+    assert "PROCESS_NEW_FILE.md" in live  # live schema sanity
+
+    doc = yaml.safe_load(sch.SCHEMA_PATH.read_text(encoding="utf-8"))
+    doc["vault"]["meta_doc_basenames"] = ["README.md", "log.md"]
+    p = tmp_path / "wiki_schema.yml"
+    p.write_text(yaml.safe_dump(doc), encoding="utf-8")
+
+    monkeypatch.setattr(sch, "SCHEMA_PATH", p)
+    sch._reset_schema_cache()
+    try:
+        assert paths.meta_doc_basenames() == frozenset({"README.md", "log.md"})
+        assert paths.META_DOC_BASENAMES == frozenset({"README.md", "log.md"})
+    finally:
+        monkeypatch.undo()
+        sch._reset_schema_cache()
+
+    assert set(paths.META_DOC_BASENAMES) == live, "must restore after reset — no residual poisoning"

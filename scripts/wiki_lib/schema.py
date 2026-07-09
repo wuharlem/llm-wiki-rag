@@ -12,7 +12,7 @@ per-wiki; identical per-pipeline.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Literal
+from typing import Callable, Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, model_validator
@@ -45,6 +45,14 @@ _RESERVED_FIELD_NAMES = frozenset(
     }
 )
 
+# Fixed manifest columns (scripts/build/index.py::_FIXED_LEAD/_FIXED_TAIL) —
+# a schema field with one of these names would produce a DUPLICATE manifest
+# column regardless of `derived`, so it is rejected outright.
+# tests/meta/test_claude_md_contracts.py pins this set to index.py.
+_FIXED_MANIFEST_COLUMNS = frozenset(
+    {"file_id", "type", "category", "subcategory", "title", "n_chunks", "n_tokens", "n_pages", "relpath"}
+)
+
 
 class WikiIdentity(BaseModel):
     model_config = _MODEL_CONFIG
@@ -70,7 +78,10 @@ class FrontmatterSchema(BaseModel):
     fields: list[FieldSpec]
 
     @model_validator(mode="after")
-    def _no_reserved_non_derived_names(self) -> "FrontmatterSchema":
+    def _no_pipeline_name_collisions(self) -> "FrontmatterSchema":
+        fixed = [f.name for f in self.fields if f.name in _FIXED_MANIFEST_COLUMNS]
+        if fixed:
+            raise ValueError(f"frontmatter field name(s) {fixed} collide with fixed manifest columns; rename them")
         offenders = [f.name for f in self.fields if f.name in _RESERVED_FIELD_NAMES and not f.derived]
         if offenders:
             raise ValueError(
@@ -124,10 +135,25 @@ def get_schema() -> WikiSchema:
     return _cached_schema
 
 
+_cache_reset_hooks: list[Callable[[], None]] = []
+
+
+def register_cache_reset_hook(hook: Callable[[], None]) -> None:
+    """Register an invalidator for a schema-derived cache in another module.
+
+    Modules that cache values computed from get_schema() (e.g. paths.py's
+    meta-doc set) register a hook so _reset_schema_cache() — the test hook
+    for swapping schemas — can't leave their snapshot stale (the 2026-07-09
+    acceptance-test poisoning class)."""
+    _cache_reset_hooks.append(hook)
+
+
 def _reset_schema_cache() -> None:
     """Test hook: clear the singleton so the next get_schema() re-reads the file."""
     global _cached_schema
     _cached_schema = None
+    for hook in _cache_reset_hooks:
+        hook()
 
 
 def mcp_server_name(schema: WikiSchema | None = None) -> str:
@@ -151,4 +177,5 @@ __all__ = [
     "VaultSchema",
     "get_schema",
     "mcp_server_name",
+    "register_cache_reset_hook",
 ]

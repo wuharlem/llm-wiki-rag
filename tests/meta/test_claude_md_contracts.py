@@ -161,3 +161,21 @@ def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_pat
     assert block_row["tags"] == "a|b", (
         f"block-list `tags:\\n- a\\n- b` did not round-trip; got tags={block_row['tags']!r}"
     )
+
+
+def test_reserved_field_names_pin_fileentry_attributes():
+    """CLAUDE.md §9 guard integrity — schema.py can't import index.py (cycle),
+    so this test pins the hand-maintained reserved set to the real dataclass."""
+    import dataclasses
+
+    from scripts.build.index import FileEntry
+    from scripts.wiki_lib.schema import _RESERVED_FIELD_NAMES
+
+    assert _RESERVED_FIELD_NAMES == {f.name for f in dataclasses.fields(FileEntry)}
+
+
+def test_fixed_manifest_columns_pin_index_constants():
+    from scripts.build.index import _FIXED_LEAD, _FIXED_TAIL
+    from scripts.wiki_lib.schema import _FIXED_MANIFEST_COLUMNS
+
+    assert _FIXED_MANIFEST_COLUMNS == frozenset(_FIXED_LEAD) | frozenset(_FIXED_TAIL)
