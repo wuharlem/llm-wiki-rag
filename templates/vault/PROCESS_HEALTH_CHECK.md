@@ -31,13 +31,10 @@
 
 - **Out-of-vocabulary values** — frontmatter tags/concepts/categorical values not present in
   `wiki_schema.yml`. Run `python -m scripts.cli vocab-sync` first: it lints this vault's
-  `PROCESS_NEW_FILE.md` vocabulary section against the schema. (Two caveats for young wikis:
-  its parse-sanity floor assumes a mature vocabulary — ≥5 concepts, ≥20 tags, ≥3 values on
-  the categorical axis — so with a starter vocab it exits 2 with a "format probably changed;
-  update this parser" message; that means "vocab too small to sanity-check", not drift and
-  not a broken install. It also currently assumes the categorical axis is named
-  `risk_category` — if your schema renames that axis, skip vocab-sync until the linter is
-  generalized.)
+  `PROCESS_NEW_FILE.md` vocabulary section against the schema, covering every categorical
+  axis your schema declares. Exit 1 = drift (fix before trusting OOV counts); exit 2 = a
+  section the schema expects is missing or unparseable — usually the generated block was
+  hand-edited or removed; re-run `python -m scripts.cli vault-init --refresh-vocab`.
 - **Missing frontmatter** — files without required taxonomy fields, or with empty/placeholder
   titles and dates.
 - **Misplaced files** — content whose folder contradicts the Step-3 routing rules in

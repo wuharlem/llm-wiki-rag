@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
-"""Lint: verify the two-file vocab contract (CLAUDE.md §1) hasn't drifted.
+"""Lint: verify the doc↔schema vocab contract (CLAUDE.md §1) hasn't drifted.
 
 The vocab lives in two places that must stay in sync:
-  - User-facing source of truth: vault `PROCESS_NEW_FILE.md` Step 2
-    (### Wiki Concepts table, ### Tag Vocabulary lists, ### Risk Categories table)
-  - Runtime source of truth: `scripts/wiki_lib/vocab.py`
-    (WIKI_CONCEPTS, TAG_TRIGGERS, RISK_TRIGGERS)
+  - User-facing copy: vault `PROCESS_NEW_FILE.md` Step 2 — since 2026-07-09 a
+    generated block (### Wiki Concepts table, ### Tag Vocabulary backticked
+    list, one ### <Axis Heading> table per categorical axis) written by
+    `vault-init --refresh-vocab`.
+  - Source of truth: `wiki_schema.yml` (`vocabulary.*`), via get_schema().
 
-This script parses the doc and diffs the name sets against the Python tables.
-It reports drift; it never fixes anything — the user owns the vocab
-(PROCESS_HEALTH_CHECK.md §11 decision 2).
+This script parses the doc and diffs the name sets against the schema —
+generically over every categorical axis the schema declares (no hardcoded
+axis names; headings come from vault_init.axis_heading, the same helper
+that writes them). It reports drift; it never fixes anything — the user
+owns the vocab (PROCESS_HEALTH_CHECK.md §11 decision 2).
 
 Run during every health check (Bundle B step 0):
 
-    python3 -m scripts.maintenance.check_vocab_sync          # human-readable report
-    python3 -m scripts.maintenance.check_vocab_sync --json   # machine-readable
+    python3 -m scripts.cli vocab-sync          # human-readable report
+    python3 -m scripts.cli vocab-sync --json   # machine-readable
 
-Exit code 0 = in sync, 1 = drift found, 2 = doc not parseable (treat as
-failure — a silent parse regression is exactly the drift this guards against).
+Exit code 0 = in sync, 1 = drift found, 2 = a section the schema expects is
+missing or unparseable (treat as failure — a silent parse regression is
+exactly the drift this guards against).
 
-Added 2026-07-04. Reusable (not a one-shot): it runs on every audit pass.
+Added 2026-07-04. Generalized over schema axes 2026-07-09 (previously
+hardcoded risk_category and fixed 5/20/3 sanity floors).
 """
 
 from __future__ import annotations
@@ -29,11 +34,9 @@ import json
 import re
 import sys
 
+from scripts.maintenance.vault_init import axis_heading
 from scripts.wiki_lib.locations import vault_path
-from scripts.wiki_lib.vocab import RISK_TRIGGERS, TAG_TRIGGERS, WIKI_CONCEPTS
-
-VAULT_PATH = vault_path()
-DOC = VAULT_PATH / "PROCESS_NEW_FILE.md"
+from scripts.wiki_lib.schema import VocabularySchema, get_schema
 
 
 def _section(text: str, heading: str, stop_pattern: str = r"^(###|---)") -> str:
@@ -76,45 +79,57 @@ def _backticked(section: str) -> set[str]:
     return set(re.findall(r"`([^`\n]+)`", section))
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--json", action="store_true", help="machine-readable output")
-    args = parser.parse_args()
+def build_report(text: str, vocab: VocabularySchema) -> tuple[dict[str, dict], list[str]]:
+    """Diff each doc section against its schema set.
 
-    if not DOC.exists():
-        print(f"FAIL: {DOC} not found (set WIKI_VAULT?)", file=sys.stderr)
-        return 2
+    Returns (report, parse_failures). parse_failures lists sections whose
+    schema set is non-empty but whose doc parse came back empty — a missing
+    or renamed heading, not ordinary drift. Replaces the old fixed sanity
+    floors (>=5 concepts / >=20 tags / >=3 risks), which assumed a mature
+    AI-safety-sized vocabulary and false-failed young instances.
+    """
+    checks: list[tuple[str, set[str], set[str]]] = [
+        ("concepts", _table_first_column(_section(text, "Wiki Concepts")), set(vocab.concepts)),
+        ("tags", _backticked(_section(text, "Tag Vocabulary")), set(vocab.tags)),
+    ]
+    for axis_name, axis in vocab.categorical_axes.items():
+        doc_vals = _table_first_column(_section(text, axis_heading(axis_name)))
+        checks.append((axis_name, doc_vals, set(axis.values)))
 
-    text = DOC.read_text(encoding="utf-8")
-
-    doc_concepts = _table_first_column(_section(text, "Wiki Concepts"))
-    doc_tags = _backticked(_section(text, "Tag Vocabulary"))
-    doc_risks = _table_first_column(_section(text, "Risk Categories"))
-
-    # Parse sanity floor: if any set is implausibly small, the doc format
-    # changed and this parser is silently broken — fail loudly (§8 lesson:
-    # never trust a frontmatter/markdown parser without a sanity check).
-    if len(doc_concepts) < 5 or len(doc_tags) < 20 or len(doc_risks) < 3:
-        print(
-            f"FAIL: parse sanity check — concepts={len(doc_concepts)}, "
-            f"tags={len(doc_tags)}, risks={len(doc_risks)}. "
-            "PROCESS_NEW_FILE.md Step 2 format probably changed; update this parser.",
-            file=sys.stderr,
-        )
-        return 2
-
-    report = {}
-    for name, doc_set, code_set in (
-        ("concepts", doc_concepts, set(WIKI_CONCEPTS)),
-        ("tags", doc_tags, set(TAG_TRIGGERS)),
-        ("risk_categories", doc_risks, set(RISK_TRIGGERS)),
-    ):
-        report[name] = {
+    parse_failures = [name for name, doc_set, code_set in checks if code_set and not doc_set]
+    report = {
+        name: {
             "doc_only": sorted(doc_set - code_set),
             "code_only": sorted(code_set - doc_set),
             "n_doc": len(doc_set),
             "n_code": len(code_set),
         }
+        for name, doc_set, code_set in checks
+    }
+    return report, parse_failures
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--json", action="store_true", help="machine-readable output")
+    args = parser.parse_args()
+
+    doc = vault_path() / "PROCESS_NEW_FILE.md"
+    if not doc.exists():
+        print(f"FAIL: {doc} not found (set WIKI_VAULT?)", file=sys.stderr)
+        return 2
+
+    report, parse_failures = build_report(doc.read_text(encoding="utf-8"), get_schema().vocabulary)
+
+    if parse_failures:
+        print(
+            "FAIL: parse sanity check — no values parsed for: "
+            + ", ".join(parse_failures)
+            + ". Section heading missing or format changed (was the generated block "
+            "hand-edited or removed?). Re-run `vault-init --refresh-vocab`, or update this parser.",
+            file=sys.stderr,
+        )
+        return 2
 
     drift = any(r["doc_only"] or r["code_only"] for r in report.values())
 
@@ -125,13 +140,14 @@ def main() -> int:
             status = "OK" if not (r["doc_only"] or r["code_only"]) else "DRIFT"
             print(f"[{status}] {name}: doc={r['n_doc']} code={r['n_code']}")
             for item in r["doc_only"]:
-                print(f"    doc-only  (missing from vocab.py): {item}")
+                print(f"    doc-only  (missing from wiki_schema.yml): {item}")
             for item in r["code_only"]:
                 print(f"    code-only (missing from PROCESS_NEW_FILE.md): {item}")
         print(
             "\nIn sync."
             if not drift
-            else "\nDrift found — sync per PROCESS_HEALTH_CHECK.md Bundle B (user owns the vocab; don't auto-fix)."
+            else "\nDrift found — sync per PROCESS_HEALTH_CHECK.md Bundle B (edit wiki_schema.yml,"
+            " then `vault-init --refresh-vocab`; the user owns the vocab)."
         )
 
     return 1 if drift else 0
