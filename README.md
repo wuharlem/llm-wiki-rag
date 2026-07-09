@@ -29,6 +29,8 @@ flowchart TD
 
 _`cli <cmd>` is shorthand for `uv run python -m scripts.cli <cmd>`. The numbered steps below are the authoritative quick start._
 
+**Requires Python 3.10+** (see `requires-python` in `pyproject.toml`). [`uv`](https://docs.astral.sh/uv/) manages the interpreter and dependencies — `uv run` provisions a matching Python automatically, so no manual virtualenv is needed.
+
 1. Click **Use this template** on GitHub (or clone the repo).
 2. `cp wiki_schema.sample.yml wiki_schema.yml` and fill in your domain — identity, frontmatter fields, vocabulary, vault location. Details in "Creating your own wiki on a different topic" below.
 3. Point the pipeline at your vault: `export WIKI_VAULT=/path/to/your/vault` (or edit `vault.default_relpath` in the schema).
