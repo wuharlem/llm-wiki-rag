@@ -61,12 +61,33 @@ Body.
 """
 
 
+BLOCK_MD_DOC = """---
+title: "Block List Doc"
+source: https://example.org/block
+tags:
+- simulators
+- role-play
+concepts:
+- RLHF & Its Limitations
+risk_category:
+- misalignment
+source_type: blog_post
+author: Cleo
+published: 2023-03-03
+description: block-list frontmatter
+---
+
+Body.
+"""
+
+
 @pytest.fixture
 def mini_setup(tmp_path, monkeypatch):
     vault = tmp_path / "vault"
     (vault / "01_Area").mkdir(parents=True)
     (vault / "01_Area" / PDF_NAME).write_bytes(b"%PDF-1.4 fake")
     (vault / "01_Area" / "note.md").write_text(MD_DOC, encoding="utf-8")
+    (vault / "01_Area" / "block_note.md").write_text(BLOCK_MD_DOC, encoding="utf-8")
     (vault / "01_Area" / "brand_new_deadbeef.pdf").write_bytes(b"%PDF-1.4 fake2")
     out = tmp_path / "01_data" / "notion_sources.csv"
     out.parent.mkdir(parents=True)
@@ -170,3 +191,33 @@ def test_whitespace_only_preserved_value_backfills_from_classifications(mini_set
     rows = _rows(mini_setup)
     row = rows[PDF_NAME]
     assert row["tags"] == "backfilled, from-classifications", "whitespace-only value must backfill, not freeze"
+
+
+def test_block_list_frontmatter_parses_fully(mini_setup):
+    """CLAUDE.md §8: both inline-flow AND block-list YAML forms must parse.
+
+    The old line-regex parser (get_field) grabbed nothing (or garbage) for
+    `tags:\\n- a\\n- b` block lists — confirmed in the LLM Philosophy
+    instance's regen output, where cells came out as '- item' fragments."""
+    rns.main()
+    rows = _rows(mini_setup)
+    block = rows["block_note.md"]
+    assert block["tags"] == "simulators, role-play"
+    assert block["concepts"] == "RLHF & Its Limitations"
+    assert block["risk_category"] == "misalignment"
+    assert block["title"] == "Block List Doc"  # quotes stripped by real YAML parsing
+    assert block["published"] == "2023-03-03"  # yaml date renders back as ISO string
+    assert block["url"] == "https://example.org/block"
+
+
+def test_source_url_key_feeds_url_column(mini_setup):
+    """stage_candidate writes `source_url:` where fetch writes `source:` —
+    both are aliases of the same schema field and must feed the url column."""
+    vault_dir = rns.VAULT / "01_Area"
+    (vault_dir / "staged.md").write_text(
+        "---\ntitle: Staged\nsource_url: https://example.org/staged\ntags: []\n"
+        "concepts: []\nrisk_category: []\nsource_type: blog_post\n---\n\nBody.\n",
+        encoding="utf-8",
+    )
+    rns.main()
+    assert _rows(mini_setup)["staged.md"]["url"] == "https://example.org/staged"

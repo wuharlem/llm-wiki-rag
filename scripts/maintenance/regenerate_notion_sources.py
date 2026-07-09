@@ -41,7 +41,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from scripts.wiki_lib.fields import lookup
+from scripts.wiki_lib.fields import extract_fields, lookup
+from scripts.wiki_lib.frontmatter import split as split_frontmatter
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.schema import FieldSpec, get_schema
 
@@ -50,7 +51,6 @@ WORK = work_path()
 OUT = WORK / "01_data" / "notion_sources.csv"
 CLASSIFICATIONS = WORK / "01_data" / "classifications.csv"
 
-FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 # Legacy patterns kept for pre-2026-04 layouts; the canonical filter is
 # wiki_lib.paths.is_indexable_path (see should_skip below and CLAUDE.md §2).
 SKIP_PATH_PATTERNS = ("/.obsidian/", "/_inbox/", "/_trash_", "/_dupes_")
@@ -68,7 +68,6 @@ def _taxonomy_fields() -> list[FieldSpec]:
 
 
 TAXONOMY_FIELDS = _taxonomy_fields()
-_TAXONOMY_LIST_TYPES = ("tag_list", "concept_list", "categorical_list")
 
 # Fixed sidecar identity columns (filename/folder/title/url/author/published/
 # description) keep their literal names; the taxonomy block in the middle
@@ -86,33 +85,16 @@ FIELDS = [
 ]
 
 
-def get_field(fm: str, key: str) -> str:
-    pat = re.compile(rf"^{re.escape(key)}:\s*(.*)$", re.MULTILINE)
-    m = pat.search(fm)
-    return m.group(1).strip() if m else ""
+def _scalar(v) -> str:
+    """Render a parsed frontmatter scalar as a CSV cell ('' for null/None).
 
-
-def parse_list_field(raw: str) -> str:
-    """Convert YAML inline list `[a, b, c]` to comma-separated `a, b, c`.
-    Returns empty string for null/empty/missing."""
-    if not raw or raw.strip() in ("null", "~", "[]", ""):
+    Values arrive from yaml.safe_load (so `null` is already None and dates are
+    date objects that str() back to ISO form); the null-token strips are belt
+    for frontmatter.split's tolerant line-parser fallback."""
+    if v is None:
         return ""
-    s = raw.strip()
-    if s.startswith("[") and s.endswith("]"):
-        inner = s[1:-1].strip()
-        if not inner:
-            return ""
-        items = [i.strip().strip("'\"") for i in inner.split(",") if i.strip()]
-        return ", ".join(items)
-    # bare scalar
-    return s.strip("'\"")
-
-
-def parse_scalar_field(raw: str) -> str:
-    """Strip quotes/null/etc. from a scalar field."""
-    if not raw or raw.strip() in ("null", "~", ""):
-        return ""
-    return raw.strip().strip("'\"")
+    s = str(v).strip()
+    return "" if s in ("null", "~") else s.strip("'\"")
 
 
 def should_skip(path: Path) -> bool:
@@ -141,23 +123,27 @@ def folder_of(path: Path) -> str:
 
 
 def md_row(path: Path) -> dict | None:
+    # Real YAML parsing via frontmatter.split — the previous line-regex parser
+    # violated the both-forms rule (CLAUDE.md §8): on block lists its \s* ate
+    # the newline and captured `- first-item` as the value.
     text = path.read_text(encoding="utf-8", errors="replace")
-    m = FM_RE.match(text)
-    if not m:
+    meta, _body = split_frontmatter(text)
+    if not meta:
         return None
-    fm = m.group(1)
+    extracted = extract_fields(meta, get_schema())
     row = {
         "filename": path.name,
         "folder": folder_of(path),
-        "title": parse_scalar_field(get_field(fm, "title")),
-        "url": parse_scalar_field(get_field(fm, "source")),
+        "title": _scalar(meta.get("title")),
+        # Alias-aware: covers `source:` (fetch), `source_url:` (stage_candidate),
+        # and `url:` — all read keys of the schema's url-typed field.
+        "url": _scalar(extracted.get("source_url", meta.get("source"))),
     }
     for f in TAXONOMY_FIELDS:
-        raw = get_field(fm, f.name)
-        row[f.name] = parse_list_field(raw) if f.type in _TAXONOMY_LIST_TYPES else parse_scalar_field(raw)
-    row["author"] = parse_scalar_field(get_field(fm, "author"))
-    row["published"] = parse_scalar_field(get_field(fm, "published"))
-    row["description"] = parse_scalar_field(get_field(fm, "description"))
+        val = extracted[f.name]
+        row[f.name] = ", ".join(val) if isinstance(val, list) else val
+    for key in ("author", "published", "description"):
+        row[key] = _scalar(meta.get(key))
     return row
 
 

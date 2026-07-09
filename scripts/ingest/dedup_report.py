@@ -27,6 +27,7 @@ from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.frontmatter import split as split_frontmatter
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.schema import get_schema
 
@@ -34,33 +35,19 @@ VAULT = vault_path()
 WORK = work_path()
 LOG = WORK / "02_logs" / "dedup_report.csv"
 
-FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
-
 DROP_PARAM_PREFIXES = tuple(get_config().ingest.drop_query_param_prefixes)
 
 
-def get_field(fm: str, key: str) -> str:
-    pat = re.compile(rf"^{re.escape(key)}:\s*(.*)$", re.MULTILINE)
-    m = pat.search(fm)
-    return m.group(1).strip() if m else ""
-
-
 def parse_frontmatter(text: str) -> dict | None:
-    m = FM_RE.match(text)
-    if not m:
-        return None
-    fm = m.group(1)
-    out = {}
-    # Fixed sidecar identity keys + whatever non-derived taxonomy fields the
-    # schema declares (CLAUDE.md §1/§9). `source` is a fixed identity key
-    # (an alias of the schema's `source_url` field, which also appears
-    # below under its own name); dedupe while preserving order.
-    keys = ("title", "source", "author", "published", "description") + tuple(
-        f.name for f in get_schema().frontmatter.fields if not f.derived
-    )
-    for k in dict.fromkeys(keys):
-        out[k] = get_field(fm, k)
-    return out
+    """Parse the frontmatter block into a real dict, or None when absent.
+
+    Uses wiki_lib.frontmatter.split so both inline-flow and block-list YAML
+    forms parse (CLAUDE.md §8) — the previous line-regex parser's `\\s*` ate
+    the newline on block lists and captured `- first-item` garbage, silently
+    mis-scoring those files in duplicate groups. Values keep their parsed
+    types (lists stay lists, yaml null is None); consumers handle both."""
+    meta, _body = split_frontmatter(text)
+    return meta or None
 
 
 def canonicalize_url(url: str) -> str:
@@ -103,20 +90,23 @@ def richness(meta: dict) -> int:
         v = meta.get(k, "")
         if v and v not in ("null", "~", "", "[]"):
             score += 1
-    # List-valued fields: count if non-empty
+    # List-valued fields: count if non-empty. Parsed frontmatter yields real
+    # lists; the string branch remains for frontmatter.split's tolerant
+    # line-parser fallback (its raw values keep the historic len heuristic).
     list_fields = [
         f.name for f in get_schema().frontmatter.fields if f.type in ("tag_list", "concept_list", "categorical_list")
     ]
     for k in list_fields:
-        v = meta.get(k, "")
-        if v and v not in ("null", "~", "", "[]") and v != "[ ]":
-            # naive: longer == richer
-            if len(v) > 2:
+        v = meta.get(k)
+        if isinstance(v, list):
+            if v:
                 score += 1
-    if meta.get("source_type") and meta["source_type"] not in ("null", "~", ""):
+        elif v and str(v).strip() not in ("null", "~", "", "[]", "[ ]") and len(str(v)) > 2:
+            score += 1
+    if meta.get("source_type") and str(meta["source_type"]) not in ("null", "~", ""):
         score += 1
     # Reward well-formed source URL
-    if meta.get("source") and "://" in meta["source"]:
+    if meta.get("source") and "://" in str(meta["source"]):
         score += 1
     return score
 
@@ -145,21 +135,21 @@ def main():
             continue
         file_meta[path] = meta
 
-    # Group by canonical URL
+    # Group by canonical URL (parsed values may be None/non-str — normalize)
     by_url: dict[str, list[Path]] = defaultdict(list)
     for path, meta in file_meta.items():
-        cu = canonicalize_url(meta.get("source", ""))
+        cu = canonicalize_url(str(meta.get("source") or ""))
         if cu:
             by_url[cu].append(path)
 
     # Group by (canonical title + hostname) — catches mirror-URL dupes
     by_title_host: dict[tuple[str, str], list[Path]] = defaultdict(list)
     for path, meta in file_meta.items():
-        ct = canonicalize_title(meta.get("title", ""))
+        ct = canonicalize_title(str(meta.get("title") or ""))
         if not ct:
             continue
         try:
-            host = urlparse(meta.get("source", "")).netloc.lower().lstrip("www.")
+            host = urlparse(str(meta.get("source") or "")).netloc.lower().lstrip("www.")
         except Exception:
             host = ""
         if host and ct:
