@@ -1,6 +1,20 @@
+<div align="center">
+
 # LLM Wiki RAG
 
-Build-and-maintenance pipeline for an LLM-maintained wiki: ingest sources into a Markdown (Obsidian-compatible) vault, build a chunked hybrid-retrieval index (BM25 + dense + rerank), and serve it to agents over MCP. The pipeline is topic-agnostic — everything domain-specific lives in one file, `wiki_schema.yml`. The schema shipped in this repo is the AI-safety wiki the pipeline was built for, kept as a filled-in worked example; `wiki_schema.sample.yml` is the blank starting point.
+[![CI](https://github.com/wuharlem/llm-wiki-rag/actions/workflows/ci.yml/badge.svg)](https://github.com/wuharlem/llm-wiki-rag/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+[![Packaged with uv](https://img.shields.io/badge/packaged%20with-uv-261230)](https://docs.astral.sh/uv/)
+![Serves MCP](https://img.shields.io/badge/serves-MCP-8A2BE2)
+
+**Build-and-maintenance pipeline for an LLM-maintained wiki** — ingest sources into a Markdown (Obsidian-compatible) vault, build a chunked hybrid-retrieval index (BM25 + dense + rerank), and serve it to agents over MCP. Topic-agnostic: everything domain-specific lives in one file, `wiki_schema.yml`.
+
+[Quick Start](#using-this-template) · [Create Your Own Wiki](#creating-your-own-wiki-on-a-different-topic) · [Pipeline Stages](#pipeline-stages) · [Folder Layout](#folder-layout) · [Reproducibility](#reproducibility-read-this-first)
+
+</div>
+
+> **This repo is the machinery, not a wiki.** It ships no vault content — bring your own via `WIKI_VAULT`. The schema shipped here is the AI-safety wiki the pipeline was built for, kept as a filled-in worked example; `wiki_schema.sample.yml` is the blank starting point.
 
 ## Using this template
 
