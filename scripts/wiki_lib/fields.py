@@ -32,6 +32,7 @@ def lookup(meta: dict, spec: FieldSpec) -> object | None:
     """First non-empty value under the field's canonical name, then aliases."""
     for key in (spec.name, *spec.aliases):
         v = meta.get(key)
+        # assumes str/list field values — revisit if FieldSpec types ever loosen to numeric/bool
         if v not in (None, "", []):
             return v
     return None

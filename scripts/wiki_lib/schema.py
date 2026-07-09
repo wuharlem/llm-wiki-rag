@@ -15,11 +15,35 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 
 SCHEMA_PATH = Path(__file__).resolve().parents[2] / "wiki_schema.yml"
 
 _MODEL_CONFIG = ConfigDict(extra="forbid", frozen=True)
+
+# FileEntry pipeline attributes (scripts/build/index.py) — a non-derived schema
+# field with one of these names would silently shadow the pipeline's own value
+# in _cell_for / the index.json flatten. Derived fields (e.g. summary) are the
+# sanctioned way to expose a pipeline-computed attribute as a schema column.
+_RESERVED_FIELD_NAMES = frozenset(
+    {
+        "file_id",
+        "relpath",
+        "type",
+        "title",
+        "folder",
+        "category",
+        "subcategory",
+        "description",
+        "summary",
+        "n_pages",
+        "n_chunks",
+        "n_tokens",
+        "body_sha1",
+        "chunks",
+        "fields",
+    }
+)
 
 
 class WikiIdentity(BaseModel):
@@ -44,6 +68,16 @@ class FieldSpec(BaseModel):
 class FrontmatterSchema(BaseModel):
     model_config = _MODEL_CONFIG
     fields: list[FieldSpec]
+
+    @model_validator(mode="after")
+    def _no_reserved_non_derived_names(self) -> "FrontmatterSchema":
+        offenders = [f.name for f in self.fields if f.name in _RESERVED_FIELD_NAMES and not f.derived]
+        if offenders:
+            raise ValueError(
+                f"frontmatter field name(s) {offenders} collide with pipeline attributes; "
+                "mark them `derived: true` (pipeline-computed) or rename them"
+            )
+        return self
 
 
 class CategoricalAxis(BaseModel):

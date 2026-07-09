@@ -117,3 +117,14 @@ def test_fieldspec_extensions_load_from_live_schema():
     # defaults on an unannotated field
     assert by_name["tags"].aliases == [] and by_name["tags"].derived is False
     assert by_name["tags"].label is None and by_name["tags"].pdf_default is None
+
+
+def test_reserved_field_name_requires_derived():
+    """A non-derived field named after a pipeline attribute must fail loudly —
+    it would otherwise silently shadow the pipeline value (the sample-summary bug)."""
+    from scripts.wiki_lib.schema import FieldSpec, FrontmatterSchema
+
+    with pytest.raises(ValidationError, match="collide with pipeline attributes"):
+        FrontmatterSchema(fields=[FieldSpec(name="summary", type="string")])
+    # derived: true is the sanctioned form
+    FrontmatterSchema(fields=[FieldSpec(name="summary", type="string", derived=True)])

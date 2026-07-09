@@ -122,7 +122,9 @@ Regenerates the `_index/` overview pages (one MD per concept). Run after large v
 
 ### Stage 5 — Maintenance tools
 
-The `scripts/maintenance/cleanup_metadata.py`, `scripts/ingest/dedup_report.py`, and `scripts/maintenance/regenerate_notion_sources.py` tools are dry-run-by-default; pass `--apply` to mutate. See each script's `--help` for details.
+`scripts/maintenance/cleanup_metadata.py` is dry-run-by-default; pass `--apply` to mutate. `scripts/ingest/dedup_report.py` is report-only — it writes a CSV and never deletes or modifies anything. `scripts/maintenance/regenerate_notion_sources.py` (`notion-regen`) is different: it REWRITES `01_data/notion_sources.csv` unconditionally, no `--apply` flag, though it takes a timestamped backup first. See each script's `--help` for details.
+
+**Warning:** PDF rows' `url`, `author`, `published`, and `tags` fields exist *only* in `notion_sources.csv` — they cannot be reconstructed from vault state. If a `notion-regen` run clobbers them, restore from the timestamped backup it wrote before overwriting.
 
 ## Historical pipeline (one-shot, April 2026)
 
@@ -147,5 +149,5 @@ The vault was bulk-classified in April 2026 by a one-shot pipeline that performe
 
 ## Notes
 
-- All scripts default to dry-run / report-only modes; pass `--fix` or `--apply` to make changes.
+- Most scripts default to dry-run / report-only modes (pass `--fix` or `--apply` to make changes) — except `notion-regen`, which rewrites `01_data/notion_sources.csv` unconditionally (see Stage 5 above).
 - The vault's `PROCESS_NEW_FILE.md` documents the per-file routing taxonomy and the YAML frontmatter contract.

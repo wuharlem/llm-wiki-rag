@@ -37,7 +37,7 @@ frontmatter:
     - {name: author,        type: string}
     - {name: published,     type: date_string}
     - {name: source_url,    type: url}
-    - {name: summary,       type: string}
+    - {name: summary,        type: string, derived: true}  # pipeline-computed — see `derived:` note above
 
 vocabulary:
   # Canonical concept name -> trigger phrases for the heuristic classifier.
