@@ -32,6 +32,11 @@ The pipeline is topic-agnostic. All domain-specific choices live in one file: `w
    - `tag_list` — draws from `vocabulary.tags`
    - `enum` — closed set of scalars (specify `values:`)
    - `string`, `date_string`, `url` — free-form scalars with light shape validation
+
+   Each field also accepts optional `aliases:` (alternate frontmatter keys), `derived: true`
+   (pipeline-computed), `label:` (display name on generated pages), and `pdf_default:` — see
+   `wiki_schema.sample.yml` for details. Renaming a field renames its manifest column and all
+   generated output; no Python edits needed.
 4. **Fill vocabulary.** For each vocab section (`concepts`, `tags`, `categorical_axes.<axis>`), keys are the canonical names, values are lists of trigger phrases used by the heuristic classifier.
 5. **Set the vault path.** Either export `WIKI_VAULT=/path/to/your/vault` or edit `vault.default_relpath` (joined onto `Path.home()`).
 6. **Run the pipeline.** `uv run python -m scripts.cli build`, then `uv run python -m scripts.cli serve`.
