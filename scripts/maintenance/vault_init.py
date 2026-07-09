@@ -37,9 +37,10 @@ _BLOCK_RE = re.compile(re.escape(_BEGIN) + r".*?" + re.escape(_END), re.DOTALL)
 _NO_TRIGGERS = "(curatorial — assigned by hand, never auto-suggested)"
 
 
-def _axis_heading(axis_name: str) -> str:
-    """`risk_category` -> `Risk Categories` — matches the heading form
-    check_vocab_sync.py parses in the live vault doc."""
+def axis_heading(axis_name: str) -> str:
+    """`risk_category` -> `Risk Categories` — the heading form the generated
+    block uses per categorical axis. Shared authority: check_vocab_sync.py
+    imports this to parse the same headings it writes."""
     words = [w.capitalize() for w in axis_name.split("_")]
     last = words[-1]
     if last.endswith("y"):
@@ -71,7 +72,7 @@ def render_vocab_block(schema: WikiSchema) -> str:
     lines += ["", "### Tag Vocabulary", ""]
     lines.append(", ".join(f"`{tag}`" for tag in schema.vocabulary.tags))
     for axis_name, axis in schema.vocabulary.categorical_axes.items():
-        lines += ["", f"### {_axis_heading(axis_name)}", "", "| Value | Scope |", "|---|---|"]
+        lines += ["", f"### {axis_heading(axis_name)}", "", "| Value | Scope |", "|---|---|"]
         for value, triggers in axis.values.items():
             scope = ", ".join(triggers) if triggers else _NO_TRIGGERS
             lines.append(f"| {value} | {scope} |")
@@ -88,7 +89,7 @@ def render_frontmatter_example(schema: WikiSchema) -> str:
             source = {
                 "tag_list": "the Tag Vocabulary below",
                 "concept_list": "the Wiki Concepts table below",
-            }.get(field.type, f"the {_axis_heading(field.vocab_key or field.name)} table below")
+            }.get(field.type, f"the {axis_heading(field.vocab_key or field.name)} table below")
             lines.append(f"{field.name}:")
             lines.append(f"- <value from {source}>")
         elif field.type == "enum":

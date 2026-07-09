@@ -20,8 +20,13 @@ def _tags() -> dict[str, list[str]]:
 
 
 def _risks() -> dict[str, list[str]]:
-    # Historical RISK_TRIGGERS was a flat dict; today it's one axis on the schema.
-    return dict(get_schema().vocabulary.categorical_axes["risk_category"].values)
+    # Historical RISK_TRIGGERS was a flat dict; today it's one axis on the
+    # schema. Guarded lookup: axis names are schema-driven and an instance
+    # may rename or drop risk_category — importing this module must never
+    # crash the build path. Axis-generic code should read
+    # get_schema().vocabulary.categorical_axes directly.
+    axis = get_schema().vocabulary.categorical_axes.get("risk_category")
+    return dict(axis.values) if axis is not None else {}
 
 
 def _acronyms() -> set[str]:

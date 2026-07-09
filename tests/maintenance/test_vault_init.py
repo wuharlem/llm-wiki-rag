@@ -12,9 +12,9 @@ from scripts.wiki_lib.schema import get_schema
 
 
 def test_axis_heading_pluralizes():
-    assert vi._axis_heading("risk_category") == "Risk Categories"
-    assert vi._axis_heading("genre") == "Genres"
-    assert vi._axis_heading("status") == "Status"
+    assert vi.axis_heading("risk_category") == "Risk Categories"
+    assert vi.axis_heading("genre") == "Genres"
+    assert vi.axis_heading("status") == "Status"
 
 
 def test_vocab_block_round_trips_through_sync_parsers():
@@ -25,7 +25,7 @@ def test_vocab_block_round_trips_through_sync_parsers():
     assert cvs._table_first_column(cvs._section(block, "Wiki Concepts")) == set(schema.vocabulary.concepts)
     assert cvs._backticked(cvs._section(block, "Tag Vocabulary")) == set(schema.vocabulary.tags)
     for axis_name, axis in schema.vocabulary.categorical_axes.items():
-        heading = vi._axis_heading(axis_name)
+        heading = vi.axis_heading(axis_name)
         assert cvs._table_first_column(cvs._section(block, heading)) == set(axis.values)
 
 
