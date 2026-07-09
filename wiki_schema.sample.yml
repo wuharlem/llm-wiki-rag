@@ -72,6 +72,11 @@ vault:
     - README.md
     - log.md
     - open_questions.md
+    # The PROCESS docs rendered by `python -m scripts.cli vault-init` — the
+    # wiki's own workflow pages must never be indexed as source content.
+    - PROCESS_NEW_FILE.md
+    - PROCESS_QUERY.md
+    - PROCESS_HEALTH_CHECK.md
 
   # Default vault location, joined onto Path.home(). Overridden by the
   # WIKI_VAULT env var.

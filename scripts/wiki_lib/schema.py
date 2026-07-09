@@ -92,6 +92,16 @@ def _reset_schema_cache() -> None:
     _cached_schema = None
 
 
+def mcp_server_name(schema: WikiSchema | None = None) -> str:
+    """Derive the MCP server name `<slug_underscored>_wiki_mcp` (CLAUDE.md §4).
+
+    Single derivation point shared by scripts/serve/mcp_app.py and
+    scripts/maintenance/vault_init.py.
+    """
+    s = schema if schema is not None else get_schema()
+    return f"{s.wiki.slug.replace('-', '_')}_wiki_mcp"
+
+
 __all__ = [
     "SCHEMA_PATH",
     "WikiSchema",
@@ -102,4 +112,5 @@ __all__ = [
     "VocabularySchema",
     "VaultSchema",
     "get_schema",
+    "mcp_server_name",
 ]

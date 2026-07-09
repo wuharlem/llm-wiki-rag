@@ -29,6 +29,7 @@ EXPECTED_COMMANDS = {
     "cleanup",
     "vocab-sync",
     "notion-regen",
+    "vault-init",
 }
 
 PROCESS_DOCS = ("PROCESS_HEALTH_CHECK.md", "PROCESS_NEW_FILE.md", "PROCESS_QUERY.md")

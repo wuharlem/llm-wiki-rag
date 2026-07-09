@@ -36,6 +36,10 @@ COMMANDS: dict[str, tuple[str, str]] = {
         "scripts.maintenance.regenerate_notion_sources",
         "Regenerate 01_data/notion_sources.csv from vault state",
     ),
+    "vault-init": (
+        "scripts.maintenance.vault_init",
+        "Render vault PROCESS-doc skeletons from templates/ (--refresh-vocab to resync vocab)",
+    ),
 }
 
 
