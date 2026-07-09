@@ -35,6 +35,10 @@ class FieldSpec(BaseModel):
     vocab_key: str | None = None
     values: list[str] | None = None
     list_delim: str = "|"
+    aliases: list[str] = []  # alternate frontmatter/CSV keys, tried after `name`
+    derived: bool = False  # computed by the pipeline (e.g. summary) — never read from metadata
+    label: str | None = None  # display label for detail pages; None -> derived from name
+    pdf_default: str | None = None  # fallback value when a PDF sidecar row lacks the field
 
 
 class FrontmatterSchema(BaseModel):
