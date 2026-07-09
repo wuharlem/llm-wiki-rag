@@ -124,8 +124,12 @@ def clean_author(raw: str) -> tuple[str, str]:
 
 
 def patch_frontmatter_field(fm: str, key: str, new_value: str) -> tuple[str, bool]:
-    """Replace `key: ...` line in frontmatter. Returns (new_fm, changed)."""
-    pat = re.compile(rf"^{re.escape(key)}:\s*.*$", re.MULTILINE)
+    """Replace `key: ...` line in frontmatter. Returns (new_fm, changed).
+
+    `[ \\t]*` (not `\\s*`): \\s matches newlines, so on an empty-valued field
+    (`key:` alone on its line) the old pattern crossed onto the next line and
+    the substitution DELETED the neighboring field."""
+    pat = re.compile(rf"^{re.escape(key)}:[ \t]*.*$", re.MULTILINE)
     m = pat.search(fm)
     if not m:
         return fm, False
@@ -136,7 +140,9 @@ def patch_frontmatter_field(fm: str, key: str, new_value: str) -> tuple[str, boo
 
 
 def get_field(fm: str, key: str) -> str:
-    pat = re.compile(rf"^{re.escape(key)}:\s*(.*)$", re.MULTILINE)
+    # [ \t]* — see patch_frontmatter_field: \s* read the NEXT line as the
+    # value of an empty-valued field.
+    pat = re.compile(rf"^{re.escape(key)}:[ \t]*(.*)$", re.MULTILINE)
     m = pat.search(fm)
     return m.group(1).strip() if m else ""
 
