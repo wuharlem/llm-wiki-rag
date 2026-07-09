@@ -79,6 +79,24 @@ def test_enrich_meta_from_row_fills_only_gaps():
     assert meta["philosophical_area"] == "mind|ethics"  # copied raw; extract coerces later
 
 
+def test_extract_splits_delimited_sidecar_strings():
+    """CSV sidecar rows carry list values as delimiter-joined strings — the
+    legacy ensure_list split on comma and pipe; _as_list must keep doing so."""
+    assert fl.extract_fields({"topics": "a, b, c"}, SCHEMA)["topics"] == ["a", "b", "c"]
+    assert fl.extract_fields({"topics": "a|b|c"}, SCHEMA)["topics"] == ["a", "b", "c"]
+    assert fl.extract_fields({"philosophical_area": "mind| ethics"}, SCHEMA)["philosophical_area"] == [
+        "mind",
+        "ethics",
+    ]
+
+
+def test_as_list_strips_and_drops_empty_segments():
+    """Whitespace-only and empty segments between delimiters are dropped,
+    matching the legacy ensure_list semantics."""
+    assert fl.extract_fields({"topics": "a,, b , |c|"}, SCHEMA)["topics"] == ["a", "b", "c"]
+    assert fl.extract_fields({"topics": "   "}, SCHEMA)["topics"] == []
+
+
 def test_first_field_of_type_and_label():
     assert fl.first_field_of_type(SCHEMA, "tag_list").name == "topics"
     assert fl.first_field_of_type(SCHEMA, "concept_list") is None

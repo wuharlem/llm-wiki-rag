@@ -10,6 +10,8 @@ scripts/ingest/fetch.py (seeding), the CSV maintenance tools.
 
 from __future__ import annotations
 
+import re
+
 from scripts.wiki_lib.schema import FieldSpec, WikiSchema
 
 _LIST_TYPES = ("tag_list", "concept_list", "categorical_list")
@@ -20,8 +22,10 @@ def _as_list(v: object) -> list[str]:
         return []
     if isinstance(v, list):
         return [str(x).strip() for x in v if str(x).strip()]
-    s = str(v).strip()
-    return [s] if s else []
+    # comma-or-pipe separated fallback — CSV sidecar rows (e.g.
+    # notion_sources.csv) carry list-typed fields as "a, b, c" strings.
+    parts = re.split(r"[,|]", str(v))
+    return [p.strip() for p in parts if p.strip()]
 
 
 def lookup(meta: dict, spec: FieldSpec) -> object | None:

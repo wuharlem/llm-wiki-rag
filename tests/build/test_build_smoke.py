@@ -24,11 +24,11 @@ def test_process_md_produces_file_entry_with_chunks(mini_build_env):
     assert entry.type == "md"
     assert entry.category == "01_Risks-and-Failure-Modes"
     assert entry.subcategory == "01a_Existential-Risk"
-    assert "alignment" in entry.tags
-    assert "RLHF & Its Limitations" in entry.concepts
-    assert entry.author == "Test Author"
-    assert entry.published == "2026-01-15"
-    assert entry.source_url == "https://example.com/paper"
+    assert "alignment" in entry.fields["tags"]
+    assert "RLHF & Its Limitations" in entry.fields["concepts"]
+    assert entry.fields["author"] == "Test Author"
+    assert entry.fields["published"] == "2026-01-15"
+    assert entry.fields["source_url"] == "https://example.com/paper"
     # At least one chunk should have been produced.
     assert entry.n_chunks >= 1
     assert entry.chunks, "expected non-empty chunks list"
