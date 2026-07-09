@@ -22,16 +22,26 @@ from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
 
+from scripts.wiki_lib.fields import first_field_of_type
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.schema import get_schema
 
 WORKDIR = work_path()
 
-_WIKI = get_schema().wiki
+_schema = get_schema()
+_WIKI = _schema.wiki
 # MCP server name as registered in agent configs (`<slug>-wiki`) — distinct
 # from the FastMCP-internal MCP_SERVER_NAME (`<slug>_wiki_mcp`) derived in
 # scripts/serve/mcp_app.py.
 MCP_DISPLAY_NAME = f"{_WIKI.slug}-wiki"
+
+# Manifest taxonomy columns, resolved from the schema rather than hardcoded —
+# must match how scripts/build/index.py wrote them (CLAUDE.md §3/§9).
+_tags_field = first_field_of_type(_schema, "tag_list")
+_TAGS_COL = _tags_field.name if _tags_field else "tags"
+_concepts_field = first_field_of_type(_schema, "concept_list")
+_CONCEPTS_COL = _concepts_field.name if _concepts_field else "concepts"
+_ENUM_COL = next((f.name for f in _schema.frontmatter.fields if f.type == "enum"), "source_type")
 
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
 VAULT_CANDIDATES = [vault_path()]
@@ -164,7 +174,8 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
             sub_rows = by_cat[cat][sub]
             lines.append(f"\n### {sub}  ({len(sub_rows)})\n")
             for r in sub_rows:
-                tag_str = f"  ·  _{r['source_type']}_" if r["source_type"] else ""
+                source_type = r.get(_ENUM_COL, "")
+                tag_str = f"  ·  _{source_type}_" if source_type else ""
                 lines.append(f"- {file_link(r['file_id'], r['title'])}{tag_str}")
     master.write_text("\n".join(lines) + "\n")
 
@@ -185,7 +196,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     # ---- by_concept ----
     by_concept: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
-        for c in (r.get("concepts") or "").split("|"):
+        for c in (r.get(_CONCEPTS_COL) or "").split("|"):
             c = c.strip()
             if c:
                 by_concept[c].append(r)
@@ -252,7 +263,7 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     tag_count: Counter = Counter()
     by_tag: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
-        for t in (r["tags"] or "").split("|"):
+        for t in (r.get(_TAGS_COL, "") or "").split("|"):
             t = t.strip()
             if t:
                 tag_count[t] += 1
