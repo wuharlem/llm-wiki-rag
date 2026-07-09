@@ -58,3 +58,26 @@ def test_slug_to_title_returns_str():
 
     out = slug_to_title("rlhf_alignment_paper")
     assert isinstance(out, str) and out
+
+
+def test_risk_triggers_guarded_when_axis_renamed(monkeypatch):
+    """An instance that renames/drops the risk_category axis (real case:
+    the LLM Philosophy wiki's philosophical_area) must not KeyError at
+    import — RISK_TRIGGERS degrades to an empty dict."""
+    from scripts.wiki_lib import vocab
+    from scripts.wiki_lib.schema import CategoricalAxis, VocabularySchema, WikiSchema, get_schema
+
+    live = get_schema()
+    renamed = WikiSchema(
+        wiki=live.wiki,
+        frontmatter=live.frontmatter,
+        vocabulary=VocabularySchema(
+            concepts=dict(live.vocabulary.concepts),
+            tags=dict(live.vocabulary.tags),
+            categorical_axes={"philosophical_area": CategoricalAxis(values={"mind": ["consciousness"]})},
+            keep_upper_acronyms=list(live.vocabulary.keep_upper_acronyms),
+        ),
+        vault=live.vault,
+    )
+    monkeypatch.setattr(vocab, "get_schema", lambda: renamed)
+    assert vocab._risks() == {}
