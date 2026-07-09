@@ -25,8 +25,10 @@ import requests
 import trafilatura
 
 from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.fields import seed_missing_fields
 from scripts.wiki_lib.frontmatter import dump as fm_dump
 from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.schema import get_schema
 
 VAULT = vault_path()
 WORK = work_path()
@@ -231,10 +233,11 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     }
     if desc:
         meta["description"] = desc
-    meta["tags"] = []
-    meta["concepts"] = []
-    meta["risk_category"] = []
-    meta["source_type"] = None
+    # Seed empty taxonomy fields for whatever the schema declares — the human
+    # (or ingest agent) fills them per PROCESS_NEW_FILE.md Step 2. Fields
+    # already carried under an alias (e.g. `source:` for source_url) are not
+    # duplicated; derived fields are never seeded.
+    seed_missing_fields(meta, get_schema())
     body = f"# {title}\n\n{extracted}\n"
     out = fm_dump(meta, body)
     fname = f"{slugify(title, 100)}_{short_hash(url)}.md"
