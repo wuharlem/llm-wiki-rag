@@ -37,6 +37,7 @@ Skips: .obsidian/, _inbox/, _trash_*/, _dupes_*/, _audit_*.md, _health_check_*.m
 import csv
 import re
 import shutil
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -180,7 +181,13 @@ def pdf_row(path: Path, classifications_idx: dict[str, dict], existing_idx: dict
         default = f.pdf_default if f.pdf_default is not None else ""
         # lookup() is alias-aware, so a pre-rename CSV's old column names still count.
         prev_val = lookup(prev, f)
-        row[f.name] = str(prev_val).strip() if prev_val is not None else fm_extra.get(f.name, default)
+        val = str(prev_val).strip() if prev_val is not None else ""
+        if not val:
+            # Classifications tier is also alias-aware; a whitespace-only
+            # preserved value falls through here too, not just "".
+            cls_val = lookup(fm_extra, f)
+            val = str(cls_val).strip() if cls_val is not None else ""
+        row[f.name] = val or default
     for key in ("author", "published", "description"):
         row[key] = (prev.get(key) or "").strip()
     return row
@@ -213,13 +220,14 @@ def load_existing() -> dict[str, dict]:
     return idx
 
 
-def main():
+def main() -> int:
     classifications_idx = load_classifications()
     print(f"Loaded {len(classifications_idx)} classifications for PDF augmentation\n")
 
     # Must run before the backup/overwrite below — it reads the same file
     # main() later replaces (CLAUDE.md-style contract: existing CSV is the
     # PDF metadata source of truth).
+    existing_loaded = OUT.exists()
     existing_idx = load_existing()
 
     rows = []
@@ -243,6 +251,20 @@ def main():
             if path.name in existing_idx:
                 preserved += 1
 
+    # Guard against the load-failure re-derive side door: if the existing CSV
+    # loaded (OUT.exists() was true) but not one PDF row matched it, the CSV
+    # is likely corrupted (truncated/renamed header) rather than legitimately
+    # empty of PDFs — load_existing() silently returned {} and every PDF row
+    # below re-derived from scratch. Abort before backup/write.
+    if existing_loaded and pdf_count > 0 and preserved == 0:
+        print(
+            f"FAIL: {OUT.name} exists but not one of {pdf_count} PDFs matched an existing row — "
+            "the CSV is likely corrupted (truncated/renamed header?). Refusing to overwrite and "
+            "re-derive PDF metadata from scratch; inspect the file or delete it deliberately, then re-run.",
+            file=sys.stderr,
+        )
+        return 1
+
     # Sort: by folder then filename for stable diffs
     rows.sort(key=lambda r: (r["folder"], r["filename"]))
 
@@ -263,7 +285,8 @@ def main():
     print(f"  .pdf: {pdf_count}")
     print(f"  pdf rows preserved from existing CSV: {preserved}")
     print(f"  skipped (obsidian/inbox/trash/dupes/audit): {skipped}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

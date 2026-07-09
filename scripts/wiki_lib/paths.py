@@ -53,6 +53,16 @@ register_cache_reset_hook(_invalidate_meta_doc_cache)
 def __getattr__(name: str):
     # PEP 562 compat: `paths.META_DOC_BASENAMES` / `from paths import
     # META_DOC_BASENAMES` keep working, now always fresh.
+    #
+    # Trap: monkeypatching `paths.META_DOC_BASENAMES` directly (e.g.
+    # `monkeypatch.setattr(paths, "META_DOC_BASENAMES", {...})`) materializes
+    # a real module attribute. That permanently shadows this __getattr__ —
+    # module-level attributes are only consulted via __getattr__ when they
+    # don't already exist — so even after monkeypatch's undo removes the
+    # attribute again, any caching/ordering assumptions built on "this always
+    # goes through __getattr__" can silently stop holding for the rest of the
+    # process. Tests must patch `_meta_doc_cache` directly or swap the schema
+    # (e.g. via SCHEMA_PATH) instead; never setattr this name.
     if name == "META_DOC_BASENAMES":
         return meta_doc_basenames()
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

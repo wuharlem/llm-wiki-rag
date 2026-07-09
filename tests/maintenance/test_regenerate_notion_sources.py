@@ -130,3 +130,43 @@ def test_backup_written_before_overwrite(mini_setup):
     backups = list(mini_setup.parent.glob("notion_sources.backup_*.csv"))
     assert len(backups) == 1
     assert "deleted_cafebabe.pdf" in backups[0].read_text(), "backup carries the pre-regen state"
+
+
+def test_corrupted_header_aborts_without_overwrite(mini_setup):
+    """A CSV whose header lost/renamed `filename` makes load_existing() match
+    nothing — every PDF row would silently re-derive from scratch (the
+    2026-07-09 incident through a side door). main() must refuse to run."""
+    corrupted_header = [h if h != "filename" else "file_name_typo" for h in EXISTING_HEADER]
+    corrupted_row = {k: v for k, v in EXISTING_PDF_ROW.items() if k != "filename"}
+    corrupted_row["file_name_typo"] = EXISTING_PDF_ROW["filename"]
+    with mini_setup.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=corrupted_header)
+        w.writeheader()
+        w.writerow(corrupted_row)
+
+    before = mini_setup.read_text()
+    assert rns.main() == 1
+    after = mini_setup.read_text()
+    assert after == before, "output CSV must be unchanged — no overwrite"
+    assert not list(mini_setup.parent.glob("notion_sources.backup_*.csv")), "no backup should be written either"
+
+
+def test_whitespace_only_preserved_value_backfills_from_classifications(mini_setup, tmp_path):
+    """A preserved field that is whitespace-only (not exactly "") is still a
+    gap, not a real value: tier 1 must strip before deciding fall-through, and
+    the classifications tier (tier 2) must be alias-aware via lookup()."""
+    with mini_setup.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=EXISTING_HEADER)
+        w.writeheader()
+        w.writerow({**EXISTING_PDF_ROW, "tags": "   "})
+
+    classifications_path = tmp_path / "01_data" / "classifications.csv"
+    with classifications_path.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["filename", "tags"])
+        w.writeheader()
+        w.writerow({"filename": PDF_NAME, "tags": "backfilled, from-classifications"})
+
+    rns.main()
+    rows = _rows(mini_setup)
+    row = rows[PDF_NAME]
+    assert row["tags"] == "backfilled, from-classifications", "whitespace-only value must backfill, not freeze"
