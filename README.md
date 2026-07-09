@@ -10,11 +10,13 @@
 
 **Build-and-maintenance pipeline for an LLM-maintained wiki** — ingest sources into a Markdown (Obsidian-compatible) vault, build a chunked hybrid-retrieval index (BM25 + dense + rerank), and serve it to agents over MCP. Topic-agnostic: everything domain-specific lives in one file, `wiki_schema.yml`.
 
-[Quick Start](#using-this-template) · [Create Your Own Wiki](#creating-your-own-wiki-on-a-different-topic) · [Pipeline Stages](#pipeline-stages) · [Folder Layout](#folder-layout) · [Reproducibility](#reproducibility-read-this-first)
+[Quick Start](#using-this-template) · [Create Your Own Wiki](#creating-your-own-wiki-on-a-different-topic) · [Pipeline Stages](#pipeline-stages) · [Folder Layout](#folder-layout) · [Reproducibility](#reproducibility-read-this-first) · [Architecture](ARCHITECTURE.md)
 
 </div>
 
 > **This repo is the machinery, not a wiki.** It ships no vault content — bring your own via `WIKI_VAULT`. The schema shipped here is the AI-safety wiki the pipeline was built for, kept as a filled-in worked example; `wiki_schema.sample.yml` is the blank starting point.
+>
+> New to the design? [`ARCHITECTURE.md`](ARCHITECTURE.md) is the narrative layer — why the system is shaped this way, how it relates to Karpathy's "LLM-maintained wiki" pattern, and the end-to-end data flow.
 
 ## Using this template
 
