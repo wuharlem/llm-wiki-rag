@@ -12,12 +12,24 @@ giving the header:
   filename, folder, title, url, tags, concepts, risk_category,
   source_type, author, published, description
 
-For PDFs:
-  - filename, folder come from the path
-  - title is derived from the filename stem (underscores -> spaces, ".pdf" stripped)
-  - url is empty (PDFs don't carry source URLs in our pipeline)
-  - other fields are pulled from `01_data/classifications.csv` if present
-    (which is how the original CSV got PDF concepts/risk tags)
+For PDFs, a PDF carries no frontmatter of its own — the existing
+notion_sources.csv row IS its curated metadata (PROCESS_NEW_FILE.md
+Step 2). Regeneration therefore MERGES rather than re-derives, with
+per-field-group fallback tiers:
+  - filename, folder: always refreshed from disk (a PDF may have moved)
+  - title: existing row's value, else derived from the filename stem
+    (underscores -> spaces, trailing 8-hex hash stripped)
+  - url, author, published, description: existing row's value, else empty
+    (only notion_sources.csv itself carries these for PDFs)
+  - taxonomy fields (tags, concepts, risk_category, source_type):
+    existing row (alias-aware via wiki_lib.fields.lookup), else
+    `01_data/classifications.csv`, else the schema's pdf_default
+    (source_type today) or empty
+  - a PDF with no existing row (brand new) starts at the fallback tiers,
+    same as before
+Guards against the 2026-07-09 incident where a regen run re-derived
+every PDF row from scratch and wiped url/author/published/tags on
+410 rows (restored from the tool's own backup).
 
 Skips: .obsidian/, _inbox/, _trash_*/, _dupes_*/, _audit_*.md, _health_check_*.md.
 """
@@ -28,6 +40,7 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
+from scripts.wiki_lib.fields import lookup
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.schema import FieldSpec, get_schema
 
@@ -147,28 +160,29 @@ def md_row(path: Path) -> dict | None:
     return row
 
 
-def pdf_row(path: Path, classifications_idx: dict[str, dict]) -> dict:
+def pdf_row(path: Path, classifications_idx: dict[str, dict], existing_idx: dict[str, dict]) -> dict:
     # Title: strip trailing _<8-hex-hash>.pdf if present, then underscore -> space
     stem = path.stem
     stem = re.sub(r"_[0-9a-f]{8}$", "", stem)
-    title = re.sub(r"_+", " ", stem).strip()
+    derived_title = re.sub(r"_+", " ", stem).strip()
 
-    # Pull source_type / risk / concepts from classifications.csv if available
+    # Precedence: existing CSV row (the PDF's real metadata) > classifications.csv
+    # > derived/pdf_default. filename/folder always refresh from disk.
+    prev = existing_idx.get(path.name, {})
     fm_extra = classifications_idx.get(path.name, {})
     row = {
         "filename": path.name,
         "folder": folder_of(path),
-        "title": title,
-        "url": "",
+        "title": (prev.get("title") or "").strip() or derived_title,
+        "url": (prev.get("url") or "").strip(),
     }
     for f in TAXONOMY_FIELDS:
-        # most PDFs are papers — fallback sourced from the schema's pdf_default
-        # (source_type today), not a literal (CLAUDE.md §9)
         default = f.pdf_default if f.pdf_default is not None else ""
-        row[f.name] = fm_extra.get(f.name, default)
-    row["author"] = ""
-    row["published"] = ""
-    row["description"] = ""
+        # lookup() is alias-aware, so a pre-rename CSV's old column names still count.
+        prev_val = lookup(prev, f)
+        row[f.name] = str(prev_val).strip() if prev_val is not None else fm_extra.get(f.name, default)
+    for key in ("author", "published", "description"):
+        row[key] = (prev.get(key) or "").strip()
     return row
 
 
@@ -184,12 +198,32 @@ def load_classifications() -> dict[str, dict]:
     return idx
 
 
+def load_existing() -> dict[str, dict]:
+    """Prior notion_sources.csv rows keyed by filename. The existing CSV is
+    the source of truth for PDF metadata (a PDF's csv row IS its frontmatter,
+    PROCESS_NEW_FILE.md Step 2) — regeneration must preserve, not re-derive."""
+    idx: dict[str, dict] = {}
+    if not OUT.exists():
+        return idx
+    with OUT.open() as f:
+        for row in csv.DictReader(f):
+            fn = (row.get("filename") or "").strip()
+            if fn:
+                idx[fn] = row
+    return idx
+
+
 def main():
     classifications_idx = load_classifications()
     print(f"Loaded {len(classifications_idx)} classifications for PDF augmentation\n")
 
+    # Must run before the backup/overwrite below — it reads the same file
+    # main() later replaces (CLAUDE.md-style contract: existing CSV is the
+    # PDF metadata source of truth).
+    existing_idx = load_existing()
+
     rows = []
-    md_count = pdf_count = 0
+    md_count = pdf_count = preserved = 0
     skipped = 0
     for path in sorted(VAULT.rglob("*")):
         if not path.is_file():
@@ -203,9 +237,11 @@ def main():
                 rows.append(row)
                 md_count += 1
         elif path.suffix == ".pdf":
-            row = pdf_row(path, classifications_idx)
+            row = pdf_row(path, classifications_idx, existing_idx)
             rows.append(row)
             pdf_count += 1
+            if path.name in existing_idx:
+                preserved += 1
 
     # Sort: by folder then filename for stable diffs
     rows.sort(key=lambda r: (r["folder"], r["filename"]))
@@ -225,6 +261,7 @@ def main():
     print(f"\nWrote {len(rows)} rows -> {OUT}")
     print(f"  .md:  {md_count}")
     print(f"  .pdf: {pdf_count}")
+    print(f"  pdf rows preserved from existing CSV: {preserved}")
     print(f"  skipped (obsidian/inbox/trash/dupes/audit): {skipped}")
 
 
