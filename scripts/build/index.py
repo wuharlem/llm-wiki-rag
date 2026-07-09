@@ -35,13 +35,17 @@ import time
 import warnings
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
 
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 from scripts.wiki_lib.config import get_config
-from scripts.wiki_lib.fields import enrich_meta_from_row, extract_fields, first_field_of_type
+from scripts.wiki_lib.fields import (
+    enrich_meta_from_row,
+    extract_fields,
+    field_label,
+    first_field_of_type,
+)
 from scripts.wiki_lib.frontmatter import (
     split as split_frontmatter,
 )
@@ -152,18 +156,6 @@ def count_tokens(text: str) -> int:
 def slugify(s: str, maxlen: int = 80) -> str:
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
     return s[:maxlen] if s else "untitled"
-
-
-def ensure_list(v: Any) -> list[str]:
-    if v is None:
-        return []
-    if isinstance(v, list):
-        return [str(x).strip() for x in v if str(x).strip()]
-    if isinstance(v, str):
-        # comma-or-pipe separated fallback
-        parts = re.split(r"[,|]", v)
-        return [p.strip() for p in parts if p.strip()]
-    return [str(v)]
 
 
 # ---------------------------------------------------------------------------
@@ -492,9 +484,6 @@ def load_classifications() -> dict[str, dict]:
 # Per-file detail page (Obsidian-browseable)
 # ---------------------------------------------------------------------------
 def write_detail_md(entry: FileEntry) -> Path:
-    # Mechanical bridge (Task 3): entry.<taxonomy attr> -> f.get(<name>, ...).
-    # Full generic rewrite driven by the schema is Task 4.
-    f = entry.fields
     WIKI_FILES_DIR.mkdir(parents=True, exist_ok=True)
     fname = f"{entry.file_id}__{slugify(entry.title)}.md"
     p = WIKI_FILES_DIR / fname
@@ -507,30 +496,36 @@ def write_detail_md(entry: FileEntry) -> Path:
     lines.append(f"subcategory: {entry.subcategory}")
     lines.append(f"n_chunks: {entry.n_chunks}")
     lines.append(f"n_tokens: {entry.n_tokens}")
-    if f.get("tags"):
-        lines.append("tags: [" + ", ".join(f.get("tags") or []) + "]")
+    schema = get_schema()
+    tag_field = first_field_of_type(schema, "tag_list")
+    tags = entry.fields.get(tag_field.name, []) if tag_field else []
+    if tags:
+        lines.append("tags: [" + ", ".join(tags) + "]")
     lines.append("---")
     lines.append("")
     lines.append(f"# {entry.title}")
     lines.append("")
-    # link back to the source file
     rel_to_vault = entry.relpath
     obsidian_link = rel_to_vault.replace(".md", "").replace(".pdf", "")
     lines.append(f"**Source:** [[{obsidian_link}]]  ")
-    if f.get("source_url"):
-        lines.append(f"**URL:** {f.get('source_url', '')}  ")
-    if f.get("author"):
-        lines.append(f"**Author:** {f.get('author', '')}  ")
-    if f.get("published"):
-        lines.append(f"**Published:** {f.get('published', '')}  ")
-    lines.append(f"**Type:** {f.get('source_type', '') or entry.type}  ")
+    # Scalar schema fields as metadata rows (skip derived e.g. summary — rendered below).
+    for spec in schema.frontmatter.fields:
+        if spec.derived or spec.type in ("tag_list", "concept_list", "categorical_list"):
+            continue
+        val = entry.fields.get(spec.name, "")
+        if spec.name == "source_type":
+            val = val or entry.type  # historic behavior: fall back to md|pdf
+        if val:
+            lines.append(f"**{field_label(spec)}:** {val}  ")
     if entry.n_pages:
         lines.append(f"**Pages:** {entry.n_pages}  ")
     lines.append("")
-    if f.get("concepts"):
-        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in (f.get("concepts") or [])))
-    if f.get("risk_category"):
-        lines.append("**Risk categories:** " + ", ".join(f.get("risk_category") or []))
+    for spec in schema.frontmatter.fields:
+        vals = entry.fields.get(spec.name) or []
+        if spec.type == "concept_list" and vals:
+            lines.append(f"**{field_label(spec)}:** " + ", ".join(f"[[{c}]]" for c in vals))
+        elif spec.type == "categorical_list" and vals:
+            lines.append(f"**{field_label(spec)}:** " + ", ".join(vals))
     lines.append("")
     lines.append("## Summary")
     lines.append("")
