@@ -101,3 +101,30 @@ def test_repo_wiki_schema_loads():
     assert field_names, "frontmatter.fields must be non-empty"
     assert len(field_names) == len(set(field_names)), "duplicate manifest columns"
     assert s.vocabulary.concepts, "concepts vocab must be non-empty"
+
+
+def test_fieldspec_extensions_load_from_live_schema():
+    """Tier-2 field metadata: aliases/derived/label/pdf_default (CLAUDE.md §9)."""
+    from scripts.wiki_lib.schema import _reset_schema_cache, get_schema
+
+    _reset_schema_cache()
+    by_name = {f.name: f for f in get_schema().frontmatter.fields}
+    assert by_name["source_url"].aliases == ["source", "url"]
+    assert by_name["source_url"].label == "URL"
+    assert by_name["risk_category"].label == "Risk categories"
+    assert by_name["source_type"].pdf_default == "research_paper"
+    assert by_name["summary"].derived is True
+    # defaults on an unannotated field
+    assert by_name["tags"].aliases == [] and by_name["tags"].derived is False
+    assert by_name["tags"].label is None and by_name["tags"].pdf_default is None
+
+
+def test_reserved_field_name_requires_derived():
+    """A non-derived field named after a pipeline attribute must fail loudly —
+    it would otherwise silently shadow the pipeline value (the sample-summary bug)."""
+    from scripts.wiki_lib.schema import FieldSpec, FrontmatterSchema
+
+    with pytest.raises(ValidationError, match="collide with pipeline attributes"):
+        FrontmatterSchema(fields=[FieldSpec(name="summary", type="string")])
+    # derived: true is the sanctioned form
+    FrontmatterSchema(fields=[FieldSpec(name="summary", type="string", derived=True)])

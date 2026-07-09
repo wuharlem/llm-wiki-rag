@@ -28,6 +28,7 @@ from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from scripts.wiki_lib.config import get_config
 from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.schema import get_schema
 
 VAULT = vault_path()
 WORK = work_path()
@@ -50,17 +51,14 @@ def parse_frontmatter(text: str) -> dict | None:
         return None
     fm = m.group(1)
     out = {}
-    for k in (
-        "title",
-        "source",
-        "author",
-        "published",
-        "description",
-        "tags",
-        "concepts",
-        "risk_category",
-        "source_type",
-    ):
+    # Fixed sidecar identity keys + whatever non-derived taxonomy fields the
+    # schema declares (CLAUDE.md §1/§9). `source` is a fixed identity key
+    # (an alias of the schema's `source_url` field, which also appears
+    # below under its own name); dedupe while preserving order.
+    keys = ("title", "source", "author", "published", "description") + tuple(
+        f.name for f in get_schema().frontmatter.fields if not f.derived
+    )
+    for k in dict.fromkeys(keys):
         out[k] = get_field(fm, k)
     return out
 
@@ -106,7 +104,10 @@ def richness(meta: dict) -> int:
         if v and v not in ("null", "~", "", "[]"):
             score += 1
     # List-valued fields: count if non-empty
-    for k in ("tags", "concepts", "risk_category"):
+    list_fields = [
+        f.name for f in get_schema().frontmatter.fields if f.type in ("tag_list", "concept_list", "categorical_list")
+    ]
+    for k in list_fields:
         v = meta.get(k, "")
         if v and v not in ("null", "~", "", "[]") and v != "[ ]":
             # naive: longer == richer

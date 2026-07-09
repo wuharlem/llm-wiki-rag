@@ -21,6 +21,13 @@ wiki:
 #   tag_list / concept_list / categorical_list — draw from `vocabulary` below
 #   enum   — closed scalar set (specify values:)
 #   string / date_string / url — free-form scalars with light shape validation
+# Optional per-field keys:
+#   aliases: [alt, keys]  — alternate frontmatter/CSV keys, tried after `name`
+#                           (e.g. source_url reads `source:` or `url:` too)
+#   derived: true         — the pipeline computes this value (e.g. a summary);
+#                           it is never read from frontmatter
+#   label: "Display name" — label on generated detail pages (default: from name)
+#   pdf_default: value    — fallback when a PDF sidecar row lacks the field
 frontmatter:
   fields:
     - {name: tags,          type: tag_list,         vocab_key: tags}
@@ -30,7 +37,7 @@ frontmatter:
     - {name: author,        type: string}
     - {name: published,     type: date_string}
     - {name: source_url,    type: url}
-    - {name: summary,       type: string}
+    - {name: summary,        type: string, derived: true}  # pipeline-computed — see `derived:` note above
 
 vocabulary:
   # Canonical concept name -> trigger phrases for the heuristic classifier.

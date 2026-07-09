@@ -35,17 +35,23 @@ import time
 import warnings
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
 
 # silence pypdf's noisy crypto deprecation warning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 from scripts.wiki_lib.config import get_config
+from scripts.wiki_lib.fields import (
+    enrich_meta_from_row,
+    extract_fields,
+    field_label,
+    first_field_of_type,
+)
 from scripts.wiki_lib.frontmatter import (
     split as split_frontmatter,
 )
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.schema import get_schema
 
 
 # pypdf is only needed for PDF extraction. Defer the import so md-only
@@ -111,13 +117,9 @@ class FileEntry:
     subcategory: str  # e.g. 01a_Existential-Risk
     description: str
     summary: str  # description if good, else derived
-    tags: list[str] = field(default_factory=list)
-    concepts: list[str] = field(default_factory=list)
-    risk_category: list[str] = field(default_factory=list)
-    source_type: str = ""
-    author: str = ""
-    published: str = ""
-    source_url: str = ""
+    fields: dict[str, str | list[str]] = field(
+        default_factory=dict
+    )  # schema frontmatter fields (CLAUDE.md §3), keyed by canonical name
     n_pages: int = 0  # PDFs only
     n_chunks: int = 0
     n_tokens: int = 0
@@ -154,18 +156,6 @@ def count_tokens(text: str) -> int:
 def slugify(s: str, maxlen: int = 80) -> str:
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
     return s[:maxlen] if s else "untitled"
-
-
-def ensure_list(v: Any) -> list[str]:
-    if v is None:
-        return []
-    if isinstance(v, list):
-        return [str(x).strip() for x in v if str(x).strip()]
-    if isinstance(v, str):
-        # comma-or-pipe separated fallback
-        parts = re.split(r"[,|]", v)
-        return [p.strip() for p in parts if p.strip()]
-    return [str(v)]
 
 
 # ---------------------------------------------------------------------------
@@ -405,21 +395,12 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
     if not body.strip():
         return None
     info = classifications.get(path.name, {})
-    # Enrich missing frontmatter fields from notion_sources.csv.
-    for k in (
-        "title",
-        "description",
-        "author",
-        "published",
-        "source",
-        "source_type",
-        "tags",
-        "concepts",
-        "risk_category",
-    ):
-        csv_key = "url" if k == "source" else k
-        if (not meta.get(k)) and info.get(csv_key):
-            meta[k] = info[csv_key]
+    # Enrich missing frontmatter from the notion_sources.csv sidecar row:
+    # title/description are pipeline-fixed keys; schema fields go alias-aware.
+    for k in ("title", "description"):
+        if (not meta.get(k)) and info.get(k):
+            meta[k] = info[k]
+    enrich_meta_from_row(meta, info, get_schema())
     title = str(meta.get("title") or path.stem).strip()
     parts = relpath.split(os.sep)
     category = parts[0] if len(parts) > 1 else ""
@@ -438,13 +419,7 @@ def process_md(path: Path, classifications: dict[str, dict]) -> FileEntry | None
         subcategory=subcategory,
         description=desc,
         summary=summary,
-        tags=ensure_list(meta.get("tags")),
-        concepts=ensure_list(meta.get("concepts")),
-        risk_category=ensure_list(meta.get("risk_category")),
-        source_type=str(meta.get("source_type") or "").strip(),
-        author=str(meta.get("author") or "").strip(),
-        published=str(meta.get("published") or "").strip(),
-        source_url=str(meta.get("source") or meta.get("url") or "").strip(),
+        fields=extract_fields(meta, get_schema()),
         n_pages=0,
         n_chunks=len(chunks),
         n_tokens=sum(c.tokens for c in chunks),
@@ -480,13 +455,7 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
         subcategory=subcategory,
         description=info.get("description") or "",
         summary=summary,
-        tags=ensure_list(info.get("tags")),
-        concepts=ensure_list(info.get("concepts")),
-        risk_category=ensure_list(info.get("risk_category")),
-        source_type=info.get("source_type") or "research_paper",
-        author=info.get("author") or "",
-        published=info.get("published") or "",
-        source_url=info.get("url") or "",
+        fields=extract_fields(info, get_schema(), pdf=True),
         n_pages=n_pages,
         n_chunks=len(chunks),
         n_tokens=sum(c.tokens for c in chunks),
@@ -527,30 +496,36 @@ def write_detail_md(entry: FileEntry) -> Path:
     lines.append(f"subcategory: {entry.subcategory}")
     lines.append(f"n_chunks: {entry.n_chunks}")
     lines.append(f"n_tokens: {entry.n_tokens}")
-    if entry.tags:
-        lines.append("tags: [" + ", ".join(entry.tags) + "]")
+    schema = get_schema()
+    tag_field = first_field_of_type(schema, "tag_list")
+    tags = entry.fields.get(tag_field.name, []) if tag_field else []
+    if tags:
+        lines.append("tags: [" + ", ".join(tags) + "]")
     lines.append("---")
     lines.append("")
     lines.append(f"# {entry.title}")
     lines.append("")
-    # link back to the source file
     rel_to_vault = entry.relpath
     obsidian_link = rel_to_vault.replace(".md", "").replace(".pdf", "")
     lines.append(f"**Source:** [[{obsidian_link}]]  ")
-    if entry.source_url:
-        lines.append(f"**URL:** {entry.source_url}  ")
-    if entry.author:
-        lines.append(f"**Author:** {entry.author}  ")
-    if entry.published:
-        lines.append(f"**Published:** {entry.published}  ")
-    lines.append(f"**Type:** {entry.source_type or entry.type}  ")
+    # Scalar schema fields as metadata rows (skip derived e.g. summary — rendered below).
+    for spec in schema.frontmatter.fields:
+        if spec.derived or spec.type in ("tag_list", "concept_list", "categorical_list"):
+            continue
+        val = entry.fields.get(spec.name, "")
+        if spec.name == "source_type":
+            val = val or entry.type  # historic behavior: fall back to md|pdf
+        if val:
+            lines.append(f"**{field_label(spec)}:** {val}  ")
     if entry.n_pages:
         lines.append(f"**Pages:** {entry.n_pages}  ")
     lines.append("")
-    if entry.concepts:
-        lines.append("**Concepts:** " + ", ".join(f"[[{c}]]" for c in entry.concepts))
-    if entry.risk_category:
-        lines.append("**Risk categories:** " + ", ".join(entry.risk_category))
+    for spec in schema.frontmatter.fields:
+        vals = entry.fields.get(spec.name) or []
+        if spec.type == "concept_list" and vals:
+            lines.append(f"**{field_label(spec)}:** " + ", ".join(f"[[{c}]]" for c in vals))
+        elif spec.type == "categorical_list" and vals:
+            lines.append(f"**{field_label(spec)}:** " + ", ".join(vals))
     lines.append("")
     lines.append("## Summary")
     lines.append("")
@@ -571,9 +546,19 @@ def write_detail_md(entry: FileEntry) -> Path:
 # Artifact emitters
 # ---------------------------------------------------------------------------
 def _emit_chunks_jsonl(entries: list[FileEntry], path: Path) -> None:
-    """Write chunks.jsonl atomically — one JSON object per chunk per file."""
+    """Write chunks.jsonl atomically — one JSON object per chunk per file.
+
+    Chunk-record keys `tags` and `concepts` are a FROZEN retrieval contract
+    (scripts/serve/retrieval.py filters on them); they are sourced from the
+    first tag_list / concept_list schema field regardless of its name.
+    """
+    schema = get_schema()
+    tag_field = first_field_of_type(schema, "tag_list")
+    concept_field = first_field_of_type(schema, "concept_list")
     chunks_buf = io.StringIO()
     for e in entries:
+        tags = e.fields.get(tag_field.name, []) if tag_field else []
+        concepts = e.fields.get(concept_field.name, []) if concept_field else []
         for c in e.chunks:
             chunks_buf.write(
                 json.dumps(
@@ -584,8 +569,8 @@ def _emit_chunks_jsonl(entries: list[FileEntry], path: Path) -> None:
                         "title": e.title,
                         "category": e.category,
                         "subcategory": e.subcategory,
-                        "tags": e.tags,
-                        "concepts": e.concepts,
+                        "tags": tags,
+                        "concepts": concepts,
                         "heading_path": c.heading_path,
                         "tokens": c.tokens,
                         "text": c.text,
@@ -602,6 +587,13 @@ def _emit_index_json(entries: list[FileEntry], path: Path, vault: Path) -> None:
     out_entries = []
     for e in entries:
         d = asdict(e)
+        flds = d.pop("fields")
+        ordered: dict = {}
+        for k, v in d.items():
+            if k == "n_pages":  # schema fields sat between summary and n_pages
+                ordered.update(flds)
+            ordered[k] = v
+        d = ordered
         d["chunks"] = [
             {"chunk_id": c["chunk_id"], "heading_path": c["heading_path"], "tokens": c["tokens"]} for c in d["chunks"]
         ]
@@ -632,8 +624,6 @@ _FIXED_TAIL: tuple[str, ...] = ("relpath",)
 
 def _manifest_columns() -> tuple[str, ...]:
     """Canonical manifest columns: fixed lead + schema.frontmatter.fields + fixed tail."""
-    from scripts.wiki_lib.schema import get_schema
-
     schema_cols = tuple(f.name for f in get_schema().frontmatter.fields)
     return _FIXED_LEAD + schema_cols + _FIXED_TAIL
 
@@ -656,7 +646,7 @@ def _cell_for(entry: "FileEntry", col: str, list_delim: str = "|"):
         if col == "title" and isinstance(v, str):
             return _scrub_str(v)
         return v
-    val = getattr(entry, col, "")
+    val = entry.fields.get(col, getattr(entry, col, ""))
     if isinstance(val, list):
         return list_delim.join(str(t) for t in val)
     if isinstance(val, str):
@@ -670,8 +660,6 @@ def _emit_manifest_csv(entries: list[FileEntry], path: Path) -> None:
     Column order: fixed build-stat lead + schema fields (in declared order) +
     `relpath`. See CLAUDE.md §3 for the cross-folder contract.
     """
-    from scripts.wiki_lib.schema import get_schema
-
     cols = _manifest_columns()
     field_delims = {f.name: f.list_delim for f in get_schema().frontmatter.fields}
 

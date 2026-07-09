@@ -15,12 +15,12 @@ frontmatter:
   fields:
     - {name: tags,          type: tag_list,          vocab_key: tags}
     - {name: concepts,      type: concept_list,      vocab_key: concepts}
-    - {name: risk_category, type: categorical_list,  vocab_key: risk_category}
-    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, other]}
+    - {name: risk_category, type: categorical_list,  vocab_key: risk_category, label: "Risk categories"}
+    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, other], pdf_default: research_paper, label: "Type"}
     - {name: author,        type: string}
     - {name: published,     type: date_string}
-    - {name: source_url,    type: url}
-    - {name: summary,       type: string}
+    - {name: source_url,    type: url, aliases: [source, url], label: "URL"}
+    - {name: summary,       type: string, derived: true}
 
 vocabulary:
   # === concepts === (was WIKI_CONCEPTS in vocab.py:10)

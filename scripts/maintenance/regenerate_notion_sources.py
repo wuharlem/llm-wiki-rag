@@ -4,9 +4,13 @@ Walk the vault, read each .md frontmatter and each .pdf path, emit the
 authoritative `01_data/notion_sources.csv` from current state. Backs up
 the existing CSV first.
 
-Schema (matches what per_folder/*.md is rendered from):
-  filename, folder, title, url, source_type, risk_category, concepts,
-  tags, author, published, description
+Schema: fixed sidecar identity columns (filename, folder, title, url,
+author, published, description) + a taxonomy block sourced from
+wiki_schema.yml.frontmatter.fields, in schema order (CLAUDE.md §1/§9).
+With the current schema that's tags, concepts, risk_category, source_type,
+giving the header:
+  filename, folder, title, url, tags, concepts, risk_category,
+  source_type, author, published, description
 
 For PDFs:
   - filename, folder come from the path
@@ -25,6 +29,7 @@ from datetime import datetime
 from pathlib import Path
 
 from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.schema import FieldSpec, get_schema
 
 VAULT = vault_path()
 WORK = work_path()
@@ -37,15 +42,30 @@ FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 SKIP_PATH_PATTERNS = ("/.obsidian/", "/_inbox/", "/_trash_", "/_dupes_")
 SKIP_NAME_PREFIXES = ("_audit_", "_health_check_")
 
+
+def _taxonomy_fields() -> list[FieldSpec]:
+    """Non-derived schema fields rendered as notion_sources.csv taxonomy columns,
+    in schema order (CLAUDE.md §1/§9)."""
+    return [
+        f
+        for f in get_schema().frontmatter.fields
+        if f.type in ("tag_list", "concept_list", "categorical_list", "enum") and not f.derived
+    ]
+
+
+TAXONOMY_FIELDS = _taxonomy_fields()
+_TAXONOMY_LIST_TYPES = ("tag_list", "concept_list", "categorical_list")
+
+# Fixed sidecar identity columns (filename/folder/title/url/author/published/
+# description) keep their literal names; the taxonomy block in the middle
+# follows schema order. Consumers read this CSV by name (csv.DictReader), so
+# reordering the taxonomy block is safe.
 FIELDS = [
     "filename",
     "folder",
     "title",
     "url",
-    "source_type",
-    "risk_category",
-    "concepts",
-    "tags",
+    *(f.name for f in TAXONOMY_FIELDS),
     "author",
     "published",
     "description",
@@ -112,19 +132,19 @@ def md_row(path: Path) -> dict | None:
     if not m:
         return None
     fm = m.group(1)
-    return {
+    row = {
         "filename": path.name,
         "folder": folder_of(path),
         "title": parse_scalar_field(get_field(fm, "title")),
         "url": parse_scalar_field(get_field(fm, "source")),
-        "source_type": parse_scalar_field(get_field(fm, "source_type")),
-        "risk_category": parse_list_field(get_field(fm, "risk_category")),
-        "concepts": parse_list_field(get_field(fm, "concepts")),
-        "tags": parse_list_field(get_field(fm, "tags")),
-        "author": parse_scalar_field(get_field(fm, "author")),
-        "published": parse_scalar_field(get_field(fm, "published")),
-        "description": parse_scalar_field(get_field(fm, "description")),
     }
+    for f in TAXONOMY_FIELDS:
+        raw = get_field(fm, f.name)
+        row[f.name] = parse_list_field(raw) if f.type in _TAXONOMY_LIST_TYPES else parse_scalar_field(raw)
+    row["author"] = parse_scalar_field(get_field(fm, "author"))
+    row["published"] = parse_scalar_field(get_field(fm, "published"))
+    row["description"] = parse_scalar_field(get_field(fm, "description"))
+    return row
 
 
 def pdf_row(path: Path, classifications_idx: dict[str, dict]) -> dict:
@@ -135,19 +155,21 @@ def pdf_row(path: Path, classifications_idx: dict[str, dict]) -> dict:
 
     # Pull source_type / risk / concepts from classifications.csv if available
     fm_extra = classifications_idx.get(path.name, {})
-    return {
+    row = {
         "filename": path.name,
         "folder": folder_of(path),
         "title": title,
         "url": "",
-        "source_type": fm_extra.get("source_type", "research_paper"),  # most PDFs are papers
-        "risk_category": fm_extra.get("risk_category", ""),
-        "concepts": fm_extra.get("concepts", ""),
-        "tags": fm_extra.get("tags", ""),
-        "author": "",
-        "published": "",
-        "description": "",
     }
+    for f in TAXONOMY_FIELDS:
+        # most PDFs are papers — fallback sourced from the schema's pdf_default
+        # (source_type today), not a literal (CLAUDE.md §9)
+        default = f.pdf_default if f.pdf_default is not None else ""
+        row[f.name] = fm_extra.get(f.name, default)
+    row["author"] = ""
+    row["published"] = ""
+    row["description"] = ""
+    return row
 
 
 def load_classifications() -> dict[str, dict]:

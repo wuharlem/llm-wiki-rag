@@ -35,6 +35,15 @@ CANONICAL_HEADER = [
 
 def _make_entry(**overrides) -> bi.FileEntry:
     """Construct a FileEntry with sane defaults; override fields via kwargs."""
+    field_values = {
+        "tags": overrides.pop("tags", []),
+        "concepts": overrides.pop("concepts", []),
+        "risk_category": overrides.pop("risk_category", []),
+        "source_type": overrides.pop("source_type", ""),
+        "author": overrides.pop("author", ""),
+        "published": overrides.pop("published", ""),
+        "source_url": overrides.pop("source_url", ""),
+    }
     defaults = dict(
         file_id="f1",
         relpath="01_Risks-and-Failure-Modes/test.md",
@@ -45,13 +54,7 @@ def _make_entry(**overrides) -> bi.FileEntry:
         subcategory="01a",
         description="",
         summary="",
-        tags=[],
-        concepts=[],
-        risk_category=[],
-        source_type="",
-        author="",
-        published="",
-        source_url="",
+        fields=field_values,
         n_pages=0,
         n_chunks=1,
         n_tokens=10,

@@ -32,6 +32,11 @@ The pipeline is topic-agnostic. All domain-specific choices live in one file: `w
    - `tag_list` — draws from `vocabulary.tags`
    - `enum` — closed set of scalars (specify `values:`)
    - `string`, `date_string`, `url` — free-form scalars with light shape validation
+
+   Each field also accepts optional `aliases:` (alternate frontmatter keys), `derived: true`
+   (pipeline-computed), `label:` (display name on generated pages), and `pdf_default:` — see
+   `wiki_schema.sample.yml` for details. Renaming a field renames its manifest column and all
+   generated output; no Python edits needed.
 4. **Fill vocabulary.** For each vocab section (`concepts`, `tags`, `categorical_axes.<axis>`), keys are the canonical names, values are lists of trigger phrases used by the heuristic classifier.
 5. **Set the vault path.** Either export `WIKI_VAULT=/path/to/your/vault` or edit `vault.default_relpath` (joined onto `Path.home()`).
 6. **Run the pipeline.** `uv run python -m scripts.cli build`, then `uv run python -m scripts.cli serve`.
@@ -117,7 +122,9 @@ Regenerates the `_index/` overview pages (one MD per concept). Run after large v
 
 ### Stage 5 — Maintenance tools
 
-The `scripts/maintenance/cleanup_metadata.py`, `scripts/ingest/dedup_report.py`, and `scripts/maintenance/regenerate_notion_sources.py` tools are dry-run-by-default; pass `--apply` to mutate. See each script's `--help` for details.
+`scripts/maintenance/cleanup_metadata.py` is dry-run-by-default; pass `--apply` to mutate. `scripts/ingest/dedup_report.py` is report-only — it writes a CSV and never deletes or modifies anything. `scripts/maintenance/regenerate_notion_sources.py` (`notion-regen`) is different: it REWRITES `01_data/notion_sources.csv` unconditionally, no `--apply` flag, though it takes a timestamped backup first. See each script's `--help` for details.
+
+**Warning:** PDF rows' `url`, `author`, `published`, and `tags` fields exist *only* in `notion_sources.csv` — they cannot be reconstructed from vault state. If a `notion-regen` run clobbers them, restore from the timestamped backup it wrote before overwriting.
 
 ## Historical pipeline (one-shot, April 2026)
 
@@ -142,5 +149,5 @@ The vault was bulk-classified in April 2026 by a one-shot pipeline that performe
 
 ## Notes
 
-- All scripts default to dry-run / report-only modes; pass `--fix` or `--apply` to make changes.
+- Most scripts default to dry-run / report-only modes (pass `--fix` or `--apply` to make changes) — except `notion-regen`, which rewrites `01_data/notion_sources.csv` unconditionally (see Stage 5 above).
 - The vault's `PROCESS_NEW_FILE.md` documents the per-file routing taxonomy and the YAML frontmatter contract.
