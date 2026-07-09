@@ -1,14 +1,14 @@
 # Architecture & Design
 
-This document is the **narrative layer** for the repo. Two other docs already cover the
-adjacent ground and are not repeated here:
+This document is the **narrative layer** for the repo. The [`README.md`](README.md) already
+covers *how to use it* (setup, template quick start, folder layout) and is not repeated here.
+(Maintainers working in-tree also have a local `CLAUDE.md` — the agent contract for changes that
+cross into a specific vault; it's not part of the public tree because it's tied to one operator's
+paths.)
 
-- **[`README.md`](README.md)** — *how to use it* (setup, template quick start, folder layout).
-- **[`CLAUDE.md`](CLAUDE.md)** — *what not to break* (the 11 code↔vault contracts, with `file:line` citations).
-
-What neither tells is the connected story: **why the system is shaped this way**, the handful
-of principles that generate all the specific rules, and how the whole thing relates to the idea
-that inspired it. That's this doc.
+What the README doesn't tell is the connected story: **why the system is shaped this way**, the
+handful of principles that generate all the specific rules, and how the whole thing relates to
+the idea that inspired it. That's this doc.
 
 ---
 
@@ -53,9 +53,10 @@ from a graph — so "graph insights" is the natural direction to grow if it ever
 
 ## 3. The design principles (the "why" layer)
 
-CLAUDE.md lists 11 cross-folder contracts as a flat, citation-dense reference. They're not
-arbitrary — almost every one is an **instance of a smaller set of principles**. Those principles
-are the connective tissue CLAUDE.md omits by design.
+The repo enforces a set of cross-folder contracts — invariants between this code and the vault it
+maintains. They're not arbitrary: almost every one is an **instance of a smaller set of
+principles**. Those principles are the connective tissue, and they're what this section makes
+explicit.
 
 **1. Single source of truth, mechanically enforced.**
 Every fact lives in exactly one place; everything else derives from it — vocabulary (schema →
@@ -63,7 +64,7 @@ generated vault block), meta-doc list (one list + one predicate), manifest colum
 (schema-derived names *and* values), path resolution (`locations.py`), tuning knobs
 (`config.yml`). The failure mode being designed against is *drift between two hand-maintained
 copies*. The fix pattern is always the same: pick one canonical home, make the other a generated
-artifact or a thin compatibility alias. *(Generates CLAUDE.md §1, §2, §3, §10.)*
+artifact or a thin compatibility alias.
 
 **2. Schema-driven everything.**
 The code is topic-agnostic; all domain knowledge is data in `wiki_schema.yml`. Adding a field,
@@ -72,14 +73,13 @@ Python. The MCP server name, manifest header, meta-doc predicate, and vocab look
 next process start. The single deliberate exception: adding a new field *type* (extending
 `FieldSpec.type`'s Literal) needs a Python edit, because a Literal can't teach Pydantic to
 validate a new shape. This is the deepest principle — the repo is the machinery, the schema is
-the cartridge. *(Generates §1, §3, §9.)*
+the cartridge.
 
 **3. Strict validation, fail loud at startup.**
 Both YAMLs and all MCP inputs are frozen Pydantic models with `extra="forbid"` + `strict=True`
 and **no fallback to Python defaults**. Typos, unknown keys, missing keys, and coerced types fail
 at first call rather than silently corrupting the index. Rationale: an LLM maintainer *will* make
 key-name and type mistakes; the system makes them loud and immediate instead of latent.
-*(Generates §4, §9.)*
 
 **4. Two orthogonal separation axes.**
 - *Machinery here vs. content there* — this repo ships no vault; the vault is the product, the
@@ -87,25 +87,24 @@ key-name and type mistakes; the system makes them loud and immediate instead of 
   all build artifacts (all regenerable or BYO).
 - *Tuning vs. domain* — `config.yml` holds mechanical knobs (chunk sizes, BM25 params, model
   names, timeouts); `wiki_schema.yml` holds what-the-wiki-is-about (fields, vocab, identity).
-  Two files precisely so they're never conflated. *(Generates §9.)*
+  Two files precisely so they're never conflated.
 
 **5. Non-destructive by default.**
 `_trash/<date>/` over `rm` (behind a user-confirmation gate); most scripts are dry-run /
 report-only with mutation gated behind `--apply`; the one unconditional writer (`notion-regen`)
 takes a timestamped backup first. An LLM operating on a curated corpus should never be one bad
-pass away from irreversible loss. *(Generates §6.)*
+pass away from irreversible loss.
 
 **6. Ephemerality discipline for one-shots.**
 Bulk-migration scripts run once and are then *deleted from the tree* (recoverable via git), never
 left as tracked code. Convention: `scripts/_oneshot_<purpose>_<date>.py`, then `git rm` before
-commit; reusable logic graduates to `wiki_lib/`. *(Generates §7.)*
+commit; reusable logic graduates to `wiki_lib/`.
 
 **7. Dual contract surface: CLI vs. MCP.**
 The same retrieval logic is exposed two ways for two audiences. **MCP** (`serve/mcp_*`) is the
 interactive/agent contract; the **`scripts.cli` facade** is the frozen shell contract for vault
 PROCESS docs and scheduled tasks. Internal module moves are free; renaming a facade command or an
 MCP tool is a breaking change requiring a same-session doc sweep. Both are guarded by meta-tests.
-*(Generates §4, §11.)*
 
 ---
 
@@ -222,6 +221,6 @@ scratch doc isn't shipped.
 ## 6. See also
 
 - **[`README.md`](README.md)** — setup, template quick start, folder layout, reproducibility.
-- **[`CLAUDE.md`](CLAUDE.md)** — the 11 cross-folder contracts (§1–§11) with `file:line` citations, and agent default behaviors.
 - **[`scripts/README.md`](scripts/README.md)** — operational how-to for the bulk fetcher.
+- **`CLAUDE.md`** (local, in-tree, not published) — the maintainer's agent contract: the cross-folder invariants with `file:line` citations and default behaviors. Present only in an operator's working copy, since it's tied to a specific vault location.
 - **Vault-side `PROCESS_*.md`** — the user-facing operational workflows (ingest / query / health-check) that agents follow; rendered into the vault by `cli vault-init`.
