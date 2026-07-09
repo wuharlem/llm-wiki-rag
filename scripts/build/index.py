@@ -513,8 +513,8 @@ def write_detail_md(entry: FileEntry) -> Path:
         if spec.derived or spec.type in ("tag_list", "concept_list", "categorical_list"):
             continue
         val = entry.fields.get(spec.name, "")
-        if spec.name == "source_type":
-            val = val or entry.type  # historic behavior: fall back to md|pdf
+        if spec.type == "enum":
+            val = val or entry.type  # historic behavior: the enum row falls back to md|pdf
         if val:
             lines.append(f"**{field_label(spec)}:** {val}  ")
     if entry.n_pages:

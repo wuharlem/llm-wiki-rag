@@ -45,6 +45,14 @@ _RESERVED_FIELD_NAMES = frozenset(
     }
 )
 
+# Fixed manifest columns (scripts/build/index.py::_FIXED_LEAD/_FIXED_TAIL) —
+# a schema field with one of these names would produce a DUPLICATE manifest
+# column regardless of `derived`, so it is rejected outright.
+# tests/meta/test_claude_md_contracts.py pins this set to index.py.
+_FIXED_MANIFEST_COLUMNS = frozenset(
+    {"file_id", "type", "category", "subcategory", "title", "n_chunks", "n_tokens", "n_pages", "relpath"}
+)
+
 
 class WikiIdentity(BaseModel):
     model_config = _MODEL_CONFIG
@@ -70,7 +78,10 @@ class FrontmatterSchema(BaseModel):
     fields: list[FieldSpec]
 
     @model_validator(mode="after")
-    def _no_reserved_non_derived_names(self) -> "FrontmatterSchema":
+    def _no_pipeline_name_collisions(self) -> "FrontmatterSchema":
+        fixed = [f.name for f in self.fields if f.name in _FIXED_MANIFEST_COLUMNS]
+        if fixed:
+            raise ValueError(f"frontmatter field name(s) {fixed} collide with fixed manifest columns; rename them")
         offenders = [f.name for f in self.fields if f.name in _RESERVED_FIELD_NAMES and not f.derived]
         if offenders:
             raise ValueError(
