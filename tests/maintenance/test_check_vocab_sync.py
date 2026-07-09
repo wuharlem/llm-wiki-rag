@@ -1,7 +1,6 @@
 """check_vocab_sync must lint generically over schema-declared axes: what
 vault-init writes for ANY axis name, build_report reads back with zero
-drift (the philosophy-instance regression: a renamed axis must neither
-KeyError nor silently go unlinted)."""
+drift (a renamed axis must neither KeyError nor silently go unlinted)."""
 
 from __future__ import annotations
 
@@ -48,9 +47,7 @@ def test_drift_is_reported_per_axis():
 
 def test_missing_axis_section_is_parse_failure_not_drift():
     schema = _schema_with_axis("philosophical_area")
-    text = "\n".join(
-        line for line in render_vocab_block(schema).splitlines() if "Philosophical Areas" not in line
-    )
+    text = "\n".join(line for line in render_vocab_block(schema).splitlines() if "Philosophical Areas" not in line)
     report, parse_failures = cvs.build_report(text, schema.vocabulary)
     assert parse_failures == ["philosophical_area"]
     assert report["concepts"]["doc_only"] == [] and report["concepts"]["code_only"] == []

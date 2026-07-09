@@ -86,7 +86,7 @@ def build_report(text: str, vocab: VocabularySchema) -> tuple[dict[str, dict], l
     schema set is non-empty but whose doc parse came back empty — a missing
     or renamed heading, not ordinary drift. Replaces the old fixed sanity
     floors (>=5 concepts / >=20 tags / >=3 risks), which assumed a mature
-    AI-safety-sized vocabulary and false-failed young instances.
+    vocabulary and false-failed young instances.
     """
     checks: list[tuple[str, set[str], set[str]]] = [
         ("concepts", _table_first_column(_section(text, "Wiki Concepts")), set(vocab.concepts)),

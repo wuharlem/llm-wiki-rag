@@ -61,9 +61,9 @@ def test_slug_to_title_returns_str():
 
 
 def test_risk_triggers_guarded_when_axis_renamed(monkeypatch):
-    """An instance that renames/drops the risk_category axis (real case:
-    the LLM Philosophy wiki's philosophical_area) must not KeyError at
-    import — RISK_TRIGGERS degrades to an empty dict."""
+    """An instance that renames/drops the risk_category axis (e.g. to
+    philosophical_area) must not KeyError at import — RISK_TRIGGERS
+    degrades to an empty dict."""
     from scripts.wiki_lib import vocab
     from scripts.wiki_lib.schema import CategoricalAxis, VocabularySchema, WikiSchema, get_schema
 
