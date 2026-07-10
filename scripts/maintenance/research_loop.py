@@ -177,9 +177,24 @@ def cmd_list(args) -> int:
     return 0
 
 
-def cmd_hits(args) -> int:  # implemented in Task 3
-    print("hits: not implemented yet", file=sys.stderr)
-    raise SystemExit(2)
+def cmd_hits(args) -> int:
+    lines, entries = _load()
+    e = _find(entries, args.slug)
+    i, j = _entry_lines(lines, e)
+    body = [ln for ln in lines[i + 1 : j] if ln.strip() and not _RESEARCHED_RE.match(ln) and not _STAGED_RE.match(ln)]
+    first_para = body[0] if body else ""
+    query = f"{e.title} {first_para}".strip()[:300]
+
+    from scripts.serve.retrieval import search  # lazy: hits is the only retrieval consumer
+
+    results = search(query, k=args.k, mode="hybrid", rerank_results=False)
+    if not results:
+        print("no corpus hits")
+        return 0
+    for r in results:
+        print(f"{r['score']:7.3f}  {r['title'][:60]:60s}  {r['relpath']}")
+        print(f"         {r['text'][:200].replace(chr(10), ' ')}")
+    return 0
 
 
 def _marker_line(brief: str, today: dt.date, n_staged: int) -> str:

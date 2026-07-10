@@ -241,3 +241,30 @@ Trailing text.
     assert e.last_researched == "2026-07-10"
     # fence intact: still an even number of fence delimiters in the entry body
     assert text.count("```") % 2 == 0
+
+
+def test_hits_prints_corpus_evidence(tmp_path, monkeypatch, capsys):
+    _tmp_vault(tmp_path, monkeypatch)
+    from scripts.serve import retrieval as wr
+
+    chunks = [
+        {
+            "file_id": "aaaaaaaaaaaa",
+            "chunk_id": "c0000",
+            "relpath": "01/A.md",
+            "title": "Jailbreak severity frameworks",
+            "category": "01",
+            "subcategory": "",
+            "heading_path": "",
+            "tokens": 5,
+            "tags": [],
+            "concepts": [],
+            "text": "cross-industry jailbreak severity framework adoption",
+        }
+    ]
+    monkeypatch.setattr(wr._ctx, "chunks", chunks)
+    monkeypatch.setattr(wr._ctx, "chunks_by_file", {"aaaaaaaaaaaa": chunks})
+    rc = rl.main(["hits", "cross-industry-jailbreak-severity-framework", "--k", "3"])
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "Jailbreak severity frameworks" in out and "01/A.md" in out
