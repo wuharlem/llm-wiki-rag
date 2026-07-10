@@ -22,6 +22,7 @@ COMMANDS: dict[str, tuple[str, str]] = {
     "build": ("scripts.build.index", "Build the chunked RAG index (chunks.jsonl, manifest.csv)"),
     "mirror": ("scripts.build.wiki_mirror", "Rebuild the Obsidian _index/ mirror from the manifest"),
     "embed": ("scripts.build.embeddings", "Embed chunks for hybrid retrieval (run with --extra semantic)"),
+    "graph": ("scripts.build.graph", "Build the file-relatedness graph (graph.json: neighbors, communities, insights)"),
     "query": ("scripts.serve.query_cli", "Query the index from the shell (BM25 + dense + RRF)"),
     "serve": ("scripts.serve.mcp_server", "Run the wiki MCP server (stdio)"),
     "fetch": ("scripts.ingest.fetch", "Bulk-fetch URLs into the vault's Sources/_inbox/"),
