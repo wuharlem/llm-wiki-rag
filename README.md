@@ -149,13 +149,13 @@ uv run python -m scripts.cli build
 
 Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
 
-When the semantic extra is installed (`uv run --extra all ...`), `build` automatically runs both a graph-relatedness pass (producing `01_data/index/graph.json`; file neighbors, communities, insights) and an incremental embeddings refresh (which reuses cached embeddings for unchanged chunks, so the pass is usually ~free). The degraded behavior when the extra is missing is to skip these passes with a note to stderr — the core index artifacts are always built.
+`build` always auto-runs `graph` at the end, producing `01_data/index/graph.json` (file-relatedness graph: neighbors, communities, insights). It also runs an incremental embeddings refresh when the semantic extra is installed — the refresh reuses cached embeddings for unchanged chunks, so it's usually ~free; without the extra it degrades to a skip note on stderr and the core index artifacts still build. Only the graph's embedding *signal* depends on embeddings being present.
 
 For explicit full rebuilds or standalone semantics work, use:
 
 ```bash
-uv run --extra all python -m scripts.cli embed    # explicit rebuild
-uv run python -m scripts.cli graph                 # refresh graph only
+uv run --extra all python -m scripts.cli embed    # explicit rebuild (--force to skip the hash delta)
+uv run python -m scripts.cli graph                 # refresh graph only (e.g. after embed)
 ```
 
 ### Stage 3 — Query
