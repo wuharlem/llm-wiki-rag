@@ -203,6 +203,7 @@ def mini_build_env(monkeypatch, mini_vault: Path, tmp_path: Path):
     """
     import types
 
+    from scripts.build import embeddings as emb
     from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
@@ -214,6 +215,10 @@ def mini_build_env(monkeypatch, mini_vault: Path, tmp_path: Path):
     monkeypatch.setattr(bi, "CACHE_DIR", data_dir / ".cache")
     monkeypatch.setattr(bi, "WIKI_INDEX_DIR", mini_vault / "_index")
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", files_dir)
+
+    # Stub out embeddings.main so mini-vault tests don't try to load the semantic
+    # extra or hit the live index artifacts during the build hook.
+    monkeypatch.setattr(emb, "main", lambda argv=None: None)
 
     yield types.SimpleNamespace(
         vault=mini_vault,

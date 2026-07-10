@@ -782,6 +782,17 @@ def main():
     except Exception as e:
         print(f"graph stage skipped: {e}", file=sys.stderr)
 
+    # Embeddings stage (incremental-embeddings spec 2026-07-10): hash-delta,
+    # so this is ~free when nothing changed. Never fails the build; catches
+    # SystemExit because embeddings.main sys.exit(1)s when the semantic
+    # extra isn't installed.
+    try:
+        from scripts.build import embeddings as emb_mod
+
+        emb_mod.main([])
+    except (Exception, SystemExit) as e:
+        print(f"embeddings stage skipped: {e}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

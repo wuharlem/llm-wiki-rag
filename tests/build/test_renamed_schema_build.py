@@ -68,6 +68,7 @@ def renamed_schema(tmp_path, monkeypatch):
 
 
 def test_renamed_fields_populate_manifest_and_chunks(renamed_schema, tmp_path, monkeypatch):
+    from scripts.build import embeddings as emb
     from scripts.build import index as bi
 
     vault = tmp_path / "vault"
@@ -81,6 +82,7 @@ def test_renamed_fields_populate_manifest_and_chunks(renamed_schema, tmp_path, m
     monkeypatch.setattr(bi, "CACHE_DIR", data_dir / ".cache")
     monkeypatch.setattr(bi, "WIKI_INDEX_DIR", vault / "_index")
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", vault / "_index" / "files")
+    monkeypatch.setattr(emb, "main", lambda argv=None: None)
     monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     bi.main()
 

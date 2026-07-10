@@ -187,3 +187,30 @@ def test_interrupted_write_recovers(emb_env):
     FakeModel.encode_calls = []
     _run(em)
     assert FakeModel.encode_calls == [["alpha"]]
+
+
+def test_build_hook_calls_embeddings(monkeypatch, mini_build_env):
+    """index.main() invokes the embeddings stage after the graph stage."""
+    from scripts.build import embeddings as em
+    from scripts.build import index as bi
+
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index"])
+    called = {}
+    monkeypatch.setattr(em, "main", lambda argv=None: called.setdefault("argv", argv))
+    bi.main()
+    assert called["argv"] == []
+
+
+def test_build_hook_survives_systemexit(monkeypatch, mini_build_env, capsys):
+    """Missing semantic deps (sys.exit(1) inside embeddings.main) never fails the build."""
+    from scripts.build import embeddings as em
+    from scripts.build import index as bi
+
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index"])
+
+    def boom(argv=None):
+        raise SystemExit(1)
+
+    monkeypatch.setattr(em, "main", boom)
+    bi.main()  # must not raise
+    assert "embeddings stage skipped" in capsys.readouterr().err

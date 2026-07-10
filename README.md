@@ -145,11 +145,18 @@ Note: `fetch` imports `requests` and `trafilatura`, which are not uv-managed pro
 
 ```bash
 uv run python -m scripts.cli build
-uv run --extra all python -m scripts.cli embed
-uv run python -m scripts.cli graph
 ```
 
-Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads. `build` also auto-runs `graph` at the end, producing `01_data/index/graph.json` (file-relatedness graph: neighbors, communities, insights); re-run `graph` by hand after `embed` to fold the embedding signal into the graph edges.
+Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
+
+When the semantic extra is installed (`uv run --extra all ...`), `build` automatically runs both a graph-relatedness pass (producing `01_data/index/graph.json`; file neighbors, communities, insights) and an incremental embeddings refresh (which reuses cached embeddings for unchanged chunks, so the pass is usually ~free). The degraded behavior when the extra is missing is to skip these passes with a note to stderr — the core index artifacts are always built.
+
+For explicit full rebuilds or standalone semantics work, use:
+
+```bash
+uv run --extra all python -m scripts.cli embed    # explicit rebuild
+uv run python -m scripts.cli graph                 # refresh graph only
+```
 
 ### Stage 3 — Query
 
