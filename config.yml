@@ -20,7 +20,12 @@ retrieval:
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
   graph_expansion:              # graph-neighbor expansion of hybrid search (spec 2026-07-10)
-    enabled: false              # HARD DEFAULT OFF — flip only after A/B on real queries
+    enabled: true               # flipped ON 2026-07-10 after the A/B (4 real queries, rerank on:
+                                # zero top-k harm — the cross-encoder gates injected neighbors;
+                                # they only matter as a recall net on hard/underfilled queries).
+                                # Expansion participates when reranking or when hybrid retrieval
+                                # underfills the request. Template adopters: start false, A/B
+                                # on your own corpus first.
     seed_hits: 5                # top fused hits whose neighbors are considered
     neighbors_per_hit: 3        # max neighbors injected per seed
     min_edge_score: 3.0         # edge floor for expansion (above the build floor)
