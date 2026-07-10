@@ -243,6 +243,35 @@ Trailing text.
     assert text.count("```") % 2 == 0
 
 
+def test_hits_query_skips_fenced_body(tmp_path, monkeypatch, capsys):
+    doc = (
+        DOC
+        + """
+## [2026-07-02] gap | Fence-first entry
+
+```
+fenced example text that must not become the query
+```
+
+Real prose line about interpretability probes.
+"""
+    )
+    _tmp_vault(tmp_path, monkeypatch, doc=doc)
+    from scripts.serve import retrieval as wr
+
+    captured = {}
+
+    def fake_search(query, **kw):
+        captured["q"] = query
+        return []
+
+    monkeypatch.setattr(wr, "search", fake_search)
+    rc = rl.main(["hits", rl.slugify_title("Fence-first entry")])
+    assert rc == 0
+    assert "fenced example text" not in captured["q"]
+    assert "Real prose line about interpretability probes" in captured["q"]
+
+
 def test_hits_prints_corpus_evidence(tmp_path, monkeypatch, capsys):
     _tmp_vault(tmp_path, monkeypatch)
     from scripts.serve import retrieval as wr

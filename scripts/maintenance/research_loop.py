@@ -181,7 +181,15 @@ def cmd_hits(args) -> int:
     lines, entries = _load()
     e = _find(entries, args.slug)
     i, j = _entry_lines(lines, e)
-    body = [ln for ln in lines[i + 1 : j] if ln.strip() and not _RESEARCHED_RE.match(ln) and not _STAGED_RE.match(ln)]
+    body: list[str] = []
+    fence = False
+    for ln in lines[i + 1 : j]:
+        if ln.startswith("```"):
+            fence = not fence
+            continue
+        if fence or not ln.strip() or _RESEARCHED_RE.match(ln) or _STAGED_RE.match(ln):
+            continue
+        body.append(ln)
     first_para = body[0] if body else ""
     query = f"{e.title} {first_para}".strip()[:300]
 
