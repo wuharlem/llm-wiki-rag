@@ -70,6 +70,8 @@ def test_louvain_deterministic_and_insights():
     ins = g.extract_insights(G, g.detect_communities(G, CFG), CFG)
     iso_ids = {i["file_id"] for i in ins["isolated"]}
     assert "dddddddddddd" in iso_ids or "eeeeeeeeeeee" in iso_ids  # hub-only files below degree floor
+    surprising_pairs = {frozenset((s["a"], s["b"])) for s in ins["surprising"]}
+    assert frozenset(("cccccccccccc", "aaaaaaaaaaaa")) not in surprising_pairs
 
 
 def test_artifact_roundtrip(tmp_path):

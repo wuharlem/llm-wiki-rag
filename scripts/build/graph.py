@@ -191,6 +191,8 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
 
     cross = []
     for a, b, d in G.edges(data=True):
+        if d["signals"].get("wikilink"):
+            continue  # a citation edge is not "surprising" — it's deliberate cross-referencing
         cc = communities.get(a) != communities.get(b)
         cat = G.nodes[a]["category"] != G.nodes[b]["category"]
         if cc or cat:
