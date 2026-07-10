@@ -55,7 +55,10 @@ Call `graph_insights()` once per health-check pass and triage three finding clas
 - **Sparse communities** (`kind="sparse_community"`) — a topic cluster with weak
   internal cross-referencing; a candidate for concept curation or a synthesis page.
 - **Surprising connections** (`kind="surprising"`) — strong cross-cluster edges are
-  research leads, not defects: file the interesting ones as open questions.
+  research leads, not defects: file the interesting ones as open questions. Triage by
+  the payload flags: `cross_community: true` edges are the genuine leads —
+  `cross_category`-only pairs are usually md/pdf duplicate ingests of the same paper,
+  so route those to the dedup report instead.
 
 `built_at` in the payload tells you whether the graph predates recent ingests —
 rebuild before trusting it.
