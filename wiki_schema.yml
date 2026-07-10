@@ -233,6 +233,7 @@ vocabulary:
     DeepMind: ["deepmind"]
     Google: ["google "]
     Meta: [" meta "]
+    xAI: ["xai", "x.ai"]
     MIRI: ["miri "]
     ARC: ["arc evals", "alignment research center"]
     METR: ["metr "]
@@ -279,6 +280,7 @@ vocabulary:
     InstructGPT: ["instructgpt"]
     Llama: ["llama"]
     Llama-Guard: ["llama guard", "llama-guard"]
+    Grok: ["grok"]
     o3: [" o3 ", "o3 model"]
     # other
     mistakes: ["mistake-class risk", "high-stakes mistake"]
