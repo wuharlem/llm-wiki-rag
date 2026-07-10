@@ -109,6 +109,10 @@ class VaultSchema(BaseModel):
     meta_doc_basenames: list[str]
     default_relpath: list[str]
     sandbox_mount_glob: str
+    # Vault-relative folder holding maintained concept articles
+    # (`<slug>__synthesis.md`, one per concept). Optional so existing
+    # schemas load unchanged; consumed by scripts/build/wiki_mirror.py.
+    concept_articles_relpath: str = "Concepts"
 
 
 class WikiSchema(BaseModel):

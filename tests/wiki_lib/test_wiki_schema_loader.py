@@ -138,3 +138,21 @@ def test_fixed_manifest_column_names_rejected_even_derived():
     for derived in (False, True):
         with pytest.raises(ValidationError, match="fixed manifest column"):
             FrontmatterSchema(fields=[FieldSpec(name="title", type="string", derived=derived)])
+
+
+def test_concept_articles_relpath_default(tmp_path, monkeypatch):
+    """Key absent from YAML -> default 'Concepts' (existing schemas load unchanged)."""
+    p = _write(tmp_path, _FULL_VALID_YAML)
+    monkeypatch.setattr(schema_mod, "SCHEMA_PATH", p)
+    assert schema_mod.get_schema().vault.concept_articles_relpath == "Concepts"
+
+
+def test_concept_articles_relpath_explicit(tmp_path, monkeypatch):
+    body = _FULL_VALID_YAML.replace(
+        'sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"',
+        'sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"\n'
+        '  concept_articles_relpath: "06_Concept-Articles"',
+    )
+    p = _write(tmp_path, body)
+    monkeypatch.setattr(schema_mod, "SCHEMA_PATH", p)
+    assert schema_mod.get_schema().vault.concept_articles_relpath == "06_Concept-Articles"
