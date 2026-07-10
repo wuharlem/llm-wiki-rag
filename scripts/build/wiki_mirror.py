@@ -143,7 +143,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 
 ## How to query (LLM agents)
 
-**Preferred:** the `{MCP_DISPLAY_NAME}` MCP server. Twelve tools:
+**Preferred:** the `{MCP_DISPLAY_NAME}` MCP server. Fourteen tools:
 
 | Tool | Use |
 |---|---|
@@ -152,6 +152,8 @@ A RAG-style index over every source file in this vault. Built and maintained by
 | `get_file_detail` | Full per-file context for a promising hit. |
 | `list_categories` / `list_concepts` / `list_tags` | Discover taxonomy values. |
 | `find_related_concepts` | Jaccard concept-graph navigation. |
+| `find_related_files` | File-level graph neighbors with per-signal breakdown. |
+| `graph_insights` | Structural findings: isolated files, sparse communities, bridges, surprising connections. |
 | `index_stats` | Confirm index size / freshness. |
 | `save_query` | File a Q&A back into `_index/saved_queries/`. Auto-logs to `log.md`. |
 | `append_log` / `append_open_question` | Vault timeline + standing-questions list. |

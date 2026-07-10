@@ -46,8 +46,11 @@ Three stances make this repo distinctive as an implementation of that pattern:
    an LLM under contract*, not clicked by a human.
 
 Karpathy's pattern also envisions a knowledge-graph layer (visualization, surfacing surprising
-connections and gaps). This repo does not attempt that half — relevance comes from rerank, not
-from a graph — so "graph insights" is the natural direction to grow if it ever matters here.
+connections and gaps). For a long time this repo didn't attempt that half — relevance came from
+rerank, not from a graph. The graph layer landed 2026-07-10: a file-relatedness graph
+(`01_data/index/graph.json`) built from shared vocabulary, wikilink citations, and embedding
+similarity, exposed via `find_related_files` / `graph_insights` and an optional retrieval-time
+expansion signal (see §4 Retrieval design and MCP surface).
 
 ---
 
@@ -157,6 +160,7 @@ vault-init`. Internal modules move freely as long as this table keeps pointing a
 - `chunks.jsonl` — one chunk per line: `file_id, chunk_id, relpath, title, category, tags[], concepts[], heading_path, tokens, text`. The `tags`/`concepts` keys are a **frozen retrieval contract**.
 - `manifest.csv` — flat per-file table; 17 columns = 8 fixed build-stat + schema `frontmatter.fields` (in declared order) + `relpath`. Renaming a schema field renames its column *and* keeps it populated.
 - `embeddings.npy` (n×384 float32) + `embeddings_ids.json` + `embeddings_meta.json`.
+- `graph.json` — file-relatedness graph (neighbors, communities, insights).
 - `source_state.json` — the rebuild-debounce fingerprint (written only by the MCP `rebuild_index`, not by CLI builds).
 
 ### Retrieval design
@@ -168,13 +172,14 @@ All in `scripts/serve/retrieval.py`; tuning constants come from `config.yml → 
 - **Fusion** — `_rrf` (`:362`): Reciprocal Rank Fusion (`k=60`), each retriever oversampled before merge.
 - **Rerank** — `rerank` (`:410`): CrossEncoder `ms-marco-MiniLM-L-6-v2` over the top candidates.
 - **Orchestrator** — `search(...)` (`:443`): `mode ∈ {bm25, semantic, hybrid}`. Hybrid oversamples both retrievers, RRF-merges, then optionally reranks — and **degrades gracefully to BM25** when embeddings aren't built and to unranked results when the `rerank` extra isn't installed.
+- **Graph expansion** — optional post-RRF neighbor injection (config `retrieval.graph_expansion`, default off).
 
 ### MCP surface
 
 The server is split three ways so the tool surface stays a stable import point:
 
 - `serve/mcp_app.py` — the FastMCP `mcp` singleton (`:71`), the server-name derivation, and the canonical error envelope + `_wrap_errors` decorator (`:37`).
-- `serve/mcp_tools/{search,browse,write,admin}.py` — the 12 tool implementations, grouped by concern.
+- `serve/mcp_tools/{search,browse,write,admin}.py` — the 14 tool implementations, grouped by concern (`browse.py` now also carries `find_related_files` / `graph_insights`).
 - `serve/mcp_server.py` — the runnable entrypoint; re-exports the whole surface.
 
 Every tool returns a JSON string; every failure path returns the same envelope,

@@ -41,6 +41,12 @@ it is the distilled, cited answer. Then use `search_wiki` for specifics the arti
 settle. If the article looks stale against what retrieval returns, file that as an open
 question rather than silently working around it.
 
+For file-level exploration — "what else in this vault is like this file?" — call
+`find_related_files(file_id)`: graph neighbors with the signals that connect them
+(shared rare vocabulary, wikilink citations, embedding similarity). `graph_insights`
+surfaces corpus-level structure (isolated files, sparse clusters, surprising
+connections) when you are auditing coverage rather than answering a question.
+
 ## How to call `save_query`
 
 ```python

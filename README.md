@@ -146,9 +146,10 @@ Note: `fetch` imports `requests` and `trafilatura`, which are not uv-managed pro
 ```bash
 uv run python -m scripts.cli build
 uv run --extra all python -m scripts.cli embed
+uv run python -m scripts.cli graph
 ```
 
-Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
+Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads. `build` also auto-runs `graph` at the end, producing `01_data/index/graph.json` (file-relatedness graph: neighbors, communities, insights); re-run `graph` by hand after `embed` to fold the embedding signal into the graph edges.
 
 ### Stage 3 — Query
 

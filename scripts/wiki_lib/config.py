@@ -32,6 +32,15 @@ class ChunkingConfig(BaseModel):
     words_per_token: float
 
 
+class GraphExpansionConfig(BaseModel):
+    model_config = _MODEL_CONFIG
+
+    enabled: bool
+    seed_hits: int
+    neighbors_per_hit: int
+    min_edge_score: float
+
+
 class RetrievalConfig(BaseModel):
     model_config = _MODEL_CONFIG
 
@@ -44,6 +53,7 @@ class RetrievalConfig(BaseModel):
     rerank_candidates: int
     reranker_model: str
     embedding_model: str
+    graph_expansion: GraphExpansionConfig
 
 
 class IngestConfig(BaseModel):
@@ -55,12 +65,30 @@ class IngestConfig(BaseModel):
     drop_query_param_prefixes: list[str]
 
 
+class GraphConfig(BaseModel):
+    model_config = _MODEL_CONFIG
+
+    concept_weight: float
+    tag_weight: float
+    wikilink_weight: float
+    embedding_weight: float
+    min_cosine: float
+    min_edge_score: float
+    top_k_neighbors: int
+    louvain_seed: int
+    isolated_max_degree: float
+    sparse_density: float
+    sparse_min_size: int
+    surprising_top_n: int
+
+
 class Config(BaseModel):
     model_config = _MODEL_CONFIG
 
     chunking: ChunkingConfig
     retrieval: RetrievalConfig
     ingest: IngestConfig
+    graph: GraphConfig
 
 
 _cached_config: Config | None = None
@@ -91,5 +119,7 @@ __all__ = [
     "ChunkingConfig",
     "RetrievalConfig",
     "IngestConfig",
+    "GraphConfig",
+    "GraphExpansionConfig",
     "get_config",
 ]

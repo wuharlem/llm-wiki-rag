@@ -774,6 +774,14 @@ def main():
     print(f"Wrote {log_p}")
     print("Done.")
 
+    # Graph stage (spec 2026-07-10): never fails the build.
+    try:
+        from scripts.build import graph as graph_mod
+
+        graph_mod.main([])
+    except Exception as e:
+        print(f"graph stage skipped: {e}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

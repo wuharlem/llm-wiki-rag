@@ -74,6 +74,10 @@ class SearchInput(BaseModel):
         default=False,
         description="Include per-term BM25 contribution breakdown in each result, so you can see *why* a chunk ranked highly. Only applies to BM25 / hybrid modes.",
     )
+    expand_graph: bool | None = Field(
+        default=None,
+        description="Graph-neighbor expansion (hybrid mode only): pull strong graph-neighbors of the top hits into the candidate pool before reranking. None (default) follows config.yml retrieval.graph_expansion.enabled (currently false). Pair with rerank=true — without reranking, expansion only participates when retrieval underfills the request; silently a no-op without the graph artifact.",
+    )
 
     @field_validator("file_type")
     @classmethod
@@ -233,6 +237,7 @@ def search_wiki(params: SearchInput) -> str:
         mode=params.mode,
         rerank_results=params.rerank,
         explain=params.explain,
+        expand_graph=params.expand_graph,
     )
     if not params.include_text:
         for r in results:

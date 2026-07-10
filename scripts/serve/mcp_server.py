@@ -15,8 +15,12 @@ from scripts.serve.mcp_app import (  # noqa: F401
 from scripts.serve.mcp_tools.admin import RebuildIndexInput, rebuild_index  # noqa: F401
 from scripts.serve.mcp_tools.browse import (  # noqa: F401
     FindRelatedConceptsInput,
+    FindRelatedFilesInput,
+    GraphInsightsInput,
     ListInput,
     find_related_concepts,
+    find_related_files,
+    graph_insights,
     index_stats,
     list_categories,
     list_concepts,

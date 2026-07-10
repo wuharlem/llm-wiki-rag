@@ -46,6 +46,20 @@
 > **Fill this in:** add vault-specific checks as they earn their place (each new check should
 > come from a real incident, with a one-line note of what happened).
 
+## Graph lint (when the graph artifact is built)
+
+Call `graph_insights()` once per health-check pass and triage three finding classes:
+
+- **Isolated files** (`kind="isolated"`) — near-zero graph degree usually means
+  under-tagging; fix taxonomy, not the graph.
+- **Sparse communities** (`kind="sparse_community"`) — a topic cluster with weak
+  internal cross-referencing; a candidate for concept curation or a synthesis page.
+- **Surprising connections** (`kind="surprising"`) — strong cross-cluster edges are
+  research leads, not defects: file the interesting ones as open questions.
+
+`built_at` in the payload tells you whether the graph predates recent ingests —
+rebuild before trusting it.
+
 ## Decisions that always need user confirmation
 
 - Removing or renaming vocabulary values (the user owns the vocab).

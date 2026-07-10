@@ -21,6 +21,7 @@ EXPECTED_COMMANDS = {
     "build",
     "mirror",
     "embed",
+    "graph",
     "query",
     "serve",
     "fetch",
