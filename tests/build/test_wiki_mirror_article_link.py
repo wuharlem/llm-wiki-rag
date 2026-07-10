@@ -9,9 +9,7 @@ def test_article_wikilink_present(tmp_path):
     articles = tmp_path / wm._ARTICLES_RELPATH
     articles.mkdir(parents=True)
     (articles / "Guardrails__synthesis.md").write_text("# Guardrails — Synthesis\n")
-    assert wm.article_wikilink(tmp_path, "Guardrails") == (
-        "[[Guardrails__synthesis|Guardrails — maintained article]]"
-    )
+    assert wm.article_wikilink(tmp_path, "Guardrails") == ("[[Guardrails__synthesis|Guardrails — maintained article]]")
 
 
 def test_article_wikilink_absent(tmp_path):

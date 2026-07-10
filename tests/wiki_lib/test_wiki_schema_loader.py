@@ -150,8 +150,7 @@ def test_concept_articles_relpath_default(tmp_path, monkeypatch):
 def test_concept_articles_relpath_explicit(tmp_path, monkeypatch):
     body = _FULL_VALID_YAML.replace(
         'sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"',
-        'sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"\n'
-        '  concept_articles_relpath: "06_Concept-Articles"',
+        'sandbox_mount_glob: "/sessions/*/mnt/TestWiki--TestWiki"\n  concept_articles_relpath: "06_Concept-Articles"',
     )
     p = _write(tmp_path, body)
     monkeypatch.setattr(schema_mod, "SCHEMA_PATH", p)
