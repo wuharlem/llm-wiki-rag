@@ -263,7 +263,10 @@ def _load_graph() -> dict:
         return _ctx.graph
     if not GRAPH_PATH.exists():
         raise FileNotFoundError(f"missing {GRAPH_PATH}; run `python -m scripts.cli graph` (or a full build) first")
-    _ctx.graph = json.loads(GRAPH_PATH.read_text())
+    try:
+        _ctx.graph = json.loads(GRAPH_PATH.read_text())
+    except json.JSONDecodeError as e:
+        raise FileNotFoundError(f"corrupt {GRAPH_PATH} — rebuild with python -m scripts.cli graph") from e
     return _ctx.graph
 
 
@@ -612,7 +615,7 @@ def search(
                             continue
                         best = bm25_search(query, cands, k=1)
                         chunk = best[0][1] if best else cands[0]
-                        score = best[0][0] if best else 0.0
+                        score = (best[0][0] if best else 0.0) if rerank_results else 0.0
                         hits.append((score, chunk))
                         expansion_ids.add((chunk["file_id"], chunk["chunk_id"]))
                         seen_files.add(nb["file_id"])

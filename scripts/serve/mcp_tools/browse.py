@@ -4,6 +4,7 @@ index_stats, find_related_files, graph_insights."""
 from __future__ import annotations
 
 import json
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -52,12 +53,20 @@ class FindRelatedFilesInput(BaseModel):
     file_id: str = Field(
         ..., description="12-hex file id (as returned by search_wiki / get_file_detail).", min_length=12, max_length=12
     )
-    top_k: int = Field(default=8, description="Max neighbors to return.", ge=1, le=25)
+    top_k: int = Field(
+        default=8,
+        description=(
+            "Max neighbors to return. Values above config graph.top_k_neighbors (default 10) return at most "
+            "that many — the artifact stores top-10 per file."
+        ),
+        ge=1,
+        le=25,
+    )
 
 
 class GraphInsightsInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    kind: str | None = Field(
+    kind: Literal["isolated", "sparse_community", "bridge", "surprising"] | None = Field(
         default=None,
         description="Filter to one insight class: isolated | sparse_community | bridge | surprising. Omit for all four.",
     )

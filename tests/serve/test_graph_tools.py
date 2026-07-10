@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 import pytest
+from pydantic import ValidationError
 
 from scripts.serve import mcp_server as ws
 from scripts.serve import retrieval as wr
@@ -83,3 +84,8 @@ def test_graph_not_built(tmp_path, monkeypatch):
 def test_graph_insights_kind_filter(fake_graph):
     out = json.loads(ws.graph_insights(ws.GraphInsightsInput(kind="isolated", limit=5)))
     assert list(out["insights"].keys()) == ["isolated"]
+
+
+def test_graph_insights_kind_rejects_bogus_value():
+    with pytest.raises(ValidationError):
+        ws.GraphInsightsInput(kind="bogus")

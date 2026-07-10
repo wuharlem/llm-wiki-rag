@@ -19,6 +19,7 @@ the index build (the index.py hook wraps this in try/except).
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 from collections import defaultdict
@@ -176,6 +177,8 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
         n = len(ms)
         if n < cfg.sparse_min_size:
             continue
+        if n < 2:
+            continue  # density is undefined for a singleton community; guards sparse_min_size < 2
         internal = sum(1 for a, b in G.edges(ms) if communities.get(a) == cid and communities.get(b) == cid)
         density = internal / (n * (n - 1) / 2)
         if density < cfg.sparse_density:
@@ -218,8 +221,8 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
 
 
 def _top_concepts(G, member_ids: list[str], k: int = 3) -> list[str]:
-    # Node attrs don't carry concepts; recover from titles is wrong — carry a
-    # module-level side table instead. build_graph stores it on the graph object.
+    # Node attrs don't carry concepts; recover from titles is wrong — build_graph
+    # stores the per-file concept sets on G.graph["file_concepts"] instead.
     counts = defaultdict(int)
     for fid in member_ids:
         for c in G.graph.get("file_concepts", {}).get(fid, ()):
@@ -275,7 +278,9 @@ def write_artifact(G, communities: dict[str, int], insights: dict, cfg, out_path
         "insights": insights,
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(payload, ensure_ascii=False))
+    tmp_path = out_path.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps(payload, ensure_ascii=False))
+    os.replace(tmp_path, out_path)
     return payload
 
 
