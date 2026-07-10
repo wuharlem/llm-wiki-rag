@@ -1,7 +1,7 @@
 """
 test_retrieval_context — pin the RetrievalContext dataclass contract.
 
-Locks in the canonical 8-field set, default-None construction, the invalidate()
+Locks in the canonical 9-field set, default-None construction, the invalidate()
 behavior, and (via subclass) the iterate-__dataclass_fields__ implementation
 contract. Run before any consumer migrates onto it.
 """
@@ -23,6 +23,7 @@ CANONICAL_FIELDS = {
     "emb_chunk_index",
     "query_model",
     "reranker",
+    "graph",
 }
 
 
