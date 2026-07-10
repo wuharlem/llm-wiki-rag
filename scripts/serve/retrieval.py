@@ -810,6 +810,7 @@ def multi_query_search(
     *,
     mode: str = "hybrid",
     rerank_results: bool = False,
+    expand_graph: bool | None = None,
 ) -> list[dict]:
     """Run several queries in parallel and fuse their results via RRF.
 
@@ -818,6 +819,11 @@ def multi_query_search(
     model exploitation", "limitations of human feedback"]) and call this
     once. The fused list catches chunks that any individual phrasing would
     miss while still ranking universally-relevant chunks at the top.
+
+    `expand_graph` is forwarded to each per-query search() call (None ->
+    config default). The per-query calls run with rerank off, so expansion
+    participates only for paraphrases that underfill the per-query pool —
+    obscure phrasings, which is exactly where multi-query needs the help.
     """
     if not queries:
         return []
@@ -827,7 +833,7 @@ def multi_query_search(
     ranked_lists: list[list[tuple[float, dict]]] = []
     for q in queries:
         # Reuse search()'s pipeline (BM25/semantic/hybrid + filters).
-        results = search(q, k=per_query_k, filters=filters, mode=mode, rerank_results=False)
+        results = search(q, k=per_query_k, filters=filters, mode=mode, rerank_results=False, expand_graph=expand_graph)
         # Reconstruct (score, chunk-like-dict) pairs for RRF.
         ranked_lists.append([(r["score"], r) for r in results])
 

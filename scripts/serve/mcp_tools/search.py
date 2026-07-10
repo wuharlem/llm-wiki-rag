@@ -129,6 +129,10 @@ class MultiQueryInput(BaseModel):
     mode: str = Field(default="hybrid", description="bm25 | semantic | hybrid (default).")
     rerank: bool = Field(default=False, description="Cross-encoder rerank the fused list against the first query.")
     include_text: bool = Field(default=True)
+    expand_graph: bool | None = Field(
+        default=None,
+        description="Graph-neighbor expansion, forwarded to each per-query search. None (default) follows config.yml retrieval.graph_expansion.enabled. Per-query calls run without rerank, so expansion only participates for paraphrases that underfill their candidate pool; silently a no-op without the graph artifact.",
+    )
 
     @field_validator("mode")
     @classmethod
@@ -340,6 +344,7 @@ def multi_query_search(params: MultiQueryInput) -> str:
         ),
         mode=params.mode,
         rerank_results=params.rerank,
+        expand_graph=params.expand_graph,
     )
     if not params.include_text:
         for r in results:
