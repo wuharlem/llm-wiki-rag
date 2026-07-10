@@ -47,6 +47,7 @@ INDEX_JSON_PATH = DATA_DIR / "index.json"
 EMB_NPY_PATH = DATA_DIR / "embeddings.npy"
 EMB_IDS_PATH = DATA_DIR / "embeddings_ids.json"
 EMB_META_PATH = DATA_DIR / "embeddings_meta.json"
+GRAPH_PATH = DATA_DIR / "graph.json"
 
 # The user's Obsidian vault lives separately from the working dir; save_query
 # writes back into it. Resolution (env / sandbox mount / home default) lives in
@@ -252,6 +253,61 @@ def bm25_search(
 
 
 # ---------------------------------------------------------------------------
+# Graph consumers (scripts/build/graph.py artifact: 01_data/index/graph.json)
+# ---------------------------------------------------------------------------
+
+
+def _load_graph() -> dict:
+    """Load graph.json (cached). Raises FileNotFoundError when not built."""
+    if _ctx.graph is not None:
+        return _ctx.graph
+    if not GRAPH_PATH.exists():
+        raise FileNotFoundError(f"missing {GRAPH_PATH}; run `python -m scripts.cli graph` (or a full build) first")
+    _ctx.graph = json.loads(GRAPH_PATH.read_text())
+    return _ctx.graph
+
+
+def find_related_files(file_id: str, top_k: int = 8) -> list[dict]:
+    """Graph neighbors of one file, richest-edge first, with per-signal breakdown."""
+    g = _load_graph()
+    rec = g["files"].get(file_id)
+    if rec is None:
+        raise KeyError(f"file_id {file_id!r} not in graph (unknown id, or file below every edge floor)")
+    labels = {c["id"]: c["label"] for c in g.get("communities", [])}
+    out = []
+    for nb in rec["neighbors"][:top_k]:
+        n = dict(nb)
+        n["relpath"] = g["files"].get(nb["file_id"], {}).get("relpath", "")
+        n["community_label"] = labels.get(g["files"].get(nb["file_id"], {}).get("community"))
+        out.append(n)
+    return out
+
+
+_INSIGHT_KINDS = ("isolated", "sparse_communities", "bridges", "surprising")
+
+
+def graph_insights(kind: str | None = None, limit: int = 20) -> dict:
+    """The build-time insight block, optionally filtered to one kind."""
+    g = _load_graph()
+    kinds = _INSIGHT_KINDS
+    if kind is not None:
+        alias = {
+            "isolated": "isolated",
+            "sparse_community": "sparse_communities",
+            "bridge": "bridges",
+            "surprising": "surprising",
+        }
+        if kind not in alias:
+            raise ValueError(f"kind must be one of {sorted(alias)} (got {kind!r})")
+        kinds = (alias[kind],)
+    return {
+        "built_at": g.get("built_at"),
+        "n_communities": g.get("n_communities"),
+        "insights": {k: g["insights"].get(k, [])[:limit] for k in kinds},
+    }
+
+
+# ---------------------------------------------------------------------------
 # Semantic (dense) retrieval
 #
 # Embeddings live at 01_data/index/embeddings.npy as a (n_chunks, dim) float32
@@ -448,6 +504,7 @@ def search(
     mode: str = "bm25",  # "bm25" | "semantic" | "hybrid"
     rerank_results: bool = False,
     explain: bool = False,
+    expand_graph: bool | None = None,
 ) -> list[dict]:
     """Run a query against the wiki index.
 
@@ -460,6 +517,14 @@ def search(
     (~40 chunks) which is then re-scored by a cross-encoder before truncation
     to k. Requires the [rerank] extra. Falls back gracefully to the unranked
     list if the cross-encoder model isn't available.
+
+    `expand_graph` only affects `mode == "hybrid"`: `None` (default) follows
+    `get_config().retrieval.graph_expansion.enabled`; `True`/`False` overrides
+    it for this call. When active, it pulls each top hit's graph neighbors
+    (from `01_data/index/graph.json`) into the candidate pool before
+    reranking/truncation; injected results carry `"source": "graph_expansion"`.
+    Missing graph.json is a silent no-op, matching the graceful degradation
+    already used for missing embeddings.
 
     Returns a list of result dicts in rank order:
       [
@@ -486,6 +551,8 @@ def search(
     # cross-encoder has more to choose from; truncate to k AFTER reranking.
     retrieve_k = _RERANK_CANDIDATES if rerank_results else k
 
+    expansion_ids: set[tuple[str, str]] = set()
+
     if mode == "bm25":
         hits = bm25_search(query, pool, k=retrieve_k, explain=explain)
     elif mode == "semantic":
@@ -504,6 +571,47 @@ def search(
         hits = _rrf(bm25_hits, sem_hits, k=retrieve_k)
     else:
         raise ValueError(f"unknown mode: {mode!r}")
+
+    if mode == "hybrid":
+        cfg_ge = _CFG_RETRIEVAL.graph_expansion
+        active = cfg_ge.enabled if expand_graph is None else expand_graph
+        if active:
+            try:
+                graph = _load_graph()
+            except FileNotFoundError:
+                graph = None
+            if graph:
+                seen_files = {c["file_id"] for _, c in hits}
+                seeds = []
+                for _, c in hits:
+                    if c["file_id"] not in seeds:
+                        seeds.append(c["file_id"])
+                    if len(seeds) >= cfg_ge.seed_hits:
+                        break
+                pool_ids = {(c["file_id"], c["chunk_id"]) for c in pool}
+                load_all_chunks()  # ensure _ctx.chunks_by_file
+                for seed in seeds:
+                    nbrs = (graph["files"].get(seed) or {}).get("neighbors", [])
+                    injected = 0
+                    for nb in nbrs:
+                        if injected >= cfg_ge.neighbors_per_hit:
+                            break
+                        if nb["score"] < cfg_ge.min_edge_score or nb["file_id"] in seen_files:
+                            continue
+                        cands = [
+                            c
+                            for c in (_ctx.chunks_by_file or {}).get(nb["file_id"], [])
+                            if (c["file_id"], c["chunk_id"]) in pool_ids
+                        ]
+                        if not cands:
+                            continue
+                        best = bm25_search(query, cands, k=1)
+                        chunk = best[0][1] if best else cands[0]
+                        score = best[0][0] if best else 0.0
+                        hits.append((score, chunk))
+                        expansion_ids.add((chunk["file_id"], chunk["chunk_id"]))
+                        seen_files.add(nb["file_id"])
+                        injected += 1
 
     if rerank_results and hits:
         try:
@@ -532,6 +640,8 @@ def search(
         }
         if explain and "_explain" in c:
             entry["explain"] = c["_explain"]
+        if (c["file_id"], c["chunk_id"]) in expansion_ids:
+            entry["source"] = "graph_expansion"
         out.append(entry)
     return out
 

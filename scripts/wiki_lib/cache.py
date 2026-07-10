@@ -20,6 +20,7 @@ class RetrievalContext:
     emb_chunk_index: dict[tuple[str, str], int] | None = None
     query_model: Any = None  # SentenceTransformer instance
     reranker: Any = None  # CrossEncoder instance
+    graph: dict | None = None  # parsed graph.json (scripts/build/graph.py artifact)
 
     def invalidate(self) -> None:
         for f in self.__dataclass_fields__:
