@@ -16,7 +16,7 @@ frontmatter:
     - {name: tags,          type: tag_list,          vocab_key: tags}
     - {name: concepts,      type: concept_list,      vocab_key: concepts}
     - {name: risk_category, type: categorical_list,  vocab_key: risk_category, label: "Risk categories"}
-    - {name: source_type,   type: enum, values: [research_paper, model_card, blog_post, video, book, code, dataset, synthesis, other], pdf_default: research_paper, label: "Type"}
+    - {name: source_type,   type: enum, values: [research_paper, model_card, blog_post, video, book, code, dataset, synthesis, policy, other], pdf_default: research_paper, label: "Type"}
     - {name: author,        type: string}
     - {name: published,     type: date_string}
     - {name: source_url,    type: url, aliases: [source, url], label: "URL"}

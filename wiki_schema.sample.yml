@@ -33,7 +33,7 @@ frontmatter:
     - {name: tags,          type: tag_list,         vocab_key: tags}
     - {name: concepts,      type: concept_list,     vocab_key: concepts}
     - {name: risk_category, type: categorical_list, vocab_key: risk_category}
-    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, synthesis, other]}
+    - {name: source_type,   type: enum, values: [research_paper, blog_post, video, book, code, dataset, synthesis, policy, other]}
     - {name: author,        type: string}
     - {name: published,     type: date_string}
     - {name: source_url,    type: url}
