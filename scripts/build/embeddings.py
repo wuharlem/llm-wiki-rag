@@ -92,6 +92,9 @@ def main(argv=None) -> None:
         sys.exit(1)
 
     chunks = wr.load_all_chunks()
+    if not chunks:
+        print("no chunks to embed — skipping", file=sys.stderr)
+        return
     print(f"loaded {len(chunks)} chunks from {wr.CHUNKS_PATH}", file=sys.stderr)
     hashes = [_sha1(c.get("text", "")) for c in chunks]
 

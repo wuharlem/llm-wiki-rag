@@ -189,14 +189,33 @@ def test_interrupted_write_recovers(emb_env):
     assert FakeModel.encode_calls == [["alpha"]]
 
 
+def test_empty_corpus_noop(emb_env, capsys):
+    """Final-review batch 2026-07-10: an empty chunk set is a clean no-op,
+    not an attempt to build a 0-row matrix / model load."""
+    em, set_chunks, tmp = emb_env
+    set_chunks([])
+    em.main([])
+    assert "no chunks" in capsys.readouterr().err
+    assert not (tmp / "embeddings.npy").exists()
+
+
 def test_build_hook_calls_embeddings(monkeypatch, mini_build_env):
-    """index.main() invokes the embeddings stage after the graph stage."""
+    """index.main() invokes the embeddings stage on a full build."""
     from scripts.build import embeddings as em
+    from scripts.build import graph as graph_mod
     from scripts.build import index as bi
 
     monkeypatch.setattr(sys, "argv", ["scripts.build.index"])
     called = {}
     monkeypatch.setattr(em, "main", lambda argv=None: called.setdefault("argv", argv))
+    # Stub the graph hook too: this test's argv has neither --md-only nor
+    # --limit, so bi.main() runs both hooks for real; graph_mod's paths are
+    # module-level (not covered by mini_build_env's bi.DATA_DIR patch), so an
+    # unstubbed graph_mod.main() would rebuild against and os.replace() the
+    # LIVE production graph.json (caught 2026-07-10 while adding the
+    # final-review guard tests — mirrors the embeddings isolation fix in
+    # commit 48961ab).
+    monkeypatch.setattr(graph_mod, "main", lambda argv=None: None)
     bi.main()
     assert called["argv"] == []
 
@@ -204,6 +223,7 @@ def test_build_hook_calls_embeddings(monkeypatch, mini_build_env):
 def test_build_hook_survives_systemexit(monkeypatch, mini_build_env, capsys):
     """Missing semantic deps (sys.exit(1) inside embeddings.main) never fails the build."""
     from scripts.build import embeddings as em
+    from scripts.build import graph as graph_mod
     from scripts.build import index as bi
 
     monkeypatch.setattr(sys, "argv", ["scripts.build.index"])
@@ -212,5 +232,45 @@ def test_build_hook_survives_systemexit(monkeypatch, mini_build_env, capsys):
         raise SystemExit(1)
 
     monkeypatch.setattr(em, "main", boom)
+    # See test_build_hook_calls_embeddings above: stub graph_mod too, or this
+    # test's unconditional (non-partial) argv rebuilds the LIVE graph.json.
+    monkeypatch.setattr(graph_mod, "main", lambda argv=None: None)
     bi.main()  # must not raise
     assert "embeddings stage skipped" in capsys.readouterr().err
+
+
+def test_build_hook_runs_embeddings_before_graph(monkeypatch, mini_build_env):
+    """Stage-order swap (final-review batch 2026-07-10): embeddings must run
+    BEFORE graph, so the graph's embedding signal reads freshly encoded
+    vectors instead of the previous build's."""
+    from scripts.build import embeddings as em
+    from scripts.build import graph as graph_mod
+    from scripts.build import index as bi
+
+    monkeypatch.setattr(sys, "argv", ["scripts.build.index"])
+    call_order = []
+    monkeypatch.setattr(em, "main", lambda argv=None: call_order.append("embeddings"))
+    monkeypatch.setattr(graph_mod, "main", lambda argv=None: call_order.append("graph"))
+    bi.main()
+    assert call_order == ["embeddings", "graph"]
+
+
+@pytest.mark.parametrize("argv", [["scripts.build.index", "--md-only"], ["scripts.build.index", "--limit", "1"]])
+def test_build_hook_skips_both_on_partial_build(monkeypatch, mini_build_env, capsys, argv):
+    """Guard (final-review batch 2026-07-10): --md-only/--limit builds write a
+    PARTIAL chunks.jsonl. Both hooks must be skipped entirely — embeddings'
+    hash-delta would permanently drop every row missing from the partial
+    chunk set (the historical md_only drop-rows regression class), and
+    graph.py has no delta of its own so it would os.replace() the
+    last-known-good full graph.json with a partial one."""
+    from scripts.build import embeddings as em
+    from scripts.build import graph as graph_mod
+    from scripts.build import index as bi
+
+    monkeypatch.setattr(sys, "argv", argv)
+    called = []
+    monkeypatch.setattr(em, "main", lambda argv=None: called.append("embeddings"))
+    monkeypatch.setattr(graph_mod, "main", lambda argv=None: called.append("graph"))
+    bi.main()
+    assert called == []
+    assert "partial build" in capsys.readouterr().err

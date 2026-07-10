@@ -774,24 +774,47 @@ def main():
     print(f"Wrote {log_p}")
     print("Done.")
 
-    # Graph stage (spec 2026-07-10): never fails the build.
-    try:
-        from scripts.build import graph as graph_mod
+    # Debug-build guard (final-review batch 2026-07-10): --md-only and --limit
+    # write a PARTIAL chunks.jsonl, and both downstream hooks treat whatever
+    # is on disk as authoritative. embeddings.py's hash-delta permanently
+    # DROPS every row whose (file_id, chunk_id, sha1) isn't in the current
+    # chunk set — the historical md_only "drop rows" regression class (see
+    # the md_only-removal note on RebuildIndexInput in
+    # scripts/serve/mcp_tools/admin.py: three PDF-coverage regressions before
+    # md_only was pulled from the MCP tool). graph.py has no delta of its own
+    # — it recomputes the whole graph from chunks.jsonl and os.replace()s
+    # graph.json every run — so a partial chunk set silently overwrites the
+    # last-known-good full graph with one reflecting only the partial set.
+    # Same failure class, different mechanism (drop-on-delta vs.
+    # overwrite-on-full-rebuild); skip both hooks together on a debug build.
+    partial_build = args.md_only or args.limit
+    if not partial_build:
+        # Embeddings stage (incremental-embeddings spec 2026-07-10): hash-delta,
+        # so this is ~free when nothing changed. Never fails the build; catches
+        # SystemExit because embeddings.main sys.exit(1)s when the semantic
+        # extra isn't installed. Runs BEFORE graph (stage-order swap,
+        # final-review batch 2026-07-10) so graph's embedding signal reads
+        # freshly encoded vectors instead of the previous build's.
+        try:
+            from scripts.build import embeddings as emb_mod
 
-        graph_mod.main([])
-    except Exception as e:
-        print(f"graph stage skipped: {e}", file=sys.stderr)
+            emb_mod.main([])
+        except (Exception, SystemExit) as e:
+            print(f"embeddings stage skipped: {e}", file=sys.stderr)
 
-    # Embeddings stage (incremental-embeddings spec 2026-07-10): hash-delta,
-    # so this is ~free when nothing changed. Never fails the build; catches
-    # SystemExit because embeddings.main sys.exit(1)s when the semantic
-    # extra isn't installed.
-    try:
-        from scripts.build import embeddings as emb_mod
+        # Graph stage (spec 2026-07-10): never fails the build.
+        try:
+            from scripts.build import graph as graph_mod
 
-        emb_mod.main([])
-    except (Exception, SystemExit) as e:
-        print(f"embeddings stage skipped: {e}", file=sys.stderr)
+            graph_mod.main([])
+        except Exception as e:
+            print(f"graph stage skipped: {e}", file=sys.stderr)
+    else:
+        print(
+            "embeddings/graph stages skipped: partial build (--md-only/--limit) would "
+            "feed both hooks an incomplete chunks.jsonl",
+            file=sys.stderr,
+        )
 
 
 if __name__ == "__main__":
