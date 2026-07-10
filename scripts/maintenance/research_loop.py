@@ -232,12 +232,26 @@ def _entry_lines(lines: list[str], e: Entry) -> tuple[int, int]:
     raise SystemExit(2)
 
 
+def _unfenced_indices(lines: list[str], i: int, j: int) -> list[int]:
+    """Line indices in [i, j) that are outside ``` fences (delimiters excluded)."""
+    out: list[int] = []
+    fence = False
+    for k in range(i, j):
+        if lines[k].startswith("```"):
+            fence = not fence
+            continue
+        if not fence:
+            out.append(k)
+    return out
+
+
 def _write_marker(lines: list[str], e: Entry, brief_text: str, today: dt.date) -> list[str]:
     """Create or replace the entry's Researched line; staged lines stay put."""
     i, j = _entry_lines(lines, e)
-    n_staged = sum(1 for ln in lines[i:j] if _STAGED_RE.match(ln))
+    idxs = _unfenced_indices(lines, i, j)
+    n_staged = sum(1 for k in idxs if _STAGED_RE.match(lines[k]))
     new_marker = _marker_line(brief_text, today, n_staged)
-    for k in range(i, j):
+    for k in idxs:
         if _RESEARCHED_RE.match(lines[k]):
             lines[k] = new_marker
             return lines
@@ -250,20 +264,25 @@ def _write_marker(lines: list[str], e: Entry, brief_text: str, today: dt.date) -
 
 def _append_staged_line(lines: list[str], e: Entry, url: str, fname: str) -> list[str]:
     i, j = _entry_lines(lines, e)
-    marker_at = next((k for k in range(i, j) if _RESEARCHED_RE.match(lines[k])), None)
+    idxs = _unfenced_indices(lines, i, j)
+    marker_at = next((k for k in idxs if _RESEARCHED_RE.match(lines[k])), None)
     if marker_at is None:
         lines = _write_marker(lines, e, "", _today())
         i, j = _entry_lines(lines, e)
-        marker_at = next(k for k in range(i, j) if _RESEARCHED_RE.match(lines[k]))
-    # insert after the marker and any existing staged lines
+        idxs = _unfenced_indices(lines, i, j)
+        marker_at = next(k for k in idxs if _RESEARCHED_RE.match(lines[k]))
+    # Insert right after the marker and any directly following unfenced staged
+    # lines. The marker is guaranteed unfenced, so appending immediately after
+    # it is fence-safe by construction.
     at = marker_at + 1
-    while at < len(lines) and _STAGED_RE.match(lines[at]):
+    while at < j and _STAGED_RE.match(lines[at]):
         at += 1
     lines = lines[:at] + [f"  - staged: {url} → {fname}"] + lines[at:]
     # refresh the staged count in the marker
     i, j = _entry_lines(lines, e)
-    n = sum(1 for ln in lines[i:j] if _STAGED_RE.match(ln))
-    for k in range(i, j):
+    idxs = _unfenced_indices(lines, i, j)
+    n = sum(1 for k in idxs if _STAGED_RE.match(lines[k]))
+    for k in idxs:
         m = _RESEARCHED_RE.match(lines[k])
         if m:
             lines[k] = _marker_line(m.group(2), dt.date.fromisoformat(m.group(1)), n)
@@ -302,7 +321,7 @@ def _dedup_reason(url: str) -> str | None:
 def cmd_brief(args) -> int:
     lines, entries = _load()
     e = _find(entries, args.slug)
-    lines = _write_marker(lines, e, args.text.strip(), _today())
+    lines = _write_marker(lines, e, " ".join(args.text.split()), _today())
     open_questions_path().write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"brief written for {e.slug}")
     return 0
@@ -327,8 +346,9 @@ def cmd_stage(args) -> int:
 
     note = f"research-loop: {e.title} ({_today().isoformat()})"
     cmd = [sys.executable, "-m", "scripts.ingest.stage_candidate", args.url, "--note", note]
-    if args.title:
-        cmd += ["--title", args.title]
+    title = " ".join(args.title.split())
+    if title:
+        cmd += ["--title", title]
     if args.author:
         cmd += ["--author", args.author]
     if args.published:

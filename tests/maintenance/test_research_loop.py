@@ -272,6 +272,43 @@ Real prose line about interpretability probes.
     assert "Real prose line about interpretability probes" in captured["q"]
 
 
+def test_editor_ignores_fenced_markers(tmp_path, monkeypatch):
+    doc = (
+        DOC
+        + """
+## [2026-07-02] gap | Entry with fenced marker example
+
+Body prose.
+
+```
+**Researched:** 2020-01-01 — fake — staged 9 source(s).
+  - staged: https://fake.example → Not_Real.md
+```
+
+More prose.
+"""
+    )
+    vault, _ = _tmp_vault(tmp_path, monkeypatch, doc=doc)
+    slug = rl.slugify_title("Entry with fenced marker example")
+    assert rl.main(["brief", slug, "--text", "Real brief."]) == 0
+    text = (vault / "open_questions.md").read_text()
+    es = rl.parse_entries(text)
+    e = next(x for x in es if x.slug == slug)
+    assert e.brief == "Real brief."  # marker landed OUTSIDE the fence
+    assert e.staged == []  # fenced staged line not counted
+    assert "staged 0 source(s)" in text  # count ignored the fenced fake
+    assert "**Researched:** 2020-01-01 — fake" in text  # fenced example untouched
+
+
+def test_brief_normalizes_multiline_text(tmp_path, monkeypatch):
+    vault, _ = _tmp_vault(tmp_path, monkeypatch)
+    slug = "cross-industry-jailbreak-severity-framework"
+    assert rl.main(["brief", slug, "--text", "Line one.\n  Line two."]) == 0
+    es = rl.parse_entries((vault / "open_questions.md").read_text())
+    e = next(x for x in es if x.slug == slug)
+    assert e.brief == "Line one. Line two."
+
+
 def test_hits_prints_corpus_evidence(tmp_path, monkeypatch, capsys):
     _tmp_vault(tmp_path, monkeypatch)
     from scripts.serve import retrieval as wr
