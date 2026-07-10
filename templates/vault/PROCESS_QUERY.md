@@ -32,6 +32,15 @@ multiple search phrasings; cross-category syntheses; anything the user reacted t
 instead); operational questions about the wiki itself; re-asks of an existing saved query
 (update the same slug instead).
 
+## Concept-level questions: read the article first
+
+If this vault keeps maintained concept articles (`wiki_schema.yml →
+vault.concept_articles_relpath`), start any concept-level question ("what does the corpus
+say about X?") by reading `<articles-folder>/<concept-slug>__synthesis.md` when it exists —
+it is the distilled, cited answer. Then use `search_wiki` for specifics the article doesn't
+settle. If the article looks stale against what retrieval returns, file that as an open
+question rather than silently working around it.
+
 ## How to call `save_query`
 
 ```python

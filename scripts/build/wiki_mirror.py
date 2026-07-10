@@ -43,6 +43,9 @@ _concepts_field = first_field_of_type(_schema, "concept_list")
 _CONCEPTS_COL = _concepts_field.name if _concepts_field else "concepts"
 _ENUM_COL = next((f.name for f in _schema.frontmatter.fields if f.type == "enum"), "source_type")
 
+# Vault-relative folder for maintained concept articles (Task: concept-articles).
+_ARTICLES_RELPATH = _schema.vault.concept_articles_relpath
+
 # Vault: resolved via wiki_lib.locations (env / sandbox mount / home default).
 VAULT_CANDIDATES = [vault_path()]
 
@@ -75,6 +78,20 @@ def file_link(file_id: str, title: str) -> str:
     return f"[[{fname}|{title}]]"
 
 
+def article_wikilink(vault: Path, concept: str) -> str | None:
+    """Wikilink to the maintained concept article for `concept`, or None.
+
+    Articles live at `<vault>/<concept_articles_relpath>/<slug>__synthesis.md`.
+    The `__synthesis` suffix keeps the basename distinct from the generated
+    catalog page `_index/by_concept/<slug>.md` — Obsidian resolves wikilinks
+    by basename, so identical names would make every [[<slug>]] link ambiguous.
+    """
+    name = f"{slugify(concept)}__synthesis"
+    if _safe_exists(vault / _ARTICLES_RELPATH / f"{name}.md"):
+        return f"[[{name}|{concept} — maintained article]]"
+    return None
+
+
 def main():
     rows = list(csv.DictReader(open(DATA_DIR / "manifest.csv")))
     rows.sort(key=lambda r: (r["category"], r["subcategory"], r["title"].lower()))
@@ -86,6 +103,15 @@ def main():
 
     # ---- README ----
     readme = WIKI_INDEX_DIR / "README.md"
+    # Articles live at the vault root (not under _index/), so the browse line is
+    # ../-relative; omit it entirely while the instance has no articles yet.
+    _articles_dir = VAULT / _ARTICLES_RELPATH
+    articles_line = (
+        f"- `../{_ARTICLES_RELPATH}/` — maintained concept articles "
+        "(LLM-written narrative synthesis per concept, updated on ingest)\n"
+        if _safe_exists(_articles_dir) and any(_articles_dir.glob("*__synthesis.md"))
+        else ""
+    )
     n_files = len(rows)
     n_md = sum(1 for r in rows if r["type"] == "md")
     n_pdf = sum(1 for r in rows if r["type"] == "pdf")
@@ -110,7 +136,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 - [[00_master_index]] — every file, one line each, grouped by category
 - `by_category/` — per-category index pages (folder structure of the vault)
 - `by_concept/` — index by `concepts` frontmatter (now includes a Related concepts table per page)
-- `by_tag/` — index by top tags
+{articles_line}- `by_tag/` — index by top tags
 - `derived/` — synthesis artifacts (capability matrices, disputed-claims tracker)
 - `saved_queries/` — Q&A filed back via the `save_query` MCP tool; searchable corpus material
 - `files/<file_id>__<slug>.md` — per-file page with summary + every chunk inline
@@ -227,11 +253,16 @@ The first run takes ~5-10 minutes to extract every PDF. Subsequent runs are
     concept_idx = WIKI_INDEX_DIR / "by_concept" / "_index.md"
     out = ["# Concepts", "", "Wiki concepts referenced across the corpus, ranked by file count.", ""]
     for concept, frows in sorted(by_concept.items(), key=lambda kv: -len(kv[1])):
-        out.append(f"- [[{slugify(concept)}|{concept}]]  ({len(frows)} files)")
+        marker = " · 📝" if article_wikilink(VAULT, concept) else ""
+        out.append(f"- [[{slugify(concept)}|{concept}]]  ({len(frows)} files){marker}")
     concept_idx.write_text("\n".join(out) + "\n")
     for concept, frows in by_concept.items():
         p = WIKI_INDEX_DIR / "by_concept" / f"{slugify(concept)}.md"
-        body = [f"# {concept}", "", f"_{len(frows)} files_", "", "## Files", ""]
+        body = [f"# {concept}", "", f"_{len(frows)} files_", ""]
+        link = article_wikilink(VAULT, concept)
+        if link:
+            body += [f"📝 **Maintained article:** {link}", ""]
+        body += ["## Files", ""]
         for r in sorted(frows, key=lambda x: x["title"].lower()):
             body.append(f"- {file_link(r['file_id'], r['title'])}  · _{r['category']}_")
         # Related concepts (Jaccard over shared file_ids)

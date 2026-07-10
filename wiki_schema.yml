@@ -16,7 +16,7 @@ frontmatter:
     - {name: tags,          type: tag_list,          vocab_key: tags}
     - {name: concepts,      type: concept_list,      vocab_key: concepts}
     - {name: risk_category, type: categorical_list,  vocab_key: risk_category, label: "Risk categories"}
-    - {name: source_type,   type: enum, values: [research_paper, model_card, blog_post, video, book, code, dataset, other], pdf_default: research_paper, label: "Type"}
+    - {name: source_type,   type: enum, values: [research_paper, model_card, blog_post, video, book, code, dataset, synthesis, other], pdf_default: research_paper, label: "Type"}
     - {name: author,        type: string}
     - {name: published,     type: date_string}
     - {name: source_url,    type: url, aliases: [source, url], label: "URL"}
@@ -445,3 +445,8 @@ vault:
   # locations.py). Derived from the vault folder name, so a different-topic
   # wiki swaps it here along with default_relpath.
   sandbox_mount_glob: "/sessions/*/mnt/AI Safety--AI Safety"
+
+  # Folder holding the maintained concept articles (LLM-written narrative
+  # synthesis, one `<slug>__synthesis.md` per concept). Ordinary corpus
+  # files — indexed, chunked, mirrored like any category folder.
+  concept_articles_relpath: "06_Concept-Articles"
