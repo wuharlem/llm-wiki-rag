@@ -62,7 +62,10 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     (scripts.build.wiki_mirror: master/category/concept/tag pages + prune of
     manifest-orphaned pages) — no separate mirror step needed since
     2026-07-04. Mirror status is returned in the payload's "mirror" block;
-    a mirror failure never fails the rebuild.
+    a mirror failure never fails the rebuild. The graph.json artifact (file
+    relatedness/communities/insights, built in-process by the index
+    subprocess) is reported in the payload's "graph" block; a missing or
+    stale graph never fails the rebuild either.
 
     Use this after adding new sources to the vault, or after running the
     `save_query` tool a few times — saved queries aren't searchable through
@@ -186,6 +189,28 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         except Exception as exc:  # noqa: BLE001 — mirror must never sink the rebuild
             mirror = {"ok": False, "error": type(exc).__name__, "detail": str(exc)}
 
+    # Report graph.json artifact state. The graph itself was already built
+    # in-process by the index subprocess (scripts.build.graph runs at the end
+    # of scripts.build.index) — this block only *reports* what landed; a
+    # missing/stale artifact must never fail the rebuild.
+    graph: dict = {}
+    if proc.returncode == 0:
+        try:
+            from scripts.serve.retrieval import GRAPH_PATH
+
+            if GRAPH_PATH.exists():
+                g = json.loads(GRAPH_PATH.read_text())
+                graph = {
+                    "ok": True,
+                    "built_at": g.get("built_at"),
+                    "n_edges": g.get("n_edges"),
+                    "n_communities": g.get("n_communities"),
+                }
+            else:
+                graph = {"ok": False, "detail": "graph.json not produced (see build stderr)"}
+        except Exception as e:
+            graph = {"ok": False, "detail": str(e)}
+
     # Append a `## [date] index | ...` entry to vault log.md so the rebuild
     # shows up in the timeline. Only log on success — failed rebuilds would
     # produce misleading "rebuild" entries in the timeline.
@@ -226,6 +251,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         "stdout_tail": proc.stdout[-1500:] if proc.stdout else "",
         "stderr_tail": proc.stderr[-1500:] if proc.stderr else "",
         "mirror": mirror,
+        "graph": graph,
     }
     if degraded:
         payload["degraded"] = True

@@ -1,4 +1,5 @@
-"""MCP tools: list_categories, list_concepts, list_tags, find_related_concepts, index_stats."""
+"""MCP tools: list_categories, list_concepts, list_tags, find_related_concepts,
+index_stats, find_related_files, graph_insights."""
 
 from __future__ import annotations
 
@@ -44,6 +45,23 @@ class FindRelatedConceptsInput(BaseModel):
         ge=1,
         le=20,
     )
+
+
+class FindRelatedFilesInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    file_id: str = Field(
+        ..., description="12-hex file id (as returned by search_wiki / get_file_detail).", min_length=12, max_length=12
+    )
+    top_k: int = Field(default=8, description="Max neighbors to return.", ge=1, le=25)
+
+
+class GraphInsightsInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    kind: str | None = Field(
+        default=None,
+        description="Filter to one insight class: isolated | sparse_community | bridge | surprising. Omit for all four.",
+    )
+    limit: int = Field(default=20, description="Max entries per insight class.", ge=1, le=100)
 
 
 # ---------------------------------------------------------------------------
@@ -183,4 +201,62 @@ def find_related_concepts(params: FindRelatedConceptsInput) -> str:
     concept name — the lookup is case-sensitive.
     """
     out = wr.find_related_concepts(concept=params.concept, top_k=params.top_k)
+    return json.dumps(out, indent=2, ensure_ascii=False)
+
+
+@mcp.tool(
+    name="find_related_files",
+    annotations={
+        "title": "Find related files (graph)",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+    },
+)
+@_wrap_errors
+def find_related_files(params: FindRelatedFilesInput) -> str:
+    """File-level graph neighbors: which files are most related to this one,
+    and via which signals (shared rare vocabulary, wikilink citations,
+    embedding similarity). Use for "what else in the corpus is like this
+    file", building reading lists around a source, or maintaining article
+    Key-sources sections. Complements find_related_concepts (concept level).
+
+    Returns: JSON list of {file_id, title, relpath, score, signals:{vocab,
+    wikilink, embedding}, same_community, community_label}. Errors:
+    file_not_found, graph_not_built.
+    """
+    try:
+        out = wr.find_related_files(file_id=params.file_id, top_k=params.top_k)
+    except FileNotFoundError as e:
+        return json.dumps({"ok": False, "error": "graph_not_built", "detail": str(e)})
+    except KeyError as e:
+        return json.dumps({"ok": False, "error": "file_not_found", "detail": str(e)})
+    return json.dumps(out, indent=2, ensure_ascii=False)
+
+
+@mcp.tool(
+    name="graph_insights",
+    annotations={
+        "title": "Graph structural insights",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+    },
+)
+@_wrap_errors
+def graph_insights(params: GraphInsightsInput) -> str:
+    """Build-time structural findings from the file graph: isolated files
+    (candidate under-tagging), sparse communities (weakly cross-referenced
+    clusters), bridge files (spanning 3+ communities), and surprising
+    connections (strong cross-community/category edges — research leads,
+    not defects). The health check's lint pass calls this; agents can too.
+
+    Returns: JSON {built_at, n_communities, insights:{...}} — check built_at
+    against index_stats to spot a stale graph. Errors: graph_not_built,
+    ValueError (unknown kind).
+    """
+    try:
+        out = wr.graph_insights(kind=params.kind, limit=params.limit)
+    except FileNotFoundError as e:
+        return json.dumps({"ok": False, "error": "graph_not_built", "detail": str(e)})
     return json.dumps(out, indent=2, ensure_ascii=False)
