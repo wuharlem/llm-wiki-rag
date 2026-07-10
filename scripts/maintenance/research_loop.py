@@ -16,9 +16,11 @@ Subcommands: list | hits | stage | brief. Exit codes: 0 ok, 2 bad input,
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import json
 import re
+import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -180,14 +182,162 @@ def cmd_hits(args) -> int:  # implemented in Task 3
     raise SystemExit(2)
 
 
-def cmd_stage(args) -> int:  # implemented in Task 2
-    print("stage: not implemented yet", file=sys.stderr)
+def _marker_line(brief: str, today: dt.date, n_staged: int) -> str:
+    return f"**Researched:** {today.isoformat()} — {brief} — staged {n_staged} source(s)."
+
+
+def _entry_lines(lines: list[str], e: Entry) -> tuple[int, int]:
+    """Re-locate the entry span by heading text (indices shift after edits)."""
+    in_fence = False
+    for i, ln in enumerate(lines):
+        if ln.startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = _HEADING_RE.match(ln)
+        if m and slugify_title(m.group(3)) == e.slug:
+            j = i + 1
+            while j < len(lines) and not _HEADING_RE.match(lines[j]):
+                j += 1
+            return i, j
     raise SystemExit(2)
 
 
-def cmd_brief(args) -> int:  # implemented in Task 2
-    print("brief: not implemented yet", file=sys.stderr)
-    raise SystemExit(2)
+def _write_marker(lines: list[str], e: Entry, brief_text: str, today: dt.date) -> list[str]:
+    """Create or replace the entry's Researched line; staged lines stay put."""
+    i, j = _entry_lines(lines, e)
+    n_staged = sum(1 for ln in lines[i:j] if _STAGED_RE.match(ln))
+    new_marker = _marker_line(brief_text, today, n_staged)
+    for k in range(i, j):
+        if _RESEARCHED_RE.match(lines[k]):
+            lines[k] = new_marker
+            return lines
+    # No marker yet: insert before trailing blank lines of the entry.
+    insert_at = j
+    while insert_at > i + 1 and not lines[insert_at - 1].strip():
+        insert_at -= 1
+    return lines[:insert_at] + ["", new_marker] + lines[insert_at:]
+
+
+def _append_staged_line(lines: list[str], e: Entry, url: str, fname: str) -> list[str]:
+    i, j = _entry_lines(lines, e)
+    marker_at = next((k for k in range(i, j) if _RESEARCHED_RE.match(lines[k])), None)
+    if marker_at is None:
+        lines = _write_marker(lines, e, "", _today())
+        i, j = _entry_lines(lines, e)
+        marker_at = next(k for k in range(i, j) if _RESEARCHED_RE.match(lines[k]))
+    # insert after the marker and any existing staged lines
+    at = marker_at + 1
+    while at < len(lines) and _STAGED_RE.match(lines[at]):
+        at += 1
+    lines = lines[:at] + [f"  - staged: {url} → {fname}"] + lines[at:]
+    # refresh the staged count in the marker
+    i, j = _entry_lines(lines, e)
+    n = sum(1 for ln in lines[i:j] if _STAGED_RE.match(ln))
+    for k in range(i, j):
+        m = _RESEARCHED_RE.match(lines[k])
+        if m:
+            lines[k] = _marker_line(m.group(2), dt.date.fromisoformat(m.group(1)), n)
+    return lines
+
+
+def _dedup_reason(url: str) -> str | None:
+    """Duplicate registries: ingested (notion_sources.csv), staged (_add_by_me
+    frontmatter + _PENDING.md), nominated (any entry's staged lines)."""
+    from scripts.ingest.dedup_report import canonicalize_url
+
+    cu = canonicalize_url(url)
+    csv_p = work_path() / "01_data" / "notion_sources.csv"
+    if csv_p.exists():
+        with open(csv_p, newline="", encoding="utf-8") as fh:
+            for row in csv.DictReader(fh):
+                if row.get("url") and canonicalize_url(row["url"]) == cu:
+                    return f"already ingested ({row.get('title', '?')} in notion_sources.csv)"
+    staging = vault_path() / "_add_by_me"
+    if staging.is_dir():
+        for p in staging.glob("*.md"):
+            m = re.search(r"^source_url: (\S+)$", p.read_text(encoding="utf-8", errors="replace"), re.M)
+            if m and canonicalize_url(m.group(1)) == cu:
+                return f"already staged ({p.name})"
+        pending = staging / "_PENDING.md"
+        if pending.exists() and url in pending.read_text(encoding="utf-8"):
+            return "already staged (_PENDING.md)"
+    _, entries = _load()
+    for e in entries:
+        for u, fname in e.staged:
+            if canonicalize_url(u) == cu:
+                return f"already nominated (under {e.slug!r} → {fname})"
+    return None
+
+
+def cmd_brief(args) -> int:
+    lines, entries = _load()
+    e = _find(entries, args.slug)
+    lines = _write_marker(lines, e, args.text.strip(), _today())
+    open_questions_path().write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"brief written for {e.slug}")
+    return 0
+
+
+def cmd_stage(args) -> int:
+    lines, entries = _load()
+    e = _find(entries, args.slug)
+    run_id = args.run_id or _today().isoformat()
+
+    reason = _dedup_reason(args.url)
+    if reason:
+        print(f"duplicate: {reason}", file=sys.stderr)
+        _log_run(run_id, e.slug, args.url, f"dup: {reason}")
+        return 3
+    if len(e.staged) >= MAX_STAGED_PER_QUESTION:
+        print(f"per-question cap ({MAX_STAGED_PER_QUESTION}) reached for {e.slug}", file=sys.stderr)
+        return 4
+    if _run_staged_count(run_id) >= MAX_STAGED_PER_RUN:
+        print(f"per-run cap ({MAX_STAGED_PER_RUN}) reached for run {run_id}", file=sys.stderr)
+        return 4
+
+    note = f"research-loop: {e.title} ({_today().isoformat()})"
+    cmd = [sys.executable, "-m", "scripts.ingest.stage_candidate", args.url, "--note", note]
+    if args.title:
+        cmd += ["--title", args.title]
+    if args.author:
+        cmd += ["--author", args.author]
+    if args.published:
+        cmd += ["--published", args.published]
+    proc = subprocess.run(cmd, capture_output=True, text=True, cwd=str(work_path()))
+    out = (proc.stdout or "") + (proc.stderr or "")
+    m = re.search(r"file=(\S+)", proc.stdout or "")
+    if proc.returncode != 0 or not m or not (proc.stdout or "").startswith("OK"):
+        print(f"stage_candidate did not succeed: {out.strip()[:300]}", file=sys.stderr)
+        _log_run(run_id, e.slug, args.url, "stage_failed")
+        return 2
+    fname = m.group(1)
+
+    lines = _append_staged_line(lines, e, args.url, fname)
+    open_questions_path().write_text("\n".join(lines) + "\n", encoding="utf-8")
+    _log_run(run_id, e.slug, args.url, "staged")
+    print(f"staged {args.url} → {fname} for {e.slug}")
+    return 0
+
+
+def _log_run(run_id: str, slug: str, url: str, outcome: str) -> None:
+    p = runs_csv_path()
+    p.parent.mkdir(parents=True, exist_ok=True)
+    new = not p.exists()
+    with open(p, "a", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        if new:
+            w.writerow(["run_id", "timestamp", "slug", "url", "outcome"])
+        w.writerow([run_id, dt.datetime.now().isoformat(timespec="seconds"), slug, url, outcome])
+
+
+def _run_staged_count(run_id: str) -> int:
+    p = runs_csv_path()
+    if not p.exists():
+        return 0
+    with open(p, newline="", encoding="utf-8") as fh:
+        return sum(1 for row in csv.DictReader(fh) if row["run_id"] == run_id and row["outcome"] == "staged")
 
 
 def main(argv=None) -> int:

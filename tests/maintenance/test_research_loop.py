@@ -121,3 +121,96 @@ def test_list_eligible_only_empty_exit_zero(tmp_path, monkeypatch, capsys):
     import json
 
     assert json.loads(capsys.readouterr().out) == []
+
+
+def _tmp_vault(tmp_path, monkeypatch, doc=DOC):
+    (tmp_path / "open_questions.md").write_text(doc)
+    (tmp_path / "_add_by_me").mkdir()
+    monkeypatch.setattr(rl, "vault_path", lambda: tmp_path)
+    work = tmp_path / "work"
+    (work / "02_logs").mkdir(parents=True)
+    (work / "01_data").mkdir()
+    monkeypatch.setattr(rl, "work_path", lambda: work)
+    monkeypatch.setattr(rl, "_today", lambda: dt.date(2026, 7, 10))
+    return tmp_path, work
+
+
+def test_brief_creates_and_replaces_marker(tmp_path, monkeypatch):
+    vault, _ = _tmp_vault(tmp_path, monkeypatch)
+    slug = "cross-industry-jailbreak-severity-framework"
+    assert rl.main(["brief", slug, "--text", "Two candidate surveys found."]) == 0
+    text = (vault / "open_questions.md").read_text()
+    assert "**Researched:** 2026-07-10 — Two candidate surveys found. — staged 0 source(s)." in text
+    # idempotent replace
+    assert rl.main(["brief", slug, "--text", "Revised brief."]) == 0
+    text = (vault / "open_questions.md").read_text()
+    assert text.count("**Researched:**") == 2  # this entry + the pre-existing thesis entry
+    assert "Revised brief." in text and "Two candidate surveys found." not in text
+    # round-trip: file still parses, other entries untouched
+    es = rl.parse_entries(text)
+    assert [e.kind for e in es] == ["thesis", "gap", "gap", "methodology"]
+
+
+def test_stage_dedup_against_notion_sources(tmp_path, monkeypatch, capsys):
+    vault, work = _tmp_vault(tmp_path, monkeypatch)
+    (work / "01_data" / "notion_sources.csv").write_text("title,url\nSome Paper,https://arxiv.org/abs/2501.00042\n")
+    rc = rl.main(
+        ["stage", "cross-industry-jailbreak-severity-framework", "https://arxiv.org/abs/2501.00042?utm_source=x"]
+    )
+    assert rc == 3
+    assert "already ingested" in capsys.readouterr().err
+
+
+def test_stage_dedup_against_staged_and_nominated(tmp_path, monkeypatch, capsys):
+    vault, work = _tmp_vault(tmp_path, monkeypatch)
+    (vault / "_add_by_me" / "Old_abc.md").write_text(
+        '---\ntitle: "Old"\nsource_url: https://example.com/staged-one\n---\n'
+    )
+    rc = rl.main(["stage", "cross-industry-jailbreak-severity-framework", "https://example.com/staged-one"])
+    assert rc == 3 and "already staged" in capsys.readouterr().err
+    # nominated under ANOTHER question (the thesis entry's staged line)
+    rc = rl.main(["stage", "cross-industry-jailbreak-severity-framework", "https://example.com/post"])
+    assert rc == 3 and "already nominated" in capsys.readouterr().err
+
+
+def test_stage_caps(tmp_path, monkeypatch, capsys):
+    vault, work = _tmp_vault(tmp_path, monkeypatch)
+    # per-question cap: thesis entry already has 2 staged; lower cap to 2 to hit it
+    monkeypatch.setattr(rl, "MAX_STAGED_PER_QUESTION", 2)
+    thesis_slug = rl.parse_entries(DOC)[0].slug  # derive, don't hand-compute
+    rc = rl.main(["stage", thesis_slug, "https://example.com/new-one"])
+    assert rc == 4 and "per-question cap" in capsys.readouterr().err
+    # per-run cap via the runs csv
+    monkeypatch.setattr(rl, "MAX_STAGED_PER_RUN", 1)
+    runs = rl.runs_csv_path()
+    runs.write_text("run_id,timestamp,slug,url,outcome\n2026-07-10,t,x,https://a,staged\n")
+    rc = rl.main(["stage", "cross-industry-jailbreak-severity-framework", "https://example.com/fresh"])
+    assert rc == 4 and "per-run cap" in capsys.readouterr().err
+
+
+def test_stage_success_records_everything(tmp_path, monkeypatch):
+    vault, work = _tmp_vault(tmp_path, monkeypatch)
+
+    def fake_run(cmd, **kw):
+        class R:
+            returncode = 0
+            stdout = "OK handler=web file=Fresh_1234abcd.md\n"
+            stderr = ""
+
+        # simulate stage_candidate writing the file
+        (vault / "_add_by_me" / "Fresh_1234abcd.md").write_text(
+            '---\ntitle: "Fresh"\nsource_url: https://example.com/fresh\n---\n'
+        )
+        return R()
+
+    monkeypatch.setattr(rl.subprocess, "run", fake_run)
+    slug = "cross-industry-jailbreak-severity-framework"
+    rc = rl.main(["stage", slug, "https://example.com/fresh", "--title", "Fresh"])
+    assert rc == 0
+    text = (vault / "open_questions.md").read_text()
+    assert "  - staged: https://example.com/fresh → Fresh_1234abcd.md" in text
+    assert "staged 1 source(s)." in text  # marker auto-created with empty brief
+    ledger = rl.runs_csv_path().read_text()
+    assert "2026-07-10" in ledger and "staged" in ledger
+    es = rl.parse_entries(text)
+    assert rl._find(es, slug).staged == [("https://example.com/fresh", "Fresh_1234abcd.md")]
