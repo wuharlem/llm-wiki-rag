@@ -103,6 +103,15 @@ def main():
 
     # ---- README ----
     readme = WIKI_INDEX_DIR / "README.md"
+    # Articles live at the vault root (not under _index/), so the browse line is
+    # ../-relative; omit it entirely while the instance has no articles yet.
+    _articles_dir = VAULT / _ARTICLES_RELPATH
+    articles_line = (
+        f"- `../{_ARTICLES_RELPATH}/` — maintained concept articles "
+        "(LLM-written narrative synthesis per concept, updated on ingest)\n"
+        if _safe_exists(_articles_dir) and any(_articles_dir.glob("*__synthesis.md"))
+        else ""
+    )
     n_files = len(rows)
     n_md = sum(1 for r in rows if r["type"] == "md")
     n_pdf = sum(1 for r in rows if r["type"] == "pdf")
@@ -127,8 +136,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 - [[00_master_index]] — every file, one line each, grouped by category
 - `by_category/` — per-category index pages (folder structure of the vault)
 - `by_concept/` — index by `concepts` frontmatter (now includes a Related concepts table per page)
-- `{_ARTICLES_RELPATH}/` — maintained concept articles (LLM-written narrative synthesis per concept, updated on ingest)
-- `by_tag/` — index by top tags
+{articles_line}- `by_tag/` — index by top tags
 - `derived/` — synthesis artifacts (capability matrices, disputed-claims tracker)
 - `saved_queries/` — Q&A filed back via the `save_query` MCP tool; searchable corpus material
 - `files/<file_id>__<slug>.md` — per-file page with summary + every chunk inline
