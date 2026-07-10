@@ -93,8 +93,9 @@ def test_graph_insights_filter_and_unknown_kind(fake_graph):
         wr.graph_insights(kind="bogus")
 
 
-def test_search_disabled_expansion_identical(fake_graph, monkeypatch):
-    """enabled=false + expand_graph=None in HYBRID mode: no injection, no source tags."""
+def test_search_explicit_off_and_default_consistency(fake_graph, monkeypatch):
+    """expand_graph=False suppresses injection regardless of the config default,
+    and an omitted param behaves exactly like passing the config value."""
     chunks = [
         {
             "file_id": "aaaaaaaaaaaa",
@@ -125,12 +126,13 @@ def test_search_disabled_expansion_identical(fake_graph, monkeypatch):
     ]
     monkeypatch.setattr(wr._ctx, "chunks", chunks)
     monkeypatch.setattr(wr._ctx, "chunks_by_file", {c["file_id"]: [c] for c in chunks})
-    assert wr._CFG_RETRIEVAL.graph_expansion.enabled is False  # guard: pin assumes shipped default
-    default_run = wr.search("alpha", k=5, mode="hybrid")  # param omitted
     explicit_off = wr.search("alpha", k=5, mode="hybrid", expand_graph=False)
-    assert default_run == explicit_off
-    assert all("source" not in r for r in default_run)
-    assert {r["file_id"] for r in default_run} == {"aaaaaaaaaaaa"}  # neighbor NOT injected
+    assert all("source" not in r for r in explicit_off)
+    assert {r["file_id"] for r in explicit_off} == {"aaaaaaaaaaaa"}  # neighbor NOT injected
+    # Param default follows the config value, whatever it is set to.
+    default_run = wr.search("alpha", k=5, mode="hybrid")  # param omitted
+    explicit_cfg = wr.search("alpha", k=5, mode="hybrid", expand_graph=wr._CFG_RETRIEVAL.graph_expansion.enabled)
+    assert default_run == explicit_cfg
 
 
 def test_search_expansion_injects_neighbor(fake_graph, monkeypatch):
