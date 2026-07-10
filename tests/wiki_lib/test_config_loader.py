@@ -45,6 +45,11 @@ retrieval:
   rerank_candidates: 40
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
+  graph_expansion:
+    enabled: false
+    seed_hits: 5
+    neighbors_per_hit: 3
+    min_edge_score: 3.0
 
 ingest:
   http_timeout_seconds: 25
@@ -53,6 +58,20 @@ ingest:
     - github
   drop_query_param_prefixes:
     - utm_
+
+graph:
+  concept_weight: 1.0
+  tag_weight: 0.5
+  wikilink_weight: 3.0
+  embedding_weight: 2.0
+  min_cosine: 0.60
+  min_edge_score: 1.0
+  top_k_neighbors: 10
+  louvain_seed: 42
+  isolated_max_degree: 0.5
+  sparse_density: 0.15
+  sparse_min_size: 5
+  surprising_top_n: 20
 """
 
 
@@ -126,4 +145,27 @@ def test_malformed_yaml_raises_yaml_error(monkeypatch, tmp_path):
     monkeypatch.setattr(config_module, "CONFIG_PATH", bad)
     _reset_config_cache()
     with pytest.raises(yaml.YAMLError):
+        get_config()
+
+
+def test_graph_config_loads(tmp_path, monkeypatch):
+    p = _write_full_yaml(tmp_path / "config.yml")
+    monkeypatch.setattr(config_module, "CONFIG_PATH", p)
+    _reset_config_cache()
+    g = get_config().graph
+    assert g.wikilink_weight == 3.0
+    assert g.louvain_seed == 42
+    ge = get_config().retrieval.graph_expansion
+    assert ge.enabled is False
+    assert ge.min_edge_score == 3.0
+
+
+def test_graph_config_missing_key_rejected(tmp_path, monkeypatch):
+    data = yaml.safe_load(_FULL_VALID_YAML)
+    del data["graph"]["louvain_seed"]
+    bad = tmp_path / "config.yml"
+    bad.write_text(yaml.safe_dump(data))
+    monkeypatch.setattr(config_module, "CONFIG_PATH", bad)
+    _reset_config_cache()
+    with pytest.raises(ValidationError):
         get_config()
