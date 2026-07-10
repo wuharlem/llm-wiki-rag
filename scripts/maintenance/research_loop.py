@@ -198,7 +198,12 @@ def _entry_lines(lines: list[str], e: Entry) -> tuple[int, int]:
         m = _HEADING_RE.match(ln)
         if m and slugify_title(m.group(3)) == e.slug:
             j = i + 1
-            while j < len(lines) and not _HEADING_RE.match(lines[j]):
+            fence = False
+            while j < len(lines):
+                if lines[j].startswith("```"):
+                    fence = not fence
+                elif not fence and _HEADING_RE.match(lines[j]):
+                    break
                 j += 1
             return i, j
     raise SystemExit(2)

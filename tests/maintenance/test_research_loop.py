@@ -214,3 +214,30 @@ def test_stage_success_records_everything(tmp_path, monkeypatch):
     assert "2026-07-10" in ledger and "staged" in ledger
     es = rl.parse_entries(text)
     assert rl._find(es, slug).staged == [("https://example.com/fresh", "Fresh_1234abcd.md")]
+
+
+def test_brief_survives_fenced_heading_in_body(tmp_path, monkeypatch):
+    doc = (
+        DOC
+        + """
+## [2026-07-01] gap | Entry with fenced example
+
+Body text.
+
+```
+## [2020-01-01] gap | NOT a real entry
+```
+
+Trailing text.
+"""
+    )
+    vault, _ = _tmp_vault(tmp_path, monkeypatch, doc=doc)
+    slug = rl.slugify_title("Entry with fenced example")
+    assert rl.main(["brief", slug, "--text", "Marker must land outside the fence."]) == 0
+    text = (vault / "open_questions.md").read_text()
+    es = rl.parse_entries(text)
+    e = next(x for x in es if x.slug == slug)
+    assert e.brief == "Marker must land outside the fence."  # visible after round-trip
+    assert e.last_researched == "2026-07-10"
+    # fence intact: still an even number of fence delimiters in the entry body
+    assert text.count("```") % 2 == 0
