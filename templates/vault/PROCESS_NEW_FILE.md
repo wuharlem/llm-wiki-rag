@@ -95,6 +95,22 @@ landed somewhere non-indexable — investigate before forcing.
 
 `rebuild_index` logs itself to `log.md`; don't log the rebuild separately.
 
+## Step 4.5: Update affected concept articles (when present)
+
+If this vault keeps maintained concept articles (folder set by `wiki_schema.yml →
+vault.concept_articles_relpath`, default `Concepts/`), check each concept you assigned in
+Step 2 for an article file: `<articles-folder>/<concept-slug>__synthesis.md`. For each one
+that exists, update it **only if** the new source:
+
+- changes the confidence of a claim in the article's `## Synthesis` section, or
+- adds a thread the article doesn't cover yet, or
+- is a keystone source that belongs in `## Key sources`.
+
+Most ingests are a **no-op** — note "concept articles: no update needed" in the Step 5 log
+body so the lint pass knows you considered it. When you do update: edit the relevant
+section, bump the article's `last_updated` / `last_updated_by` frontmatter, and keep the
+edit focused — one ingest should rarely touch more than one article.
+
 ## Step 5: Append to `log.md`
 
 ```
