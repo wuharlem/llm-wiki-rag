@@ -124,6 +124,7 @@ def test_vocab_runtime_concepts_match_documented_set():
 
 def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_path):
     """CLAUDE.md §8 — both inline-flow AND block-list `tags:` must round-trip."""
+    from scripts.build import embeddings as emb
     from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
@@ -134,6 +135,9 @@ def test_dual_form_yaml_through_build(mini_vault_dual_yaml, monkeypatch, tmp_pat
     monkeypatch.setattr(bi, "CACHE_DIR", data_dir / ".cache")
     monkeypatch.setattr(bi, "WIKI_INDEX_DIR", mini_vault_dual_yaml / "_index")
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", mini_vault_dual_yaml / "_index" / "files")
+    # Stub the embeddings hook so bi.main() can't touch the live embeddings
+    # artifacts (this test doesn't patch the EMB_*_PATHs).
+    monkeypatch.setattr(emb, "main", lambda argv=None: None)
     monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     bi.main()
 

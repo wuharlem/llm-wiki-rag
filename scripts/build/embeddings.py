@@ -14,18 +14,23 @@ Why this file exists:
   matrix from disk at query time.
 
 Model: BAAI/bge-small-en-v1.5 — 384 dims, ~33MB, runs on CPU.
-On 19K chunks at ~50 chunks/sec: ~6-7 minutes for first build, seconds on
-re-runs (skipped if up to date).
+On 19K chunks at ~50 chunks/sec: ~6-7 minutes for first build. Re-runs use
+hash-delta encoding: each chunk's text is sha1'd, rows whose hash matches a
+previous build are reused byte-for-byte, and only new/changed chunks are
+encoded (the model is only loaded when there's at least one miss). A run
+where nothing changed is a no-op fast path that doesn't touch disk at all.
+This is also what the incremental build hook (Task 2) calls after an ingest.
 
 Usage:
     uv run --extra semantic python -m scripts.build.embeddings
-    uv run --extra semantic python -m scripts.build.embeddings --force   # rebuild even if up to date
+    uv run --extra semantic python -m scripts.build.embeddings --force   # full re-encode, skip the hash delta
     uv run --extra semantic python -m scripts.build.embeddings --batch-size 64
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -37,36 +42,48 @@ from scripts.wiki_lib.config import get_config
 DEFAULT_MODEL = get_config().retrieval.embedding_model
 
 
-def _is_up_to_date(n_chunks: int, model_name: str) -> bool:
-    """Check whether existing embeddings.npy still matches the current chunk
-    set + model. Cheap path to skip a 7-minute rebuild when nothing changed."""
+def _sha1(text: str) -> str:
+    return hashlib.sha1(text.encode("utf-8")).hexdigest()
+
+
+def _load_previous(model_name: str):
+    """Previous (matrix, ids) usable for hash-delta reuse, else (None, None).
+
+    Unusable = any full-rebuild condition: missing/corrupt artifacts, model
+    mismatch, legacy ids without sha1, npy/ids row-count mismatch. Meta is
+    the completion sentinel (written last), so a missing meta also lands here.
+    """
     if not (wr.EMB_NPY_PATH.exists() and wr.EMB_IDS_PATH.exists() and wr.EMB_META_PATH.exists()):
-        return False
+        return None, None
     try:
         meta = json.loads(wr.EMB_META_PATH.read_text())
         ids = json.loads(wr.EMB_IDS_PATH.read_text())
     except Exception:
-        return False
+        return None, None
     if meta.get("model") != model_name:
-        return False
-    if meta.get("n_chunks") != n_chunks:
-        return False
-    if len(ids) != n_chunks:
-        return False
-    return True
+        return None, None
+    if not ids or any("sha1" not in r for r in ids):
+        return None, None  # pre-incremental artifacts: one full rebuild migrates them
+    try:
+        import numpy as np
+
+        mat = np.load(wr.EMB_NPY_PATH)
+    except Exception:
+        return None, None
+    if mat.shape[0] != len(ids):
+        return None, None
+    return mat, ids
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--batch-size", type=int, default=32)
-    ap.add_argument("--force", action="store_true", help="Rebuild even if existing embeddings appear up to date.")
-    args = ap.parse_args()
+    ap.add_argument("--force", action="store_true", help="Full re-encode even when the hash delta is empty.")
+    args = ap.parse_args(argv)
 
-    # Import lazily so users without the [semantic] extra still get a clear error.
     try:
         import numpy as np
-        from sentence_transformers import SentenceTransformer
     except ImportError as e:
         print(
             f"Missing semantic deps. Install with:\n    uv sync --extra semantic\n(import error: {e})",
@@ -75,49 +92,84 @@ def main() -> None:
         sys.exit(1)
 
     chunks = wr.load_all_chunks()
+    if not chunks:
+        print("no chunks to embed — skipping", file=sys.stderr)
+        return
     print(f"loaded {len(chunks)} chunks from {wr.CHUNKS_PATH}", file=sys.stderr)
+    hashes = [_sha1(c.get("text", "")) for c in chunks]
 
-    if not args.force and _is_up_to_date(len(chunks), args.model):
-        print("embeddings up to date, skipping (use --force to rebuild)", file=sys.stderr)
+    prev_mat, prev_ids = (None, None) if args.force else _load_previous(args.model)
+    old_row: dict[str, int] = {}
+    if prev_ids is not None:
+        for i, r in enumerate(prev_ids):
+            old_row.setdefault(r["sha1"], i)
+
+    missing = [i for i, h in enumerate(hashes) if h not in old_row]
+
+    # No-op fast path: identical (file_id, chunk_id, sha1) sequence.
+    if (
+        prev_ids is not None
+        and not missing
+        and len(prev_ids) == len(chunks)
+        and all(
+            r["file_id"] == c["file_id"] and r["chunk_id"] == c["chunk_id"] and r["sha1"] == h
+            for r, c, h in zip(prev_ids, chunks, hashes)
+        )
+    ):
+        print("embeddings up to date (hash-exact), skipping", file=sys.stderr)
         return
 
-    print(f"loading model {args.model} ...", file=sys.stderr)
-    model = SentenceTransformer(args.model)
+    new_embs = None
+    if missing:
+        # The model is only worth loading when there is genuinely new text.
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as e:
+            print(
+                f"Missing semantic deps. Install with:\n    uv sync --extra semantic\n(import error: {e})",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        print(f"loading model {args.model} ...", file=sys.stderr)
+        model = SentenceTransformer(args.model)
+        texts = [chunks[i].get("text", "") for i in missing]
+        t0 = time.time()
+        new_embs = model.encode(
+            texts,
+            batch_size=args.batch_size,
+            show_progress_bar=True,
+            convert_to_numpy=True,
+            normalize_embeddings=True,  # so cosine = dot product
+        ).astype("float32")
+        dt = time.time() - t0
+        print(f"embedded {len(texts)} new/changed chunks in {dt:.1f}s", file=sys.stderr)
 
-    # Embed using passage formatting that BGE recommends. For asymmetric
-    # retrieval, BGE wants "Represent this passage for retrieval: ..." on
-    # passages and "Represent this query for retrieval: ..." on queries — but
-    # bge-small-en-v1.5 was trained without those prefixes; the model card
-    # says no prefix is needed for v1.5. We embed raw chunk text.
-    texts = [c.get("text", "") for c in chunks]
+    dim = int(new_embs.shape[1]) if new_embs is not None else int(prev_mat.shape[1])
+    embs = np.empty((len(chunks), dim), dtype="float32")
+    miss_pos = {chunk_i: k for k, chunk_i in enumerate(missing)}
+    for i, h in enumerate(hashes):
+        if i in miss_pos:
+            embs[i] = new_embs[miss_pos[i]]
+        else:
+            embs[i] = prev_mat[old_row[h]]
 
-    t0 = time.time()
-    embs = model.encode(
-        texts,
-        batch_size=args.batch_size,
-        show_progress_bar=True,
-        convert_to_numpy=True,
-        normalize_embeddings=True,  # so cosine = dot product
-    ).astype("float32")
-    dt = time.time() - t0
-    print(f"embedded {len(texts)} chunks in {dt:.1f}s ({len(texts) / max(dt, 1):.0f}/s)", file=sys.stderr)
-    print(f"matrix shape: {embs.shape}", file=sys.stderr)
+    reused = len(chunks) - len(missing)
+    cur_hashes = set(hashes)
+    dropped = sum(1 for r in (prev_ids or []) if r["sha1"] not in cur_hashes)
+    print(f"matrix shape: {embs.shape} (reused {reused}, encoded {len(missing)}, dropped {dropped})", file=sys.stderr)
 
     wr.EMB_NPY_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    # Atomic writes: each output goes to .tmp first, then os.replace into
-    # place. Order matters — meta is written LAST because _is_up_to_date()
-    # treats it as the "build complete" sentinel. A Ctrl-C between steps
-    # leaves a stale .npy/.ids on disk but missing meta, so the next run
-    # sees up_to_date == False and rebuilds.
+    # Atomic writes; meta LAST — it is the "build complete" sentinel.
     tmp_npy = wr.EMB_NPY_PATH.with_name(wr.EMB_NPY_PATH.name + ".tmp")
     with open(tmp_npy, "wb") as f:
-        # Open ourselves to avoid numpy auto-appending another .npy suffix.
         np.save(f, embs)
     os.replace(tmp_npy, wr.EMB_NPY_PATH)
 
     tmp_ids = wr.EMB_IDS_PATH.with_suffix(wr.EMB_IDS_PATH.suffix + ".tmp")
-    tmp_ids.write_text(json.dumps([{"file_id": c["file_id"], "chunk_id": c["chunk_id"]} for c in chunks]))
+    tmp_ids.write_text(
+        json.dumps([{"file_id": c["file_id"], "chunk_id": c["chunk_id"], "sha1": h} for c, h in zip(chunks, hashes)])
+    )
     os.replace(tmp_ids, wr.EMB_IDS_PATH)
 
     tmp_meta = wr.EMB_META_PATH.with_suffix(wr.EMB_META_PATH.suffix + ".tmp")
@@ -125,10 +177,11 @@ def main() -> None:
         json.dumps(
             {
                 "model": args.model,
-                "dim": int(embs.shape[1]),
+                "dim": dim,
                 "n_chunks": len(chunks),
                 "built_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
                 "normalized": True,
+                "incremental": {"reused": reused, "encoded": len(missing), "dropped": dropped},
             },
             indent=2,
         )

@@ -22,6 +22,7 @@ def _build_and_load(mini_vault_e2e: Path, monkeypatch, tmp_path: Path, fresh_wr)
     `load_all_chunks()` is called — `fresh_wr` resets in-memory caches
     but not the module-level path constant.
     """
+    from scripts.build import embeddings as emb
     from scripts.build import index as bi
 
     data_dir = tmp_path / "out_index"
@@ -34,6 +35,10 @@ def _build_and_load(mini_vault_e2e: Path, monkeypatch, tmp_path: Path, fresh_wr)
     monkeypatch.setattr(bi, "WIKI_INDEX_DIR", mini_vault_e2e / "_index")
     monkeypatch.setattr(bi, "WIKI_FILES_DIR", mini_vault_e2e / "_index" / "files")
     monkeypatch.setattr(fresh_wr, "CHUNKS_PATH", chunks_path)
+    # Stub the embeddings hook: without this, bi.main() would run the REAL
+    # embeddings stage against the live artifacts (this test patches
+    # CHUNKS_PATH but not the EMB_*_PATHs) and clobber production embeddings.
+    monkeypatch.setattr(emb, "main", lambda argv=None: None)
 
     monkeypatch.setattr(sys, "argv", ["scripts.build.index", "--md-only"])
     bi.main()

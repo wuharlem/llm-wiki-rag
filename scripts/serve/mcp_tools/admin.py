@@ -65,7 +65,11 @@ def rebuild_index(params: RebuildIndexInput) -> str:
     a mirror failure never fails the rebuild. The graph.json artifact (file
     relatedness/communities/insights, built in-process by the index
     subprocess) is reported in the payload's "graph" block; a missing or
-    stale graph never fails the rebuild either.
+    stale graph never fails the rebuild either. The embeddings refresh
+    (hash-delta incremental, also in-process, now BEFORE the graph stage so
+    its embedding signal is fresh) is reported in the payload's "embeddings"
+    block; a missing embeddings_meta.json (semantic extra not installed, or
+    zero indexable chunks) never fails the rebuild either.
 
     Use this after adding new sources to the vault, or after running the
     `save_query` tool a few times — saved queries aren't searchable through
@@ -211,6 +215,36 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         except Exception as e:
             graph = {"ok": False, "detail": str(e)}
 
+    # Report embeddings.json artifact state (final-review batch 2026-07-10).
+    # The embeddings themselves were already refreshed in-process by the index
+    # subprocess (scripts.build.embeddings runs at the end of
+    # scripts.build.index, now BEFORE graph) — this block only *reports* what
+    # landed; a missing artifact (semantic extra not installed, or the source
+    # tree has zero indexable chunks) must never fail the rebuild.
+    embeddings: dict = {}
+    if proc.returncode == 0:
+        try:
+            from scripts.serve.retrieval import EMB_META_PATH
+
+            if EMB_META_PATH.exists():
+                m = json.loads(EMB_META_PATH.read_text())
+                embeddings = {
+                    "ok": True,
+                    "built_at": m.get("built_at"),
+                    "n_chunks": m.get("n_chunks"),
+                    "incremental": m.get("incremental"),
+                }
+            else:
+                embeddings = {
+                    "ok": False,
+                    "detail": (
+                        "embeddings_meta.json missing — stage skipped (see build stderr; "
+                        "install the semantic extra or run cli embed)"
+                    ),
+                }
+        except Exception as e:
+            embeddings = {"ok": False, "detail": str(e)}
+
     # Append a `## [date] index | ...` entry to vault log.md so the rebuild
     # shows up in the timeline. Only log on success — failed rebuilds would
     # produce misleading "rebuild" entries in the timeline.
@@ -252,6 +286,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         "stderr_tail": proc.stderr[-1500:] if proc.stderr else "",
         "mirror": mirror,
         "graph": graph,
+        "embeddings": embeddings,
     }
     if degraded:
         payload["degraded"] = True

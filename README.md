@@ -145,11 +145,20 @@ Note: `fetch` imports `requests` and `trafilatura`, which are not uv-managed pro
 
 ```bash
 uv run python -m scripts.cli build
-uv run --extra all python -m scripts.cli embed
-uv run python -m scripts.cli graph
 ```
 
-Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads. `build` also auto-runs `graph` at the end, producing `01_data/index/graph.json` (file-relatedness graph: neighbors, communities, insights); re-run `graph` by hand after `embed` to fold the embedding signal into the graph edges.
+Builds `01_data/index/chunks.jsonl`, `01_data/index/index.json`, and the `embeddings.npy` / `_ids.json` / `_meta.json` triple. These are the artifacts the retrieval layer reads.
+
+`build` always auto-runs an incremental embeddings refresh followed by `graph` at the end (embeddings run first so the graph's embedding *signal* reads freshly encoded vectors). The embeddings refresh reuses cached vectors for unchanged chunks, so it's usually ~free when the semantic extra is installed; without the extra it degrades to a skip note on stderr and the core index artifacts still build. `graph` produces `01_data/index/graph.json` (file-relatedness graph: neighbors, communities, insights) and never fails the build either. Both hooks are skipped on a `--md-only`/`--limit` (debug) build, since either would feed them a partial `chunks.jsonl` and corrupt the artifact for everyone else.
+
+Upgrading an instance that still has pre-incremental embeddings artifacts (no `sha1` field in `embeddings_ids.json`) should run `uv run --extra semantic python -m scripts.cli embed` once standalone — otherwise the first delta-capable build triggers a full re-encode inside the build itself (and inside `rebuild_index`'s 15-min cap, which a cold build plus a full encode can exceed).
+
+For explicit full rebuilds or standalone semantics work, use:
+
+```bash
+uv run --extra all python -m scripts.cli embed    # explicit rebuild (--force to skip the hash delta)
+uv run python -m scripts.cli graph                 # refresh graph only (e.g. after embed)
+```
 
 ### Stage 3 — Query
 
