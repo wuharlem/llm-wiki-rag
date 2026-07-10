@@ -37,6 +37,7 @@ htmlcov/
 01_data/index/chunks.jsonl.tmp
 01_data/index/index.json
 01_data/index/index.json.tmp
+01_data/index/graph.json
 01_data/index/embeddings.npy
 01_data/index/embeddings.npy.tmp
 01_data/index/embeddings_ids.json
