@@ -172,3 +172,50 @@ def test_search_expansion_injects_neighbor(fake_graph, monkeypatch):
     fids = {r["file_id"] for r in out}
     assert "bbbbbbbbbbbb" in fids
     assert any(r.get("source") == "graph_expansion" for r in out)
+
+
+def _two_chunk_corpus(monkeypatch):
+    chunks = [
+        {
+            "file_id": "aaaaaaaaaaaa",
+            "chunk_id": "c0000",
+            "relpath": "01/A.md",
+            "title": "A",
+            "category": "01",
+            "subcategory": "",
+            "heading_path": "",
+            "tokens": 5,
+            "tags": [],
+            "concepts": [],
+            "text": "alpha beta gamma",
+        },
+        {
+            "file_id": "bbbbbbbbbbbb",
+            "chunk_id": "c0000",
+            "relpath": "01/B.md",
+            "title": "B",
+            "category": "01",
+            "subcategory": "",
+            "heading_path": "",
+            "tokens": 5,
+            "tags": [],
+            "concepts": [],
+            "text": "delta epsilon zeta",
+        },
+    ]
+    monkeypatch.setattr(wr._ctx, "chunks", chunks)
+    monkeypatch.setattr(wr._ctx, "chunks_by_file", {c["file_id"]: [c] for c in chunks})
+
+
+def test_multi_query_forwards_expand_graph(fake_graph, monkeypatch):
+    """expand_graph=True reaches the per-query search() calls: an underfilled
+    paraphrase pulls its graph neighbor into the fused output."""
+    _two_chunk_corpus(monkeypatch)
+    out = wr.multi_query_search(["alpha"], k=5, mode="hybrid", expand_graph=True)
+    assert {r["file_id"] for r in out} == {"aaaaaaaaaaaa", "bbbbbbbbbbbb"}
+
+
+def test_multi_query_expand_graph_off_by_explicit_false(fake_graph, monkeypatch):
+    _two_chunk_corpus(monkeypatch)
+    out = wr.multi_query_search(["alpha"], k=5, mode="hybrid", expand_graph=False)
+    assert {r["file_id"] for r in out} == {"aaaaaaaaaaaa"}
