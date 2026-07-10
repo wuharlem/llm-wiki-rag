@@ -33,6 +33,10 @@ COMMANDS: dict[str, tuple[str, str]] = {
         "Blank suspect published/author frontmatter (--apply to write)",
     ),
     "vocab-sync": ("scripts.maintenance.check_vocab_sync", "Lint the vault vocab table against wiki_schema.yml"),
+    "research": (
+        "scripts.maintenance.research_loop",
+        "Open-question research loop: list/hits/stage/brief (weekly task harness)",
+    ),
     "notion-regen": (
         "scripts.maintenance.regenerate_notion_sources",
         "Regenerate 01_data/notion_sources.csv from vault state",
