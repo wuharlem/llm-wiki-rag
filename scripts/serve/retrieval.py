@@ -523,8 +523,13 @@ def search(
     it for this call. When active, it pulls each top hit's graph neighbors
     (from `01_data/index/graph.json`) into the candidate pool before
     reranking/truncation; injected results carry `"source": "graph_expansion"`.
-    Missing graph.json is a silent no-op, matching the graceful degradation
-    already used for missing embeddings.
+    Expansion feeds the rerank pool: with `rerank_results=True` it always runs
+    (the cross-encoder re-scores the widened pool before truncation to k).
+    With `rerank_results=False` it only participates when hybrid retrieval
+    underfills `k` — otherwise the final truncation to `k` would discard the
+    injected entries anyway. Pair `expand_graph` with `rerank=True` for best
+    results. Missing graph.json is a silent no-op, matching the graceful
+    degradation already used for missing embeddings.
 
     Returns a list of result dicts in rank order:
       [
@@ -572,7 +577,7 @@ def search(
     else:
         raise ValueError(f"unknown mode: {mode!r}")
 
-    if mode == "hybrid":
+    if mode == "hybrid" and (rerank_results or len(hits) < retrieve_k):
         cfg_ge = _CFG_RETRIEVAL.graph_expansion
         active = cfg_ge.enabled if expand_graph is None else expand_graph
         if active:
