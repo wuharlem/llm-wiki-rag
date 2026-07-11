@@ -185,8 +185,13 @@ class TestMiner:
         existing = [
             {**GOOD_REC, "qid": "syn-keep-me", "split": "holdout"},
             # existing mined record previously moved to holdout: split must survive re-mine
-            {**GOOD_REC, "qid": "sq-jailbreak-manipulation", "source": "saved_query",
-             "split": "holdout", "created": "2026-07-01"},
+            {
+                **GOOD_REC,
+                "qid": "sq-jailbreak-manipulation",
+                "source": "saved_query",
+                "split": "holdout",
+                "created": "2026-07-01",
+            },
         ]
         er.write_qrels(qrels, existing)
 

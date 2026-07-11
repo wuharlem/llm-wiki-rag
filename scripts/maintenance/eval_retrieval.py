@@ -24,7 +24,7 @@ from datetime import date
 from pathlib import Path
 
 from scripts.wiki_lib import frontmatter
-from scripts.wiki_lib.locations import vault_path, work_path
+from scripts.wiki_lib.locations import vault_path
 
 # Metric cutoffs are fixed so every report is comparable; retrieval depth
 # (--k on `run`) is the only knob.
@@ -144,11 +144,7 @@ def parse_saved_query(text: str, stem: str, created: str) -> dict | None:
         path_m = _PATH_RE.search(block)
         title = title_m.group(1) if title_m else ""
         basename = Path(path_m.group(1)).name if path_m else ""
-        referenced = (
-            fid in answer
-            or (basename and basename in answer)
-            or (title and title.lower() in answer_lower)
-        )
+        referenced = fid in answer or (basename and basename in answer) or (title and title.lower() in answer_lower)
         if referenced and fid not in cited:
             cited.append(fid)
     if not cited:
