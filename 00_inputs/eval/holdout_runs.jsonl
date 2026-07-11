@@ -1,0 +1,1 @@
+{"date": "2026-07-11T06-45-35Z", "label": "baseline-holdout", "git_rev": "bd39281", "config_hash": "0a9c9d7fbe", "holdout": {"recall@20": 0.8933333333333333, "ndcg@10": 0.6990265751885734, "mrr@10": 0.6716666666666667, "n": 25}}
