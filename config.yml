@@ -16,7 +16,7 @@ retrieval:
   heading_boost: 0.3          # chunks whose surrounding heading matches the query get this lift
   rrf_k: 60                   # Cormack et al. 2009 RRF rank-fusion constant; bigger = flatter
   fusion_oversample: 4        # candidate-pool multiplier for hybrid mode
-  rerank_candidates: 100      # max candidates passed to the cross-encoder reranker
+  rerank_candidates: 40       # max candidates passed to the cross-encoder reranker
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
   query_instruction: ""       # prepended to the QUERY ONLY at dense-encode time (chunks embed

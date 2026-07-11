@@ -210,6 +210,8 @@ Retrieval changes are accepted or rejected against a fixed gold set, not by eyeb
 
 Overfitting guards: the dev/holdout split is frozen in the qrels file (`mine` preserves existing assignments); holdout scoring requires `--holdout` and every such run appends to the peek log, so how often the holdout has been consulted is auditable. Convention: tune on dev; confirm on holdout once per change, at merge time. Split assignment is deterministic: a record is holdout iff int(sha1(qid),16) % 100 < 30 — apply the same rule when adding records.
 
+**Tuning experiments 2026-07-11** (first use of the harness; dev n=82, holdout n=24): `rerank_candidates` 40→100 gained +1.6 pts recall@20 with flat nDCG (not adopted — unconfirmed on holdout, 2.5× rerank latency); `mxbai-rerank-base-v1` gained +3.5 nDCG / +4.5 MRR on dev but **regressed −3.4 / −6.4 on holdout** — paired t ≈ 1.1 either way, statistically unresolved at this eval-set size, so the swap was rejected (it also costs ~5× rerank latency; `bge-reranker-v2-m3` was disqualified outright at >20 s/query on CPU); the BGE `query_instruction` prefix slightly hurt all dev metrics and stays `""`. Net config change: none. Lesson encoded: grow the eval set (especially holdout and mined `sq-` records) before re-testing reranker swaps — the current set cannot resolve 2–4 pt nDCG differences.
+
 ## Summary table
 
 | Algorithm | Stage | Code | Knobs (`config.yml`) |
