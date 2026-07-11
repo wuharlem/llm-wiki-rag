@@ -383,6 +383,26 @@ class TestCompare:
         out = capsys.readouterr().out
         assert "base" in out and "new" in out
 
+    def test_format_compare_handles_none_dev_aggregate(self):
+        # Reachable: all dev qrels drift-excluded, or no dev rows at all.
+        a = _mk_report("base", {"q1": 0.9}, {})
+        b = _mk_report("new", {}, {})
+        b["aggregate"]["dev"] = None
+        b["per_query"] = []
+        text = er.format_compare(a, b)  # must not raise
+        assert "unavailable" in text
+
+    def test_cmd_compare_missing_report_returns_1(self, tmp_path, capsys):
+        pa = tmp_path / "a.json"
+        pa.write_text(json.dumps(_mk_report("base", {"q1": 0.5}, {})), encoding="utf-8")
+        missing = tmp_path / "nope.json"
+        rc = er.cmd_compare(argparse.Namespace(report_a=str(pa), report_b=str(missing)))
+        assert rc == 1
+        assert "report not found" in capsys.readouterr().err
+        rc = er.cmd_compare(argparse.Namespace(report_a=str(missing), report_b=str(pa)))
+        assert rc == 1
+        assert "report not found" in capsys.readouterr().err
+
 
 class TestMainWiring:
     def test_main_help_lists_subcommands(self, capsys):

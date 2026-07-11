@@ -412,11 +412,14 @@ def format_compare(a: dict, b: dict) -> str:
         lines.append(f"flags: {a['flags']} -> {b['flags']}")
     lines.append("")
 
-    lines.append(f"{'dev aggregate':<16}{'A':>8}{'B':>8}{'Δ':>8}")
     agg_a, agg_b = a["aggregate"]["dev"], b["aggregate"]["dev"]
-    for metric in ("recall@20", "ndcg@10", "mrr@10"):
-        d = agg_b[metric] - agg_a[metric]
-        lines.append(f"{metric:<16}{agg_a[metric]:>8.3f}{agg_b[metric]:>8.3f}{d:>+8.3f}")
+    if agg_a is None or agg_b is None:
+        lines.append("dev aggregate: unavailable in one or both reports (no scored dev queries)")
+    else:
+        lines.append(f"{'dev aggregate':<16}{'A':>8}{'B':>8}{'Δ':>8}")
+        for metric in ("recall@20", "ndcg@10", "mrr@10"):
+            d = agg_b[metric] - agg_a[metric]
+            lines.append(f"{metric:<16}{agg_a[metric]:>8.3f}{agg_b[metric]:>8.3f}{d:>+8.3f}")
     lines.append("")
 
     pa = {r["qid"]: r for r in a["per_query"]}
@@ -443,6 +446,10 @@ def format_compare(a: dict, b: dict) -> str:
 
 def cmd_compare(args: argparse.Namespace) -> int:
     """Load two run report JSON files and print their diff."""
+    for path in (args.report_a, args.report_b):
+        if not Path(path).exists():
+            print(f"error: report not found: {path}", file=sys.stderr)
+            return 1
     a = json.loads(Path(args.report_a).read_text(encoding="utf-8"))
     b = json.loads(Path(args.report_b).read_text(encoding="utf-8"))
     print(format_compare(a, b))
