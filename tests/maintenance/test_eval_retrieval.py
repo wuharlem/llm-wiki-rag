@@ -161,6 +161,19 @@ class TestMiner:
         assert rec["source"] == "saved_query"
         assert rec["split"] == "dev"
 
+    def test_parse_excludes_paraphrase_trailer_from_citation_matching(self):
+        # The auto-appended "**Paraphrases used:**" trailer can name a query
+        # variant that happens to mention an uncited top result's title; it
+        # must be stripped from the Answer span before citation matching.
+        text = SQ_TEXT.replace(
+            "## Top results",
+            "**Paraphrases used:** `something naming Unrelated Result`\n\n## Top results",
+        )
+        rec = er.parse_saved_query(text, stem="jailbreak-manipulation", created="2026-07-11")
+        assert rec is not None
+        assert "deadbeef1234" not in rec["relevant_file_ids"]
+        assert rec["relevant_file_ids"] == ["8cea65e37c93", "60941c1e08ef"]
+
     def test_parse_handles_block_list_frontmatter(self):
         rec = er.parse_saved_query(SQ_TEXT_BLOCK, stem="x", created="2026-07-11")
         assert rec is not None
@@ -282,6 +295,29 @@ class TestRunner:
         )
         assert report["aggregate"]["holdout"]["n"] == 1
         assert report["aggregate"]["holdout"]["recall@20"] == pytest.approx(0.0)
+
+    def test_drifted_holdout_record_excluded_only_when_holdout_included(self):
+        # Ordering matters: the holdout-split skip runs BEFORE the drift
+        # check, so a dev-only run must not count a drifted holdout qid in
+        # excluded_qids.
+        qrels = self._mk_qrels() + [
+            {
+                "qid": "q5",
+                "query": "drifted-holdout",
+                "relevant_file_ids": ["GONE2"],
+                "source": "synthetic",
+                "split": "holdout",
+                "created": "2026-07-11",
+            }
+        ]
+        manifest_ids = {"fA", "fB", "fC", "fX", "fY"}  # neither GONE nor GONE2 present
+
+        report = er.run_eval(qrels, self._fake_search, manifest_ids=manifest_ids, k=40, include_holdout=False)
+        assert "q5" not in report["excluded_qids"]
+        assert report["excluded_qids"] == ["q4"]
+
+        report_holdout = er.run_eval(qrels, self._fake_search, manifest_ids=manifest_ids, k=40, include_holdout=True)
+        assert "q5" in report_holdout["excluded_qids"]  # drift check does apply once holdout is scored
 
     def test_load_manifest_file_ids(self, tmp_path):
         m = tmp_path / "manifest.csv"
