@@ -136,6 +136,11 @@ the right host). Because chunk vectors are pre-normalized, scoring the filtered
 pool is one matrix–vector dot product. Catches paraphrases
 BM25 can't ("scalable oversight" vs "supervising stronger models").
 
+`config.yml → retrieval.query_instruction` (added 2026-07-11) is prepended to
+the **query only** before encoding — BGE-style retrieval instruction
+("Represent this sentence for searching relevant passages: "). Chunk vectors
+embed bare, so flipping it needs no re-embed; `""` disables.
+
 Search is deliberately **brute-force exact** — no ANN index, no vector
 database. At this corpus size (thousands of chunks, 384 dims) the full dot
 product takes single-digit milliseconds; an approximate index would add a

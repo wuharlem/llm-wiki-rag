@@ -45,6 +45,7 @@ retrieval:
   rerank_candidates: 40
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
+  query_instruction: ""
   graph_expansion:
     enabled: false
     seed_hits: 5
