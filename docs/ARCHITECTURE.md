@@ -1,6 +1,6 @@
 # Architecture & Design
 
-This document is the **narrative layer** for the repo. The [`README.md`](README.md) already
+This document is the **narrative layer** for the repo. The [`README.md`](../README.md) already
 covers *how to use it* (setup, template quick start, folder layout) and is not repeated here.
 (Maintainers working in-tree also have a local `CLAUDE.md` — the agent contract for changes that
 cross into a specific vault; it's not part of the public tree because it's tied to one operator's
@@ -20,7 +20,7 @@ vault is compiled into a chunked hybrid-retrieval index; the index is served to 
 
 The defining stance: **this repo is machinery, not content.** It ships no vault — you bring your
 own via `WIKI_VAULT`, and everything domain-specific lives in one file, `wiki_schema.yml`. For
-setup, follow the [README](README.md#using-this-template); the rest of this doc assumes you know
+setup, follow the [README](../README.md#using-this-template); the rest of this doc assumes you know
 what the pipeline *does* and explains how it's *built*.
 
 ---
@@ -232,8 +232,8 @@ scratch doc isn't shipped.
 
 ## 6. See also
 
-- **[`README.md`](README.md)** — setup, template quick start, folder layout, reproducibility.
-- **[`docs/ML_ALGORITHMS.md`](docs/ML_ALGORITHMS.md)** — every ML/statistical algorithm in the pipeline (chunking, embeddings, BM25, RRF, reranking, graph + Louvain), with code citations and the `config.yml` knobs that tune each.
-- **[`scripts/README.md`](scripts/README.md)** — operational how-to for the bulk fetcher.
+- **[`README.md`](../README.md)** — setup, template quick start, folder layout, reproducibility.
+- **[`ML_ALGORITHMS.md`](ML_ALGORITHMS.md)** — every ML/statistical algorithm in the pipeline (chunking, embeddings, BM25, RRF, reranking, graph + Louvain), with code citations and the `config.yml` knobs that tune each.
+- **[`scripts/README.md`](../scripts/README.md)** — operational how-to for the bulk fetcher.
 - **`CLAUDE.md`** (local, in-tree, not published) — the maintainer's agent contract: the cross-folder invariants with `file:line` citations and default behaviors. Present only in an operator's working copy, since it's tied to a specific vault location.
 - **Vault-side `PROCESS_*.md`** — the user-facing operational workflows (ingest / query / health-check) that agents follow; rendered into the vault by `cli vault-init`.
