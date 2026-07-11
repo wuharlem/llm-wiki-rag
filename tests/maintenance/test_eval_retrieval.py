@@ -79,12 +79,19 @@ class TestQrelsIO:
         with pytest.raises(ValueError, match=r"qrels\.jsonl:1"):
             er.load_qrels(p)
 
+    def test_non_object_json_line_fails_with_lineno(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        p.write_text("null\n", encoding="utf-8")
+        with pytest.raises(ValueError, match=r"qrels\.jsonl:1.*expected object"):
+            er.load_qrels(p)
+
     def test_bad_source_split_empty_positives_dup_qid(self, tmp_path):
         p = tmp_path / "qrels.jsonl"
         for mutation in (
             {"source": "vibes"},
             {"split": "test"},
             {"relevant_file_ids": []},
+            {"relevant_file_ids": "not-a-list"},
         ):
             _write_jsonl(p, [GOOD_REC | mutation])
             with pytest.raises(ValueError):

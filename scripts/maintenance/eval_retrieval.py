@@ -74,6 +74,8 @@ def load_qrels(path: Path) -> list[dict]:
             rec = json.loads(line)
         except json.JSONDecodeError as e:
             raise ValueError(f"{where}: invalid JSON: {e}") from e
+        if not isinstance(rec, dict):
+            raise ValueError(f"{where}: expected object, got {type(rec).__name__}")
         missing = REQUIRED_KEYS - rec.keys()
         if missing:
             raise ValueError(f"{where}: missing keys {sorted(missing)}")
@@ -81,6 +83,8 @@ def load_qrels(path: Path) -> list[dict]:
             raise ValueError(f"{where}: bad source {rec['source']!r}")
         if rec["split"] not in VALID_SPLITS:
             raise ValueError(f"{where}: bad split {rec['split']!r}")
+        if not isinstance(rec["relevant_file_ids"], list):
+            raise ValueError(f"{where}: relevant_file_ids must be a list")
         if not rec["relevant_file_ids"]:
             raise ValueError(f"{where}: empty relevant_file_ids")
         if rec["qid"] in seen_qids:
