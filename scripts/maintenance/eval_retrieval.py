@@ -378,3 +378,113 @@ def cmd_run(args: argparse.Namespace) -> int:
             fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
         print(f"holdout peek logged -> {log_path}")
     return 0
+
+
+def flatten_config(cfg: dict, prefix: str = "") -> dict[str, object]:
+    """Recursively flatten nested config dict into dotted-key format."""
+    flat: dict[str, object] = {}
+    for key, val in cfg.items():
+        dotted = f"{prefix}{key}"
+        if isinstance(val, dict):
+            flat.update(flatten_config(val, prefix=f"{dotted}."))
+        else:
+            flat[dotted] = val
+    return flat
+
+
+def format_compare(a: dict, b: dict) -> str:
+    """Format a diff between two run reports for display."""
+    lines = [
+        f"A = {a['label']} ({a['timestamp']}, git {a['git_rev']})",
+        f"B = {b['label']} ({b['timestamp']}, git {b['git_rev']})",
+        "",
+    ]
+
+    fa, fb = flatten_config(a["config"]), flatten_config(b["config"])
+    diff_keys = sorted(k for k in fa.keys() | fb.keys() if fa.get(k) != fb.get(k))
+    if diff_keys:
+        lines.append("config diff:")
+        for k in diff_keys:
+            lines.append(f"  {k}: {fa.get(k)!r} -> {fb.get(k)!r}")
+    else:
+        lines.append("config diff: none (flags may still differ)")
+    if a["flags"] != b["flags"]:
+        lines.append(f"flags: {a['flags']} -> {b['flags']}")
+    lines.append("")
+
+    lines.append(f"{'dev aggregate':<16}{'A':>8}{'B':>8}{'Δ':>8}")
+    agg_a, agg_b = a["aggregate"]["dev"], b["aggregate"]["dev"]
+    for metric in ("recall@20", "ndcg@10", "mrr@10"):
+        d = agg_b[metric] - agg_a[metric]
+        lines.append(f"{metric:<16}{agg_a[metric]:>8.3f}{agg_b[metric]:>8.3f}{d:>+8.3f}")
+    lines.append("")
+
+    pa = {r["qid"]: r for r in a["per_query"]}
+    pb = {r["qid"]: r for r in b["per_query"]}
+    moved = [
+        (qid, pb[qid]["ndcg@10"] - pa[qid]["ndcg@10"])
+        for qid in sorted(pa.keys() & pb.keys())
+        if abs(pb[qid]["ndcg@10"] - pa[qid]["ndcg@10"]) > 1e-9
+    ]
+    regressions = sorted((m for m in moved if m[1] < 0), key=lambda m: m[1])
+    improvements = sorted((m for m in moved if m[1] > 0), key=lambda m: -m[1])
+    lines.append(f"per-query nDCG regressions ({len(regressions)}):")
+    for qid, d in regressions:
+        missed = ", ".join(pb[qid]["missed_file_ids"]) or "none"
+        lines.append(f"  {qid}: {d:+.3f}  missed in B: {missed}")
+    lines.append(f"per-query nDCG improvements ({len(improvements)}):")
+    for qid, d in improvements:
+        lines.append(f"  {qid}: {d:+.3f}")
+    only = sorted(set(pa) ^ set(pb))
+    if only:
+        lines.append(f"qids present in only one report (not compared): {', '.join(only)}")
+    return "\n".join(lines)
+
+
+def cmd_compare(args: argparse.Namespace) -> int:
+    """Load two run report JSON files and print their diff."""
+    a = json.loads(Path(args.report_a).read_text(encoding="utf-8"))
+    b = json.loads(Path(args.report_b).read_text(encoding="utf-8"))
+    print(format_compare(a, b))
+    return 0
+
+
+_DEFAULT_QRELS = "00_inputs/eval/qrels.jsonl"
+
+
+def main(argv: list[str] | None = None) -> None:
+    """CLI entrypoint: parse mine/run/compare subcommands and dispatch."""
+    parser = argparse.ArgumentParser(prog="eval", description="Retrieval quality harness (mine / run / compare).")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p_mine = sub.add_parser("mine", help="regenerate mined qrels from vault saved queries")
+    p_mine.add_argument("--qrels", default=_DEFAULT_QRELS)
+    p_mine.set_defaults(func=cmd_mine)
+
+    p_run = sub.add_parser("run", help="score the current config.yml against the qrels")
+    p_run.add_argument("--qrels", default=_DEFAULT_QRELS)
+    p_run.add_argument("--label", default="run", help="name embedded in the report filename")
+    p_run.add_argument("--mode", choices=["hybrid", "bm25", "semantic"], default="hybrid")
+    p_run.add_argument("--no-rerank", dest="rerank", action="store_false")
+    p_run.add_argument(
+        "--expand-graph",
+        dest="expand_graph",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="override config graph_expansion.enabled (default: follow config)",
+    )
+    p_run.add_argument("--k", type=int, default=40, help="chunks requested per query")
+    p_run.add_argument("--holdout", action="store_true", help="also score the holdout split (appends to the peek log)")
+    p_run.set_defaults(func=cmd_run)
+
+    p_cmp = sub.add_parser("compare", help="diff two run reports")
+    p_cmp.add_argument("report_a")
+    p_cmp.add_argument("report_b")
+    p_cmp.set_defaults(func=cmd_compare)
+
+    args = parser.parse_args(argv)
+    raise SystemExit(args.func(args))
+
+
+if __name__ == "__main__":
+    main()

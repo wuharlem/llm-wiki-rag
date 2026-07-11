@@ -333,3 +333,62 @@ class TestRunner:
         assert row["rr@10"] == pytest.approx(0.0)
         assert row["first_hit_rank"] == 11
         assert row["recall@20"] == pytest.approx(1.0)
+
+
+def _mk_report(label, ndcg_by_qid, cfg):
+    per = [
+        {
+            "qid": q,
+            "source": "synthetic",
+            "split": "dev",
+            "recall@20": 1.0,
+            "ndcg@10": v,
+            "rr@10": v,
+            "first_hit_rank": 1,
+            "missed_file_ids": ["fMISS"] if v < 0.5 else [],
+            "top_files": ["fA"],
+        }
+        for q, v in ndcg_by_qid.items()
+    ]
+    return {
+        "label": label,
+        "timestamp": "t",
+        "git_rev": "g",
+        "config": cfg,
+        "flags": {"mode": "hybrid", "rerank": True, "expand_graph": None, "k": 40},
+        "aggregate": {"dev": er.aggregate(per), "holdout": None},
+        "by_source": {"dev": {"synthetic": er.aggregate(per)}},
+        "excluded_qids": [],
+        "per_query": per,
+    }
+
+
+class TestCompare:
+    def test_format_compare_shows_deltas_config_diff_and_regressions(self):
+        a = _mk_report("base", {"q1": 0.9, "q2": 0.8}, {"reranker_model": "ms-marco", "rrf_k": 60})
+        b = _mk_report("new", {"q1": 0.9, "q2": 0.3}, {"reranker_model": "bge-v2-m3", "rrf_k": 60})
+        text = er.format_compare(a, b)
+        assert "reranker_model" in text  # differing config key shown
+        assert "rrf_k" not in text  # unchanged key not shown
+        assert "q2" in text  # regression listed
+        assert "fMISS" in text  # its missed files shown
+        assert "q1: " not in text  # unchanged qid not listed as moved
+
+    def test_cmd_compare_reads_files(self, tmp_path, capsys):
+        pa, pb = tmp_path / "a.json", tmp_path / "b.json"
+        pa.write_text(json.dumps(_mk_report("base", {"q1": 0.5}, {})), encoding="utf-8")
+        pb.write_text(json.dumps(_mk_report("new", {"q1": 0.9}, {})), encoding="utf-8")
+        rc = er.cmd_compare(argparse.Namespace(report_a=str(pa), report_b=str(pb)))
+        assert rc == 0
+        out = capsys.readouterr().out
+        assert "base" in out and "new" in out
+
+
+class TestMainWiring:
+    def test_main_help_lists_subcommands(self, capsys):
+        with pytest.raises(SystemExit) as exc:
+            er.main(["--help"])
+        assert exc.value.code == 0
+        out = capsys.readouterr().out
+        for sub in ("mine", "run", "compare"):
+            assert sub in out
