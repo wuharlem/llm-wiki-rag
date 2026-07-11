@@ -42,6 +42,8 @@
 - **Both YAML forms** — when scripting any frontmatter check, handle inline-flow
   (`tags: [a, b]`) AND block-list forms; spot-check one file of each before trusting output.
 - **Index freshness** — `index_stats` file count vs. actual indexable files in the vault.
+- **Open questions aging** — `python -m scripts.cli research list --eligible-only`; triage
+  per the research-loop section below.
 
 > **Fill this in:** add vault-specific checks as they earn their place (each new check should
 > come from a real incident, with a one-line note of what happened).
@@ -62,6 +64,28 @@ Call `graph_insights()` once per health-check pass and triage three finding clas
 
 `built_at` in the payload tells you whether the graph predates recent ingests —
 rebuild before trusting it.
+
+## Open-question research loop (when `open_questions.md` is used)
+
+If this vault keeps an `open_questions.md`, questions age: some get silently answered by
+later ingests, others go stale with no one looking. The `research` CLI command automates
+the legwork — run it periodically (e.g. weekly, manually or via a scheduled agent task):
+
+1. `python -m scripts.cli research list --json --eligible-only` — live entries not resolved
+   and not researched recently. Empty → log one skip line and stop.
+2. Per eligible entry: `research hits <slug>` prints current corpus evidence for the
+   question; the agent judges. If a later ingest already answers it, resolve the entry.
+   Otherwise: web-research, pick the best few candidate sources, `research stage <slug>
+   <url> --title …` each (the CLI dedups against already-ingested/staged/nominated URLs
+   and enforces per-question and per-run caps), then `research brief <slug> --text
+   "<2–3 sentence state-of-answer>"`.
+3. End of run: one `append_log(kind="note", title="research-loop run", body=
+   "<resolved>/<researched>/<staged> counts")`.
+
+**The user is the gate.** Staged sources land in `_add_by_me/` (index-excluded); the CLI
+cannot ingest. The user reviews the staging area — keepers go through `PROCESS_NEW_FILE.md`,
+rejects get deleted. The caps and dedup make repeat runs idempotent, so manual runs are
+safe anytime.
 
 ## Decisions that always need user confirmation
 

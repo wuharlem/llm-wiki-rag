@@ -123,13 +123,13 @@ flowchart LR
         F["fetch · stage · dedup"]
     end
     subgraph build["② build/"]
-        I["index"] --> E["embeddings"] --> M["wiki_mirror"]
+        I["index"] --> E["embeddings"] --> G["graph"] --> M["wiki_mirror"]
     end
     subgraph serve["③ serve/"]
         R["retrieval"] --> S["mcp_server"]
     end
     subgraph maint["④ maintenance/"]
-        C["cleanup · vocab-sync · notion-regen"]
+        C["cleanup · vocab-sync ·<br/>notion-regen · research"]
     end
     F -->|"vault .md/.pdf"| I
     M -->|"01_data/index/*"| R
@@ -146,13 +146,20 @@ flowchart LR
 | Dedup (report only) | `ingest/dedup_report.py` | vault `.md` frontmatter | `02_logs/dedup_report.csv` |
 | Build / index | `build/index.py` | vault `.md`/`.pdf`, `.cache/` | `01_data/index/{index.json, chunks.jsonl, manifest.csv}` |
 | Embed | `build/embeddings.py` | `chunks.jsonl` | `01_data/index/embeddings.{npy,_ids.json,_meta.json}` |
+| Graph | `build/graph.py` | `chunks.jsonl` + embeddings | `01_data/index/graph.json` (neighbors, Louvain communities, insights) |
 | Mirror | `build/wiki_mirror.py` | `manifest.csv` | vault `_index/{README, by_category, by_concept, by_tag}` |
 | Serve | `serve/mcp_server.py` (+ `retrieval.py`) | index artifacts | JSON responses; `source_state.json` on rebuild |
 | Maintain | `maintenance/*` | vault + `01_data/notion_sources.csv` | `notion_sources.csv`, `02_logs/*` |
+| Research loop | `maintenance/research_loop.py` | vault `open_questions.md` + index artifacts | marker-safe vault edits (staged candidates, briefs) |
+
+`embed` is incremental by default: chunk identity is `sha1(chunk_text)`, cached vectors are reused
+for unchanged chunks, and the model only loads when there is new text to encode. `build` (and the
+MCP `rebuild_index`) auto-run the embeddings refresh and then `graph` at the end of every
+successful full build; `rebuild_index` reports both in its payload (`embeddings` / `mirror` blocks).
 
 The **CLI facade** (`scripts/cli.py:21`, the `COMMANDS` table) is the frozen shell entry point:
-`build, mirror, embed, query, serve, fetch, stage, dedup, cleanup, vocab-sync, notion-regen,
-vault-init`. Internal modules move freely as long as this table keeps pointing at them.
+`build, mirror, embed, graph, query, serve, fetch, stage, dedup, cleanup, vocab-sync, research,
+notion-regen, vault-init`. Internal modules move freely as long as this table keeps pointing at them.
 
 ### Index artifacts (`01_data/index/`)
 
@@ -167,12 +174,12 @@ vault-init`. Internal modules move freely as long as this table keeps pointing a
 
 All in `scripts/serve/retrieval.py`; tuning constants come from `config.yml → retrieval:`.
 
-- **Lexical** — `bm25_search` (`:223`): BM25 (`k1=1.5`, `b=0.75`) with title/heading boosts.
-- **Dense** — `semantic_search` (`:314`): cosine over `embeddings.npy`, query-embedded with SentenceTransformer `BAAI/bge-small-en-v1.5`.
-- **Fusion** — `_rrf` (`:362`): Reciprocal Rank Fusion (`k=60`), each retriever oversampled before merge.
-- **Rerank** — `rerank` (`:410`): CrossEncoder `ms-marco-MiniLM-L-6-v2` over the top candidates.
-- **Orchestrator** — `search(...)` (`:443`): `mode ∈ {bm25, semantic, hybrid}`. Hybrid oversamples both retrievers, RRF-merges, then optionally reranks — and **degrades gracefully to BM25** when embeddings aren't built and to unranked results when the `rerank` extra isn't installed.
-- **Graph expansion** — optional post-RRF neighbor injection (config `retrieval.graph_expansion`, default off).
+- **Lexical** — `bm25_search`: BM25 (`k1=1.5`, `b=0.75`) with title/heading boosts.
+- **Dense** — `semantic_search`: cosine over `embeddings.npy`, query-embedded with SentenceTransformer `BAAI/bge-small-en-v1.5`.
+- **Fusion** — `_rrf`: Reciprocal Rank Fusion (`k=60`), each retriever oversampled before merge.
+- **Rerank** — `rerank`: CrossEncoder `ms-marco-MiniLM-L-6-v2` over the top candidates.
+- **Orchestrator** — `search(...)`: `mode ∈ {bm25, semantic, hybrid}`. Hybrid oversamples both retrievers, RRF-merges, then optionally reranks — and **degrades gracefully to BM25** when embeddings aren't built and to unranked results when the `rerank` extra isn't installed.
+- **Graph expansion** — post-RRF neighbor injection, rerank-gated (config `retrieval.graph_expansion`; surfaced as the `expand_graph` kwarg on `search_wiki`/`multi_query_search`, forwarded per-paraphrase). Enabled in the shipped config since 2026-07-10; template adopters should start with `enabled: false` and A/B against their own corpus first.
 
 ### MCP surface
 

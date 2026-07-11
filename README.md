@@ -35,7 +35,7 @@ flowchart TD
 
     subgraph use["③ Serve, query &amp; maintain"]
         H["cli serve → MCP server<br/>(cli query for the shell)"] --> I["Agents: search_wiki ·<br/>rebuild_index · save_query"]
-        I --> J["cli mirror · cleanup ·<br/>vocab-sync"]
+        I --> J["cli mirror · cleanup ·<br/>vocab-sync · research"]
     end
 
     D --> E
@@ -128,9 +128,9 @@ To add a **new field type** beyond the seven built-in literals, edit `scripts/wi
 03_notion_drafts/        # generated Notion content (per-folder + compact variants)
 scripts/                 # all pipeline tooling (Python), split into phase packages:
   ingest/                 #   fetch, dedup_report, stage_candidate
-  build/                  #   index, embeddings, wiki_mirror
+  build/                  #   index, embeddings, graph, wiki_mirror
   serve/                  #   retrieval, query_cli, mcp_app, mcp_server, mcp_tools/
-  maintenance/            #   check_vocab_sync, cleanup_metadata, regenerate_notion_sources, vault_init
+  maintenance/            #   check_vocab_sync, cleanup_metadata, regenerate_notion_sources, vault_init, research_loop
   wiki_lib/               #   shared helpers (schema, config, paths, locations, ...)
 templates/               # vault-init skeletons (rendered into the vault, then owned there)
   vault/                  #   PROCESS_NEW_FILE / PROCESS_QUERY / PROCESS_HEALTH_CHECK / _PROCESS_MAP
@@ -185,11 +185,13 @@ uv run python -m scripts.cli serve          # MCP server
 uv run python -m scripts.cli mirror
 ```
 
-Regenerates the `_index/` overview pages (one MD per concept). Run after large vault changes.
+Regenerates the `_index/` overview pages (one MD per concept). Where the vault maintains a concept article (`<concept-slug>__synthesis.md` under `vault.concept_articles_relpath`, indexed as ordinary corpus files with `source_type: synthesis`), the concept's catalog page cross-links to it. Run after large vault changes; a successful `rebuild_index` also runs this automatically.
 
 ### Stage 5 — Maintenance tools
 
 `scripts/maintenance/cleanup_metadata.py` is dry-run-by-default; pass `--apply` to mutate. `scripts/ingest/dedup_report.py` is report-only — it writes a CSV and never deletes or modifies anything. `scripts/maintenance/regenerate_notion_sources.py` (`notion-regen`) is different: it REWRITES `01_data/notion_sources.csv` unconditionally, no `--apply` flag, though it takes a timestamped backup first. See each script's `--help` for details.
+
+`uv run python -m scripts.cli research` (`scripts/maintenance/research_loop.py`) drives the open-question research loop: `list` parses the vault's `open_questions.md` for eligible questions, `hits` runs in-repo retrieval as the mechanical resolve-check, and `stage`/`brief` prepare candidate sources with three-registry dedup and flood caps. It edits vault files marker-safely and is designed to be driven by a scheduled agent task.
 
 **Warning:** PDF rows' `url`, `author`, `published`, and `tags` fields exist _only_ in `notion_sources.csv` — they cannot be reconstructed from vault state. If a `notion-regen` run clobbers them, restore from the timestamped backup it wrote before overwriting.
 

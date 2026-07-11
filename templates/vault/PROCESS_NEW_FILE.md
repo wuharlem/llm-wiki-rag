@@ -45,8 +45,10 @@ Prefer these over reading raw vault files when you need to find related material
 | `get_file_detail` | After search, read the full surrounding context of a promising hit. |
 | `list_categories` / `list_concepts` / `list_tags` | Discover valid taxonomy values before writing frontmatter. Never invent values without checking. |
 | `index_stats` | Confirm the rebuild landed (`n_files` should go up by 1). |
+| `find_related_files` | Graph neighbors of a specific file — a second recall net after `search_wiki` when checking for near-duplicates or related material. |
 | `rebuild_index` | Step 4 of every ingest. Always a full rebuild. |
 | `append_log` | Step 5 of every ingest. `kind="ingest"`, `title=<document title>`. |
+| `append_open_question` | Step 6 — file gaps the new material exposes. |
 
 ---
 
@@ -93,7 +95,10 @@ Confirm the returned `n_files` went up by the number of files you added. If the 
 `{"ok": true, "skipped": true, "reason": "sources_unchanged"}` during an ingest, your file
 landed somewhere non-indexable — investigate before forcing.
 
-`rebuild_index` logs itself to `log.md`; don't log the rebuild separately.
+`rebuild_index` logs itself to `log.md`; don't log the rebuild separately. A successful
+rebuild also refreshes embeddings incrementally and regenerates the `_index/` mirror
+(reported in the payload's `embeddings` / `mirror` blocks) — no separate `embed` or
+`mirror` run is needed after an ingest.
 
 ## Step 4.5: Update affected concept articles (when present)
 
