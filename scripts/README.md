@@ -44,13 +44,13 @@ Other flags:
 ## Output
 
 - **Files** → `<vault>/Sources/_inbox/`
-- **Log**   → `fetch_log.csv` in the project folder (appended on each run, with `timestamp,url,handler,status,filename,info`)
+- **Log**   → `02_logs/fetch_log.csv` (appended on each run, with `timestamp,url,handler,status,filename,info`)
 
 Re-running is safe: each fetch overwrites its own filename. To retry only failures, filter `fetch_log.csv` for `status=fail`, write the URLs to a new CSV with the right header, and point the script at it (or just re-run — duplicates get overwritten).
 
 ## What's NOT done by this script
 
-The fetched files have empty `tags`, `concepts`, `risk_category`, `source_type` in their frontmatter — they're raw, not yet classified. To run the PROCESS_NEW_FILE.md workflow on them (place into the right subfolder, fill taxonomy, update Notion), hand the contents of `Sources/_inbox/` back to me in batches and I'll process them.
+The fetched files have empty `tags`, `concepts`, `risk_category`, `source_type` in their frontmatter — they're raw, not yet classified. To run the PROCESS_NEW_FILE.md workflow on them (place into the right subfolder, fill taxonomy, update Notion), hand the contents of `Sources/_inbox/` to your wiki agent in batches for classification.
 
 ## Time + space estimate
 

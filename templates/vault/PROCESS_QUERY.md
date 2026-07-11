@@ -47,6 +47,14 @@ For file-level exploration — "what else in this vault is like this file?" — 
 surfaces corpus-level structure (isolated files, sparse clusters, surprising
 connections) when you are auditing coverage rather than answering a question.
 
+`search_wiki` and `multi_query_search` also take an `expand_graph` kwarg (forwarded
+per-paraphrase): retrieval-side graph-neighbor expansion that injects related files
+after fusion, gated on rerank-or-underfill. Its default comes from the instance's
+`config.yml → retrieval.graph_expansion.enabled`. Independent of that setting, a useful
+recall net for substantive questions: after retrieval, run `find_related_files` on the
+top 1–2 hits and fold genuinely relevant neighbors into the answer — the agent-level
+cross-check judges relevance in a way retrieval-side expansion can't.
+
 ## How to call `save_query`
 
 ```python
