@@ -195,6 +195,16 @@ tagged with each (`|shared| / |union|`). Pure set arithmetic, no model; used
 for concept-graph maintenance (cross-link decisions, spotting emergent
 clusters), not for retrieval ranking.
 
+## Evaluation
+
+**Code:** `scripts/maintenance/eval_retrieval.py` · **CLI:** `uv run python -m scripts.cli eval {mine,run,compare}` · **Data:** `00_inputs/eval/qrels.jsonl` (tracked gold labels), `00_inputs/eval/holdout_runs.jsonl` (tracked holdout peek log), `01_data/eval/runs/` (untracked JSON reports).
+
+Retrieval changes are accepted or rejected against a fixed gold set, not by eyeballing queries. Each qrels record pairs a query with the `file_id`s that answer it. Two sources: `sq-` records mined from the vault's saved queries (positives = files cited in the saved `## Answer` — the citation is the relevance judgment), and `syn-` records authored per corpus file (positive by construction). Labels are file-level and known-incomplete, so **scores are lower bounds; only run-to-run deltas are meaningful**.
+
+`eval run` scores the *current* `config.yml` (recall@20 / nDCG@10 / MRR@10, chunks deduped to first-hit file rank) and writes a report embedding the resolved `retrieval:` snapshot; `eval compare A B` prints aggregate deltas, the differing config keys, and per-query regressions with their missed files. Comparing two methods = edit `config.yml`, `run --label <name>`, `compare`.
+
+Overfitting guards: the dev/holdout split is frozen in the qrels file (`mine` preserves existing assignments); holdout scoring requires `--holdout` and every such run appends to the peek log, so how often the holdout has been consulted is auditable. Convention: tune on dev; confirm on holdout once per change, at merge time.
+
 ## Summary table
 
 | Algorithm | Stage | Code | Knobs (`config.yml`) |

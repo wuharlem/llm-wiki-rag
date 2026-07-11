@@ -193,6 +193,8 @@ Regenerates the `_index/` overview pages (one MD per concept). Where the vault m
 
 `uv run python -m scripts.cli research` (`scripts/maintenance/research_loop.py`) drives the open-question research loop: `list` parses the vault's `open_questions.md` for eligible questions, `hits` runs in-repo retrieval as the mechanical resolve-check, and `stage`/`brief` prepare candidate sources with three-registry dedup and flood caps. It edits vault files marker-safely and is designed to be driven by a scheduled agent task.
 
+`uv run python -m scripts.cli eval` (`scripts/maintenance/eval_retrieval.py`) is the retrieval quality harness: `mine` refreshes gold labels from the vault's saved queries, `run` scores the current `config.yml` on recall@20 / nDCG@10 / MRR@10 against `00_inputs/eval/qrels.jsonl`, and `compare` diffs two run reports (aggregate deltas, config diff, per-query regressions). The dev/holdout split is frozen in the qrels file and holdout runs are logged to `00_inputs/eval/holdout_runs.jsonl` — see `docs/ML_ALGORITHMS.md` § Evaluation.
+
 **Warning:** PDF rows' `url`, `author`, `published`, and `tags` fields exist _only_ in `notion_sources.csv` — they cannot be reconstructed from vault state. If a `notion-regen` run clobbers them, restore from the timestamped backup it wrote before overwriting.
 
 ## Historical pipeline (one-shot, April 2026)

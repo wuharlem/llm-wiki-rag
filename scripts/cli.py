@@ -37,6 +37,10 @@ COMMANDS: dict[str, tuple[str, str]] = {
         "scripts.maintenance.research_loop",
         "Open-question research loop: list/hits/stage/brief (weekly task harness)",
     ),
+    "eval": (
+        "scripts.maintenance.eval_retrieval",
+        "Retrieval quality harness: mine qrels / run scored eval / compare reports",
+    ),
     "notion-regen": (
         "scripts.maintenance.regenerate_notion_sources",
         "Regenerate 01_data/notion_sources.csv from vault state",

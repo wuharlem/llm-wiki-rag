@@ -30,6 +30,7 @@ EXPECTED_COMMANDS = {
     "cleanup",
     "vocab-sync",
     "research",
+    "eval",
     "notion-regen",
     "vault-init",
 }
