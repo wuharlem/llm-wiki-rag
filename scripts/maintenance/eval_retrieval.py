@@ -206,6 +206,9 @@ def load_manifest_file_ids(path: Path) -> set[str]:
 def _score_query(rec: dict, ranked_files: list[str]) -> dict:
     relevant = set(rec["known_positives"])
     rr = reciprocal_rank(ranked_files, relevant, MRR_K)
+    # First hit over the FULL ranked list — independent of the rr@10 cutoff,
+    # so a positive at rank 11-20 shows its true rank instead of None.
+    first_hit = next((i + 1 for i, fid in enumerate(ranked_files) if fid in relevant), None)
     top = ranked_files[:RECALL_K]
     return {
         "qid": rec["qid"],
@@ -214,7 +217,7 @@ def _score_query(rec: dict, ranked_files: list[str]) -> dict:
         "recall@20": recall_at_k(ranked_files, relevant, RECALL_K),
         "ndcg@10": ndcg_at_k(ranked_files, relevant, NDCG_K),
         "rr@10": rr,
-        "first_hit_rank": round(1 / rr) if rr else None,
+        "first_hit_rank": first_hit,
         "missed_file_ids": [f for f in rec["known_positives"] if f not in set(top)],
         "top_files": ranked_files[:10],
     }
@@ -310,7 +313,7 @@ def _git_rev(cwd: Path) -> str:
             timeout=10,
         )
         return out.stdout.strip() or "unknown"
-    except OSError:
+    except (OSError, subprocess.TimeoutExpired):
         return "unknown"
 
 

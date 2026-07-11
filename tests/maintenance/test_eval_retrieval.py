@@ -309,3 +309,27 @@ class TestRunner:
         assert "lower bound" in text
         assert "excluded" in text
         assert "saved_query" in text
+
+    def test_first_hit_rank_beyond_mrr_cutoff(self):
+        # Positive at rank 11: outside rr@10's cutoff but inside recall@20 —
+        # first_hit_rank must report the true rank, not None.
+        qrels = [
+            {
+                "qid": "q-deep",
+                "query": "deep",
+                "relevant_file_ids": ["fZ"],
+                "source": "synthetic",
+                "split": "dev",
+                "created": "2026-07-11",
+            }
+        ]
+
+        def search_fn(query, k, **kwargs):
+            ranked = [f"filler{i}" for i in range(10)] + ["fZ"]
+            return [{"file_id": fid} for fid in ranked]
+
+        report = er.run_eval(qrels, search_fn, manifest_ids={"fZ"}, k=40, include_holdout=False)
+        (row,) = report["per_query"]
+        assert row["rr@10"] == pytest.approx(0.0)
+        assert row["first_hit_rank"] == 11
+        assert row["recall@20"] == pytest.approx(1.0)
