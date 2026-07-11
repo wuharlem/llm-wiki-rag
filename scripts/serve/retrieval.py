@@ -159,6 +159,9 @@ _BM25_B = _CFG_RETRIEVAL.bm25_b
 # *about* RLHF than one that just mentions it once in body text.
 _TITLE_BOOST = _CFG_RETRIEVAL.title_boost
 _HEADING_BOOST = _CFG_RETRIEVAL.heading_boost
+# Dense-retrieval query instruction (BGE-style). Applied to the QUERY only —
+# chunk embeddings stay bare, so flipping this needs no re-embed.
+_QUERY_INSTRUCTION = _CFG_RETRIEVAL.query_instruction
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
@@ -370,6 +373,11 @@ def _get_query_model():
     return _ctx.query_model
 
 
+def _apply_query_instruction(query: str) -> str:
+    """Prepend the configured dense-retrieval instruction (query side only)."""
+    return f"{_QUERY_INSTRUCTION}{query}" if _QUERY_INSTRUCTION else query
+
+
 def semantic_search(
     query: str,
     chunks: list[dict],
@@ -387,7 +395,9 @@ def semantic_search(
     import numpy as np
 
     model = _get_query_model()
-    qv = model.encode([query], normalize_embeddings=True, convert_to_numpy=True).astype("float32")[0]
+    qv = model.encode([_apply_query_instruction(query)], normalize_embeddings=True, convert_to_numpy=True).astype(
+        "float32"
+    )[0]
 
     # Gather row indices for the filtered chunk pool.
     rows: list[int] = []

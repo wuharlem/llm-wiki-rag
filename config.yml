@@ -19,6 +19,10 @@ retrieval:
   rerank_candidates: 40       # max candidates passed to the cross-encoder reranker
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
+  query_instruction: ""       # prepended to the QUERY ONLY at dense-encode time (chunks embed
+                              # bare; no re-embed needed). bge-en-v1.5's card recommends
+                              # "Represent this sentence for searching relevant passages: "
+                              # for short queries; "" disables.
   graph_expansion:              # graph-neighbor expansion of hybrid search (spec 2026-07-10)
     enabled: true               # flipped ON 2026-07-10 after the A/B (4 real queries, rerank on:
                                 # zero top-k harm — the cross-encoder gates injected neighbors;

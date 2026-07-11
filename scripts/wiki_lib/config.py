@@ -53,6 +53,7 @@ class RetrievalConfig(BaseModel):
     rerank_candidates: int
     reranker_model: str
     embedding_model: str
+    query_instruction: str
     graph_expansion: GraphExpansionConfig
 
 

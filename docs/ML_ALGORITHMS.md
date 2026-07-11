@@ -136,6 +136,11 @@ the right host). Because chunk vectors are pre-normalized, scoring the filtered
 pool is one matrix–vector dot product. Catches paraphrases
 BM25 can't ("scalable oversight" vs "supervising stronger models").
 
+`config.yml → retrieval.query_instruction` (added 2026-07-11) is prepended to
+the **query only** before encoding — BGE-style retrieval instruction
+("Represent this sentence for searching relevant passages: "). Chunk vectors
+embed bare, so flipping it needs no re-embed; `""` disables.
+
 Search is deliberately **brute-force exact** — no ANN index, no vector
 database. At this corpus size (thousands of chunks, 384 dims) the full dot
 product takes single-digit milliseconds; an approximate index would add a
@@ -204,6 +209,8 @@ Retrieval changes are accepted or rejected against a fixed gold set, not by eyeb
 `eval run` scores the *current* `config.yml` (recall@20 / nDCG@10 / MRR@10, chunks deduped to first-hit file rank) and writes a report embedding the resolved full-config snapshot; `eval compare A B` prints aggregate deltas, the differing config keys, and per-query regressions with their missed files. Comparing two methods = edit `config.yml`, `run --label <name>`, `compare`. `eval run --k` (default 40) is the chunk depth requested per query; file-level metrics are computed after dedup, so 40 chunks reliably yield ≥20 distinct files for recall@20.
 
 Overfitting guards: the dev/holdout split is frozen in the qrels file (`mine` preserves existing assignments); holdout scoring requires `--holdout` and every such run appends to the peek log, so how often the holdout has been consulted is auditable. Convention: tune on dev; confirm on holdout once per change, at merge time. Split assignment is deterministic: a record is holdout iff int(sha1(qid),16) % 100 < 30 — apply the same rule when adding records.
+
+**Tuning experiments 2026-07-11** (first use of the harness; dev n=82, holdout n=24): `rerank_candidates` 40→100 gained +1.6 pts recall@20 with flat nDCG (not adopted — unconfirmed on holdout, 2.5× rerank latency); `mxbai-rerank-base-v1` gained +3.5 nDCG / +4.5 MRR on dev but **regressed −3.4 / −6.4 on holdout** — paired t ≈ 1.1 either way, statistically unresolved at this eval-set size, so the swap was rejected (it also costs ~5× rerank latency; `bge-reranker-v2-m3` was disqualified outright at >20 s/query on CPU); the BGE `query_instruction` prefix slightly hurt all dev metrics and stays `""`. Net config change: none. Lesson encoded: grow the eval set (especially holdout and mined `sq-` records) before re-testing reranker swaps — the current set cannot resolve 2–4 pt nDCG differences.
 
 ## Summary table
 
