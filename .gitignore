@@ -92,6 +92,7 @@ zzz_top
 01_data/classifications.csv
 01_data/classification_manifest.csv
 01_data/by_concept/
+01_data/eval/
 02_logs/
 03_notion_drafts/
 

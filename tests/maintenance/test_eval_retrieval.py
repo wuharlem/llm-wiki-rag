@@ -203,3 +203,109 @@ class TestMiner:
         assert mined["split"] == "holdout"  # preserved
         assert mined["created"] == "2026-07-01"  # preserved
         assert mined["relevant_file_ids"] == ["8cea65e37c93", "60941c1e08ef"]  # refreshed
+
+
+class TestRunner:
+    def _mk_qrels(self):
+        return [
+            {
+                "qid": "q1",
+                "query": "alignment",
+                "relevant_file_ids": ["fA"],
+                "source": "synthetic",
+                "split": "dev",
+                "created": "2026-07-11",
+            },
+            {
+                "qid": "q2",
+                "query": "governance",
+                "relevant_file_ids": ["fB", "fC"],
+                "source": "saved_query",
+                "split": "dev",
+                "created": "2026-07-11",
+            },
+            {
+                "qid": "q3",
+                "query": "misc",
+                "relevant_file_ids": ["fA"],
+                "source": "synthetic",
+                "split": "holdout",
+                "created": "2026-07-11",
+            },
+            {
+                "qid": "q4",
+                "query": "drifted",
+                "relevant_file_ids": ["GONE"],
+                "source": "synthetic",
+                "split": "dev",
+                "created": "2026-07-11",
+            },
+        ]
+
+    @staticmethod
+    def _fake_search(query, k, **kwargs):
+        canned = {
+            "alignment": ["fA", "fX"],  # perfect: hit at rank 1
+            "governance": ["fX", "fB"],  # fB at rank 2, fC missed
+            "misc": ["fX", "fY"],  # miss
+        }
+        return [{"file_id": fid} for fid in canned.get(query, [])]
+
+    def test_run_eval_scores_and_excludes_drift(self):
+        report = er.run_eval(
+            self._mk_qrels(),
+            self._fake_search,
+            manifest_ids={"fA", "fB", "fC", "fX", "fY"},
+            k=40,
+            include_holdout=False,
+        )
+        assert report["excluded_qids"] == ["q4"]
+        per = {r["qid"]: r for r in report["per_query"]}
+        assert set(per) == {"q1", "q2"}  # holdout q3 not scored without the flag
+        assert per["q1"]["recall@20"] == pytest.approx(1.0)
+        assert per["q1"]["first_hit_rank"] == 1
+        assert per["q2"]["recall@20"] == pytest.approx(0.5)
+        assert per["q2"]["missed_file_ids"] == ["fC"]
+        agg = report["aggregate"]["dev"]
+        assert agg["n"] == 2
+        assert agg["recall@20"] == pytest.approx(0.75)
+        assert report["aggregate"]["holdout"] is None
+        assert report["by_source"]["dev"]["saved_query"]["n"] == 1
+
+    def test_run_eval_holdout_included_when_asked(self):
+        report = er.run_eval(
+            self._mk_qrels(),
+            self._fake_search,
+            manifest_ids={"fA", "fB", "fC"},
+            k=40,
+            include_holdout=True,
+        )
+        assert report["aggregate"]["holdout"]["n"] == 1
+        assert report["aggregate"]["holdout"]["recall@20"] == pytest.approx(0.0)
+
+    def test_load_manifest_file_ids(self, tmp_path):
+        m = tmp_path / "manifest.csv"
+        m.write_text("file_id,type,title\nabc123,md,T1\ndef456,pdf,T2\n", encoding="utf-8")
+        assert er.load_manifest_file_ids(m) == {"abc123", "def456"}
+
+    def test_format_summary_mentions_lower_bound_and_counts(self):
+        report = er.run_eval(
+            self._mk_qrels(),
+            self._fake_search,
+            manifest_ids={"fA", "fB", "fC"},
+            k=40,
+            include_holdout=False,
+        )
+        report.update(
+            {
+                "label": "t",
+                "timestamp": "x",
+                "git_rev": "y",
+                "config": {},
+                "flags": {"mode": "hybrid", "rerank": True, "expand_graph": None, "k": 40},
+            }
+        )
+        text = er.format_summary(report)
+        assert "lower bound" in text
+        assert "excluded" in text
+        assert "saved_query" in text
