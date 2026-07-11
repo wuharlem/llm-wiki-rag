@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pytest
 
 from scripts.maintenance import eval_retrieval as er
@@ -41,3 +44,56 @@ class TestMetrics:
         assert er.reciprocal_rank(["a", "b", "c"], {"z"}, k=3) == pytest.approx(0.0)
         # cutoff respected: relevant exists but beyond k
         assert er.reciprocal_rank(["a", "b", "c"], {"c"}, k=2) == pytest.approx(0.0)
+
+
+def _write_jsonl(path: Path, records: list[dict]) -> None:
+    path.write_text("\n".join(json.dumps(r) for r in records) + "\n", encoding="utf-8")
+
+
+GOOD_REC = {
+    "qid": "syn-example-1",
+    "query": "what is scalable oversight?",
+    "relevant_file_ids": ["8cea65e37c93"],
+    "source": "synthetic",
+    "split": "dev",
+    "created": "2026-07-11",
+}
+
+
+class TestQrelsIO:
+    def test_roundtrip(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        er.write_qrels(p, [GOOD_REC])
+        assert er.load_qrels(p) == [GOOD_REC]
+
+    def test_missing_key_fails_with_lineno(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        bad = {k: v for k, v in GOOD_REC.items() if k != "split"}
+        _write_jsonl(p, [GOOD_REC, bad])
+        with pytest.raises(ValueError, match=r"qrels\.jsonl:2.*split"):
+            er.load_qrels(p)
+
+    def test_invalid_json_fails_with_lineno(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        p.write_text('{"qid": "x"\n', encoding="utf-8")
+        with pytest.raises(ValueError, match=r"qrels\.jsonl:1"):
+            er.load_qrels(p)
+
+    def test_bad_source_split_empty_positives_dup_qid(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        for mutation in (
+            {"source": "vibes"},
+            {"split": "test"},
+            {"relevant_file_ids": []},
+        ):
+            _write_jsonl(p, [GOOD_REC | mutation])
+            with pytest.raises(ValueError):
+                er.load_qrels(p)
+        _write_jsonl(p, [GOOD_REC, GOOD_REC])  # duplicate qid
+        with pytest.raises(ValueError, match="duplicate qid"):
+            er.load_qrels(p)
+
+    def test_blank_lines_skipped(self, tmp_path):
+        p = tmp_path / "qrels.jsonl"
+        p.write_text(json.dumps(GOOD_REC) + "\n\n", encoding="utf-8")
+        assert len(er.load_qrels(p)) == 1
