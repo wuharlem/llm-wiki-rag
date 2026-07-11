@@ -1057,6 +1057,47 @@ def append_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
     )
 
 
+def upsert_daily_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
+    """Like append_log_entry, but keeps at most ONE `<kind>` entry per day.
+
+    If log.md already has a `## [today] <kind> | ...` entry, that entry is
+    rewritten in place with the latest title/body and an accumulated
+    "Runs today: N" counter, instead of appending a new heading. Used by
+    rebuild_index's auto-log so routine same-day rebuilds don't flood the
+    timeline (log-noise compaction, 2026-07-11). Falls back to
+    append_log_entry when no same-day entry of that kind exists.
+    """
+    import datetime as _dt
+
+    if not VAULT_PATH.exists():
+        return None
+    log_path = VAULT_PATH / "log.md"
+    if not log_path.exists():
+        return append_log_entry(kind=kind, title=title, body=body)
+
+    today = _dt.date.today().isoformat()
+    safe_kind = re.sub(r"[^a-z0-9_-]+", "-", kind.lower()).strip("-") or "note"
+    text = log_path.read_text(encoding="utf-8")
+
+    # Match today's entry of this kind: heading through to the next entry
+    # heading (or EOF). DOTALL via [\s\S] so the body is captured too.
+    pattern = re.compile(
+        rf"^## \[{re.escape(today)}\] {re.escape(safe_kind)} \| .*?\n[\s\S]*?(?=^## \[|\Z)",
+        flags=re.MULTILINE,
+    )
+    m = pattern.search(text)
+    if not m:
+        return append_log_entry(kind=kind, title=title, body=body)
+
+    runs_m = re.search(r"Runs today: (\d+)\.", m.group(0))
+    runs = (int(runs_m.group(1)) if runs_m else 1) + 1
+    safe_title = title.strip().replace("\n", " ")
+    entry = f"## [{today}] {safe_kind} | {safe_title}\n\n"
+    entry += ((body.strip() + " ") if body else "") + f"Runs today: {runs}.\n\n"
+    log_path.write_text(text[: m.start()] + entry + text[m.end() :], encoding="utf-8")
+    return log_path
+
+
 def append_open_question(kind: str, title: str, body: str = "") -> Optional[Path]:
     """Append an entry to `<vault>/open_questions.md`.
 
