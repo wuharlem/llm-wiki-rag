@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -104,3 +105,96 @@ class TestQrelsIO:
         p = tmp_path / "qrels.jsonl"
         p.write_text(json.dumps(GOOD_REC) + "\n\n", encoding="utf-8")
         assert len(er.load_qrels(p)) == 1
+
+
+SQ_TEXT = """---
+saved_at: 2026-07-09T12:58:51
+question: "Can we detect jailbreaks by classifying only the manipulation?"
+queries: ["detect jailbreak by attack pattern", "input classifier manipulation"]
+n_results: 8
+type: saved_query
+---
+
+# Can we detect jailbreaks by classifying only the manipulation?
+
+## Answer
+
+Yes and no. Corpus support: perplexity filters flag GCG suffixes
+(Academic-Detection-Methods.md); see also Guardrails for Attack Detection
+for which orgs ship them. The third result is not referenced here.
+
+## Top results
+
+### 1. [Guardrails for Attack Detection](../files/8cea65e37c93__Guardrails-Attack-Detection-by-Org.md)  ·  score 2.367
+- file_id: `8cea65e37c93`
+- path: `02_Mitigations/02g/Guardrails-Attack-Detection-by-Org.md`
+
+> excerpt text
+
+### 2. [Realtime Guardrail Strategies](../files/60941c1e08ef__Realtime-Guardrail-Detection-Strategies.md)  ·  score 1.380
+- file_id: `60941c1e08ef`
+- path: `02_Mitigations/02g/Academic-Detection-Methods.md`
+
+> excerpt
+
+### 3. [Unrelated Result](../files/deadbeef1234__Unrelated.md)  ·  score 0.9
+- file_id: `deadbeef1234`
+- path: `03_Evals/Unrelated.md`
+
+> excerpt
+"""
+
+# Same file with block-list YAML for the queries key (§8 dual-form rule).
+SQ_TEXT_BLOCK = SQ_TEXT.replace(
+    'queries: ["detect jailbreak by attack pattern", "input classifier manipulation"]',
+    "queries:\n- detect jailbreak by attack pattern\n- input classifier manipulation",
+)
+
+
+class TestMiner:
+    def test_parse_extracts_answer_cited_positives_only(self):
+        rec = er.parse_saved_query(SQ_TEXT, stem="jailbreak-manipulation", created="2026-07-11")
+        assert rec["qid"] == "sq-jailbreak-manipulation"
+        assert rec["query"] == "Can we detect jailbreaks by classifying only the manipulation?"
+        # #1 cited by title, #2 cited by path basename; #3 uncited -> excluded
+        assert rec["relevant_file_ids"] == ["8cea65e37c93", "60941c1e08ef"]
+        assert rec["source"] == "saved_query"
+        assert rec["split"] == "dev"
+
+    def test_parse_handles_block_list_frontmatter(self):
+        rec = er.parse_saved_query(SQ_TEXT_BLOCK, stem="x", created="2026-07-11")
+        assert rec is not None
+
+    def test_parse_returns_none_when_nothing_cited(self):
+        # Replace the Answer section with prose naming no titles/paths/ids.
+        head, _, tail = SQ_TEXT.partition("## Answer")
+        _, marker, top = tail.partition("## Top results")
+        text = head + "## Answer\n\nNothing relevant named here.\n\n" + marker + top
+        assert er.parse_saved_query(text, stem="x", created="2026-07-11") is None
+
+    def test_parse_returns_none_without_question_or_sections(self):
+        assert er.parse_saved_query("---\ntype: x\n---\nbody", stem="x", created="d") is None
+
+    def test_mine_preserves_synthetic_and_existing_splits(self, tmp_path, monkeypatch):
+        sq_dir = tmp_path / "vault" / "_index" / "saved_queries"
+        sq_dir.mkdir(parents=True)
+        (sq_dir / "jailbreak-manipulation.md").write_text(SQ_TEXT, encoding="utf-8")
+        monkeypatch.setattr(er, "vault_path", lambda: tmp_path / "vault")
+
+        qrels = tmp_path / "qrels.jsonl"
+        existing = [
+            {**GOOD_REC, "qid": "syn-keep-me", "split": "holdout"},
+            # existing mined record previously moved to holdout: split must survive re-mine
+            {**GOOD_REC, "qid": "sq-jailbreak-manipulation", "source": "saved_query",
+             "split": "holdout", "created": "2026-07-01"},
+        ]
+        er.write_qrels(qrels, existing)
+
+        rc = er.cmd_mine(argparse.Namespace(qrels=str(qrels)))
+        assert rc == 0
+        got = {r["qid"]: r for r in er.load_qrels(qrels)}
+        assert "syn-keep-me" in got
+        mined = got["sq-jailbreak-manipulation"]
+        assert mined["split"] == "holdout"  # preserved
+        assert mined["created"] == "2026-07-01"  # preserved
+        assert mined["relevant_file_ids"] == ["8cea65e37c93", "60941c1e08ef"]  # refreshed
