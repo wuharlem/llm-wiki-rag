@@ -245,8 +245,10 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         except Exception as e:
             embeddings = {"ok": False, "detail": str(e)}
 
-    # Append a `## [date] index | ...` entry to vault log.md so the rebuild
-    # shows up in the timeline. Only log on success — failed rebuilds would
+    # Upsert a `## [date] index | ...` entry in vault log.md so the rebuild
+    # shows up in the timeline — at most ONE index entry per day (same-day
+    # rebuilds refresh it in place with a "Runs today: N" counter; log-noise
+    # compaction 2026-07-11). Only log on success — failed rebuilds would
     # produce misleading "rebuild" entries in the timeline.
     # Safety net: `degraded` (PDF-less index while the vault has PDFs) should
     # no longer be reachable via this tool since md_only was removed, but the
@@ -261,7 +263,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
             pass
     if proc.returncode == 0:
         try:
-            wr.append_log_entry(
+            wr.upsert_daily_log_entry(
                 kind="index",
                 title=(
                     f"RAG rebuild — {stats.get('n_files', '?')} files, {stats.get('n_chunks', '?')} chunks"
