@@ -217,29 +217,40 @@ Retrieval changes are accepted or rejected against a fixed gold set, not by eyeb
 
 Overfitting guards: the dev/holdout split is frozen in the qrels file (`mine` preserves existing assignments); holdout scoring requires `--holdout` and every such run appends to the peek log, so how often the holdout has been consulted is auditable. Convention: tune on dev; confirm on holdout once per change, at merge time. Split assignment is deterministic: a record is holdout iff int(sha1(qid),16) % 100 < 30 — apply the same rule when adding records.
 
-**Tuning experiments 2026-07-11** (first use of the harness; dev n=82, holdout n=24, same corpus):
+**Tuning experiments 2026-07-11** (first use of the harness; complete 2×2(+pool)
+ablation grid, dev n=82 / holdout n=24, same corpus). Configs split by layer:
+the candidate layer (hybrid BM25+dense+RRF+graph — plain query vs BGE
+`query_instruction` prefix on the dense side) and the rerank layer
+(cross-encoder model @ `rerank_candidates` pool size). Cells are dev / holdout.
 
-| config | recall@20 | nDCG@10 | MRR@10 | rerank latency/query |
-|---|---|---|---|---|
-| MiniLM @ 40 (prior default) | 0.935 | 0.719 | 0.666 | ~1 s |
-| MiniLM @ 100 | 0.951 | 0.718 | 0.665 | ~2.5 s |
-| bge-reranker-v2-m3 @ 40 | — | — | — | >20 s (disqualified) |
-| mxbai-base @ 40 | 0.939 | **0.754** | **0.711** | ~5 s |
-| mxbai-base @ 100 | **0.963** | 0.734 | 0.690 | ~10 s |
-| **mxbai-base @ 40 + BGE query prefix (adopted)** | 0.935 | 0.747 | 0.703 | ~5 s |
+| Candidate layer | Rerank layer | recall@20 | nDCG@10 | MRR@10 | latency/query |
+|---|---|---|---|---|---|
+| plain query | MiniLM @ 40 (prior default) | 0.935 / 0.889 | 0.719 / **0.696** | 0.666 / **0.679** | ~1 s |
+| plain query | MiniLM @ 100 | 0.951 / 0.868 | 0.718 / 0.679 | 0.665 / 0.667 | ~2.5 s |
+| plain query | mxbai-base @ 40 | 0.939 / 0.889 | **0.754** / 0.662 | **0.711** / 0.615 | ~5 s |
+| plain query | mxbai-base @ 100 | **0.963** / 0.847 | 0.734 / 0.627 | 0.690 / 0.580 | ~10 s |
+| plain query | bge-reranker-v2-m3 @ 40 | — | — | — | >20 s (disqualified) |
+| BGE prefix | MiniLM @ 40 | 0.923 / 0.889 | 0.713 / 0.692 | 0.663 / 0.673 | ~1 s |
+| BGE prefix | **mxbai-base @ 40 (adopted, current)** | 0.935 / 0.889 | 0.747 / 0.673 | 0.703 / 0.628 | ~5 s |
 
-All rows are dev aggregates. Statistical caveats, on the record: mxbai@40's dev
-gain (+3.5 nDCG) **regressed on holdout** (−3.4 at n=24; paired t ≈ 1.1 both
-ways — unresolved at this eval-set size), and the BGE query prefix measured
-slightly negative on dev in isolation. The harness verdict was therefore "no
-change"; the current config (mxbai-base @ 40 + prefix) was **adopted by owner
-decision 2026-07-11** accepting the ~5× rerank latency and unconfirmed holdout.
-The adopted config's own merge-time holdout reading: 0.889 / 0.673 / 0.628 vs
-the MiniLM baseline's 0.889 / 0.696 / 0.679 on the same corpus (n=24 — inside
-noise, but on the record).
-Standing follow-up: grow the eval set (especially holdout and mined `sq-`
-records) — at n≈24 the holdout cannot resolve 2–4 pt nDCG differences — then
-re-measure the adopted config against the MiniLM baseline.
+Findings, on the record:
+
+- **Dev and holdout rank the configs in nearly opposite order**, and all five
+  changes landed below the prior default on holdout nDCG (five-for-five worse
+  happens by chance ~3% under a null of no effect). The dev gains are best
+  read as selection bias; the holdout evidence favors the prior default.
+- The wider rerank pools *reduced* holdout recall (0.868 / 0.847 vs 0.889) —
+  both rerankers promote distractors past true positives when given more
+  candidates.
+- The BGE prefix measured neutral-to-slightly-negative on both splits, both
+  standalone and stacked on mxbai.
+- The current config (mxbai-base @ 40 + prefix) was **adopted by owner decision
+  2026-07-11** with the dev gain (+2.8 nDCG) known to be holdout-unconfirmed
+  (−2.3 vs the same-corpus baseline), accepting ~5× rerank latency.
+- **The holdout is spent**: 7 peeks on 2026-07-11 (see `holdout_runs.jsonl`),
+  ending in config comparisons on it. Before any further tuning, grow the eval
+  set (more synthetic + accrued mined `sq-` records) and cut a fresh holdout —
+  at n=24 it cannot resolve 2–4 pt nDCG differences even when clean.
 
 ## Summary table
 
