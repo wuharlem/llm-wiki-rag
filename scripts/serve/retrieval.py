@@ -458,8 +458,8 @@ def _rrf(
 # about the query" from "this chunk happens to share keywords." We trade ~50ms
 # of latency for substantially better precision-at-k.
 #
-# Model: cross-encoder/ms-marco-MiniLM-L-6-v2 — ~80MB, 6-layer MiniLM,
-# trained on MS MARCO passage ranking. Gold-standard small reranker.
+# Model comes from config.yml -> retrieval.reranker_model (since 2026-07-11:
+# mixedbread-ai/mxbai-rerank-base-v1; history in docs/ML_ALGORITHMS.md).
 # ---------------------------------------------------------------------------
 
 DEFAULT_RERANKER_MODEL = _CFG_RETRIEVAL.reranker_model
