@@ -16,7 +16,7 @@
 
 > **This repo is the machinery, not a wiki.** It ships no vault content — bring your own via `WIKI_VAULT`. The schema shipped here is the AI-safety wiki the pipeline was built for, kept as a filled-in worked example; `wiki_schema.sample.yml` is the blank starting point.
 >
-> New to the design? [`ARCHITECTURE.md`](ARCHITECTURE.md) is the narrative layer — why the system is shaped this way, how it relates to Karpathy's "LLM-maintained wiki" pattern, and the end-to-end data flow.
+> New to the design? [`ARCHITECTURE.md`](ARCHITECTURE.md) is the narrative layer — why the system is shaped this way, how it relates to Karpathy's "LLM-maintained wiki" pattern, and the end-to-end data flow. For the retrieval/ML internals (BM25, embeddings, RRF, reranking, graph), see [`docs/ML_ALGORITHMS.md`](docs/ML_ALGORITHMS.md).
 
 ## Using this template
 
