@@ -233,6 +233,7 @@ scratch doc isn't shipped.
 ## 6. See also
 
 - **[`README.md`](README.md)** — setup, template quick start, folder layout, reproducibility.
+- **[`docs/ML_ALGORITHMS.md`](docs/ML_ALGORITHMS.md)** — every ML/statistical algorithm in the pipeline (chunking, embeddings, BM25, RRF, reranking, graph + Louvain), with code citations and the `config.yml` knobs that tune each.
 - **[`scripts/README.md`](scripts/README.md)** — operational how-to for the bulk fetcher.
 - **`CLAUDE.md`** (local, in-tree, not published) — the maintainer's agent contract: the cross-folder invariants with `file:line` citations and default behaviors. Present only in an operator's working copy, since it's tied to a specific vault location.
 - **Vault-side `PROCESS_*.md`** — the user-facing operational workflows (ingest / query / health-check) that agents follow; rendered into the vault by `cli vault-init`.
