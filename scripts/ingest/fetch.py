@@ -9,6 +9,11 @@ Reads urls_dedup.csv and fetches each URL into Sources/_inbox/:
   - github/huggingface/youtube -> SKIPPED (logged)
 
 Outputs a fetch_log.csv with status per URL.
+
+Refetch guard: a URL whose hash suffix (or arxiv ID) already appears in a
+vault filename — anywhere, not just _inbox, since curated files move out —
+is skipped before any HTTP request. `--force` bypasses the vault scan
+(within-run dedupe still holds).
 """
 
 import argparse
@@ -51,6 +56,37 @@ def slugify(s: str, maxlen: int = 120) -> str:
 
 def short_hash(u: str) -> str:
     return hashlib.sha1(u.encode()).hexdigest()[:8]
+
+
+# End-anchored: arxiv fallback names carry TWO 8-hex tokens (arxiv_id() falls
+# back to short_hash in the slug); only the trailing one is the filename hash.
+_HASH_SUFFIX_RE = re.compile(r"_([0-9a-f]{8})\.[A-Za-z0-9]+$")
+_ARXIV_ID_RE = re.compile(r"(?<![0-9.])([0-9]{4}\.[0-9]{4,6})(?![0-9])")
+
+
+def collect_fetched_markers(vault: Path) -> tuple[set[str], set[str]]:
+    """One pass over vault filenames collecting (hash suffixes, arxiv IDs).
+
+    Scans the WHOLE vault — curated files move out of _inbox but keep their
+    suffix, and that was exactly the refetch that slipped through. Skips
+    _trash/ (a trashed copy shouldn't block a deliberate refetch) and
+    dot-dirs. Missing vault -> empty sets.
+    """
+    hashes: set[str] = set()
+    arxiv_ids: set[str] = set()
+    for p in vault.rglob("*"):
+        parts = p.relative_to(vault).parts
+        if "_trash" in parts or any(part.startswith(".") for part in parts):
+            continue
+        if not p.is_file():
+            continue
+        m = _HASH_SUFFIX_RE.search(p.name)
+        if m:
+            hashes.add(m.group(1))
+        m = _ARXIV_ID_RE.search(p.name)
+        if m:
+            arxiv_ids.add(m.group(1))
+    return hashes, arxiv_ids
 
 
 def arxiv_pdf_url(u: str) -> str:
@@ -246,7 +282,11 @@ def write_web_md(url: str, dest_dir: Path) -> tuple[str, str]:
     return fname, f"{len(body)} chars"
 
 
-def fetch_one(row: dict) -> dict:
+def fetch_one(
+    row: dict,
+    seen_hashes: set[str] | None = None,
+    seen_arxiv_ids: set[str] | None = None,
+) -> dict:
     url = row["url"]
     handler = row["handler"]
     out = {"url": url, "handler": handler, "status": "", "filename": "", "info": ""}
@@ -255,16 +295,53 @@ def fetch_one(row: dict) -> dict:
             out["status"] = "skipped"
             out["info"] = f"handler={handler} (skipped per policy)"
             return out
+        # Resolve the URL the writer will hash into the filename, so the
+        # guard below checks the exact suffix that would be written — for
+        # arxiv that's the canonical pdf URL, not the /abs/ form.
         if handler == "arxiv":
-            fname, info = write_pdf(arxiv_pdf_url(url), INBOX, f"arxiv_{arxiv_id(url)}")
+            fetch_url = arxiv_pdf_url(url)
+            name_hint = f"arxiv_{arxiv_id(url)}"
         elif handler == "pdf":
-            fname, info = write_pdf(url, INBOX, urlparse(url).path.split("/")[-1].replace(".pdf", ""))
+            fetch_url = url
+            name_hint = urlparse(url).path.split("/")[-1].replace(".pdf", "")
         elif handler == "web":
-            fname, info = write_web_md(url, INBOX)
+            fetch_url = url
+            name_hint = ""
         else:
             out["status"] = "skipped"
             out["info"] = f"unknown handler={handler}"
             return out
+
+        if seen_hashes is not None:
+            h = short_hash(fetch_url)
+            reason = ""
+            if h in seen_hashes:
+                reason = f"already fetched: file with suffix _{h} exists in vault (--force to refetch)"
+            elif handler == "arxiv" and seen_arxiv_ids:
+                # Raw ID from the URL, not arxiv_id() — its fallback returns
+                # a hash, which must never be compared against the ID set.
+                m = _ARXIV_ID_RE.search(url)
+                if m and m.group(1) in seen_arxiv_ids:
+                    reason = f"already fetched: arxiv {m.group(1)} exists in vault (--force to refetch)"
+            if reason:
+                out["status"] = "skipped"
+                out["info"] = reason
+                print(f"  SKIP {url} — {reason}", flush=True)
+                return out
+            # Claim before fetching so the same URL twice in one run fetches
+            # once. set.add is GIL-atomic; the check-then-add window between
+            # workers is racy but its worst case is a duplicate fetch —
+            # exactly the pre-guard behavior — so no lock.
+            seen_hashes.add(h)
+            if handler == "arxiv" and seen_arxiv_ids is not None:
+                m = _ARXIV_ID_RE.search(url)
+                if m:
+                    seen_arxiv_ids.add(m.group(1))
+
+        if handler == "web":
+            fname, info = write_web_md(fetch_url, INBOX)
+        else:
+            fname, info = write_pdf(fetch_url, INBOX, name_hint)
         out["status"] = "ok"
         out["filename"] = fname
         out["info"] = info
@@ -310,10 +387,28 @@ def main():
     ap.add_argument("--handlers", default="arxiv,pdf,web", help="comma-separated handler filter")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--sample", type=int, default=0, help="sample N from each enabled handler")
+    ap.add_argument(
+        "--force",
+        action="store_true",
+        help="refetch even if a file with the same URL-hash suffix already exists in the vault",
+    )
     args = ap.parse_args()
 
     INBOX.mkdir(parents=True, exist_ok=True)
     keep = set(args.handlers.split(","))
+
+    if args.force:
+        # Empty sets: skip the vault scan but keep within-run dedupe. A forced
+        # refetch under a changed slug creates a second _{hash} file — which
+        # dedup_report's hash_suffix pass then surfaces.
+        seen_hashes, seen_arxiv_ids = set(), set()
+    else:
+        seen_hashes, seen_arxiv_ids = collect_fetched_markers(VAULT)
+        print(
+            f"Guard: {len(seen_hashes)} hash suffixes / {len(seen_arxiv_ids)} arxiv ids "
+            f"already in vault (--force to bypass)",
+            flush=True,
+        )
 
     rows = []
     with DEDUP_CSV.open() as f:
@@ -338,7 +433,7 @@ def main():
     t0 = time.time()
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
-        futs = {ex.submit(fetch_one, r): r for r in rows}
+        futs = {ex.submit(fetch_one, r, seen_hashes, seen_arxiv_ids): r for r in rows}
         for i, fut in enumerate(as_completed(futs), 1):
             res = fut.result()
             results.append(res)
