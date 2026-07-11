@@ -1,0 +1,17 @@
+# Coverage config for the `make test-cov` ratchet (CI runs it; see Makefile).
+#
+# The fail-under floor lives in the Makefile (COV_FLOOR) so the number sits
+# next to the command that enforces it. Policy: the floor is a RATCHET — it
+# only moves up, a few points below measured CI coverage. It is deliberately
+# not a 100% target; see the omit list below for the documented exemptions.
+
+[run]
+omit =
+    # Network-bound ingest scripts: testing them means mocking arxiv/web HTTP
+    # responses end-to-end — tests that verify the mocks, not the code.
+    # Exempted by decision (2026-07-11), not by neglect.
+    scripts/ingest/fetch.py
+    scripts/ingest/stage_candidate.py
+
+[report]
+precision = 1
