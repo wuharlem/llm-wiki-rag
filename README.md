@@ -65,6 +65,16 @@ _`cli <cmd>` is shorthand for `uv run python -m scripts.cli <cmd>`. The numbered
 
 What you _can_ do with a bare clone: read the scripts, run the unit tests (integration tests marked `needs_index` skip without a built index), and — given your own vault and schema — build and serve a wiki on any topic.
 
+## Versioning & releases
+
+Semantic versioning `x.y.z`, tagged `vX.Y.Z` on `main` with a matching GitHub Release. The version lives in `pyproject.toml` and is bumped in the release commit, not on every merge. While the project is pre-1.0:
+
+- **`y` (minor)** — a breaking change to any frozen contract: MCP tool names/signatures or error-envelope codes, `scripts.cli` facade command names, manifest column schema; or a major new subsystem (e.g. the graph layer, the research loop).
+- **`z` (patch)** — anything backwards-compatible: schema/vocab content additions (new concepts, tags, enum values), new optional tool kwargs, config tuning, bug fixes, docs, internal refactors that don't move a contract.
+- **`x` → `1.0.0`** — reserved for the contract-stability promise. After 1.0, any breaking contract change is a major bump.
+
+Cutting a release: review merges since the last tag — any contract break bumps `y`, otherwise bump `z`; update `pyproject.toml`, tag the merge commit, and write release notes that explicitly flag contract breaks. Not every merge needs a release; tag when downstream instances need a named sync point.
+
 ## Creating your own wiki on a different topic
 
 The pipeline is topic-agnostic. All domain-specific choices live in one file: `wiki_schema.yml` at the repo root. To point the same code at a different topic:
