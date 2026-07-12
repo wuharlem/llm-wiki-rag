@@ -34,6 +34,7 @@ from scripts.wiki_lib.cache import RetrievalContext
 from scripts.wiki_lib.config import get_config
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.schema import get_schema
 
 _CFG_RETRIEVAL = get_config().retrieval
 
@@ -194,10 +195,6 @@ _ACRONYM_EXPANSION = _CFG_RETRIEVAL.acronym_expansion
 _BM25_STEMMING = _CFG_RETRIEVAL.bm25_stemming
 _PHRASE_MATCHING = _CFG_RETRIEVAL.phrase_matching
 
-# Filled in by Task 5 (phrases); safe no-op default keeps the module
-# importable and _normalize an identity while that task is pending.
-_PHRASE_INDEX: dict[str, list[list[str]]] = {}
-
 _STEMMER_WARNED = False
 
 
@@ -221,8 +218,51 @@ def _apply_stemmer(toks: list[str], stemmer) -> list[str]:
 _STEMMER = _get_stemmer()
 
 
-def _join_phrases(toks, index):
-    return toks
+def _phrase_source(schema) -> list[str]:
+    """Effective phrase set: multi-word concept + tag keys plus the optional
+    supplementary vocabulary.phrases list."""
+    out: list[str] = []
+    out.extend(schema.vocabulary.concepts.keys())
+    out.extend(schema.vocabulary.tags.keys())
+    out.extend(schema.vocabulary.phrases)
+    return out
+
+
+def _build_phrase_index(phrases: list[str]) -> dict[str, list[list[str]]]:
+    """Map first-token -> list of phrase token-lists, longest first."""
+    index: dict[str, list[list[str]]] = {}
+    for phrase in phrases:
+        toks = _raw_tokens(phrase)
+        if len(toks) < 2:
+            continue
+        index.setdefault(toks[0], []).append(toks)
+    for first in index:
+        index[first].sort(key=len, reverse=True)
+    return index
+
+
+def _join_phrases(toks: list[str], index: dict[str, list[list[str]]]) -> list[str]:
+    """Replace known multi-word phrase runs with a single '_'-joined token
+    (longest match wins)."""
+    out: list[str] = []
+    i, n = 0, len(toks)
+    while i < n:
+        matched = None
+        for phrase in index.get(toks[i], ()):  # longest first
+            L = len(phrase)
+            if toks[i : i + L] == phrase:
+                matched = phrase
+                break
+        if matched:
+            out.append("_".join(matched))
+            i += len(matched)
+        else:
+            out.append(toks[i])
+            i += 1
+    return out
+
+
+_PHRASE_INDEX = _build_phrase_index(_phrase_source(get_schema()))
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
