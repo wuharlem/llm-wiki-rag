@@ -48,6 +48,9 @@ htmlcov/
 01_data/index/build.log
 01_data/index/manifest.csv
 
+# Per-model embedding-artifact cache (swap without re-embedding; large binaries)
+01_data/emb_cache/
+
 # Timestamped notion_sources backups (keep the live one)
 01_data/notion_sources.backup_*.csv
 

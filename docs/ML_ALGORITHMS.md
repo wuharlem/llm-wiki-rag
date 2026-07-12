@@ -17,7 +17,7 @@ build time                      query time
 ──────────                      ──────────
 markdown/PDF                    question
   → token-budget chunking         → BM25 (lexical)      ┐
-  → bge-small embeddings          → dense cosine search ┘→ RRF fusion
+  → bge-m3 embeddings             → dense cosine search ┘→ RRF fusion
   → file graph + Louvain          → graph-neighbor expansion (optional)
                                   → cross-encoder rerank (optional)
                                   → top-k results
@@ -49,17 +49,26 @@ avoids a tokenizer dependency.
 
 Knobs: the whole `chunking:` section of `config.yml`.
 
-### Dense chunk embeddings — `BAAI/bge-small-en-v1.5`
+### Dense chunk embeddings — `BAAI/bge-m3`
 
 `scripts/build/embeddings.py` (whole file); model name from
 `config.yml → retrieval.embedding_model`.
 
-Each chunk is encoded into a 384-dim float32 vector by a bi-encoder
-(sentence-transformers). Chosen because it is small enough for CPU (33M
-parameters, ~130 MB of fp32 weights) and strong for its size on English
-retrieval benchmarks. Vectors are **L2-normalized at build time**
+Each chunk is encoded into a 1024-dim float32 vector by a bi-encoder
+(sentence-transformers). Vectors are **L2-normalized at build time**
 (`scripts/build/embeddings.py::main()`, `normalize_embeddings=True`) so
 query-time cosine similarity is a plain dot product.
+
+Model history: `BAAI/bge-small-en-v1.5` (384-d, 33M params, 512-token cap)
+until 2026-07-12, then `BAAI/bge-m3` (1024-d, 568M params, 8192-token window
+— capped at 1024 by the embed default, which already covers the chunker's
+`max_tokens: 800`), adopted after the strongest eval result of the 2026-07-11
+round (see § Evaluation). Full re-embeds with m3 take ~4.5 h on CPU for a
+~30k-chunk corpus; the hash-delta incremental path makes routine rebuilds
+encode only new chunks. Both models' artifact sets are kept under untracked
+`01_data/emb_cache/<model>/` for instant swaps. NOTE: `graph.min_cosine` was
+percentile-tuned on bge-small's cosine distribution — re-measure before the
+next graph rebuild under m3.
 
 Rebuilds are incremental via hash-delta: each chunk's text is sha1'd, rows whose
 hash matches the previous build are reused byte-for-byte
@@ -130,7 +139,8 @@ BM25 is the always-available baseline: no model downloads, no extras.
 
 `scripts/serve/retrieval.py::semantic_search()`.
 
-The query is encoded with the same bge-small model used at build time
+The query is encoded with the same bi-encoder used at build time (the model
+named in `embeddings_meta.json`, so query and chunks can never mismatch)
 (loaded lazily, cached for process lifetime — why the long-lived MCP server is
 the right host). Because chunk vectors are pre-normalized, scoring the filtered
 pool is one matrix–vector dot product. Catches paraphrases
@@ -139,9 +149,10 @@ BM25 can't ("scalable oversight" vs "supervising stronger models").
 `config.yml → retrieval.query_instruction` (added 2026-07-11) is prepended to
 the **query only** before encoding — BGE-style retrieval instruction
 ("Represent this sentence for searching relevant passages: "). Chunk vectors
-embed bare, so flipping it needs no re-embed; `""` disables. Enabled since
-2026-07-11 by owner decision (the same-day eval measured it slightly negative
-on dev — see § Evaluation).
+embed bare, so flipping it needs no re-embed; `""` disables. History: enabled
+2026-07-11 by owner decision alongside the mxbai reranker; back to `""` since
+2026-07-12 with the bge-m3 adoption — m3 is instruction-free by design, and
+the prefix belongs to the bge-*-v1.5 family (see § Evaluation).
 
 Search is deliberately **brute-force exact** — no ANN index, no vector
 database. At this corpus size (thousands of chunks, 384 dims) the full dot
@@ -231,7 +242,8 @@ the candidate layer (hybrid BM25+dense+RRF+graph — plain query vs BGE
 | plain query | mxbai-base @ 100 | **0.963** / 0.847 | 0.734 / 0.627 | 0.690 / 0.580 | ~10 s |
 | plain query | bge-reranker-v2-m3 @ 40 | — | — | — | >20 s (disqualified) |
 | BGE prefix | MiniLM @ 40 | 0.923 / 0.889 | 0.713 / 0.692 | 0.663 / 0.673 | ~1 s |
-| BGE prefix | **mxbai-base @ 40 (adopted, current)** | 0.935 / 0.889 | 0.747 / 0.673 | 0.703 / 0.628 | ~5 s |
+| BGE prefix | mxbai-base @ 40 (adopted 07-11) | 0.935 / 0.889 | 0.747 / 0.673 | 0.703 / 0.628 | ~5 s |
+| **bge-m3 dense (no prefix)** | **mxbai-base @ 40 (adopted 07-12, current)** | **0.959** / n/a² | **0.771** / n/a² | **0.731** / n/a² | ~6 s |
 
 Findings, on the record:
 
@@ -244,20 +256,28 @@ Findings, on the record:
   candidates.
 - The BGE prefix measured neutral-to-slightly-negative on both splits, both
   standalone and stacked on mxbai.
-- The current config (mxbai-base @ 40 + prefix) was **adopted by owner decision
+- The mxbai-base @ 40 + prefix config was **adopted by owner decision
   2026-07-11** with the dev gain (+2.8 nDCG) known to be holdout-unconfirmed
   (−2.3 vs the same-corpus baseline), accepting ~5× rerank latency.
 - **The holdout is spent**: 7 peeks on 2026-07-11 (see `holdout_runs.jsonl`),
   ending in config comparisons on it. Before any further tuning, grow the eval
   set (more synthetic + accrued mined `sq-` records) and cut a fresh holdout —
   at n=24 it cannot resolve 2–4 pt nDCG differences even when clean.
+- ² **bge-m3 (2026-07-12, current)** replaced bge-small as the bi-encoder after
+  the strongest dev result of the round: recall@20 +2.4 (a candidate-pool
+  improvement the reranker cannot manufacture — 2 wins / 0 losses), nDCG@10
+  +2.4 (paired t = 1.97, 13 wins / 4 losses), MRR@10 +2.8 (t = 2.05) vs the
+  07-11 config, with the real-query (`sq-`) subset also improving. **No holdout
+  reading exists** (spent — hence n/a); adopted by owner decision on dev-only
+  evidence, the strongest of the campaign but unconfirmed. Re-measure against
+  a fresh holdout once the eval set grows.
 
 ## Summary table
 
 | Algorithm | Stage | Code | Knobs (`config.yml`) |
 |---|---|---|---|
 | Token-budget chunking | build | `scripts/build/index.py::chunk_body()` | `chunking.*` |
-| bge-small-en-v1.5 embeddings (bi-encoder, 384-d) | build | `scripts/build/embeddings.py` | `retrieval.embedding_model` |
+| bge-m3 embeddings (bi-encoder, 1024-d) | build | `scripts/build/embeddings.py` | `retrieval.embedding_model` |
 | Weighted file graph (Adamic-Adar vocab + wikilink + cosine) | build | `scripts/build/graph.py::build_graph()` | `graph.{concept,tag,wikilink,embedding}_weight`, `graph.min_cosine`, `graph.min_edge_score` |
 | Louvain community detection | build | `scripts/build/graph.py::detect_communities()` | `graph.louvain_seed`, insight thresholds |
 | Okapi BM25 + title/heading boosts | query | `scripts/serve/retrieval.py::bm25_search()` | `retrieval.bm25_k1`, `bm25_b`, `title_boost`, `heading_boost` |
