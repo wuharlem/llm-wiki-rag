@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import sys
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -72,10 +73,20 @@ def _raw_tokens(text: str) -> list[str]:
 def _normalize(toks: list[str]) -> list[str]:
     """Apply the gated lexical transforms in fixed order: phrase-join -> stem.
     Identity when both flags are off (keeps tokenize() backwards-compatible)."""
+    global _STEMMER_WARNED
     if _PHRASE_MATCHING:
         toks = _join_phrases(toks, _PHRASE_INDEX)
     if _BM25_STEMMING:
-        toks = _apply_stemmer(toks, _STEMMER)
+        if _STEMMER is None:
+            if not _STEMMER_WARNED:
+                print(
+                    "retrieval: bm25_stemming enabled but snowballstemmer not installed; "
+                    "falling back to no-stem (install the 'lexical' extra)",
+                    file=sys.stderr,
+                )
+                _STEMMER_WARNED = True
+        else:
+            toks = _apply_stemmer(toks, _STEMMER)
     return toks
 
 
@@ -183,14 +194,31 @@ _ACRONYM_EXPANSION = _CFG_RETRIEVAL.acronym_expansion
 _BM25_STEMMING = _CFG_RETRIEVAL.bm25_stemming
 _PHRASE_MATCHING = _CFG_RETRIEVAL.phrase_matching
 
-# Filled in by Tasks 4 (stemmer) and 5 (phrases); safe no-op defaults keep the
-# module importable and _normalize an identity while those tasks are pending.
-_STEMMER = None
+# Filled in by Task 5 (phrases); safe no-op default keeps the module
+# importable and _normalize an identity while that task is pending.
 _PHRASE_INDEX: dict[str, list[list[str]]] = {}
 
+_STEMMER_WARNED = False
 
-def _apply_stemmer(toks, stemmer):
-    return toks
+
+def _get_stemmer():
+    """Return a Snowball English stemmer, or None if snowballstemmer is absent."""
+    try:
+        import snowballstemmer
+    except ImportError:
+        return None
+    return snowballstemmer.stemmer("english")
+
+
+def _apply_stemmer(toks: list[str], stemmer) -> list[str]:
+    """Stem each token except atomic joined-phrase tokens (which contain '_').
+    Identity when stemmer is None."""
+    if stemmer is None:
+        return toks
+    return [t if "_" in t else stemmer.stemWord(t) for t in toks]
+
+
+_STEMMER = _get_stemmer()
 
 
 def _join_phrases(toks, index):
