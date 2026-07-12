@@ -111,7 +111,14 @@ agree. Four insight classes fall out of the structure
 (`scripts/build/graph.py::extract_insights()`): *isolated* files (weighted degree < 0.5), *sparse* communities
 (internal edge density < 0.15), *bridge* files (neighbors in ≥ 3 other
 communities), and *surprising* edges (strong non-citation links that cross
-communities or categories).
+communities or categories). Surprising edges are ranked by a composite
+**surprise score** — `weight / log2(2 + min(endpoint weighted degrees))` — so
+an edge into a peripheral file outranks an equal-weight edge between two hubs
+(hub–hub links are the least surprising kind of cross-link); the raw `score`
+is kept alongside. Every community entry in `graph.json` also carries its
+internal edge `density` (`scripts/build/graph.py::_community_density()`,
+`null` for singletons), giving a ranked where-is-the-wiki-thinnest view
+beyond the below-threshold *sparse* flag.
 
 Build-time only, never on the query hot path; a graph failure never fails the
 index build.

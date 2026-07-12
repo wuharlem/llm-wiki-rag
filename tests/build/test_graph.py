@@ -74,6 +74,71 @@ def test_louvain_deterministic_and_insights():
     assert frozenset(("cccccccccccc", "aaaaaaaaaaaa")) not in surprising_pairs
 
 
+def _hand_graph():
+    """Two communities with heavy hubs; two equal-weight cross-community edges,
+    one hub-hub and one hub-peripheral. Only extract_insights cares about this
+    shape, so nodes/edges are built directly rather than through build_graph."""
+    import networkx as nx
+
+    G = nx.Graph()
+    for fid, cat in [
+        ("hub1", "01_Cat"),
+        ("hub2", "02_Cat"),
+        ("peri", "02_Cat"),
+        ("f1", "01_Cat"),
+        ("f2", "01_Cat"),
+        ("f3", "02_Cat"),
+        ("f4", "02_Cat"),
+    ]:
+        G.add_node(fid, title=fid.upper(), relpath=f"{cat}/{fid}.md", category=cat)
+
+    def sig(v):
+        return {"vocab": v, "wikilink": 0.0, "embedding": 0.0}
+
+    # intra-community ballast that makes hub1/hub2 heavy (same community AND
+    # same category, so none of these land in the surprising list)
+    G.add_edge("hub1", "f1", weight=5.0, signals=sig(5.0))
+    G.add_edge("hub1", "f2", weight=5.0, signals=sig(5.0))
+    G.add_edge("hub2", "f3", weight=5.0, signals=sig(5.0))
+    G.add_edge("hub2", "f4", weight=5.0, signals=sig(5.0))
+    # equal-weight cross-community edges: hub-hub first, hub-peripheral second
+    G.add_edge("hub1", "hub2", weight=2.0, signals=sig(2.0))
+    G.add_edge("hub1", "peri", weight=2.0, signals=sig(2.0))
+    comms = {"hub1": 0, "f1": 0, "f2": 0, "hub2": 1, "f3": 1, "f4": 1, "peri": 1}
+    return G, comms
+
+
+def test_surprising_ranks_peripheral_edge_above_hub_hub_edge():
+    G, comms = _hand_graph()
+    ins = g.extract_insights(G, comms, CFG)
+    surprising = ins["surprising"]
+    assert len(surprising) == 2
+    # equal raw score, but the edge touching the low-degree node is the finding
+    assert {surprising[0]["a"], surprising[0]["b"]} == {"hub1", "peri"}
+    assert {surprising[1]["a"], surprising[1]["b"]} == {"hub1", "hub2"}
+    for s in surprising:
+        assert s["surprise"] > 0
+        assert s["score"] == 2.0  # raw edge weight is preserved alongside
+    assert surprising[0]["surprise"] > surprising[1]["surprise"]
+
+
+def test_artifact_communities_carry_density(tmp_path):
+    corpus = _mini_corpus()
+    G = g.build_graph(corpus, CFG)
+    comms = g.detect_communities(G, CFG)
+    ins = g.extract_insights(G, comms, CFG)
+    out = g.write_artifact(G, comms, ins, CFG, tmp_path / "graph.json")
+    assert out["communities"]
+    sizes = {c["size"] for c in out["communities"]}
+    assert {1} < sizes  # corpus yields both singleton and multi-member communities
+    for c in out["communities"]:
+        assert "density" in c
+        if c["size"] >= 2:
+            assert 0.0 <= c["density"] <= 1.0
+        else:
+            assert c["density"] is None  # undefined for singletons
+
+
 def test_artifact_roundtrip(tmp_path):
     corpus = _mini_corpus()
     G = g.build_graph(corpus, CFG)
