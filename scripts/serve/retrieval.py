@@ -265,6 +265,48 @@ def _join_phrases(toks: list[str], index: dict[str, list[list[str]]]) -> list[st
 _PHRASE_INDEX = _build_phrase_index(_phrase_source(get_schema()))
 
 
+def _build_acronym_maps(
+    acronyms: dict[str, str],
+) -> tuple[dict[str, list[str]], list[tuple[tuple[str, ...], str]]]:
+    """Return (forward, reverse). forward: acronym-token -> long-form tokens.
+    reverse: list of (long-form token tuple, acronym-token), longest first."""
+    fwd: dict[str, list[str]] = {}
+    rev: list[tuple[tuple[str, ...], str]] = []
+    for acr, expansion in acronyms.items():
+        acr_tok = acr.lower()
+        exp_toks = _raw_tokens(expansion)
+        if not exp_toks:
+            continue
+        fwd[acr_tok] = exp_toks
+        rev.append((tuple(exp_toks), acr_tok))
+    rev.sort(key=lambda pair: len(pair[0]), reverse=True)
+    return fwd, rev
+
+
+def _expand_acronyms(
+    toks: list[str],
+    fwd: dict[str, list[str]],
+    rev: list[tuple[tuple[str, ...], str]],
+) -> list[str]:
+    """Append long-form tokens for any acronym present, and the acronym token
+    for any long-form run present. Bidirectional; operates on raw tokens."""
+    added: list[str] = []
+    for t in toks:
+        if t in fwd:
+            added.extend(fwd[t])
+    n = len(toks)
+    for exp, acr in rev:
+        L = len(exp)
+        for i in range(n - L + 1):
+            if tuple(toks[i : i + L]) == exp:
+                added.append(acr)
+                break
+    return toks + added
+
+
+_ACRONYM_FWD, _ACRONYM_REV = _build_acronym_maps(get_schema().vocabulary.acronyms)
+
+
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
     """Return (df, avgdl, docs_tokens) for BM25 scoring. Side effect: each chunk dict gets a "_toks" key populated for reuse."""
     docs_tokens: list[list[str]] = []
@@ -341,7 +383,10 @@ def bm25_search(
     per-term BM25 contributions, so callers can see *why* a chunk ranked
     highly (e.g. which query terms hit and how much each contributed).
     """
-    qtoks = tokenize(query)
+    raw = _raw_tokens(query)
+    if _ACRONYM_EXPANSION:
+        raw = _expand_acronyms(raw, _ACRONYM_FWD, _ACRONYM_REV)
+    qtoks = _normalize(raw)
     if not qtoks or not chunks:
         return []
     qset = set(qtoks)
