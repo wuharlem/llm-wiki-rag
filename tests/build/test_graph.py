@@ -106,6 +106,37 @@ def test_adamic_adar_connects_common_neighbor_pair():
     assert G["aaaaaaaaaaaa"]["cccccccccccc"]["signals"]["aa"] == 0.0
 
 
+def _aa_hub_corpus():
+    # h1 and h2 are hubs (4 private neighbors each) sharing ONE neighbor z.
+    # Every edge is forced with two rare df=2 concepts (0.5+0.5 = floor).
+    def pair(i):
+        return [f"P{i}a", f"P{i}b"]
+
+    chunks = []
+    h1_concepts, h2_concepts = [], []
+    for i in range(4):
+        h1_concepts += pair(i)
+        chunks.append(_chunk(f"f{i}f{i}f{i}f{i}f{i}f{i}", f"F{i}", "01_Cat", concepts=pair(i)))
+    for i in range(4, 8):
+        h2_concepts += pair(i)
+        chunks.append(_chunk(f"g{i}g{i}g{i}g{i}g{i}g{i}", f"G{i}", "01_Cat", concepts=pair(i)))
+    chunks.append(_chunk("h1h1h1h1h1h1", "H1", "01_Cat", concepts=h1_concepts + pair(8)))
+    chunks.append(_chunk("h2h2h2h2h2h2", "H2", "01_Cat", concepts=h2_concepts + pair(9)))
+    chunks.append(_chunk("zzzzzzzzzzzz", "Z", "01_Cat", concepts=pair(8) + pair(9)))
+    return chunks
+
+
+def test_adamic_adar_damps_hub_hub_pairs():
+    cfg = CFG.model_copy(update={"aa_weight": 1.0})
+    G = g.build_graph(_aa_hub_corpus(), cfg)
+    # sanity: the intended first-order shape — hubs with 5 neighbors each, z shared
+    assert G.degree("h1h1h1h1h1h1") == 5 and G.degree("h2h2h2h2h2h2") == 5
+    assert not G["h1h1h1h1h1h1"].get("h2h2h2h2h2h2")
+    # one shared neighbor out of 5 each is NOT structural similarity: the
+    # normalized score (1/ln2)/sqrt(5*5) ≈ 0.29 must stay below the edge floor
+    assert not G.has_edge("h1h1h1h1h1h1", "h2h2h2h2h2h2")
+
+
 def _hand_graph():
     """Two communities with heavy hubs; two equal-weight cross-community edges,
     one hub-hub and one hub-peripheral. Only extract_insights cares about this

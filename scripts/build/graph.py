@@ -143,6 +143,9 @@ def build_graph(chunks: list[dict], cfg, emb_matrix=None, emb_ids=None):
     # --- Adamic-Adar signal (second-order; non-adjacent pairs only) ---
     # Computed on the finished first-order graph so existing edges and their
     # degrees are the fixed reference; inferred edges never feed back into it.
+    # Salton-normalized by sqrt(deg(a)*deg(b)): a pair must share a large
+    # FRACTION of its neighborhoods to connect, so hub-adjacent mass alone
+    # can't mint edges (flat AA displaced direct-evidence neighbors on hubs).
     if cfg.aa_weight > 0:
         aa_scores: dict[tuple[str, str], float] = defaultdict(float)
         for z in G.nodes:
@@ -154,7 +157,7 @@ def build_graph(chunks: list[dict], cfg, emb_matrix=None, emb_ids=None):
                 if not G.has_edge(a, b):
                     aa_scores[key(a, b)] += contrib
         for (a, b), aa in aa_scores.items():
-            w = cfg.aa_weight * aa
+            w = cfg.aa_weight * aa / (G.degree(a) * G.degree(b)) ** 0.5
             if w >= cfg.min_edge_score:
                 G.add_edge(
                     a,
