@@ -272,6 +272,32 @@ Findings, on the record:
   evidence, the strongest of the campaign but unconfirmed. Re-measure against
   a fresh holdout once the eval set grows.
 
+**Fresh-holdout confirmation 2026-07-12** (gold set regrown to 214 qrels:
++108 agent-authored `syn-` records over previously-unused corpus files,
+stratified by category; holdout n=24 → **n=52**, dev n=161). The current
+production config (bge-m3 dense + mxbai-base @ 40) was re-scored head-to-head
+against the pre-campaign baseline (bge-small + MiniLM @ 40) on the fresh
+split, one holdout peek each:
+
+| Config | dev nDCG@10 | dev MRR@10 | holdout recall@20 | holdout nDCG@10 | holdout MRR@10 |
+|---|---|---|---|---|---|
+| baseline (bge-small + MiniLM @ 40) | 0.776 | 0.735 | **0.949** | **0.750** | **0.734** |
+| **current (bge-m3 + mxbai @ 40)** | **0.817** | **0.788** | 0.939 | 0.745 | 0.718 |
+
+- **The dev win holds and is significant** (nDCG +0.041, paired t = 2.04, 41 W /
+  23 L; MRR +0.054, t = 2.11). **The fresh holdout does not confirm it**: the
+  two configs are a statistical tie, nominally favoring the *baseline*
+  (nDCG Δ = −0.005, t = −0.13, 10 W / 12 L / 30 T; recall Δ = −0.010, t = −1.0;
+  MRR Δ = −0.016, t = −0.39). Every holdout |t| < 1 — indistinguishable at n=52.
+- **Conclusion: the same dev-does-not-generalize pattern the n=24 holdout
+  showed reproduces on the larger, unspent holdout.** Neither adoption is
+  confirmed as a quality improvement; the current stack buys no measurable
+  held-out gain over the old baseline while costing ~5× rerank latency
+  (~5 s vs ~1 s/query) plus the m3 query-encode. Because the fresh holdout
+  neither confirms the gain nor shows a significant regression, the
+  keep-or-revert call is the owner's — flagged for decision, config unchanged
+  pending it. Reverting is instant on the embedding side (swap the emb_cache).
+
 ## Summary table
 
 | Algorithm | Stage | Code | Knobs (`config.yml`) |
