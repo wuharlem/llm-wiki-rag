@@ -177,8 +177,11 @@ def test_graph_config_missing_key_rejected(tmp_path, monkeypatch):
         get_config()
 
 
-def test_lexical_flags_present_and_bool_default_false():
+def test_lexical_flags_present_and_bool():
+    # Flipped to True 2026-07-12 (user adoption decision, see config.yml comment);
+    # the contract here is presence + strict bool typing, not the value.
     r = get_config().retrieval
-    assert r.acronym_expansion is False
-    assert r.bm25_stemming is False
-    assert r.phrase_matching is False
+    assert isinstance(r.acronym_expansion, bool)
+    assert isinstance(r.bm25_stemming, bool)
+    assert isinstance(r.phrase_matching, bool)
+    assert r.acronym_expansion and r.bm25_stemming and r.phrase_matching

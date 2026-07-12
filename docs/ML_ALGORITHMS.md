@@ -140,9 +140,11 @@ contribution breakdown.
 
 BM25 is the always-available baseline: no model downloads, no extras.
 
-Three query-time lexical-expansion flags sit on top of the plain tokenizer,
-all default `false` in `config.yml → retrieval:` (`acronym_expansion`,
-`bm25_stemming`, `phrase_matching`). `scripts/serve/retrieval.py::tokenize()`
+Three query-time lexical-expansion flags sit on top of the plain tokenizer
+in `config.yml → retrieval:` (`acronym_expansion`, `bm25_stemming`,
+`phrase_matching`) — shipped `false` at first (2026-07-12 eval found no
+gold-set benefit), flipped to `true` later the same day by user decision
+(see eval outcome below). `scripts/serve/retrieval.py::tokenize()`
 applies the gated transforms in a fixed order: raw regex tokens
 (`_raw_tokens()`) → phrase-join (`phrase_matching`, joins curated multi-word
 concept/tag keys plus the optional `vocabulary.phrases` list from
@@ -163,11 +165,18 @@ together were indistinguishable from baseline (nDCG@10 0.788 → 0.790, within
 run-to-run noise). The dense bge-m3 bi-encoder already resolves the synonymy,
 morphology, and phrase semantics these flags target, so the lexical layer adds
 nothing measurable on this corpus and slightly hurts the pure-lexical arm
-(expansion noise, over-stemming). No holdout peek was spent — a peek confirms an
-adoption, and there was none. The mechanisms remain available (correct,
-tested, default off) for template adopters or corpora where lexical mismatch
-dominates; revisit if gold cases that stress acronym/morphology mismatch are
-added or `vocabulary.phrases` is populated.
+(expansion noise, over-stemming). A holdout peek at merge time
+(`lex-all3-adopt`, logged in `00_inputs/eval/holdout_runs.jsonl`) confirmed
+the wash: recall@20 0.9295 vs 0.9391 baseline, ndcg@10 0.7523 vs 0.7558,
+mrr@10 0.7377 vs 0.7347.
+
+**Adoption (2026-07-12): flipped ON anyway by user decision**, overriding the
+eval recommendation — the flags are live in this instance's `config.yml`. The
+measured cost is the small recall@20/ndcg@10 regression above; the rerank
+stage gates most of the expansion noise in the production hybrid path.
+Template adopters who want the eval-recommended behavior should set all
+three back to `false`; revisit if gold cases that stress acronym/morphology
+mismatch are added or `vocabulary.phrases` is populated.
 
 ### Dense cosine retrieval
 
