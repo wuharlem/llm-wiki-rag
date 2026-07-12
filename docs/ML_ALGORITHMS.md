@@ -66,9 +66,9 @@ until 2026-07-12, then `BAAI/bge-m3` (1024-d, 568M params, 8192-token window
 round (see § Evaluation). Full re-embeds with m3 take ~4.5 h on CPU for a
 ~30k-chunk corpus; the hash-delta incremental path makes routine rebuilds
 encode only new chunks. Both models' artifact sets are kept under untracked
-`01_data/emb_cache/<model>/` for instant swaps. NOTE: `graph.min_cosine` was
-percentile-tuned on bge-small's cosine distribution — re-measure before the
-next graph rebuild under m3.
+`01_data/emb_cache/<model>/` for instant swaps. `graph.min_cosine` was
+retuned 0.93 → 0.88 for m3's cooler cosine geometry (see the graph section
+below).
 
 Rebuilds are incremental via hash-delta: each chunk's text is sha1'd, rows whose
 hash matches the previous build are reused byte-for-byte
@@ -92,11 +92,16 @@ Files become nodes; three signals sum into one edge weight
   `wikilink_weight: 3.0`. Deliberate citations are the
   strongest relatedness evidence.
 - **Embedding** — cosine of mean-pooled per-file chunk vectors, counted only
-  above `min_cosine: 0.93`. The floor is corpus-tuned:
-  same-domain corpora run hot (this one's median pairwise file cosine is 0.81,
-  p99 0.935), so 0.93 keeps roughly the top-1% most-similar pairs. At 0.60 the
-  graph went complete (445k edges) and communities degenerated — re-measure the
-  percentiles when adapting to a new corpus (see the comment in `config.yml`).
+  above `min_cosine: 0.88`. The floor is encoder-specific and tuned by matching
+  graph connectivity, not a fixed percentile: rebuild on candidate floors and
+  pick the one that reproduces the prior graph's topology. bge-small ran hot
+  (median pairwise file cosine 0.81, p99 0.935) and used 0.93 → ~6.7k edges,
+  avg degree 14, 252 communities, 235 isolated. bge-m3 runs cooler (median
+  0.727, p99 0.886); **0.88** reproduces that structure (6.3k edges, avg degree
+  13, 251 communities, 233 isolated), whereas the old 0.93 starved it (avg
+  degree 1.5, 491 isolated). At 0.60 the graph went complete (445k edges) and
+  communities degenerated. Re-measure when the embedding model changes (see the
+  comment in `config.yml`).
 
 Edges below `min_edge_score: 1.0` are dropped. **Louvain modularity
 maximization** (`networkx.community.louvain_communities`, called from
