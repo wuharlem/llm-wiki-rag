@@ -76,6 +76,7 @@ class GraphConfig(BaseModel):
     tag_weight: float
     wikilink_weight: float
     embedding_weight: float
+    aa_weight: float
     min_cosine: float
     min_edge_score: float
     top_k_neighbors: int

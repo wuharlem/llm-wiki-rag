@@ -68,6 +68,7 @@ graph:
   tag_weight: 0.5
   wikilink_weight: 3.0
   embedding_weight: 2.0
+  aa_weight: 0.0
   min_cosine: 0.60
   min_edge_score: 1.0
   top_k_neighbors: 10

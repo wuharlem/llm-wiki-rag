@@ -60,6 +60,13 @@ graph:                          # file-relatedness graph (scripts/build/graph.py
   tag_weight: 0.5               # multiplier for rarity-weighted shared tags
   wikilink_weight: 3.0          # per distinct wikilink citation between two files
   embedding_weight: 2.0         # multiplier on file-level cosine (only above min_cosine)
+  aa_weight: 0.0                # second-order Adamic-Adar signal: connects NON-ADJACENT
+                                # pairs via common neighbors (sum of 1/ln(deg) over shared
+                                # neighbors in the first-order graph; first-order edges are
+                                # never perturbed). SHIPPED DORMANT — 0.0 disables. To adopt:
+                                # rebuild on candidate weights, match topology against the
+                                # first-order reference (see min_cosine note below), and
+                                # spot-check find_related_files on hub + peripheral files.
   min_cosine: 0.88              # cosine floor for the embedding signal. Re-tune per embedding
                                 # model by MATCHING GRAPH CONNECTIVITY, not a fixed percentile —
                                 # the file-cosine distribution shifts with the encoder. Picked by
