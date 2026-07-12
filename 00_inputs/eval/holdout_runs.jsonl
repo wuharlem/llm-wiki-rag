@@ -8,3 +8,4 @@
 {"date": "2026-07-12T02-20-18Z", "label": "regrow-bge-m3-mxbai40", "git_rev": "e60449c", "config_hash": "a89dae9354", "holdout": {"recall@20": 0.939102564102564, "ndcg@10": 0.7453250841908811, "mrr@10": 0.718162393162393, "n": 52}}
 {"date": "2026-07-12T02-25-45Z", "label": "regrow-baseline-bge-small-minilm40", "git_rev": "e60449c", "config_hash": "692a741fe1", "holdout": {"recall@20": 0.9487179487179487, "ndcg@10": 0.7500425235856916, "mrr@10": 0.7343482905982908, "n": 52}}
 {"date": "2026-07-12T02-46-02Z", "label": "regrow-bge-m3-minilm40", "git_rev": "ad6bbf3", "config_hash": "75a26ec31d", "holdout": {"recall@20": 0.939102564102564, "ndcg@10": 0.7558272505132143, "mrr@10": 0.7346916971916972, "n": 52}}
+{"date": "2026-07-12T13-00-46Z", "label": "lex-all3-adopt", "git_rev": "897e73a", "config_hash": "a721d25389", "holdout": {"recall@20": 0.9294871794871794, "ndcg@10": 0.7522545958420301, "mrr@10": 0.7376831501831501, "n": 52}}
