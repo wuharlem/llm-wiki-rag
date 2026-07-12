@@ -79,6 +79,25 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--batch-size", type=int, default=32)
+    ap.add_argument(
+        "--max-seq-length",
+        type=int,
+        default=1024,
+        help="Cap the encoder's max sequence length (tokens). Long-window models "
+        "(e.g. bge-m3, 8192) can exhaust accelerator memory when one outlier chunk "
+        "pads a whole batch to the full window; corpus chunks are <=800 estimated "
+        "tokens, so 1024 truncates almost nothing (and is a no-op for bge-small, "
+        "whose own cap is 512). The rebuild-tail hook runs with defaults, so the "
+        "default must be crash-safe. Pass 0 to use the model's own limit.",
+    )
+    ap.add_argument(
+        "--device",
+        default=None,
+        help="Torch device for encoding (e.g. cpu, mps, cuda). Default: auto. "
+        "Use cpu for large full re-embeds on low-RAM Apple hardware — the MPS "
+        "allocator's cache grows across varied-shape batches until the OS kills "
+        "the process (observed 2026-07-11 with bge-m3 on 18 GB).",
+    )
     ap.add_argument("--force", action="store_true", help="Full re-encode even when the hash delta is empty.")
     args = ap.parse_args(argv)
 
@@ -131,7 +150,10 @@ def main(argv=None) -> None:
             )
             sys.exit(1)
         print(f"loading model {args.model} ...", file=sys.stderr)
-        model = SentenceTransformer(args.model)
+        model = SentenceTransformer(args.model, device=args.device)
+        if args.max_seq_length:
+            model.max_seq_length = args.max_seq_length
+            print(f"max_seq_length capped at {args.max_seq_length}", file=sys.stderr)
         texts = [chunks[i].get("text", "") for i in missing]
         t0 = time.time()
         new_embs = model.encode(

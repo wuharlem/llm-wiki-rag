@@ -18,8 +18,8 @@ retrieval:
   fusion_oversample: 4        # candidate-pool multiplier for hybrid mode
   rerank_candidates: 40       # max candidates passed to the cross-encoder reranker
   reranker_model: "mixedbread-ai/mxbai-rerank-base-v1"
-  embedding_model: "BAAI/bge-small-en-v1.5"
-  query_instruction: "Represent this sentence for searching relevant passages: " # prepended to the QUERY ONLY at dense-encode time (chunks embed
+  embedding_model: "BAAI/bge-m3"
+  query_instruction: ""       # prepended to the QUERY ONLY at dense-encode time (chunks embed
                               # bare; no re-embed needed). bge-en-v1.5's card recommends
                               # "Represent this sentence for searching relevant passages: "
                               # for short queries; "" disables.

@@ -39,8 +39,10 @@ def _vec(text: str) -> "np.ndarray":
 class FakeModel:
     encode_calls: list[list[str]] = []
 
-    def __init__(self, name):
+    def __init__(self, name, device=None):
         self.name = name
+        self.device = device
+        self.max_seq_length = 512  # settable, like the real SentenceTransformer
 
     def encode(self, texts, **kw):
         FakeModel.encode_calls.append(list(texts))

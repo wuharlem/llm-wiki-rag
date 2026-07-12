@@ -50,8 +50,10 @@ def _bow_vec(np, text: str):
 
 
 class FakeBowModel:
-    def __init__(self, name):
+    def __init__(self, name, device=None):
         self.name = name
+        self.device = device
+        self.max_seq_length = 512  # settable, like the real SentenceTransformer
 
     def encode(self, texts, **kw):
         import numpy as np
