@@ -25,7 +25,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from itertools import combinations
-from math import log2
+from math import log, log2
 from pathlib import Path
 
 from scripts.wiki_lib.config import get_config
@@ -82,7 +82,9 @@ def build_graph(chunks: list[dict], cfg, emb_matrix=None, emb_ids=None):
     import networkx as nx
 
     files = _file_table(chunks)
-    pair_signals: dict[tuple[str, str], dict] = defaultdict(lambda: {"vocab": 0.0, "wikilink": 0.0, "embedding": 0.0})
+    pair_signals: dict[tuple[str, str], dict] = defaultdict(
+        lambda: {"vocab": 0.0, "wikilink": 0.0, "embedding": 0.0, "aa": 0.0}
+    )
 
     def key(a: str, b: str) -> tuple[str, str]:
         return (a, b) if a < b else (b, a)
@@ -134,9 +136,32 @@ def build_graph(chunks: list[dict], cfg, emb_matrix=None, emb_ids=None):
     for fid, rec in files.items():
         G.add_node(fid, title=rec["title"], relpath=rec["relpath"], category=rec["category"])
     for (a, b), sig in pair_signals.items():
-        total = sig["vocab"] + sig["wikilink"] + sig["embedding"]
+        total = sum(sig.values())
         if total >= cfg.min_edge_score:
             G.add_edge(a, b, weight=round(total, 4), signals={k: round(v, 4) for k, v in sig.items()})
+
+    # --- Adamic-Adar signal (second-order; non-adjacent pairs only) ---
+    # Computed on the finished first-order graph so existing edges and their
+    # degrees are the fixed reference; inferred edges never feed back into it.
+    if cfg.aa_weight > 0:
+        aa_scores: dict[tuple[str, str], float] = defaultdict(float)
+        for z in G.nodes:
+            nbrs = sorted(G.neighbors(z))
+            if len(nbrs) < 2:
+                continue
+            contrib = 1.0 / log(len(nbrs))
+            for a, b in combinations(nbrs, 2):
+                if not G.has_edge(a, b):
+                    aa_scores[key(a, b)] += contrib
+        for (a, b), aa in aa_scores.items():
+            w = cfg.aa_weight * aa
+            if w >= cfg.min_edge_score:
+                G.add_edge(
+                    a,
+                    b,
+                    weight=round(w, 4),
+                    signals={"vocab": 0.0, "wikilink": 0.0, "embedding": 0.0, "aa": round(w, 4)},
+                )
     return G
 
 

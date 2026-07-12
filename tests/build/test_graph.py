@@ -74,6 +74,38 @@ def test_louvain_deterministic_and_insights():
     assert frozenset(("cccccccccccc", "aaaaaaaaaaaa")) not in surprising_pairs
 
 
+def _aa_corpus():
+    # a and b each share two rare concepts with c (df=2 → 0.5+0.5 = 1.0, exactly
+    # at the edge floor) but share NOTHING with each other: no first-order
+    # signal connects a-b, only the common neighbor c.
+    return [
+        _chunk("aaaaaaaaaaaa", "A", "01_Cat", concepts=["X1", "X2"]),
+        _chunk("bbbbbbbbbbbb", "B", "01_Cat", concepts=["Y1", "Y2"]),
+        _chunk("cccccccccccc", "C", "02_Cat", concepts=["X1", "X2", "Y1", "Y2"]),
+    ]
+
+
+def test_adamic_adar_dormant_at_zero_weight():
+    cfg = CFG.model_copy(update={"aa_weight": 0.0})
+    G = g.build_graph(_aa_corpus(), cfg)
+    assert not G.has_edge("aaaaaaaaaaaa", "bbbbbbbbbbbb")
+    for _, _, d in G.edges(data=True):
+        assert d["signals"]["aa"] == 0.0  # key present on every edge, uniformly
+
+
+def test_adamic_adar_connects_common_neighbor_pair():
+    cfg = CFG.model_copy(update={"aa_weight": 1.0})
+    G = g.build_graph(_aa_corpus(), cfg)
+    # one common neighbor c with unweighted degree 2: aa = 1/ln(2) ≈ 1.443,
+    # ×1.0 clears min_edge_score=1.0 → inferred a-b edge, aa-only signal
+    assert G.has_edge("aaaaaaaaaaaa", "bbbbbbbbbbbb")
+    sig = G["aaaaaaaaaaaa"]["bbbbbbbbbbbb"]["signals"]
+    assert sig["aa"] > 0
+    assert sig["vocab"] == 0.0 and sig["wikilink"] == 0.0 and sig["embedding"] == 0.0
+    # first-order edges are not perturbed: a-c weight is pure vocab
+    assert G["aaaaaaaaaaaa"]["cccccccccccc"]["signals"]["aa"] == 0.0
+
+
 def _hand_graph():
     """Two communities with heavy hubs; two equal-weight cross-community edges,
     one hub-hub and one hub-peripheral. Only extract_insights cares about this
