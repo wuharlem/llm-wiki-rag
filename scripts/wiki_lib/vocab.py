@@ -33,9 +33,19 @@ def _acronyms() -> set[str]:
     return set(get_schema().vocabulary.keep_upper_acronyms)
 
 
+def _acronym_map() -> dict[str, str]:
+    return dict(get_schema().vocabulary.acronyms)
+
+
+def _phrases() -> list[str]:
+    return list(get_schema().vocabulary.phrases)
+
+
 # Backwards-compatible module-level constants (evaluated at import time).
 # They are snapshots — mutations will not propagate. Downstream code only reads.
 WIKI_CONCEPTS: dict[str, list[str]] = _concepts()
 TAG_TRIGGERS: dict[str, list[str]] = _tags()
 RISK_TRIGGERS: dict[str, list[str]] = _risks()
 KEEP_UPPER_ACRONYMS: set[str] = _acronyms()
+ACRONYMS: dict[str, str] = _acronym_map()
+PHRASES: list[str] = _phrases()

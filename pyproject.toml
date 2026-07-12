@@ -28,16 +28,22 @@ semantic = [
 rerank = [
     "sentence-transformers>=3.0",
 ]
+# Priority #4: lexical BM25 expansion (Porter2 stemming). Pure-python.
+lexical = [
+    "snowballstemmer>=2.2",
+]
 # Convenience: install everything.
 all = [
     "pypdf>=4",
     "sentence-transformers>=3.0",
     "numpy>=1.26",
+    "snowballstemmer>=2.2",
 ]
 # Test suite + lint/format tooling. Install with: uv sync --extra test
 test = [
     "pytest>=8",
     "ruff>=0.5,<1.0",
+    "snowballstemmer>=2.2",
 ]
 
 [project.scripts]

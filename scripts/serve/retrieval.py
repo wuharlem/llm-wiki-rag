@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import sys
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -33,6 +34,7 @@ from scripts.wiki_lib.cache import RetrievalContext
 from scripts.wiki_lib.config import get_config
 from scripts.wiki_lib.locations import vault_path, work_path
 from scripts.wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.schema import get_schema
 
 _CFG_RETRIEVAL = get_config().retrieval
 
@@ -64,8 +66,33 @@ VAULT_PATH = vault_path()
 TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_-]+")
 
 
-def tokenize(text: str) -> list[str]:
+def _raw_tokens(text: str) -> list[str]:
+    """Lowercased regex tokens, before any phrase-join or stemming."""
     return [t.lower() for t in TOKEN_RE.findall(text or "")]
+
+
+def _normalize(toks: list[str]) -> list[str]:
+    """Apply the gated lexical transforms in fixed order: phrase-join -> stem.
+    Identity when both flags are off (keeps tokenize() backwards-compatible)."""
+    global _STEMMER_WARNED
+    if _PHRASE_MATCHING:
+        toks = _join_phrases(toks, _PHRASE_INDEX)
+    if _BM25_STEMMING:
+        if _STEMMER is None:
+            if not _STEMMER_WARNED:
+                print(
+                    "retrieval: bm25_stemming enabled but snowballstemmer not installed; "
+                    "falling back to no-stem (install the 'lexical' extra)",
+                    file=sys.stderr,
+                )
+                _STEMMER_WARNED = True
+        else:
+            toks = _apply_stemmer(toks, _STEMMER)
+    return toks
+
+
+def tokenize(text: str) -> list[str]:
+    return _normalize(_raw_tokens(text))
 
 
 # ---------------------------------------------------------------------------
@@ -162,6 +189,122 @@ _HEADING_BOOST = _CFG_RETRIEVAL.heading_boost
 # Dense-retrieval query instruction (BGE-style). Applied to the QUERY only —
 # chunk embeddings stay bare, so flipping this needs no re-embed.
 _QUERY_INSTRUCTION = _CFG_RETRIEVAL.query_instruction
+# Lexical-expansion feature flags (query-time; no rebuild). Default off until
+# proven on the eval gold set (see docs/superpowers/plans/2026-07-12-...).
+_ACRONYM_EXPANSION = _CFG_RETRIEVAL.acronym_expansion
+_BM25_STEMMING = _CFG_RETRIEVAL.bm25_stemming
+_PHRASE_MATCHING = _CFG_RETRIEVAL.phrase_matching
+
+_STEMMER_WARNED = False
+
+
+def _get_stemmer():
+    """Return a Snowball English stemmer, or None if snowballstemmer is absent."""
+    try:
+        import snowballstemmer
+    except ImportError:
+        return None
+    return snowballstemmer.stemmer("english")
+
+
+def _apply_stemmer(toks: list[str], stemmer) -> list[str]:
+    """Stem each token except atomic joined-phrase tokens (which contain '_').
+    Identity when stemmer is None."""
+    if stemmer is None:
+        return toks
+    return [t if "_" in t else stemmer.stemWord(t) for t in toks]
+
+
+_STEMMER = _get_stemmer()
+
+
+def _phrase_source(schema) -> list[str]:
+    """Effective phrase set: multi-word concept + tag keys plus the optional
+    supplementary vocabulary.phrases list."""
+    out: list[str] = []
+    out.extend(schema.vocabulary.concepts.keys())
+    out.extend(schema.vocabulary.tags.keys())
+    out.extend(schema.vocabulary.phrases)
+    return out
+
+
+def _build_phrase_index(phrases: list[str]) -> dict[str, list[list[str]]]:
+    """Map first-token -> list of phrase token-lists, longest first."""
+    index: dict[str, list[list[str]]] = {}
+    for phrase in phrases:
+        toks = _raw_tokens(phrase)
+        if len(toks) < 2:
+            continue
+        index.setdefault(toks[0], []).append(toks)
+    for first in index:
+        index[first].sort(key=len, reverse=True)
+    return index
+
+
+def _join_phrases(toks: list[str], index: dict[str, list[list[str]]]) -> list[str]:
+    """Replace known multi-word phrase runs with a single '_'-joined token
+    (longest match wins)."""
+    out: list[str] = []
+    i, n = 0, len(toks)
+    while i < n:
+        matched = None
+        for phrase in index.get(toks[i], ()):  # longest first
+            L = len(phrase)
+            if toks[i : i + L] == phrase:
+                matched = phrase
+                break
+        if matched:
+            out.append("_".join(matched))
+            i += len(matched)
+        else:
+            out.append(toks[i])
+            i += 1
+    return out
+
+
+_PHRASE_INDEX = _build_phrase_index(_phrase_source(get_schema()))
+
+
+def _build_acronym_maps(
+    acronyms: dict[str, str],
+) -> tuple[dict[str, list[str]], list[tuple[tuple[str, ...], str]]]:
+    """Return (forward, reverse). forward: acronym-token -> long-form tokens.
+    reverse: list of (long-form token tuple, acronym-token), longest first."""
+    fwd: dict[str, list[str]] = {}
+    rev: list[tuple[tuple[str, ...], str]] = []
+    for acr, expansion in acronyms.items():
+        acr_tok = acr.lower()
+        exp_toks = _raw_tokens(expansion)
+        if not exp_toks:
+            continue
+        fwd[acr_tok] = exp_toks
+        rev.append((tuple(exp_toks), acr_tok))
+    rev.sort(key=lambda pair: len(pair[0]), reverse=True)
+    return fwd, rev
+
+
+def _expand_acronyms(
+    toks: list[str],
+    fwd: dict[str, list[str]],
+    rev: list[tuple[tuple[str, ...], str]],
+) -> list[str]:
+    """Append long-form tokens for any acronym present, and the acronym token
+    for any long-form run present. Bidirectional; operates on raw tokens."""
+    added: list[str] = []
+    for t in toks:
+        if t in fwd:
+            added.extend(fwd[t])
+    n = len(toks)
+    for exp, acr in rev:
+        L = len(exp)
+        for i in range(n - L + 1):
+            if tuple(toks[i : i + L]) == exp:
+                added.append(acr)
+                break
+    return toks + added
+
+
+_ACRONYM_FWD, _ACRONYM_REV = _build_acronym_maps(get_schema().vocabulary.acronyms)
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
@@ -240,7 +383,10 @@ def bm25_search(
     per-term BM25 contributions, so callers can see *why* a chunk ranked
     highly (e.g. which query terms hit and how much each contributed).
     """
-    qtoks = tokenize(query)
+    raw = _raw_tokens(query)
+    if _ACRONYM_EXPANSION:
+        raw = _expand_acronyms(raw, _ACRONYM_FWD, _ACRONYM_REV)
+    qtoks = _normalize(raw)
     if not qtoks or not chunks:
         return []
     qset = set(qtoks)

@@ -382,6 +382,30 @@ vocabulary:
           - concentration
           - erosion of oversight
 
+  # === acronym expansions ===
+  # Curated multi-word expansions for retrieval expansion. Only distinctive,
+  # domain-specific expansions. Avoid over-common acronyms (AI, ML, LLM) whose
+  # expansions are generic words that add retrieval noise.
+  acronyms:
+    RLHF: reinforcement learning from human feedback
+    RSP: responsible scaling policy
+    ASL: AI safety level
+    CBRN: chemical biological radiological nuclear
+    ELK: eliciting latent knowledge
+    RMU: representation misdirection unlearning
+    CoT: chain of thought
+    SAE: sparse autoencoder
+    DPO: direct preference optimization
+    PPO: proximal policy optimization
+    MMLU: massive multitask language understanding
+    FSF: frontier safety framework
+    CCL: critical capability level
+    RAG: retrieval augmented generation
+
+  # === curated phrases ===
+  # Multi-word phrases for retrieval expansion. Populated dynamically.
+  phrases: []
+
   # === acronym exceptions === (was KEEP_UPPER_ACRONYMS in vocab.py:361; sorted alphabetically)
   keep_upper_acronyms:
     - AAAI

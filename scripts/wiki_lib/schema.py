@@ -102,6 +102,8 @@ class VocabularySchema(BaseModel):
     tags: dict[str, list[str]]
     categorical_axes: dict[str, CategoricalAxis]
     keep_upper_acronyms: list[str]
+    acronyms: dict[str, str] = {}
+    phrases: list[str] = []
 
 
 class VaultSchema(BaseModel):
