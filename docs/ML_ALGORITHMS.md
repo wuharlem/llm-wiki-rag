@@ -103,17 +103,21 @@ Files become nodes; three signals sum into one edge weight
   communities degenerated. Re-measure when the embedding model changes (see the
   comment in `config.yml`).
 
-A fourth, second-order signal is available but **shipped dormant**
-(`graph.aa_weight: 0.0`): structural **Adamic-Adar** over the finished
-first-order graph (`scripts/build/graph.py::build_graph()`, AA block). For
-each non-adjacent pair it sums `1/ln(degree)` over common neighbors and adds
-an inferred aa-only edge where `aa_weight × score` clears `min_edge_score`;
-first-order edges are never perturbed. Live-corpus measurements (2026-07-12,
-946 files): 0.5 → +5,750 edges, 1.0 → +13,709, and the isolated-file count
-never moves (AA cannot reach nodes without edges) — the signal mostly
-amplifies transitivity the vocab signal already encodes, so adoption needs a
-quality spot-check of `find_related_files` on hub and peripheral files, not
-just topology matching.
+A fourth, second-order signal (`graph.aa_weight`, adopted at **4.0** on
+2026-07-12): structural **Adamic-Adar** over the finished first-order graph
+(`scripts/build/graph.py::build_graph()`, AA block). For each non-adjacent
+pair it sums `1/ln(degree)` over common neighbors, **Salton-normalizes by
+`sqrt(deg(a)·deg(b))`** so a pair must share a large fraction of its
+neighborhoods (hub-adjacent mass alone can't mint edges), and adds an
+inferred aa-only edge where `aa_weight × score` clears `min_edge_score`;
+first-order edges are never perturbed. At 4.0 on the live corpus this adds
+85 inferred edges (+1.3%) between structurally-twin peripheral files (median
+endpoint degree 3) with the hub top-8 neighbor lists 8/8 unchanged. The flat
+(unnormalized) variant was measured and **rejected** (PR #82): +5,750 edges
+at weight 0.5 and 7/8 of the biggest hub's direct-evidence neighbors
+displaced by inferred edges. Isolated files are out of reach either way — AA
+needs existing edges to work with. Re-tuning requires both the topology
+match and the hub/peripheral `find_related_files` spot-check.
 
 Edges below `min_edge_score: 1.0` are dropped. **Louvain modularity
 maximization** (`networkx.community.louvain_communities`, called from
