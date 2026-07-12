@@ -23,9 +23,12 @@ retrieval:
                               # bare; no re-embed needed). bge-en-v1.5's card recommends
                               # "Represent this sentence for searching relevant passages: "
                               # for short queries; "" disables.
-  acronym_expansion: false    # query-side acronym<->expansion synonym layer (vocabulary.acronyms)
-  bm25_stemming: false        # Snowball(Porter2) stemming, symmetric in tokenize(); needs the `lexical` extra
-  phrase_matching: false      # join curated multi-word phrases (concepts+tags+vocabulary.phrases) into atomic tokens
+  acronym_expansion: true     # query-side acronym<->expansion synonym layer (vocabulary.acronyms)
+  bm25_stemming: true         # Snowball(Porter2) stemming, symmetric in tokenize(); needs the `lexical` extra
+  phrase_matching: true       # join curated multi-word phrases (concepts+tags+vocabulary.phrases) into atomic tokens
+                              # all three flipped ON 2026-07-12 by user decision, overriding the gold-set
+                              # eval (holdout peek lex-all3-adopt: recall@20 0.9295 vs 0.9391 baseline,
+                              # ndcg@10 0.7523 vs 0.7558, mrr@10 0.7377 vs 0.7347 — a wash at best)
   graph_expansion:              # graph-neighbor expansion of hybrid search (spec 2026-07-10)
     enabled: true               # flipped ON 2026-07-10 after the A/B (4 real queries, rerank on:
                                 # zero top-k harm — the cross-encoder gates injected neighbors;
