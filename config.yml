@@ -54,12 +54,18 @@ graph:                          # file-relatedness graph (scripts/build/graph.py
   tag_weight: 0.5               # multiplier for rarity-weighted shared tags
   wikilink_weight: 3.0          # per distinct wikilink citation between two files
   embedding_weight: 2.0         # multiplier on file-level cosine (only above min_cosine)
-  min_cosine: 0.93              # cosine floor for the embedding signal. Tuned empirically
-                                # 2026-07-10: same-domain corpora run hot (this corpus: median
-                                # pairwise file cosine 0.81, p99 0.935) — 0.93 keeps ~top-1%
-                                # most-similar pairs (~5 edges/file). At 0.60 the graph went
-                                # complete (445k edges) and communities/insights degenerated.
-                                # Re-measure percentiles when adapting to a new corpus.
+  min_cosine: 0.88              # cosine floor for the embedding signal. Re-tune per embedding
+                                # model by MATCHING GRAPH CONNECTIVITY, not a fixed percentile —
+                                # the file-cosine distribution shifts with the encoder. Picked by
+                                # rebuilding on candidate floors and matching the prior graph's
+                                # topology (bge-small@0.93: ~6.7k edges, avg deg 14, 252
+                                # communities, 235 isolated, 115 bridges). Under bge-m3
+                                # (2026-07-12, 946 files; median pairwise file cosine 0.727,
+                                # p99 0.886) the match is 0.88 -> ~6.3k edges, avg deg 13, 251
+                                # communities, 233 isolated, 96 bridges. bge-m3 runs cooler, so
+                                # the old 0.93 starved it (avg deg 1.5, 491 isolated) and even
+                                # 0.90 was too sparse (avg deg 5, 313 isolated). At 0.60 the graph
+                                # went complete (445k edges) and communities/insights degenerated.
   min_edge_score: 1.0           # edges below this total are dropped from the artifact
   top_k_neighbors: 10           # neighbors stored per file in graph.json
   louvain_seed: 42              # deterministic community detection
