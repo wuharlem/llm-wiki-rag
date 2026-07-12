@@ -151,10 +151,23 @@ Snowball/Porter2 via the `lexical` extra, skipped with a stderr warning if the
 extra isn't installed). Acronym expansion (`acronym_expansion`,
 `wiki_schema.yml → vocabulary.acronyms`) is query-side only and runs *before*
 normalization — `bm25_search()` expands the raw query tokens bidirectionally
-(acronym → long-form and long-form → acronym) before handing them to
-`tokenize()`'s phrase-join/stem pipeline; corpus text is never expanded. All
-three are off by default pending an eval A/B (see § Evaluation) — no measured
-impact yet.
+(acronym → long-form and long-form → acronym) before handing them to the shared
+`_normalize()` phrase-join/stem step; corpus text is never expanded.
+
+**Eval outcome (2026-07-12): all three ship dormant.** A/B'd on the 214-query
+gold set (dev n=161). On the pure-lexical arm (`--mode bm25 --no-rerank`, the
+most sensitive test) every flag was flat-to-negative vs the plain tokenizer
+(baseline nDCG@10 0.751; acronym 0.745, stemming 0.747, phrase 0.749) and none
+raised recall@20. In the production hybrid+rerank path all three enabled
+together were indistinguishable from baseline (nDCG@10 0.788 → 0.790, within
+run-to-run noise). The dense bge-m3 bi-encoder already resolves the synonymy,
+morphology, and phrase semantics these flags target, so the lexical layer adds
+nothing measurable on this corpus and slightly hurts the pure-lexical arm
+(expansion noise, over-stemming). No holdout peek was spent — a peek confirms an
+adoption, and there was none. The mechanisms remain available (correct,
+tested, default off) for template adopters or corpora where lexical mismatch
+dominates; revisit if gold cases that stress acronym/morphology mismatch are
+added or `vocabulary.phrases` is populated.
 
 ### Dense cosine retrieval
 
