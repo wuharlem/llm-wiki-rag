@@ -280,6 +280,14 @@ hard/underfilled queries. Without reranking, expansion only runs when hybrid
 retrieval underfills `k`. Template adopters should start with
 `enabled: false` and A/B on their own corpus.
 
+Since 2026-07-12 the walk depth is configurable: `hops: 1` (default — the
+long-standing direct-neighbor behavior) or deeper, where each hop beyond the
+first multiplies edge scores by `hop_decay: 0.5` before the `min_edge_score`
+floor and gets its own `neighbors_per_hit` budget per seed. **Shipped dormant
+at 1**: multi-hop adoption is gated on a regrown eval holdout (the frozen one
+has been peeked repeatedly), and the flat-AA hub evidence (PR #83) warns that
+second-order reach amplifies hub noise unless damped.
+
 ### Concept co-occurrence (Jaccard)
 
 `scripts/serve/retrieval.py::find_related_concepts()`.

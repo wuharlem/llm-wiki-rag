@@ -37,8 +37,18 @@ retrieval:
                                 # underfills the request. Template adopters: start false, A/B
                                 # on your own corpus first.
     seed_hits: 5                # top fused hits whose neighbors are considered
-    neighbors_per_hit: 3        # max neighbors injected per seed
+    neighbors_per_hit: 3        # max neighbors injected per seed PER HOP
     min_edge_score: 3.0         # edge floor for expansion (above the build floor)
+    hops: 1                     # expansion depth. 1 = direct neighbors only (the
+                                # long-standing behavior). 2 walks neighbors-of-
+                                # neighbors with hop_decay applied to their edge
+                                # scores before the min_edge_score floor. SHIPPED
+                                # DORMANT at 1 (2026-07-12): the dev-split A/B at
+                                # hops=2 was a perfect wash (recall@20/ndcg@10/mrr@10
+                                # identical, zero per-query changes) and adoption is
+                                # gated on a regrown eval holdout.
+    hop_decay: 0.5              # per-hop multiplier on edge scores beyond hop 1
+                                # (only read when hops > 1)
 
 ingest:
   http_timeout_seconds: 25    # fetch.py request timeout

@@ -54,6 +54,8 @@ retrieval:
     seed_hits: 5
     neighbors_per_hit: 3
     min_edge_score: 3.0
+    hops: 1
+    hop_decay: 0.5
 
 ingest:
   http_timeout_seconds: 25

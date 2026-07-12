@@ -174,6 +174,96 @@ def test_search_expansion_injects_neighbor(fake_graph, monkeypatch):
     assert any(r.get("source") == "graph_expansion" for r in out)
 
 
+def _chain_chunk(fid, title, text):
+    return {
+        "file_id": fid,
+        "chunk_id": "c0000",
+        "relpath": f"01/{title}.md",
+        "title": title,
+        "category": "01",
+        "subcategory": "",
+        "heading_path": "",
+        "tokens": 5,
+        "tags": [],
+        "concepts": [],
+        "text": text,
+    }
+
+
+@pytest.fixture
+def chain_graph(tmp_path, monkeypatch):
+    """A -(5.0)- B -(8.0)- C: C is reachable from the seed A only at hop 2."""
+    g = json.loads(json.dumps(_FAKE_GRAPH))  # deep copy
+    g["files"]["bbbbbbbbbbbb"]["neighbors"].append(
+        {
+            "file_id": "cccccccccccc",
+            "title": "C",
+            "score": 8.0,
+            "signals": {"vocab": 8.0, "wikilink": 0.0, "embedding": 0.0},
+            "same_community": True,
+        }
+    )
+    g["files"]["cccccccccccc"] = {
+        "title": "C",
+        "relpath": "01/C.md",
+        "community": 0,
+        "degree": 8.0,
+        "neighbors": [
+            {
+                "file_id": "bbbbbbbbbbbb",
+                "title": "B",
+                "score": 8.0,
+                "signals": {"vocab": 8.0, "wikilink": 0.0, "embedding": 0.0},
+                "same_community": True,
+            }
+        ],
+    }
+    p = tmp_path / "graph.json"
+    p.write_text(json.dumps(g))
+    monkeypatch.setattr(wr, "GRAPH_PATH", p)
+    wr.invalidate_caches()
+    chunks = [
+        _chain_chunk("aaaaaaaaaaaa", "A", "alpha beta gamma"),
+        _chain_chunk("bbbbbbbbbbbb", "B", "delta epsilon zeta"),
+        _chain_chunk("cccccccccccc", "C", "eta theta iota"),
+    ]
+    monkeypatch.setattr(wr._ctx, "chunks", chunks)
+    monkeypatch.setattr(wr._ctx, "chunks_by_file", {c["file_id"]: [c] for c in chunks})
+    yield p
+    wr.invalidate_caches()
+
+
+def _ge_override(monkeypatch, **updates):
+    ge = wr._CFG_RETRIEVAL.graph_expansion.model_copy(update=updates)
+    cfg = wr._CFG_RETRIEVAL.model_copy(update={"graph_expansion": ge})
+    monkeypatch.setattr(wr, "_CFG_RETRIEVAL", cfg)
+
+
+def test_expansion_default_single_hop_ignores_hop2(chain_graph, monkeypatch):
+    _ge_override(monkeypatch)  # config defaults: hops must be 1
+    assert wr._CFG_RETRIEVAL.graph_expansion.hops == 1
+    out = wr.search("alpha", k=5, mode="hybrid", expand_graph=True)
+    fids = {r["file_id"] for r in out}
+    assert "bbbbbbbbbbbb" in fids  # hop 1 injected
+    assert "cccccccccccc" not in fids  # hop 2 NOT walked at hops=1
+
+
+def test_expansion_two_hops_reaches_decayed_neighbor(chain_graph, monkeypatch):
+    # B-C edge 8.0 × decay 0.5 = 4.0 ≥ min_edge_score 3.0 → C injected at hop 2
+    _ge_override(monkeypatch, hops=2, hop_decay=0.5)
+    out = wr.search("alpha", k=5, mode="hybrid", expand_graph=True)
+    fids = {r["file_id"] for r in out}
+    assert {"bbbbbbbbbbbb", "cccccccccccc"} <= fids
+    assert [r.get("source") for r in out if r["file_id"] == "cccccccccccc"] == ["graph_expansion"]
+
+
+def test_expansion_hop2_respects_decayed_floor(chain_graph, monkeypatch):
+    # decay 0.25: 8.0 × 0.25 = 2.0 < min_edge_score 3.0 → hop 2 edge too weak
+    _ge_override(monkeypatch, hops=2, hop_decay=0.25)
+    out = wr.search("alpha", k=5, mode="hybrid", expand_graph=True)
+    assert "cccccccccccc" not in {r["file_id"] for r in out}
+
+
 def _two_chunk_corpus(monkeypatch):
     chunks = [
         {

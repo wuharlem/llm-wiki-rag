@@ -755,27 +755,41 @@ def search(
                 pool_ids = {(c["file_id"], c["chunk_id"]) for c in pool}
                 load_all_chunks()  # ensure _ctx.chunks_by_file
                 for seed in seeds:
-                    nbrs = (graph["files"].get(seed) or {}).get("neighbors", [])
-                    injected = 0
-                    for nb in nbrs:
-                        if injected >= cfg_ge.neighbors_per_hit:
+                    # Frontier walk: hop 1 = direct neighbors (factor 1.0);
+                    # each further hop multiplies edge scores by hop_decay
+                    # before the min_edge_score floor. hops=1 reproduces the
+                    # original single-hop behavior exactly.
+                    frontier: list[tuple[str, float]] = [(seed, 1.0)]
+                    for _ in range(max(cfg_ge.hops, 1)):
+                        next_frontier: list[tuple[str, float]] = []
+                        injected = 0
+                        for node, factor in frontier:
+                            if injected >= cfg_ge.neighbors_per_hit:
+                                break
+                            nbrs = (graph["files"].get(node) or {}).get("neighbors", [])
+                            for nb in nbrs:
+                                if injected >= cfg_ge.neighbors_per_hit:
+                                    break
+                                if nb["score"] * factor < cfg_ge.min_edge_score or nb["file_id"] in seen_files:
+                                    continue
+                                cands = [
+                                    c
+                                    for c in (_ctx.chunks_by_file or {}).get(nb["file_id"], [])
+                                    if (c["file_id"], c["chunk_id"]) in pool_ids
+                                ]
+                                if not cands:
+                                    continue
+                                best = bm25_search(query, cands, k=1)
+                                chunk = best[0][1] if best else cands[0]
+                                score = (best[0][0] if best else 0.0) if rerank_results else 0.0
+                                hits.append((score, chunk))
+                                expansion_ids.add((chunk["file_id"], chunk["chunk_id"]))
+                                seen_files.add(nb["file_id"])
+                                next_frontier.append((nb["file_id"], factor * cfg_ge.hop_decay))
+                                injected += 1
+                        frontier = next_frontier
+                        if not frontier:
                             break
-                        if nb["score"] < cfg_ge.min_edge_score or nb["file_id"] in seen_files:
-                            continue
-                        cands = [
-                            c
-                            for c in (_ctx.chunks_by_file or {}).get(nb["file_id"], [])
-                            if (c["file_id"], c["chunk_id"]) in pool_ids
-                        ]
-                        if not cands:
-                            continue
-                        best = bm25_search(query, cands, k=1)
-                        chunk = best[0][1] if best else cands[0]
-                        score = (best[0][0] if best else 0.0) if rerank_results else 0.0
-                        hits.append((score, chunk))
-                        expansion_ids.add((chunk["file_id"], chunk["chunk_id"]))
-                        seen_files.add(nb["file_id"])
-                        injected += 1
 
     if rerank_results and hits:
         try:

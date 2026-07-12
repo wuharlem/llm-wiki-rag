@@ -39,6 +39,8 @@ class GraphExpansionConfig(BaseModel):
     seed_hits: int
     neighbors_per_hit: int
     min_edge_score: float
+    hops: int
+    hop_decay: float
 
 
 class RetrievalConfig(BaseModel):
