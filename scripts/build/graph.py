@@ -150,6 +150,16 @@ def detect_communities(G, cfg) -> dict[str, int]:
     return {fid: i for i, members in enumerate(ordered) for fid in members}
 
 
+def _community_density(G, member_ids: list[str]) -> float | None:
+    """Internal edge count / possible pairs; None for singletons (undefined)."""
+    n = len(member_ids)
+    if n < 2:
+        return None
+    mset = set(member_ids)
+    internal = sum(1 for a, b in G.edges(member_ids) if a in mset and b in mset)
+    return internal / (n * (n - 1) / 2)
+
+
 def extract_insights(G, communities: dict[str, int], cfg) -> dict:
     import networkx as nx  # noqa: F401
 
@@ -177,10 +187,9 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
         n = len(ms)
         if n < cfg.sparse_min_size:
             continue
-        if n < 2:
-            continue  # density is undefined for a singleton community; guards sparse_min_size < 2
-        internal = sum(1 for a, b in G.edges(ms) if communities.get(a) == cid and communities.get(b) == cid)
-        density = internal / (n * (n - 1) / 2)
+        density = _community_density(G, ms)
+        if density is None:  # singleton — undefined; guards sparse_min_size < 2
+            continue
         if density < cfg.sparse_density:
             sparse.append({"id": cid, "size": n, "density": round(density, 4), "top_concepts": _top_concepts(G, ms)})
     sparse.sort(key=lambda r: r["density"])
@@ -199,6 +208,9 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
         cc = communities.get(a) != communities.get(b)
         cat = G.nodes[a]["category"] != G.nodes[b]["category"]
         if cc or cat:
+            # A strong edge into a peripheral file is more noteworthy than one
+            # between two hubs: damp by the lighter endpoint's weighted degree.
+            surprise = d["weight"] / log2(2 + min(degree[a], degree[b]))
             cross.append(
                 {
                     "a": a,
@@ -206,11 +218,12 @@ def extract_insights(G, communities: dict[str, int], cfg) -> dict:
                     "a_title": G.nodes[a]["title"],
                     "b_title": G.nodes[b]["title"],
                     "score": d["weight"],
+                    "surprise": round(surprise, 4),
                     "cross_community": cc,
                     "cross_category": cat,
                 }
             )
-    cross.sort(key=lambda r: -r["score"])
+    cross.sort(key=lambda r: -r["surprise"])
 
     return {
         "isolated": isolated,
@@ -238,6 +251,7 @@ def write_artifact(G, communities: dict[str, int], insights: dict, cfg, out_path
         {
             "id": cid,
             "size": len(ms),
+            "density": (None if (d := _community_density(G, ms)) is None else round(d, 4)),
             "top_concepts": _top_concepts(G, ms),
             "label": (_top_concepts(G, ms) or ["misc"])[0],
         }
