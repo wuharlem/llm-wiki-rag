@@ -162,6 +162,11 @@ _HEADING_BOOST = _CFG_RETRIEVAL.heading_boost
 # Dense-retrieval query instruction (BGE-style). Applied to the QUERY only —
 # chunk embeddings stay bare, so flipping this needs no re-embed.
 _QUERY_INSTRUCTION = _CFG_RETRIEVAL.query_instruction
+# Lexical-expansion feature flags (query-time; no rebuild). Default off until
+# proven on the eval gold set (see docs/superpowers/plans/2026-07-12-...).
+_ACRONYM_EXPANSION = _CFG_RETRIEVAL.acronym_expansion
+_BM25_STEMMING = _CFG_RETRIEVAL.bm25_stemming
+_PHRASE_MATCHING = _CFG_RETRIEVAL.phrase_matching
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:

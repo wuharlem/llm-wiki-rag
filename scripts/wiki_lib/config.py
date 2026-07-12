@@ -54,6 +54,9 @@ class RetrievalConfig(BaseModel):
     reranker_model: str
     embedding_model: str
     query_instruction: str
+    acronym_expansion: bool = False
+    bm25_stemming: bool = False
+    phrase_matching: bool = False
     graph_expansion: GraphExpansionConfig
 
 

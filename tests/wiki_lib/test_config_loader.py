@@ -46,6 +46,9 @@ retrieval:
   reranker_model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
   embedding_model: "BAAI/bge-small-en-v1.5"
   query_instruction: ""
+  acronym_expansion: false
+  bm25_stemming: false
+  phrase_matching: false
   graph_expansion:
     enabled: false
     seed_hits: 5
@@ -172,3 +175,10 @@ def test_graph_config_missing_key_rejected(tmp_path, monkeypatch):
     _reset_config_cache()
     with pytest.raises(ValidationError):
         get_config()
+
+
+def test_lexical_flags_present_and_bool_default_false():
+    r = get_config().retrieval
+    assert r.acronym_expansion is False
+    assert r.bm25_stemming is False
+    assert r.phrase_matching is False
