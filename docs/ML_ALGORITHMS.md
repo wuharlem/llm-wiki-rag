@@ -140,6 +140,22 @@ contribution breakdown.
 
 BM25 is the always-available baseline: no model downloads, no extras.
 
+Three query-time lexical-expansion flags sit on top of the plain tokenizer,
+all default `false` in `config.yml → retrieval:` (`acronym_expansion`,
+`bm25_stemming`, `phrase_matching`). `scripts/serve/retrieval.py::tokenize()`
+applies the gated transforms in a fixed order: raw regex tokens
+(`_raw_tokens()`) → phrase-join (`phrase_matching`, joins curated multi-word
+concept/tag keys plus the optional `vocabulary.phrases` list from
+`wiki_schema.yml` into single `_`-joined tokens) → stem (`bm25_stemming`,
+Snowball/Porter2 via the `lexical` extra, skipped with a stderr warning if the
+extra isn't installed). Acronym expansion (`acronym_expansion`,
+`wiki_schema.yml → vocabulary.acronyms`) is query-side only and runs *before*
+normalization — `bm25_search()` expands the raw query tokens bidirectionally
+(acronym → long-form and long-form → acronym) before handing them to
+`tokenize()`'s phrase-join/stem pipeline; corpus text is never expanded. All
+three are off by default pending an eval A/B (see § Evaluation) — no measured
+impact yet.
+
 ### Dense cosine retrieval
 
 `scripts/serve/retrieval.py::semantic_search()`.
