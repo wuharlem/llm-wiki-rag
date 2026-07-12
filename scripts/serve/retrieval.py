@@ -64,8 +64,23 @@ VAULT_PATH = vault_path()
 TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_-]+")
 
 
-def tokenize(text: str) -> list[str]:
+def _raw_tokens(text: str) -> list[str]:
+    """Lowercased regex tokens, before any phrase-join or stemming."""
     return [t.lower() for t in TOKEN_RE.findall(text or "")]
+
+
+def _normalize(toks: list[str]) -> list[str]:
+    """Apply the gated lexical transforms in fixed order: phrase-join -> stem.
+    Identity when both flags are off (keeps tokenize() backwards-compatible)."""
+    if _PHRASE_MATCHING:
+        toks = _join_phrases(toks, _PHRASE_INDEX)
+    if _BM25_STEMMING:
+        toks = _apply_stemmer(toks, _STEMMER)
+    return toks
+
+
+def tokenize(text: str) -> list[str]:
+    return _normalize(_raw_tokens(text))
 
 
 # ---------------------------------------------------------------------------
@@ -167,6 +182,19 @@ _QUERY_INSTRUCTION = _CFG_RETRIEVAL.query_instruction
 _ACRONYM_EXPANSION = _CFG_RETRIEVAL.acronym_expansion
 _BM25_STEMMING = _CFG_RETRIEVAL.bm25_stemming
 _PHRASE_MATCHING = _CFG_RETRIEVAL.phrase_matching
+
+# Filled in by Tasks 4 (stemmer) and 5 (phrases); safe no-op defaults keep the
+# module importable and _normalize an identity while those tasks are pending.
+_STEMMER = None
+_PHRASE_INDEX: dict[str, list[list[str]]] = {}
+
+
+def _apply_stemmer(toks, stemmer):
+    return toks
+
+
+def _join_phrases(toks, index):
+    return toks
 
 
 def _compute_corpus_stats(chunks: list[dict], qset: set[str]) -> tuple[Counter, float, list[list[str]]]:
