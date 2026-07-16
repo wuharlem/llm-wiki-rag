@@ -207,12 +207,36 @@ def _get_stemmer():
     return snowballstemmer.stemmer("english")
 
 
+# token -> stem memo, never evicted. Keys are corpus vocabulary (a few
+# hundred thousand strings) plus every unique query token, which is
+# unbounded in principle but negligible in practice (short strings; organic
+# queries reuse corpus vocabulary). The token->stem mapping is immutable
+# for the fixed English Snowball stemmer, so no invalidation is needed;
+# keying by token alone assumes a single stemmer language per process.
+_STEM_CACHE: dict[str, str] = {}
+
+
 def _apply_stemmer(toks: list[str], stemmer) -> list[str]:
     """Stem each token except atomic joined-phrase tokens (which contain '_').
-    Identity when stemmer is None."""
+    Identity when stemmer is None.
+
+    Memoized per unique token via _STEM_CACHE: the corpus repeats a small
+    vocabulary across ~15M token instances, so memoization cuts the
+    first-query corpus warm-up from minutes to seconds. Added 2026-07-15
+    after bm25_stemming's un-memoized cold start (~3 min at 32k chunks)
+    exceeded the MCP client timeout, making every search_wiki call time
+    out on a fresh server process."""
     if stemmer is None:
         return toks
-    return [t if "_" in t else stemmer.stemWord(t) for t in toks]
+    cache = _STEM_CACHE
+    out: list[str] = []
+    for t in toks:
+        s = cache.get(t)
+        if s is None:
+            s = t if "_" in t else stemmer.stemWord(t)
+            cache[t] = s
+        out.append(s)
+    return out
 
 
 _STEMMER = _get_stemmer()
