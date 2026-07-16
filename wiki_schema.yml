@@ -25,6 +25,20 @@ frontmatter:
 vocabulary:
   # === concepts === (was WIKI_CONCEPTS in vocab.py:10)
   concepts:
+    "AI Control":
+      - ai control
+      - control evaluation
+      - control evaluations
+      - control protocol
+      - trusted monitoring
+      - untrusted monitoring
+      - control safety case
+      - subversion
+      - resampling
+      - trusted editing
+      - deploy untrusted
+      - catching ais
+      - control tax
     "RLHF & Its Limitations":
       - rlhf
       - reinforcement learning from human feedback

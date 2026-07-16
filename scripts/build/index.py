@@ -444,7 +444,10 @@ def process_pdf(path: Path, classifications: dict[str, dict]) -> FileEntry | Non
     # try to enrich from classifications.csv if present
     info = classifications.get(path.name, {})
     chunks = chunk_body(text)
-    summary = derive_summary("", text)
+    # Prefer the curated csv `description` (notion_sources.csv) as the summary,
+    # falling back to body extraction — mirrors the md path (process_md) so the
+    # canonical per-source description drives the summary for PDFs too.
+    summary = derive_summary(info.get("description") or "", text)
     return FileEntry(
         file_id=file_id,
         relpath=relpath,
