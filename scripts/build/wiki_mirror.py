@@ -155,7 +155,7 @@ A RAG-style index over every source file in this vault. Built and maintained by
 | `find_related_files` | File-level graph neighbors with per-signal breakdown. |
 | `graph_insights` | Structural findings: isolated files, sparse communities, bridges, surprising connections. |
 | `index_stats` | Confirm index size / freshness. |
-| `save_query` | File a Q&A back into `_index/saved_queries/`. Auto-logs to `log.md`. |
+| `save_query` | File a Q&A back into `_index/saved_queries/`. Auto-logs to `_logs/log.md`. |
 | `append_log` / `append_open_question` | Vault timeline + standing-questions list. |
 | `rebuild_index` | Re-extract sources after an ingest. Auto-logs. |
 

@@ -68,6 +68,13 @@ def __getattr__(name: str):
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
+# Reserved dirname of the chronological log home (`<vault>/_logs/` — live
+# `log.md`, `_log_YYYY-MM.md` rotation archives, `_audit_log/`). Shared with
+# the log writer (`scripts.serve.retrieval._vault_log_path`) so the path it
+# writes and the path this predicate excludes can never drift apart.
+LOGS_DIRNAME = "_logs"
+
+
 def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
     """Return True iff `p` is a vault file that belongs to the indexable corpus.
 
@@ -79,10 +86,13 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
          curated sources; indexed only after files are curated and moved into
          a category folder — added 2026-07-04).
       5. `_index/` ancestor, EXCEPT `_index/saved_queries/` → False.
-      6. Vault-root file whose basename is in meta_doc_basenames() OR starts
+      6. `_logs` ancestor → False (chronological log home — live `log.md`,
+         `_log_YYYY-MM.md` rotation archives, `_audit_log/`; moved off the
+         vault root 2026-07-16).
+      7. Vault-root file whose basename is in meta_doc_basenames() OR starts
          with `_` (e.g. `_audit_2026_04_29.md`, `_drafts.md`) → False.
-      7. `_audit_*.md` glob anywhere → False.
-      8. Otherwise → True.
+      8. `_audit_*.md` glob anywhere → False.
+      9. Otherwise → True.
     """
     p = Path(p)
     try:
@@ -104,6 +114,9 @@ def is_indexable_path(p: Path | str | os.PathLike, vault: Path) -> bool:
     if "_index" in parts:
         if "saved_queries" not in parts:
             return False
+
+    if LOGS_DIRNAME in parts:
+        return False
 
     if rel.parent == Path(".") and (rel.name in meta_doc_basenames() or rel.name.startswith("_")):
         return False

@@ -95,7 +95,7 @@ Confirm the returned `n_files` went up by the number of files you added. If the 
 `{"ok": true, "skipped": true, "reason": "sources_unchanged"}` during an ingest, your file
 landed somewhere non-indexable — investigate before forcing.
 
-`rebuild_index` logs itself to `log.md`; don't log the rebuild separately. A successful
+`rebuild_index` logs itself to `_logs/log.md`; don't log the rebuild separately. A successful
 rebuild also refreshes embeddings incrementally and regenerates the `_index/` mirror
 (reported in the payload's `embeddings` / `mirror` blocks) — no separate `embed` or
 `mirror` run is needed after an ingest.
@@ -116,7 +116,7 @@ body so the lint pass knows you considered it. When you do update: edit the rele
 section, bump the article's `last_updated` / `last_updated_by` frontmatter, and keep the
 edit focused — one ingest should rarely touch more than one article.
 
-## Step 5: Append to `log.md`
+## Step 5: Append to the log (`_logs/log.md`)
 
 ```
 append_log(

@@ -33,7 +33,7 @@ from typing import Optional
 from scripts.wiki_lib.cache import RetrievalContext
 from scripts.wiki_lib.config import get_config
 from scripts.wiki_lib.locations import vault_path, work_path
-from scripts.wiki_lib.paths import is_indexable_path
+from scripts.wiki_lib.paths import LOGS_DIRNAME, is_indexable_path
 from scripts.wiki_lib.schema import get_schema
 
 _CFG_RETRIEVAL = get_config().retrieval
@@ -1126,7 +1126,7 @@ def save_query_result(
         ]
     path.write_text("\n".join(lines), encoding="utf-8")
 
-    # Append a chronological entry to vault log.md so the save shows up in the
+    # Append a chronological entry to the vault log (_logs/log.md) so the save shows up in the
     # timeline alongside ingests/audits. Failures here are non-fatal — saving
     # the query is the main job; the log entry is bookkeeping.
     try:
@@ -1145,6 +1145,28 @@ _INSERT_MARKER = "<!-- LOG-INSERT-HERE: new entries are inserted directly below 
 _LEGACY_MARKER = "<!-- New entries go ABOVE this line. -->"
 
 
+def _vault_log_path() -> Path:
+    """Path of the live chronological log: `<vault>/_logs/log.md`.
+
+    Moved off the vault root 2026-07-16 — `_logs/` also holds the
+    `_log_YYYY-MM.md` rotation archives and `_audit_log/`. Excluded from the
+    index via the `_logs` ancestor rule in `wiki_lib.paths.is_indexable_path`.
+
+    One-time adoption: a vault whose live log still sits at the legacy root
+    location (an instance synced to this code without the manual file move)
+    gets that file MOVED here on first access, so history is never forked
+    into a fresh bootstrap file. If both files exist (e.g. a root copy
+    recreated by a not-yet-restarted server), the root copy is left alone
+    for a manual merge — renaming over it would lose entries.
+    """
+    log_path = VAULT_PATH / LOGS_DIRNAME / "log.md"
+    legacy = VAULT_PATH / "log.md"
+    if not log_path.exists() and legacy.is_file():
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        legacy.rename(log_path)
+    return log_path
+
+
 def _append_to_marker_file(
     *,
     file_path: Path,
@@ -1155,7 +1177,7 @@ def _append_to_marker_file(
 ) -> Path:
     """Generic newest-first append into a marker-driven markdown file.
 
-    Used by both append_log_entry (log.md) and append_open_question
+    Used by both append_log_entry (_logs/log.md) and append_open_question
     (open_questions.md). The two files share the same structure:
 
         <frontmatter + intro>
@@ -1178,6 +1200,7 @@ def _append_to_marker_file(
         entry += body.strip() + "\n\n"
 
     if not file_path.exists():
+        file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.write_text(bootstrap_header, encoding="utf-8")
 
     text = file_path.read_text(encoding="utf-8")
@@ -1227,7 +1250,7 @@ _OPEN_QUESTIONS_BOOTSTRAP_HEADER = (
 
 
 def append_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
-    """Append a chronological entry to `<vault>/log.md`.
+    """Append a chronological entry to `<vault>/_logs/log.md`.
 
     Format matches `PROCESS_NEW_FILE.md` / `PROCESS_HEALTH_CHECK.md` /
     `PROCESS_QUERY.md`:
@@ -1243,7 +1266,7 @@ def append_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
     if not VAULT_PATH.exists():
         return None
     return _append_to_marker_file(
-        file_path=VAULT_PATH / "log.md",
+        file_path=_vault_log_path(),
         bootstrap_header=_LOG_BOOTSTRAP_HEADER,
         kind=kind,
         title=title,
@@ -1254,7 +1277,7 @@ def append_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
 def upsert_daily_log_entry(kind: str, title: str, body: str = "") -> Optional[Path]:
     """Like append_log_entry, but keeps at most ONE `<kind>` entry per day.
 
-    If log.md already has a `## [today] <kind> | ...` entry, that entry is
+    If `_logs/log.md` already has a `## [today] <kind> | ...` entry, that entry is
     rewritten in place with the latest title/body and an accumulated
     "Runs today: N" counter, instead of appending a new heading. Used by
     rebuild_index's auto-log so routine same-day rebuilds don't flood the
@@ -1265,7 +1288,7 @@ def upsert_daily_log_entry(kind: str, title: str, body: str = "") -> Optional[Pa
 
     if not VAULT_PATH.exists():
         return None
-    log_path = VAULT_PATH / "log.md"
+    log_path = _vault_log_path()
     if not log_path.exists():
         return append_log_entry(kind=kind, title=title, body=body)
 
@@ -1322,7 +1345,7 @@ def index_stats() -> dict:
     Includes a `degraded` flag: True when the vault contains PDFs but the
     index has zero PDF-sourced files — the signature of an `md_only=true`
     rebuild that was never followed by a full rebuild (see the 2026-06-30 /
-    07-01 / 07-02 regressions in `_audit_log/`). Additive fields only; the
+    07-01 / 07-02 regressions in `_logs/_audit_log/`). Additive fields only; the
     original four keys are unchanged.
     """
     chunks = load_all_chunks()
