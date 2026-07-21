@@ -528,7 +528,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "mcp", specifier = ">=1.2" },
+    { name = "mcp", specifier = ">=1.3" },
     { name = "networkx", specifier = ">=3.2" },
     { name = "numpy", marker = "extra == 'all'", specifier = ">=1.26" },
     { name = "numpy", marker = "extra == 'semantic'", specifier = ">=1.26" },
