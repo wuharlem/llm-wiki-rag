@@ -12,7 +12,7 @@ from typing import Callable
 
 from mcp.server.fastmcp import FastMCP
 
-from scripts.wiki_lib.schema import mcp_server_name
+from scripts.wiki_lib.schema import get_schema, mcp_server_name
 
 # ---------------------------------------------------------------------------
 # Canonical error envelope
@@ -68,4 +68,38 @@ def _wrap_errors(fn: Callable[..., str]) -> Callable[..., str]:
 # stable once agents are registered against the server.
 MCP_SERVER_NAME = mcp_server_name()
 
-mcp = FastMCP(MCP_SERVER_NAME)
+# Server-level instructions surfaced to any connecting MCP client. This is the
+# condensed query contract; the canonical policy is the vault's PROCESS_QUERY.md
+# (plus an optional `_agent_prompt.md` at the vault root) — those win on
+# conflict. The text is domain-agnostic: the wiki's identity and the
+# concept-articles folder come from wiki_schema.yml, never from literals here,
+# and tool defaults are not restated (they live in the tool schemas /
+# config.yml and would silently drift). Keep this short: it rides along on
+# every connection.
+MCP_INSTRUCTIONS = f"""\
+This server exposes "{get_schema().wiki.name}" — an LLM-maintained wiki
+(hybrid BM25 + dense + rerank retrieval over a markdown vault). Operating rules —
+full policy in PROCESS_QUERY.md at the vault root (and `_agent_prompt.md` if
+present); those win on conflict:
+
+1. Ground yourself with index_stats + list_concepts. For concept-level questions,
+   if this wiki maintains concept articles
+   ({get_schema().vault.concept_articles_relpath}/<concept-slug>__synthesis.md),
+   read the matching article before searching further.
+2. Retrieval: search_wiki with its defaults for one phrasing; multi_query_search
+   with 3-5 paraphrases for anything ambiguous or comparative. get_file_detail on
+   top hits before synthesizing. Then cross-check: find_related_files on the top
+   1-2 hits and fold in relevant neighbors retrieval missed.
+3. Routing: wiki always. Currency-sensitive questions (versions, live policies,
+   releases) get web search IN PARALLEL - vault wins content, web wins currency.
+4. MANDATORY: after any substantive answer (>=2 files cited, multi-paraphrase,
+   cross-category, or likely follow-ups), call save_query before ending the turn -
+   kebab-case slug, always pass the full chat synthesis in answer=, 1-3 sentences
+   of meta in notes=. Same slug overwrites; reuse it for follow-ups. End every
+   research answer with a receipt: `Saved as <slug>` or `Not saved - <reason>`.
+5. Failed retrievals: don't save; file the gap via append_open_question.
+6. Never delete vault content - removals go to _trash/<date>/. Don't guess
+   vault concepts - search instead.
+"""
+
+mcp = FastMCP(MCP_SERVER_NAME, instructions=MCP_INSTRUCTIONS)
