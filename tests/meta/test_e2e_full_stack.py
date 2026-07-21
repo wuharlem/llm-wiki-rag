@@ -194,7 +194,7 @@ def test_rebuild_index_real_subprocess_and_debounce(mini_vault_e2e, monkeypatch,
     assert payload["mirror"]["ok"] is True, f"mirror failed: {payload['mirror']}"
     assert (mini_vault_e2e / "_index").exists(), "mirror must write _index/ into the vault"
     # The auto-log landed in the synthetic vault (upsert: one index entry today).
-    log_text = (mini_vault_e2e / "log.md").read_text(encoding="utf-8")
+    log_text = wr._vault_log_path().read_text(encoding="utf-8")
     assert log_text.count("] index |") == 1
 
     # Second call: nothing changed → the REAL fingerprint debounces it.

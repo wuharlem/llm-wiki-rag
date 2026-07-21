@@ -245,7 +245,7 @@ def rebuild_index(params: RebuildIndexInput) -> str:
         except Exception as e:
             embeddings = {"ok": False, "detail": str(e)}
 
-    # Upsert a `## [date] index | ...` entry in vault log.md so the rebuild
+    # Upsert a `## [date] index | ...` entry in vault _logs/log.md so the rebuild
     # shows up in the timeline — at most ONE index entry per day (same-day
     # rebuilds refresh it in place with a "Runs today: N" counter; log-noise
     # compaction 2026-07-11). Only log on success — failed rebuilds would

@@ -168,7 +168,7 @@ def save_query(params: SaveQueryInput) -> str:
 @mcp.tool(
     name="append_log",
     annotations={
-        "title": "Append an entry to vault log.md",
+        "title": "Append an entry to the vault log (_logs/log.md)",
         "readOnlyHint": False,
         "destructiveHint": False,
         "idempotentHint": False,  # appending the same entry twice creates duplicates
@@ -178,7 +178,7 @@ def save_query(params: SaveQueryInput) -> str:
 @_wrap_errors
 def append_log(params: AppendLogInput) -> str:
     """Append `## [YYYY-MM-DD] <kind> | <title>` plus optional body to the
-    vault's log.md. Used by ingest / health-check / restructure flows that
+    vault's `_logs/log.md`. Used by ingest / health-check / restructure flows that
     aren't already wired into a tool of their own (`save_query` and
     `rebuild_index` log automatically).
 

@@ -74,6 +74,14 @@ def test_index_excluded(tmp_path: Path):
     assert is_indexable_path(p, tmp_path) is False
 
 
+def test_logs_excluded(tmp_path: Path):
+    """`_logs/` is the chronological log home (live log.md, rotation
+    archives, `_audit_log/`) — never indexed (moved off root 2026-07-16)."""
+    for rel in ("log.md", "_log_2026-05.md", "_audit_log/_audit_2026-05-01.md"):
+        p = tmp_path / "_logs" / rel
+        assert is_indexable_path(p, tmp_path) is False
+
+
 def test_index_saved_queries_allowed(tmp_path: Path):
     """The `_index/saved_queries/` exception — these are user-visible Q&A
     filed back into the vault by `save_query`, treated as source material."""
